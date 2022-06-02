@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml",
+    "lint": "tsc --noEmit && eslint --ext=ts,tsx src"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
