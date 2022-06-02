@@ -4,5 +4,8 @@ documents: 'src/**/*.graphql'
 generates:
   src/generated/graphql.ts:
     plugins:
-      - 'typescript'
-      - 'typescript-operations'
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: graphql-request
