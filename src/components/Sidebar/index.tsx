@@ -10,7 +10,7 @@ type SidebarProps = {
   handleDrawerToggle: () => void;
 };
 
-const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
+export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
   return (
     <Box component="nav" sx={{ width: { sm: SIDEBAR_WIDTH }, flexShrink: { sm: 0 } }}>
       <Drawer
@@ -38,5 +38,3 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
     </Box>
   );
 };
-
-export default Sidebar;
