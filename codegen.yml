@@ -2,7 +2,7 @@ overwrite: true
 schema: 'https://api.open-commerce.io/graphql'
 documents: 'src/**/*.graphql'
 generates:
-  src/types.ts:
+  src/graphql/types.ts:
     - typescript
   src/:
     preset: near-operation-file

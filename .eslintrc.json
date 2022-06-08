@@ -25,6 +25,25 @@
     "import/order": [
       1,
       {
+        "pathGroups": [
+          {
+            "pattern": "@components/*",
+            "group": "parent"
+          },
+          {
+            "pattern": "@hooks/*",
+            "group": "parent"
+          },
+          {
+            "pattern": "@utils/*",
+            "group": "parent"
+          },
+          {
+            "pattern": "@containers/*",
+            "group": "parent"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [],
         "groups": [
           "builtin",
           "external",

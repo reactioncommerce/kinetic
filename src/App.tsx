@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { RequireAuthRoute } from 'components/RequireAuthRoute';
 
-import Layout from './containers/Layout';
+import { RequireAuthRoute } from '@components/RequireAuthRoute';
+import { AccountProvider } from '@containers/AccountProvider';
+import Layout from '@containers/Layout';
+
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
@@ -9,15 +11,17 @@ import Login from './pages/Login';
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route element={<RequireAuthRoute />}>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
+      <AccountProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route element={<RequireAuthRoute />}>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Dashboard />} />
+            </Route>
           </Route>
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AccountProvider>
     </BrowserRouter>
   );
 }
