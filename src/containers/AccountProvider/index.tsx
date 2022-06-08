@@ -1,3 +1,5 @@
+import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
 import { createContext, useContext, useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
 
@@ -7,13 +9,11 @@ import { GetViewerQuery, useGetViewerQuery } from './viewer.generated';
 
 type AccountContextValue = {
   account: GetViewerQuery['viewer'] | null;
-  isAccountLoading: boolean;
   setAccessToken: (token: string) => void;
 };
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
-  isAccountLoading: false,
   setAccessToken: () => {}
 });
 
@@ -31,18 +31,30 @@ type AccountProviderProps = {
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
   const [accessToken, setAccessToken] = useLocalStorage<string>('accounts:accessToken');
-  const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, { enabled: false });
+
+  if (accessToken) {
+    client.setHeader('Authorization', accessToken);
+  } else {
+    client.setHeaders({});
+  }
+
+  const { data, isLoading, refetch } = useGetViewerQuery(client, undefined);
 
   useEffect(() => {
-    if (accessToken) {
-      client.setHeader('Authorization', accessToken);
-    } else {
-      client.setHeaders({});
-    }
     refetch();
   }, [accessToken, refetch]);
 
-  const value = { account: data?.viewer ?? null, isAccountLoading: isLoading, setAccessToken };
+  if (isLoading) {
+    return (
+      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
+  }
 
-  return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
+  return (
+    <AccountContext.Provider value={{ account: data?.viewer ?? null, setAccessToken }}>
+      {children}
+    </AccountContext.Provider>
+  );
 };

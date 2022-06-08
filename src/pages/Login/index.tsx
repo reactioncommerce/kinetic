@@ -7,7 +7,7 @@ import { Field, Form, Formik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import { Link as RouterLink, Location, useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, Location, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
@@ -48,10 +48,13 @@ const LoginSchema = Yup.object().shape({
 const Login = () => {
   const { mutate } = useAuthenticateMutation(client);
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
-  const { setAccessToken } = useAccount();
+  const { setAccessToken, account } = useAccount();
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as LocationState)?.from?.pathname || '/';
+  if (account) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
