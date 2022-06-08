@@ -10,11 +10,13 @@ import { GetViewerQuery, useGetViewerQuery } from './viewer.generated';
 type AccountContextValue = {
   account: GetViewerQuery['viewer'] | null;
   setAccessToken: (token: string) => void;
+  removeAccessToken: () => void;
 };
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
-  setAccessToken: () => {}
+  setAccessToken: () => {},
+  removeAccessToken: () => {}
 });
 
 export const useAccount = () => {
@@ -30,7 +32,8 @@ type AccountProviderProps = {
 };
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
-  const [accessToken, setAccessToken] = useLocalStorage<string>('accounts:accessToken');
+  const [accessToken, setAccessToken, removeAccessToken] =
+    useLocalStorage<string>('accounts:accessToken');
 
   if (accessToken) {
     client.setHeader('Authorization', accessToken);
@@ -53,7 +56,8 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
   }
 
   return (
-    <AccountContext.Provider value={{ account: data?.viewer ?? null, setAccessToken }}>
+    <AccountContext.Provider
+      value={{ account: data?.viewer ?? null, setAccessToken, removeAccessToken }}>
       {children}
     </AccountContext.Provider>
   );
