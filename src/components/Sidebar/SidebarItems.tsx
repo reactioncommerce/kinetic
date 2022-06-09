@@ -9,7 +9,7 @@ import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
 
-import SidebarItem from './SidebarItem';
+import { SidebarItem } from './SidebarItem';
 import { ProfileToolbar } from './ProfileToolbar';
 
 const ITEMS = [

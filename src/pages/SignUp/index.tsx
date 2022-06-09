@@ -1,49 +1,40 @@
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { Field, Form, Formik } from 'formik';
+import Alert from '@mui/material/Alert';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import { Link as RouterLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, Location, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import Alert from '@mui/material/Alert';
 
 import { TextField } from '@components/TextField';
-import { CheckboxWithLabel } from '@components/Checkbox';
-import { hashPassword } from '@utils/hashPassword';
-import { useAccount } from '@containers/AccountProvider';
-import { client } from '../../graphql/graphql-request-client';
-import type { Error, GraphQLErrorResponse, LocationState } from '../../types/common';
 import { UserSchema } from '@utils/validate';
+import { client } from '../../graphql/graphql-request-client';
+import { hashPassword } from '@utils/hashPassword';
+import type { GraphQLErrorResponse, Error } from '../../types/common';
+import { useAccount } from '@containers/AccountProvider';
 
-import { useAuthenticateMutation } from './authenticate.generated';
+import { useCreateUserMutation } from './createUser.generated';
 
 const normalizeErrorMessage = (errors: Error[]) => {
   const error = errors.length ? errors[0] : null;
 
-  if (error?.extensions.exception.code === 'UserNotFound') {
-    return 'User not found. Try again or click "Sign Up" to register new account';
-  }
-  if (error?.extensions.exception.code === 'IncorrectPassword') {
-    return 'Wrong password. Try again or click "Forgot password" to reset it';
+  if (error?.extensions.exception.code === 'EmailAlreadyExists') {
+    return 'This email already exists. Try another.';
   }
 
   return error?.message;
 };
 
-const Login = () => {
-  const { mutate } = useAuthenticateMutation(client);
+const SignUp = () => {
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
+  const { mutate } = useCreateUserMutation(client);
   const { setAccessToken, account } = useAccount();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = (location.state as LocationState)?.from?.pathname || '/';
-  if (account) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -52,26 +43,29 @@ const Login = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Login to your shop
+          Create an account
         </Typography>
       </Box>
       <Formik
         onSubmit={(values, { setSubmitting }) => {
           mutate(
             {
-              serviceName: 'password',
-              params: { user: { email: values.email }, password: hashPassword(values.password) }
+              user: {
+                email: values.email,
+                password: hashPassword(values.password)
+              }
             },
             {
               onSettled: () => setSubmitting(false),
-              onError: (error) =>
+              onError: (error) => {
                 setSubmitErrorMessage(
                   normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)
-                ),
+                );
+              },
               onSuccess: (data) => {
-                data.authenticate?.tokens?.accessToken &&
-                  setAccessToken(data.authenticate.tokens.accessToken);
-                navigate(from, { replace: true });
+                const accessToken = data.createUser?.loginResult?.tokens?.accessToken;
+                accessToken && setAccessToken(accessToken);
+                navigate('/new-shop');
               }
             }
           );
@@ -79,8 +73,7 @@ const Login = () => {
         validationSchema={UserSchema}
         initialValues={{
           email: '',
-          password: '',
-          remember: false
+          password: ''
         }}>
         {({ isSubmitting }) => {
           return (
@@ -107,13 +100,7 @@ const Login = () => {
                 id="password"
                 autoComplete="current-password"
               />
-              <Field
-                component={CheckboxWithLabel}
-                type="checkbox"
-                color="primary"
-                name="remember"
-                labelProps={{ label: 'Remember me' }}
-              />
+
               {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
 
               <LoadingButton
@@ -122,17 +109,12 @@ const Login = () => {
                 sx={{ mt: 3, mb: 2 }}
                 type="submit"
                 loading={isSubmitting}>
-                Sign In
+                Sign Up
               </LoadingButton>
-              <Grid container>
-                <Grid item xs>
-                  <Link component={RouterLink} to="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
+              <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link component={RouterLink} to="/signup" variant="body2">
-                    Don't have an account? Sign Up
+                  <Link component={RouterLink} to="/login" variant="body2">
+                    Already have an account? Sign in
                   </Link>
                 </Grid>
               </Grid>
@@ -144,4 +126,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

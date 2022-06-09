@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
 
 import { client } from '../../graphql/graphql-request-client';
+import { APIErrorResponse } from '../../types/common';
 
 import { GetViewerQuery, useGetViewerQuery } from './viewer.generated';
 
@@ -11,12 +12,14 @@ type AccountContextValue = {
   account: GetViewerQuery['viewer'] | null;
   setAccessToken: (token: string) => void;
   removeAccessToken: () => void;
+  refetchAccount: () => void;
 };
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
   setAccessToken: () => {},
-  removeAccessToken: () => {}
+  removeAccessToken: () => {},
+  refetchAccount: () => {}
 });
 
 export const useAccount = () => {
@@ -36,12 +39,18 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     useLocalStorage<string>('accounts:accessToken');
 
   if (accessToken) {
-    client.setHeader('Authorization', accessToken);
+    client.setHeader('Authorization', `Bearer ${accessToken}`);
   } else {
     client.setHeaders({});
   }
 
-  const { data, isLoading, refetch } = useGetViewerQuery(client, undefined);
+  const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
+    retry: false,
+    onError: (error) => {
+      const unauthorized = (error as APIErrorResponse).response.status === 401;
+      if (unauthorized) removeAccessToken();
+    }
+  });
 
   useEffect(() => {
     refetch();
@@ -57,7 +66,12 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   return (
     <AccountContext.Provider
-      value={{ account: data?.viewer ?? null, setAccessToken, removeAccessToken }}>
+      value={{
+        account: data?.viewer ?? null,
+        setAccessToken,
+        removeAccessToken,
+        refetchAccount: refetch
+      }}>
       {children}
     </AccountContext.Provider>
   );

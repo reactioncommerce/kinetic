@@ -8,8 +8,20 @@ export type Error = {
   message: string;
 };
 
-export type APIErrorResponse = {
+export type GraphQLErrorResponse = {
   response: {
     errors: Error[];
   };
+};
+
+export type APIErrorResponse = {
+  response: {
+    code: number;
+    message: string;
+    status: number;
+  };
+};
+
+export type LocationState = {
+  from: Location;
 };
