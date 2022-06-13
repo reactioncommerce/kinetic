@@ -7,15 +7,20 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Check from '@mui/icons-material/Check';
 
 import { useAccount } from '@containers/AccountProvider';
+import { useShop } from '@containers/ShopProvider';
 
 export const ProfileToolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const { account, removeAccessToken } = useAccount();
+  const { shopId } = useShop();
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -79,11 +84,24 @@ export const ProfileToolbar = () => {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-        <MenuItem>My account</MenuItem>
+        {account?.adminUIShops?.length
+          ? account.adminUIShops.map((shop) => (
+              <MenuItem key={shop?._id}>
+                {shop?._id === shopId ? (
+                  <ListItemIcon>
+                    <Check />
+                  </ListItemIcon>
+                ) : null}
+                <ListItemText inset={shop?._id !== shopId}>{shop?.name}</ListItemText>
+              </MenuItem>
+            ))
+          : null}
+
         <Divider />
         <MenuItem to="/new-shop" component={Link}>
           Add another shop
         </MenuItem>
+        <MenuItem>My account</MenuItem>
         <MenuItem onClick={removeAccessToken}>Logout</MenuItem>
       </Menu>
     </Toolbar>

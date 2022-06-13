@@ -19,8 +19,8 @@ const ITEMS = [
     icon: <HomeOutlinedIcon />
   },
   {
-    text: 'New Product',
-    link: '/product/new',
+    text: 'View Storefront',
+    link: '/storefront',
     icon: <StorefrontOutlinedIcon />
   }
 ];
