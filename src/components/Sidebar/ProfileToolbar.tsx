@@ -20,15 +20,23 @@ export const ProfileToolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const { account, removeAccessToken } = useAccount();
-  const { shopId } = useShop();
+  const { shopId, setShopId } = useShop();
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSwitchShop = (shopId: string) => {
+    setShopId(shopId);
+  };
+
+  const activeShop = account?.adminUIShops?.find((shop) => shop?._id === shopId);
 
   return (
     <Toolbar sx={{ pl: { xs: '10px' }, pr: { xs: '10px' } }}>
@@ -44,7 +52,7 @@ export const ProfileToolbar = () => {
         <Box
           sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flexGrow: 1 }}>
           <Typography noWrap fontSize={13} fontWeight={500} color="text.primary">
-            {account?.adminUIShops?.[0] ? account.adminUIShops[0].name : 'Shop Name'}
+            {activeShop?.name || 'Shop Name'}
           </Typography>
           <Typography noWrap fontSize={13} textTransform="lowercase" color="text.primary">
             {account?.name || account?.primaryEmailAddress}
@@ -88,7 +96,7 @@ export const ProfileToolbar = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
         {account?.adminUIShops?.length
           ? account.adminUIShops.map((shop) => (
-              <MenuItem key={shop?._id}>
+              <MenuItem key={shop?._id} onClick={() => handleSwitchShop(shop!._id)}>
                 {shop?._id === shopId ? (
                   <ListItemIcon>
                     <Check />

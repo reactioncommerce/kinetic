@@ -29,7 +29,9 @@ const normalizeErrorMessage = (errors: Error[]) => {
   if (error?.extensions.code === 'FORBIDDEN') {
     return "You don't have permission to create a shop. Please contact the administrator to resolve the issue.";
   }
-
+  if (error?.extensions.code === 'INTERNAL_SERVER_ERROR') {
+    return 'This shop name already exists. Try another. ';
+  }
   return error?.message;
 };
 
