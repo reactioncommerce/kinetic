@@ -8,11 +8,13 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { useState } from 'react';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import * as Yup from 'yup';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { TextField } from '@components/TextField';
 import { client } from '../../graphql/graphql-request-client';
-import type { GraphQLErrorResponse, Error, LocationState } from '../../types/common';
+import type { GraphQLErrorResponse, Error } from '../../types/common';
+import { useShop } from '@containers/ShopProvider';
+import { useAccount } from '@containers/AccountProvider';
 
 import { useCreateShopMutation } from './createShop.generated';
 
@@ -34,8 +36,8 @@ const CreateShop = () => {
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
   const { mutate } = useCreateShopMutation(client);
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = (location.state as LocationState)?.from?.pathname || '/';
+  const { setShopId } = useShop();
+  const { refetchAccount } = useAccount();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -61,7 +63,9 @@ const CreateShop = () => {
                 );
               },
               onSuccess: (data) => {
-                navigate(from, { replace: true });
+                setShopId(data.createShop.shop._id);
+                refetchAccount();
+                navigate('/', { replace: true });
               }
             }
           );

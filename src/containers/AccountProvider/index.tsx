@@ -2,9 +2,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
 import { createContext, useContext, useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
+import get from 'lodash/get';
+import noop from 'lodash/noop';
 
 import { client } from '../../graphql/graphql-request-client';
 import { APIErrorResponse } from '../../types/common';
+import { useShop } from '@containers/ShopProvider';
 
 import { GetViewerQuery, useGetViewerQuery } from './viewer.generated';
 
@@ -17,9 +20,9 @@ type AccountContextValue = {
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
-  setAccessToken: () => {},
-  removeAccessToken: () => {},
-  refetchAccount: () => {}
+  setAccessToken: noop,
+  removeAccessToken: noop,
+  refetchAccount: noop
 });
 
 export const useAccount = () => {
@@ -44,11 +47,16 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     client.setHeaders({});
   }
 
+  const { setShopId } = useShop();
+
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
     onError: (error) => {
       const unauthorized = (error as APIErrorResponse).response.status === 401;
       if (unauthorized) removeAccessToken();
+    },
+    onSuccess: (data) => {
+      setShopId(get(data, 'viewer.adminUIShops[0]._id'));
     }
   });
 

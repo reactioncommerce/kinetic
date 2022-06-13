@@ -1,14 +1,10 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { useAccount } from '@containers/AccountProvider';
+import { useShop } from '@containers/ShopProvider';
 
 export const RequireShopRoute = () => {
-  const { account } = useAccount();
+  const { shopId } = useShop();
   const location = useLocation();
 
-  return account?.adminUIShops?.length ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/new-shop" state={{ from: location }} replace />
-  );
+  return shopId ? <Outlet /> : <Navigate to="/new-shop" state={{ from: location }} replace />;
 };

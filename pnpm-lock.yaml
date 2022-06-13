@@ -12,8 +12,8 @@ specifiers:
   '@mui/icons-material': ^5.8.2
   '@mui/lab': 5.0.0-alpha.85
   '@mui/material': ^5.8.2
-  '@mui/utils': ^5.8.0
   '@types/crypto-js': ^4.1.1
+  '@types/lodash': ^4.14.182
   '@types/react': ^18.0.0
   '@types/react-dom': ^18.0.0
   '@typescript-eslint/eslint-plugin': ^5.27.0
@@ -26,6 +26,7 @@ specifiers:
   formik: ^2.2.9
   graphql: ^16.5.0
   graphql-request: ^4.3.0
+  lodash: ^4.17.21
   prettier: ^2.6.2
   react: ^18.0.0
   react-dom: ^18.0.0
@@ -43,11 +44,11 @@ dependencies:
   '@mui/icons-material': 5.8.2_msmodi7edgaeac7c42yc2tgesu
   '@mui/lab': 5.0.0-alpha.85_zhl4hr7ifyxkhvjp4ffemmthnq
   '@mui/material': 5.8.2_lq5fjjb4pmmidg3r7c37rcsf64
-  '@mui/utils': 5.8.0_react@18.1.0
   crypto-js: 4.1.1
   formik: 2.2.9_react@18.1.0
   graphql: 16.5.0
   graphql-request: 4.3.0_graphql@16.5.0
+  lodash: 4.17.21
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
   react-query: 3.39.1_ef5jwxihqo6n7gxfmzogljlgcm
@@ -62,6 +63,7 @@ devDependencies:
   '@graphql-codegen/typescript-operations': 2.4.0_graphql@16.5.0
   '@graphql-codegen/typescript-react-query': 3.5.12_graphql@16.5.0
   '@types/crypto-js': 4.1.1
+  '@types/lodash': 4.14.182
   '@types/react': 18.0.10
   '@types/react-dom': 18.0.5
   '@typescript-eslint/eslint-plugin': 5.27.0_dszb5tb7atwkjjijmmov4qhi7i
@@ -2585,7 +2587,6 @@ packages:
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
-    dev: false
 
   /@types/node/17.0.38:
     resolution: {integrity: sha512-5jY9RhV7c0Z4Jy09G+NIDTsCZ5G0L5n+Z+p+Y7t5VJHM30bgwzSjVtlcBxqAj+6L/swIlvtOSzr8rBk/aNyV2g==}

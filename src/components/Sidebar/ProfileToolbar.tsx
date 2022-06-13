@@ -7,6 +7,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box';
 
 import { useAccount } from '@containers/AccountProvider';
 
@@ -32,10 +34,15 @@ export const ProfileToolbar = () => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         endIcon={<KeyboardArrowDownIcon sx={{ color: 'text.primary' }} />}>
-        <Avatar sx={{ width: 32, height: 32, mr: '5px' }} />
-        <Typography noWrap fontSize={13} textTransform="lowercase" color="text.primary">
-          {account?.name || account?.primaryEmailAddress}
-        </Typography>
+        <Avatar sx={{ width: 32, height: 32, mr: '10px' }} />
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <Typography noWrap fontSize={13} fontWeight={500} color="text.primary">
+            {account?.adminUIShops?.[0] ? account.adminUIShops[0].name : 'Shop Name'}
+          </Typography>
+          <Typography noWrap fontSize={13} textTransform="lowercase" color="text.primary">
+            {account?.name || account?.primaryEmailAddress}
+          </Typography>
+        </Box>
       </Button>
 
       <Menu
@@ -74,7 +81,9 @@ export const ProfileToolbar = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
         <MenuItem>My account</MenuItem>
         <Divider />
-        <MenuItem>Add another shop</MenuItem>
+        <MenuItem to="/new-shop" component={Link}>
+          Add another shop
+        </MenuItem>
         <MenuItem onClick={removeAccessToken}>Logout</MenuItem>
       </Menu>
     </Toolbar>
