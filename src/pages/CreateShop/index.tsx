@@ -9,6 +9,8 @@ import { useState } from 'react';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 
 import { TextField } from '@components/TextField';
 import { client } from '../../graphql/graphql-request-client';
@@ -24,9 +26,8 @@ export const ShopSchema = Yup.object().shape({
 
 const normalizeErrorMessage = (errors: Error[]) => {
   const error = errors.length ? errors[0] : null;
-
-  if (error?.extensions.exception.code === 'EmailAlreadyExists') {
-    return 'This email already exists. Try another.';
+  if (error?.extensions.code === 'FORBIDDEN') {
+    return "You don't have permission to create a shop. Please contact the administrator to resolve the issue.";
   }
 
   return error?.message;
@@ -37,7 +38,12 @@ const CreateShop = () => {
   const { mutate } = useCreateShopMutation(client);
   const navigate = useNavigate();
   const { setShopId } = useShop();
-  const { refetchAccount } = useAccount();
+  const { refetchAccount, removeAccessToken } = useAccount();
+
+  const handleClickSignIn = () => {
+    removeAccessToken();
+    navigate('/login');
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -99,6 +105,13 @@ const CreateShop = () => {
                 loading={isSubmitting}>
                 Create
               </LoadingButton>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link component="button" onClick={handleClickSignIn} variant="body2">
+                    Sign in to another account
+                  </Link>
+                </Grid>
+              </Grid>
             </Box>
           );
         }}

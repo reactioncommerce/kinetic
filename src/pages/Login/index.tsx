@@ -94,7 +94,6 @@ const Login = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
               />
               <Field
                 component={TextField}
