@@ -38,9 +38,11 @@ export const ProfileToolbar = () => {
         aria-controls={open ? 'account-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        endIcon={<KeyboardArrowDownIcon sx={{ color: 'text.primary' }} />}>
+        endIcon={<KeyboardArrowDownIcon sx={{ color: 'text.primary' }} />}
+        sx={{ flexGrow: 1, justifyContent: 'flex-start' }}>
         <Avatar sx={{ width: 32, height: 32, mr: '10px' }} />
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <Box
+          sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flexGrow: 1 }}>
           <Typography noWrap fontSize={13} fontWeight={500} color="text.primary">
             {account?.adminUIShops?.[0] ? account.adminUIShops[0].name : 'Shop Name'}
           </Typography>
