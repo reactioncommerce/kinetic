@@ -1,4 +1,4 @@
-import * as Types from '../../types';
+import * as Types from '../../graphql/types';
 
 import { GraphQLClient } from 'graphql-request';
 import { useMutation, UseMutationOptions } from 'react-query';
