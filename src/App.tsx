@@ -1,9 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { RequireAuthRoute } from '@components/RequireAuthRoute';
+import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from '@components/Routes';
 import { AccountProvider } from '@containers/AccountProvider';
 import Layout from '@containers/Layout';
-import { RequireShopRoute } from '@components/RequireShopRoute';
 import { ShopProvider } from '@containers/ShopProvider';
 
 import Dashboard from './pages/Dashboard';
@@ -18,8 +17,10 @@ function App() {
       <ShopProvider>
         <AccountProvider>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route element={<UnauthenticatedRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+            </Route>
 
             <Route element={<RequireAuthRoute />}>
               <Route path="/new-shop" element={<CreateShop />} />

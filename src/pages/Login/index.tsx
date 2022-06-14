@@ -7,12 +7,11 @@ import { Field, Form, Formik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import { Link as RouterLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 
 import { TextField } from '@components/TextField';
-import { CheckboxWithLabel } from '@components/Checkbox';
 import { hashPassword } from '@utils/hashPassword';
 import { useAccount } from '@containers/AccountProvider';
 import { client } from '../../graphql/graphql-request-client';
@@ -37,13 +36,10 @@ const normalizeErrorMessage = (errors: Error[]) => {
 const Login = () => {
   const { mutate } = useAuthenticateMutation(client);
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
-  const { setAccessToken, account } = useAccount();
+  const { setAccessToken } = useAccount();
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as LocationState)?.from?.pathname || '/';
-  if (account) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -79,8 +75,7 @@ const Login = () => {
         validationSchema={UserSchema}
         initialValues={{
           email: '',
-          password: '',
-          remember: false
+          password: ''
         }}>
         {({ isSubmitting }) => {
           return (
@@ -105,13 +100,6 @@ const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
-              <Field
-                component={CheckboxWithLabel}
-                type="checkbox"
-                color="primary"
-                name="remember"
-                labelProps={{ label: 'Remember me' }}
               />
               {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
 

@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Check from '@mui/icons-material/Check';
 
+import { SIDEBAR_WIDTH } from '../../constants';
 import { useAccount } from '@containers/AccountProvider';
 import { useShop } from '@containers/ShopProvider';
 
@@ -36,10 +37,15 @@ export const ProfileToolbar = () => {
     setShopId(shopId);
   };
 
+  const handleSignOut = () => {
+    removeAccessToken();
+    setShopId();
+  };
+
   const activeShop = account?.adminUIShops?.find((shop) => shop?._id === shopId);
 
   return (
-    <Toolbar sx={{ pl: { xs: '10px' }, pr: { xs: '10px' } }}>
+    <Toolbar sx={{ pl: { xs: '10px' }, pr: { xs: '10px' }, width: SIDEBAR_WIDTH }}>
       <Button
         onClick={handleClick}
         size="small"
@@ -50,11 +56,22 @@ export const ProfileToolbar = () => {
         sx={{ flexGrow: 1, justifyContent: 'flex-start' }}>
         <Avatar sx={{ width: 32, height: 32, mr: '10px' }} />
         <Box
-          sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flexGrow: 1 }}>
-          <Typography noWrap fontSize={13} fontWeight={500} color="text.primary">
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            flexGrow: 1,
+            maxWidth: 'calc(100% - 60px)'
+          }}>
+          <Typography noWrap fontSize={13} fontWeight={500} color="text.primary" maxWidth="100%">
             {activeShop?.name || 'Shop Name'}
           </Typography>
-          <Typography noWrap fontSize={13} textTransform="lowercase" color="text.primary">
+          <Typography
+            noWrap
+            fontSize={13}
+            textTransform="lowercase"
+            color="text.primary"
+            maxWidth="100%">
             {account?.name || account?.primaryEmailAddress}
           </Typography>
         </Box>
@@ -68,6 +85,9 @@ export const ProfileToolbar = () => {
         onClick={handleClose}
         PaperProps={{
           elevation: 0,
+          style: {
+            maxWidth: SIDEBAR_WIDTH - 20
+          },
           sx: {
             overflow: 'visible',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
@@ -102,7 +122,11 @@ export const ProfileToolbar = () => {
                     <Check />
                   </ListItemIcon>
                 ) : null}
-                <ListItemText inset={shop?._id !== shopId}>{shop?.name}</ListItemText>
+                <ListItemText
+                  primary={shop?.name}
+                  inset={shop?._id !== shopId}
+                  primaryTypographyProps={{ noWrap: true }}
+                />
               </MenuItem>
             ))
           : null}
@@ -112,7 +136,7 @@ export const ProfileToolbar = () => {
           Add another shop
         </MenuItem>
         <MenuItem>My account</MenuItem>
-        <MenuItem onClick={removeAccessToken}>Logout</MenuItem>
+        <MenuItem onClick={handleSignOut}>Logout</MenuItem>
       </Menu>
     </Toolbar>
   );

@@ -3,7 +3,7 @@ import noop from 'lodash/noop';
 
 type ShopContextProps = {
   shopId?: string;
-  setShopId: (shopId: string) => void;
+  setShopId: (shopId?: string) => void;
 };
 
 const ShopContext = createContext<ShopContextProps>({ shopId: undefined, setShopId: noop });

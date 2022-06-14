@@ -47,7 +47,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     client.setHeaders({});
   }
 
-  const { setShopId } = useShop();
+  const { setShopId, shopId } = useShop();
 
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
@@ -56,7 +56,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
       if (unauthorized) removeAccessToken();
     },
     onSuccess: (data) => {
-      setShopId(get(data, 'viewer.adminUIShops[0]._id'));
+      !shopId && setShopId(get(data, 'viewer.adminUIShops[0]._id'));
     }
   });
 
