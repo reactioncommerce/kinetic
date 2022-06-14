@@ -2,6 +2,14 @@
 
 Kinetic introduces a suite of opinionated admin tools that internal teams can use to manage and run their stores on Open Commerce.
 
+## Prerequisite
+
+1. Define your API endpoint in .env file. For example:
+
+```
+VITE_API_URL=http://localhost:3000/graphql
+```
+
 ## Getting Started
 
 1. Install pnpm

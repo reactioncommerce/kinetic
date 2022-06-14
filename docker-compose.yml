@@ -4,10 +4,12 @@ services:
   app:
     container_name: app-dev
     image: app-dev
+    env_file:
+      - ./.env
     build:
       context: .
       target: development
     volumes:
       - ./src:/app/src
     ports:
-      - 3000:3000
+      - 3001:3000
