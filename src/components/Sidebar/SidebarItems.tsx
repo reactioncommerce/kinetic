@@ -1,4 +1,3 @@
-import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -11,6 +10,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
 
 import { SidebarItem } from './SidebarItem';
+import { ProfileToolbar } from './ProfileToolbar';
 
 const ITEMS = [
   {
@@ -56,7 +56,7 @@ const CORE_FEATURES = [
 export const SidebarItems = () => {
   return (
     <div>
-      <Toolbar />
+      <ProfileToolbar />
       <Divider />
       <List>
         {ITEMS.map(({ text, icon, link }) => (
