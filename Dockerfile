@@ -18,5 +18,4 @@ RUN pnpm fetch
 ADD . ./
 RUN pnpm install
 
-EXPOSE 3000
 CMD ["pnpm", "dev", "--host"]
