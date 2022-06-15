@@ -10,7 +10,7 @@ import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
 
-import SidebarItem from './SidebarItem';
+import { SidebarItem } from './SidebarItem';
 
 const ITEMS = [
   {
@@ -19,8 +19,8 @@ const ITEMS = [
     icon: <HomeOutlinedIcon />
   },
   {
-    text: 'New Product',
-    link: '/product/new',
+    text: 'View Storefront',
+    link: '/storefront',
     icon: <StorefrontOutlinedIcon />
   }
 ];
@@ -53,7 +53,7 @@ const CORE_FEATURES = [
   }
 ];
 
-const SidebarItems = () => {
+export const SidebarItems = () => {
   return (
     <div>
       <Toolbar />
@@ -71,5 +71,3 @@ const SidebarItems = () => {
     </div>
   );
 };
-
-export default SidebarItems;

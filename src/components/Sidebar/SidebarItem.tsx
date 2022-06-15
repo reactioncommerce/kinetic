@@ -10,7 +10,7 @@ type SidebarItemProps = {
   icon: JSX.Element;
 };
 
-const SidebarItem = ({ to, text, icon }: SidebarItemProps) => {
+export const SidebarItem = ({ to, text, icon }: SidebarItemProps) => {
   const resolvedPath = useResolvedPath(to);
   let match = useMatch({ path: resolvedPath.pathname, end: true });
 
@@ -23,5 +23,3 @@ const SidebarItem = ({ to, text, icon }: SidebarItemProps) => {
     </ListItem>
   );
 };
-
-export default SidebarItem;

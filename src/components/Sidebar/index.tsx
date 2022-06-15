@@ -3,14 +3,14 @@ import Drawer from '@mui/material/Drawer';
 
 import { SIDEBAR_WIDTH } from '../../constants';
 
-import SidebarItems from './SidebarItems';
+import { SidebarItems } from './SidebarItems';
 
 type SidebarProps = {
   mobileOpen: boolean;
   handleDrawerToggle: () => void;
 };
 
-const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
+export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
   return (
     <Box component="nav" sx={{ width: { sm: SIDEBAR_WIDTH }, flexShrink: { sm: 0 } }}>
       <Drawer
@@ -38,5 +38,3 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
     </Box>
   );
 };
-
-export default Sidebar;
