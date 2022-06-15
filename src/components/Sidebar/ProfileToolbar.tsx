@@ -114,8 +114,9 @@ export const ProfileToolbar = () => {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-        {account?.adminUIShops?.length
-          ? account.adminUIShops.map((shop) => (
+        {account?.adminUIShops?.length && account.adminUIShops.length > 1 ? (
+          <>
+            {account.adminUIShops.map((shop) => (
               <MenuItem key={shop?._id} onClick={() => handleSwitchShop(shop!._id)}>
                 {shop?._id === shopId ? (
                   <ListItemIcon>
@@ -128,10 +129,11 @@ export const ProfileToolbar = () => {
                   primaryTypographyProps={{ noWrap: true }}
                 />
               </MenuItem>
-            ))
-          : null}
+            ))}
+            <Divider />
+          </>
+        ) : null}
 
-        <Divider />
         <MenuItem to="/new-shop" component={Link}>
           Add another shop
         </MenuItem>
