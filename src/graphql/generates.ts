@@ -8092,6 +8092,14 @@ export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null } | null> | null } | null };
 
+export type AuthenticateMutationVariables = Exact<{
+  serviceName: Scalars['String'];
+  params: AuthenticateParamsInput;
+}>;
+
+
+export type AuthenticateMutation = { __typename?: 'Mutation', authenticate?: { __typename?: 'LoginResult', sessionId?: string | null, tokens?: { __typename?: 'Tokens', accessToken?: string | null, refreshToken?: string | null } | null, user?: { __typename?: 'User', id: string, username?: string | null, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, verified?: boolean | null }> | null } | null } | null };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8147,6 +8155,38 @@ export const useGetViewerQuery = <
     useQuery<GetViewerQuery, TError, TData>(
       variables === undefined ? ['getViewer'] : ['getViewer', variables],
       fetcher<GetViewerQuery, GetViewerQueryVariables>(client, GetViewerDocument, variables, headers),
+      options
+    );
+export const AuthenticateDocument = `
+    mutation authenticate($serviceName: String!, $params: AuthenticateParamsInput!) {
+  authenticate(serviceName: $serviceName, params: $params) {
+    sessionId
+    tokens {
+      accessToken
+      refreshToken
+    }
+    user {
+      id
+      emails {
+        address
+        verified
+      }
+      username
+    }
+  }
+}
+    `;
+export const useAuthenticateMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>(
+      ['authenticate'],
+      (variables?: AuthenticateMutationVariables) => fetcher<AuthenticateMutation, AuthenticateMutationVariables>(client, AuthenticateDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `
