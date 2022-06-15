@@ -1,0 +1,24 @@
+mutation createUser($user: CreateUserInput!) {
+  createUser(user: $user) {
+    userId
+    loginResult {
+      sessionId
+      tokens {
+        refreshToken
+        accessToken
+      }
+      user {
+        ...userFields
+      }
+    }
+  }
+}
+
+fragment userFields on User {
+  id
+  emails {
+    address
+    verified
+  }
+  username
+}

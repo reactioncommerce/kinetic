@@ -10,7 +10,7 @@ type AppHeaderProps = {
   handleDrawerToggle: () => void;
 };
 
-const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => {
+export const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => {
   return (
     <AppBar
       position="fixed"
@@ -34,5 +34,3 @@ const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => {
     </AppBar>
   );
 };
-
-export default AppHeader;

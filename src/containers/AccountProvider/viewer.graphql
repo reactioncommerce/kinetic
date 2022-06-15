@@ -1,0 +1,22 @@
+query getViewer {
+  viewer {
+    _id
+    firstName
+    language
+    lastName
+    name
+    primaryEmailAddress
+    adminUIShops {
+      _id
+      brandAssets {
+        navbarBrandImage {
+          large
+        }
+      }
+      name
+      shopLogoUrls {
+        primaryShopLogoUrl
+      }
+    }
+  }
+}
