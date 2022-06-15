@@ -2,7 +2,7 @@ overwrite: true
 schema: 'https://api.open-commerce.io/graphql'
 documents: 'src/**/*.graphql'
 generates:
-  src/generated/graphql.ts:
+  src/graphql/generates.ts:
     plugins:
       - typescript
       - typescript-operations
