@@ -10,6 +10,7 @@ import NotFound from './pages/NotFound';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import CreateShop from './pages/CreateShop';
+import PasswordReset from './pages/PasswordReset';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route element={<UnauthenticatedRoute />}>
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/password-reset" element={<PasswordReset />} />
             </Route>
 
             <Route element={<RequireAuthRoute />}>

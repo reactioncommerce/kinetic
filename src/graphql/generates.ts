@@ -8107,6 +8107,13 @@ export type AuthenticateMutationVariables = Exact<{
 
 export type AuthenticateMutation = { __typename?: 'Mutation', authenticate?: { __typename?: 'LoginResult', sessionId?: string | null, tokens?: { __typename?: 'Tokens', accessToken?: string | null, refreshToken?: string | null } | null, user?: { __typename?: 'User', id: string, username?: string | null, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, verified?: boolean | null }> | null } | null } | null };
 
+export type SendResetPasswordEmailMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type SendResetPasswordEmailMutation = { __typename?: 'Mutation', sendResetPasswordEmail?: boolean | null };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8216,6 +8223,24 @@ export const useAuthenticateMutation = <
     useMutation<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>(
       ['authenticate'],
       (variables?: AuthenticateMutationVariables) => fetcher<AuthenticateMutation, AuthenticateMutationVariables>(client, AuthenticateDocument, variables, headers)(),
+      options
+    );
+export const SendResetPasswordEmailDocument = `
+    mutation sendResetPasswordEmail($email: String!) {
+  sendResetPasswordEmail(email: $email)
+}
+    `;
+export const useSendResetPasswordEmailMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>(
+      ['sendResetPasswordEmail'],
+      (variables?: SendResetPasswordEmailMutationVariables) => fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(client, SendResetPasswordEmailDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `
