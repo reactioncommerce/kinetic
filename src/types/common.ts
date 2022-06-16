@@ -21,7 +21,3 @@ export type APIErrorResponse = {
     status: number;
   };
 };
-
-export type LocationState = {
-  from: Location;
-};
