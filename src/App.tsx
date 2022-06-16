@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import CreateShop from './pages/CreateShop';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             </Route>
 
             <Route element={<RequireAuthRoute />}>
+              <Route path="/new-shop" element={<CreateShop />} />
               <Route element={<RequireShopRoute />}>
                 <Route path="/" element={<Layout />}>
                   <Route index element={<Dashboard />} />

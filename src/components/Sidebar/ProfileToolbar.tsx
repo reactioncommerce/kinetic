@@ -44,6 +44,8 @@ export const ProfileToolbar = () => {
 
   const activeShop = account?.adminUIShops?.find((shop) => shop?._id === shopId);
 
+  const showShopList = account?.adminUIShops?.length && account.adminUIShops.length > 1;
+
   return (
     <Toolbar sx={{ pl: { xs: '10px' }, pr: { xs: '10px' }, width: SIDEBAR_WIDTH }}>
       <Button
@@ -114,8 +116,8 @@ export const ProfileToolbar = () => {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-        {account?.adminUIShops?.length
-          ? account.adminUIShops.map((shop) => (
+        {showShopList
+          ? account?.adminUIShops?.map((shop) => (
               <MenuItem key={shop?._id} onClick={() => handleSwitchShop(shop!._id)}>
                 {shop?._id === shopId ? (
                   <ListItemIcon>
@@ -130,8 +132,7 @@ export const ProfileToolbar = () => {
               </MenuItem>
             ))
           : null}
-
-        <Divider />
+        {showShopList ? <Divider /> : null}
         <MenuItem to="/new-shop" component={Link}>
           Add another shop
         </MenuItem>

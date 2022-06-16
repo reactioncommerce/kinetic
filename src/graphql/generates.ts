@@ -8092,6 +8092,13 @@ export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null } | null> | null } | null };
 
+export type CreateShopMutationVariables = Exact<{
+  input: CreateShopInput;
+}>;
+
+
+export type CreateShopMutation = { __typename?: 'Mutation', createShop: { __typename?: 'CreateShopPayload', shop: { __typename?: 'Shop', _id: string } } };
+
 export type AuthenticateMutationVariables = Exact<{
   serviceName: Scalars['String'];
   params: AuthenticateParamsInput;
@@ -8155,6 +8162,28 @@ export const useGetViewerQuery = <
     useQuery<GetViewerQuery, TError, TData>(
       variables === undefined ? ['getViewer'] : ['getViewer', variables],
       fetcher<GetViewerQuery, GetViewerQueryVariables>(client, GetViewerDocument, variables, headers),
+      options
+    );
+export const CreateShopDocument = `
+    mutation createShop($input: CreateShopInput!) {
+  createShop(input: $input) {
+    shop {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateShopMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateShopMutation, TError, CreateShopMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateShopMutation, TError, CreateShopMutationVariables, TContext>(
+      ['createShop'],
+      (variables?: CreateShopMutationVariables) => fetcher<CreateShopMutation, CreateShopMutationVariables>(client, CreateShopDocument, variables, headers)(),
       options
     );
 export const AuthenticateDocument = `
