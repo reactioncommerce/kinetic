@@ -20,7 +20,7 @@ import { useAccount } from '@containers/AccountProvider';
 import { useCreateShopMutation } from '../../graphql/generates';
 
 export const ShopSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required')
+  name: Yup.string().required('This field is required').trim()
 });
 
 const normalizeErrorMessage = (errors: Error[]) => {
@@ -60,7 +60,7 @@ const CreateShop = () => {
         onSubmit={(values, { setSubmitting }) => {
           mutate(
             {
-              input: { name: values.name }
+              input: { name: values.name.trimEnd() }
             },
             {
               onSettled: () => setSubmitting(false),
