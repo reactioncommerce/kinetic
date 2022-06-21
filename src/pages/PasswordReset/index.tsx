@@ -84,7 +84,7 @@ const PasswordReset = () => {
               {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
               {isSuccess && (
                 <Alert severity="success">
-                  A link to reset your password has been emailed to you.
+                  If you have an account we will email you a reset password link.
                 </Alert>
               )}
               <LoadingButton
