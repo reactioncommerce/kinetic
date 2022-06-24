@@ -51,13 +51,13 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
 
-    onError: (error) => {
+    onError: error => {
       const unauthorized = (error as APIErrorResponse).response.status === 401;
 
       if (unauthorized) removeAccessToken();
     },
 
-    onSuccess: (response) => {
+    onSuccess: response => {
       !shopId && setShopId(response.viewer?.adminUIShops?.[0]?._id);
     }
   });
@@ -68,7 +68,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   if (isLoading) {
     return (
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
+      <Backdrop sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }} open>
         <CircularProgress color="inherit" />
       </Backdrop>
     );

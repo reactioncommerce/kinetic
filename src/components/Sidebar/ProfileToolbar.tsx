@@ -39,7 +39,7 @@ export const ProfileToolbar = () => {
     setShopId();
   };
 
-  const activeShop = account?.adminUIShops?.find((shop) => shop?._id === shopId);
+  const activeShop = account?.adminUIShops?.find(shop => shop?._id === shopId);
 
   const showShopList = account?.adminUIShops?.length && account.adminUIShops.length > 1;
 
@@ -112,7 +112,7 @@ export const ProfileToolbar = () => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {showShopList
-          ? account?.adminUIShops?.map((shop) => (
+          ? account?.adminUIShops?.map(shop => (
             <MenuItem key={shop?._id} onClick={() => setShopId(shop?._id)}>
               {shop?._id === shopId ? (
                 <ListItemIcon>

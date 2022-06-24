@@ -51,7 +51,7 @@ const NewPassword = () => {
       },
       {
         onSettled: () => setSubmitting(false),
-        onError: (error) => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
+        onError: error => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
         onSuccess: () => {
           navigate("/login", { state: { showResetPasswordSuccessMsg: true } });
         }

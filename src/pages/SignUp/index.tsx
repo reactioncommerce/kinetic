@@ -45,10 +45,10 @@ const SignUp = () => {
       },
       {
         onSettled: () => setSubmitting(false),
-        onError: (error) => {
+        onError: error => {
           setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors));
         },
-        onSuccess: (data) => {
+        onSuccess: data => {
           const accessToken = data.createUser?.loginResult?.tokens?.accessToken;
           accessToken && setAccessToken(accessToken);
           navigate("/new-shop");

@@ -54,8 +54,8 @@ const Login = () => {
       },
       {
         onSettled: () => setSubmitting(false),
-        onError: (error) => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
-        onSuccess: (data) => {
+        onError: error => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
+        onSuccess: data => {
           data.authenticate?.tokens?.accessToken && setAccessToken(data.authenticate.tokens.accessToken);
           navigate(from, { replace: true });
         }
@@ -79,7 +79,12 @@ const Login = () => {
       >
         <AppLogo theme="light" />
         <Box sx={{ display: "flex", gap: "20px", flexDirection: "column" }}>
-          <Chip label="New & Improved" variant="filled" color="primary" sx={{ width: "fit-content", textTransform: "uppercase" }}/>
+          <Chip
+            label="New & Improved"
+            variant="filled"
+            color="primary"
+            sx={{ width: "fit-content", textTransform: "uppercase" }}
+          />
 
           <Typography variant="h2" component="div" fontWeight="bold">
             Meet Kinetic.
@@ -159,7 +164,6 @@ const Login = () => {
                 >
                   Forgot password?
                 </Link>
-
               </Box>
 
               {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
@@ -170,8 +174,9 @@ const Login = () => {
                 type="submit"
                 loading={isSubmitting}
                 size="large"
-                sx={{ mt: 3 }}>
-                  Sign In
+                sx={{ mt: 3 }}
+              >
+                Sign In
               </LoadingButton>
             </Box>
           )}

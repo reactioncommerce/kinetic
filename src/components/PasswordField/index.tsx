@@ -20,7 +20,7 @@ export const PasswordField = (props: PasswordFieldProps) => {
           <IconButton
             aria-label="toggle password visibility"
             onClick={() => setShowPassword(!showPassword)}
-            onMouseDown={(event) => event.preventDefault()}
+            onMouseDown={event => event.preventDefault()}
             edge="end">
             {showPassword ? <VisibilityOff /> : <Visibility />}
           </IconButton>

@@ -52,10 +52,10 @@ const CreateShop = () => {
       },
       {
         onSettled: () => setSubmitting(false),
-        onError: (error) => {
+        onError: error => {
           setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors));
         },
-        onSuccess: (data) => {
+        onSuccess: data => {
           setShopId(data.createShop.shop._id);
           refetchAccount();
           navigate("/", { replace: true });
