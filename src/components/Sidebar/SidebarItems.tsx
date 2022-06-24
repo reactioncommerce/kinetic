@@ -1,57 +1,57 @@
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
-import ListSubheader from '@mui/material/ListSubheader';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
+import Divider from '@mui/material/Divider'
+import List from '@mui/material/List'
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
+import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined'
+import ListSubheader from '@mui/material/ListSubheader'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined'
+import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined'
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
+import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined'
 
-import { SidebarItem } from './SidebarItem';
-import { ProfileToolbar } from './ProfileToolbar';
+import { SidebarItem } from './SidebarItem'
+import { ProfileToolbar } from './ProfileToolbar'
 
 const ITEMS = [
   {
     text: 'Dashboard',
     link: '/',
-    icon: <HomeOutlinedIcon />
+    icon: <HomeOutlinedIcon />,
   },
   {
     text: 'View Storefront',
     link: '/storefront',
-    icon: <StorefrontOutlinedIcon />
-  }
-];
+    icon: <StorefrontOutlinedIcon />,
+  },
+]
 
 const CORE_FEATURES = [
   {
     text: 'Orders',
     link: '/orders',
-    icon: <ShoppingCartOutlinedIcon />
+    icon: <ShoppingCartOutlinedIcon />,
   },
   {
     text: 'Products',
     link: '/products',
-    icon: <CategoryOutlinedIcon />
+    icon: <CategoryOutlinedIcon />,
   },
   {
     text: 'Customers',
     link: '/customers',
-    icon: <GroupOutlinedIcon />
+    icon: <GroupOutlinedIcon />,
   },
   {
     text: 'Promotions',
     link: '/promotions',
-    icon: <StyleOutlinedIcon />
+    icon: <StyleOutlinedIcon />,
   },
   {
     text: 'Settings',
     link: '/settings',
-    icon: <SettingsOutlinedIcon />
-  }
-];
+    icon: <SettingsOutlinedIcon />,
+  },
+]
 
 export const SidebarItems = () => {
   return (
@@ -69,5 +69,5 @@ export const SidebarItems = () => {
         ))}
       </List>
     </div>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
-import MuiTextField, { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
-import { FieldProps, getIn } from 'formik';
+import MuiTextField, { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField'
+import { FieldProps, getIn } from 'formik'
 
-type TextFieldProps = FieldProps & Omit<MuiTextFieldProps, 'name' | 'value' | 'error'>;
+type TextFieldProps = FieldProps & Omit<MuiTextFieldProps, 'name' | 'value' | 'error'>
 
 function fieldToTextField({
   disabled,
@@ -11,8 +11,8 @@ function fieldToTextField({
   helperText,
   ...props
 }: TextFieldProps): MuiTextFieldProps {
-  const fieldError = getIn(errors, field.name) as string;
-  const showError = getIn(touched, field.name) && !!fieldError;
+  const fieldError = getIn(errors, field.name) as string
+  const showError = getIn(touched, field.name) && !!fieldError
 
   return {
     error: showError,
@@ -21,13 +21,13 @@ function fieldToTextField({
     onBlur:
       onBlur ??
       function (e) {
-        fieldOnBlur(e ?? field.name);
+        fieldOnBlur(e ?? field.name)
       },
     ...field,
-    ...props
-  };
+    ...props,
+  }
 }
 
 export const TextField = ({ children, ...props }: TextFieldProps) => {
-  return <MuiTextField {...fieldToTextField(props)}>{children}</MuiTextField>;
-};
+  return <MuiTextField {...fieldToTextField(props)}>{children}</MuiTextField>
+}

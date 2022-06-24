@@ -1,24 +1,24 @@
-import CircularProgress from '@mui/material/CircularProgress';
-import Backdrop from '@mui/material/Backdrop';
-import { createContext, useContext, useEffect } from 'react';
-import { useLocalStorage } from 'react-use';
-import get from 'lodash/get';
-import noop from 'lodash/noop';
+import CircularProgress from '@mui/material/CircularProgress'
+import Backdrop from '@mui/material/Backdrop'
+import { createContext, useContext, useEffect } from 'react'
+import { useLocalStorage } from 'react-use'
+import get from 'lodash/get'
+import noop from 'lodash/noop'
 
-import { client } from '../../graphql/graphql-request-client';
-import { APIErrorResponse } from '../../types/common';
-import { useShop } from '@containers/ShopProvider';
-import { GetViewerQuery, useGetViewerQuery } from '../../graphql/generates';
+import { client } from '../../graphql/graphql-request-client'
+import { APIErrorResponse } from '../../types/common'
+import { useShop } from '@containers/ShopProvider'
+import { GetViewerQuery, useGetViewerQuery } from '../../graphql/generates'
 
 type AccountContextValue = {
-  account: GetViewerQuery['viewer'] | null;
+  account: GetViewerQuery['viewer'] | null
 
-  setAccessToken: (token: string) => void;
+  setAccessToken: (token: string) => void
 
-  removeAccessToken: () => void;
+  removeAccessToken: () => void
 
-  refetchAccount: () => void;
-};
+  refetchAccount: () => void
+}
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
@@ -27,59 +27,58 @@ const AccountContext = createContext<AccountContextValue>({
 
   removeAccessToken: noop,
 
-  refetchAccount: noop
-});
+  refetchAccount: noop,
+})
 
 export const useAccount = () => {
-  const context = useContext(AccountContext);
+  const context = useContext(AccountContext)
 
   if (!context) {
-    throw new Error('useAccount must be used within a AccountProvider');
+    throw new Error('useAccount must be used within a AccountProvider')
   }
 
-  return context;
-};
+  return context
+}
 
 type AccountProviderProps = {
-  children: JSX.Element;
-};
+  children: JSX.Element
+}
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
-  const [accessToken, setAccessToken, removeAccessToken] =
-    useLocalStorage<string>('accounts:accessToken');
+  const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage<string>('accounts:accessToken')
 
   if (accessToken) {
-    client.setHeader('Authorization', `Bearer ${accessToken}`);
+    client.setHeader('Authorization', `Bearer ${accessToken}`)
   } else {
-    client.setHeaders({});
+    client.setHeaders({})
   }
 
-  const { setShopId, shopId } = useShop();
+  const { setShopId, shopId } = useShop()
 
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
 
-    onError: (error) => {
-      const unauthorized = (error as APIErrorResponse).response.status === 401;
+    onError: error => {
+      const unauthorized = (error as APIErrorResponse).response.status === 401
 
-      if (unauthorized) removeAccessToken();
+      if (unauthorized) removeAccessToken()
     },
 
-    onSuccess: (data) => {
-      !shopId && setShopId(get(data, 'viewer.adminUIShops[0]._id'));
-    }
-  });
+    onSuccess: data => {
+      !shopId && setShopId(get(data, 'viewer.adminUIShops[0]._id'))
+    },
+  })
 
   useEffect(() => {
-    refetch();
-  }, [accessToken, refetch]);
+    refetch()
+  }, [accessToken, refetch])
 
   if (isLoading) {
     return (
-      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
+      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open>
         <CircularProgress color="inherit" />
       </Backdrop>
-    );
+    )
   }
 
   return (
@@ -91,9 +90,10 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
         removeAccessToken,
 
-        refetchAccount: refetch
-      }}>
+        refetchAccount: refetch,
+      }}
+    >
       {children}
     </AccountContext.Provider>
-  );
-};
+  )
+}
