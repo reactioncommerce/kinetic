@@ -13,11 +13,11 @@ import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 
 import { TextField } from '@components/TextField'
-import { client } from '../../graphql/graphql-request-client'
-import type { GraphQLErrorResponse, Error } from '../../types/common'
+import { client } from '@graphql/graphql-request-client'
+import { useCreateShopMutation } from '@graphql/generates'
+import type { GraphQLErrorResponse, Error } from 'types/common'
 import { useShop } from '@containers/ShopProvider'
 import { useAccount } from '@containers/AccountProvider'
-import { useCreateShopMutation } from '../../graphql/generates'
 
 const ShopSchema = Yup.object().shape({
   name: Yup.string().required('This field is required').trim(),

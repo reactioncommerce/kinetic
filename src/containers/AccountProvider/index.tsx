@@ -5,10 +5,10 @@ import { useLocalStorage } from 'react-use'
 import get from 'lodash/get'
 import noop from 'lodash/noop'
 
-import { client } from '../../graphql/graphql-request-client'
-import { APIErrorResponse } from '../../types/common'
+import { client } from '@graphql/graphql-request-client'
 import { useShop } from '@containers/ShopProvider'
-import { GetViewerQuery, useGetViewerQuery } from '../../graphql/generates'
+import { GetViewerQuery, useGetViewerQuery } from '@graphql/generates'
+import type { APIErrorResponse } from 'types/common'
 
 type AccountContextValue = {
   account: GetViewerQuery['viewer'] | null

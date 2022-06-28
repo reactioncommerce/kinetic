@@ -1,39 +1,39 @@
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { Field, Form, Formik } from 'formik';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import { Link as RouterLink } from 'react-router-dom';
-import { useState } from 'react';
-import Alert from '@mui/material/Alert';
-import * as Yup from 'yup';
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Typography from '@mui/material/Typography'
+import { Field, Form, Formik } from 'formik'
+import LoadingButton from '@mui/lab/LoadingButton'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import { Link as RouterLink } from 'react-router-dom'
+import { useState } from 'react'
+import Alert from '@mui/material/Alert'
+import * as Yup from 'yup'
 
-import { TextField } from '@components/TextField';
-import { client } from '../../graphql/graphql-request-client';
-import type { Error, GraphQLErrorResponse } from '../../types/common';
-import { useSendResetPasswordEmailMutation } from '../../graphql/generates';
+import { TextField } from '@components/TextField'
+import { client } from '@graphql/graphql-request-client'
+import type { Error, GraphQLErrorResponse } from 'types/common'
+import { useSendResetPasswordEmailMutation } from '@graphql/generates'
 
 const PasswordResetSchema = Yup.object().shape({
-  email: Yup.string().email('Please enter a valid email address').required('This field is required')
-});
+  email: Yup.string().email('Please enter a valid email address').required('This field is required'),
+})
 
 const normalizeErrorMessage = (errors: Error[]) => {
-  const error = errors.length ? errors[0] : null;
+  const error = errors.length ? errors[0] : null
 
   if (error?.extensions.exception.code === 'UserNotFound') {
-    return 'User not found. Try again or click "Sign Up" to register new account';
+    return 'User not found. Try again or click "Sign Up" to register new account'
   }
 
-  return error?.message;
-};
+  return error?.message
+}
 
 const PasswordReset = () => {
-  const { mutate, isSuccess } = useSendResetPasswordEmailMutation(client);
-  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
+  const { mutate, isSuccess } = useSendResetPasswordEmailMutation(client)
+  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>()
 
   return (
     <Container component="main" maxWidth="xs">
@@ -44,29 +44,26 @@ const PasswordReset = () => {
         <Typography component="h1" variant="h5" gutterBottom>
           Forgot your password?
         </Typography>
-        <Typography variant="body2">
-          Enter your email and we'll send you a password reset link.
-        </Typography>
+        <Typography variant="body2">Enter your email and we'll send you a password reset link.</Typography>
       </Box>
       <Formik
         onSubmit={(values, { setSubmitting }) => {
           mutate(
             {
-              email: values.email
+              email: values.email,
             },
             {
               onSettled: () => setSubmitting(false),
-              onError: (error) =>
-                setSubmitErrorMessage(
-                  normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)
-                )
+              onError: error =>
+                setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
             }
-          );
+          )
         }}
         validationSchema={PasswordResetSchema}
         initialValues={{
-          email: ''
-        }}>
+          email: '',
+        }}
+      >
         {({ isSubmitting }) => {
           return (
             <Box component={Form} sx={{ mt: 1 }}>
@@ -83,16 +80,9 @@ const PasswordReset = () => {
 
               {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
               {isSuccess && (
-                <Alert severity="success">
-                  If you have an account we will email you a reset password link.
-                </Alert>
+                <Alert severity="success">If you have an account we will email you a reset password link.</Alert>
               )}
-              <LoadingButton
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                type="submit"
-                loading={isSubmitting}>
+              <LoadingButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
                 Reset Password
               </LoadingButton>
               <Grid container>
@@ -108,11 +98,11 @@ const PasswordReset = () => {
                 </Grid>
               </Grid>
             </Box>
-          );
+          )
         }}
       </Formik>
     </Container>
-  );
-};
+  )
+}
 
-export default PasswordReset;
+export default PasswordReset

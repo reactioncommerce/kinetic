@@ -32,6 +32,12 @@
       ],
       "@containers/*": [
         "containers/*"
+      ],
+      "@graphql/*": [
+        "graphql/*"
+      ],
+      "types/*": [
+        "types/*"
       ]
     }
   },

@@ -45,6 +45,14 @@
           {
             "pattern": "@containers/*",
             "group": "parent"
+          },
+          {
+            "pattern": "@graphql/*",
+            "group": "parent"
+          },
+          {
+            "pattern": "types/*",
+            "group": "parent"
           }
         ],
         "pathGroupsExcludedImportTypes": [],

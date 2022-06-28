@@ -14,10 +14,10 @@ import Alert from '@mui/material/Alert'
 import { TextField } from '@components/TextField'
 import { hashPassword } from '@utils/hashPassword'
 import { useAccount } from '@containers/AccountProvider'
-import { client } from '../../graphql/graphql-request-client'
-import type { Error, GraphQLErrorResponse } from '../../types/common'
+import { client } from '@graphql/graphql-request-client'
+import type { Error, GraphQLErrorResponse } from 'types/common'
 import { UserSchema } from '@utils/validate'
-import { useAuthenticateMutation } from '../../graphql/generates'
+import { useAuthenticateMutation } from '@graphql/generates'
 
 const normalizeErrorMessage = (errors: Error[]) => {
   const error = errors.length ? errors[0] : null

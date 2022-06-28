@@ -1,45 +1,45 @@
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { Field, Form, Formik } from 'formik';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
-import Alert from '@mui/material/Alert';
-import * as Yup from 'yup';
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Typography from '@mui/material/Typography'
+import { Field, Form, Formik } from 'formik'
+import LoadingButton from '@mui/lab/LoadingButton'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+import Alert from '@mui/material/Alert'
+import * as Yup from 'yup'
 
-import { TextField } from '@components/TextField';
-import { client } from '../../graphql/graphql-request-client';
-import type { Error, GraphQLErrorResponse } from '../../types/common';
-import { useResetPasswordMutation } from '../../graphql/generates';
-import { hashPassword } from '@utils/hashPassword';
+import { TextField } from '@components/TextField'
+import { client } from '@graphql/graphql-request-client'
+import type { Error, GraphQLErrorResponse } from 'types/common'
+import { useResetPasswordMutation } from '@graphql/generates'
+import { hashPassword } from '@utils/hashPassword'
 
 const PasswordResetSchema = Yup.object().shape({
   newPassword: Yup.string().required('This field is required'),
   confirmPassword: Yup.string().oneOf(
     [Yup.ref('newPassword'), null],
     'Password confirmation does not match. Re-enter your password.'
-  )
-});
+  ),
+})
 
 const normalizeErrorMessage = (errors: Error[]) => {
-  const error = errors.length ? errors[0] : null;
+  const error = errors.length ? errors[0] : null
   if (error?.extensions.exception.code === 'InvalidToken') {
-    return 'Reset token has expired.';
+    return 'Reset token has expired.'
   }
-  return error?.message;
-};
+  return error?.message
+}
 
 const NewPassword = () => {
-  const { mutate } = useResetPasswordMutation(client);
-  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
+  const { mutate } = useResetPasswordMutation(client)
+  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>()
 
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
 
   return (
     <Container component="main" maxWidth="xs">
@@ -57,25 +57,24 @@ const NewPassword = () => {
           mutate(
             {
               newPassword: hashPassword(values.newPassword),
-              token: searchParams.get('resetToken') || ''
+              token: searchParams.get('resetToken') || '',
             },
             {
               onSettled: () => setSubmitting(false),
-              onError: (error) =>
-                setSubmitErrorMessage(
-                  normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)
-                ),
+              onError: error =>
+                setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
               onSuccess: () => {
-                navigate('/login', { state: { showResetPasswordSuccessMsg: true } });
-              }
+                navigate('/login', { state: { showResetPasswordSuccessMsg: true } })
+              },
             }
-          );
+          )
         }}
         validationSchema={PasswordResetSchema}
         initialValues={{
           newPassword: '',
-          confirmPassword: ''
-        }}>
+          confirmPassword: '',
+        }}
+      >
         {({ isSubmitting }) => {
           return (
             <Box component={Form} sx={{ mt: 1 }}>
@@ -104,24 +103,16 @@ const NewPassword = () => {
                   severity="error"
                   sx={{ '.MuiAlert-action': { alignItems: 'center' } }}
                   action={
-                    <Link
-                      component={RouterLink}
-                      to="/password-reset/new"
-                      variant="body2"
-                      color="inherit">
+                    <Link component={RouterLink} to="/password-reset/new" variant="body2" color="inherit">
                       Send another link
                     </Link>
-                  }>
+                  }
+                >
                   {submitErrorMessage}
                 </Alert>
               )}
 
-              <LoadingButton
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                type="submit"
-                loading={isSubmitting}>
+              <LoadingButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
                 Reset Password
               </LoadingButton>
               <Grid container>
@@ -132,11 +123,11 @@ const NewPassword = () => {
                 </Grid>
               </Grid>
             </Box>
-          );
+          )
         }}
       </Formik>
     </Container>
-  );
-};
+  )
+}
 
-export default NewPassword;
+export default NewPassword
