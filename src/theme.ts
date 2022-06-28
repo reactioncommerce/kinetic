@@ -5,10 +5,6 @@ declare module '@mui/material/styles' {
     background: TypeBackground;
   }
 
-  interface PaletteOptions {
-    green: string;
-  }
-
   interface TypeBackground {
     dark: string;
   }
@@ -20,7 +16,9 @@ const theme = createTheme({
     background: {
       dark: '#001D28'
     },
-    green: '#00C14E'
+    primary: {
+      main: '#00C14E'
+    }
   }
 });
 

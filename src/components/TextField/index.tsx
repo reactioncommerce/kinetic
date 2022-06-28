@@ -1,7 +1,20 @@
-import MuiTextField, { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl, { FormControlProps } from '@mui/material/FormControl';
 import { FieldProps, getIn } from 'formik';
+import OutlinedInput, { OutlinedInputProps } from '@mui/material/OutlinedInput';
+import FormHelperText from '@mui/material/FormHelperText';
+import uniqueid from 'lodash/uniqueid';
+import { useRef } from 'react';
 
-type TextFieldProps = FieldProps & Omit<MuiTextFieldProps, 'name' | 'value' | 'error'>;
+type CustomTextFieldProps = {
+  label: string;
+  helperText?: string;
+};
+
+type TextFieldProps = FieldProps &
+  FormControlProps &
+  Omit<OutlinedInputProps, 'name' | 'value' | 'error'> &
+  CustomTextFieldProps;
 
 function fieldToTextField({
   disabled,
@@ -10,7 +23,7 @@ function fieldToTextField({
   onBlur,
   helperText,
   ...props
-}: TextFieldProps): MuiTextFieldProps {
+}: TextFieldProps): OutlinedInputProps & CustomTextFieldProps {
   const fieldError = getIn(errors, field.name) as string;
   const showError = getIn(touched, field.name) && !!fieldError;
 
@@ -28,6 +41,32 @@ function fieldToTextField({
   };
 }
 
-export const TextField = ({ children, ...props }: TextFieldProps) => {
-  return <MuiTextField {...fieldToTextField(props)}>{children}</MuiTextField>;
+export const TextField = (props: TextFieldProps) => {
+  const { helperText, label, fullWidth, size, error, required, margin, ...restInputProps } =
+    fieldToTextField(props);
+  const fieldId = useRef(uniqueid('text-field')).current;
+  const helperTextId = useRef(uniqueid('helper-text')).current;
+
+  return (
+    <FormControl
+      fullWidth={fullWidth}
+      size={size}
+      error={error}
+      required={required}
+      margin={margin}
+      variant="standard">
+      <InputLabel sx={{ color: 'grey.900', fontSize: '1.25rem' }} shrink htmlFor={fieldId}>
+        {label}
+      </InputLabel>
+      <OutlinedInput
+        sx={{
+          'label + &': { marginTop: '25px' }
+        }}
+        id={fieldId}
+        {...restInputProps}
+        aria-describedby={helperTextId}
+      />
+      {helperText && <FormHelperText id={helperTextId}>{helperText}</FormHelperText>}
+    </FormControl>
+  );
 };
