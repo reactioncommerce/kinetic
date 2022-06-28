@@ -13,7 +13,7 @@ import { TextField } from '@components/TextField';
 import { hashPassword } from '@utils/hashPassword';
 import { useAccount } from '@containers/AccountProvider';
 import { client } from '../../graphql/graphql-request-client';
-import type { Error, GraphQLErrorResponse, LocationState } from '../../types/common';
+import type { Error, GraphQLErrorResponse } from '../../types/common';
 import { UserSchema } from '@utils/validate';
 import { PasswordField } from '@components/PasswordField';
 import { useAuthenticateMutation } from '../../graphql/generates';
@@ -31,13 +31,19 @@ const normalizeErrorMessage = (errors: Error[]) => {
   return error?.message;
 };
 
+type LocationState = {
+  from?: Location;
+  showResetPasswordSuccessMsg?: boolean;
+};
+
 const Login = () => {
   const { mutate } = useAuthenticateMutation(client);
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
   const { setAccessToken } = useAccount();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as LocationState)?.from?.pathname || '/';
+  const locationState = location.state as LocationState | null;
+  const from = locationState?.from?.pathname || '/';
 
   return (
     <Container component="main" sx={{ display: 'flex' }} maxWidth={false} disableGutters={true}>
@@ -58,6 +64,11 @@ const Login = () => {
         <Typography variant="caption" display="block" color="grey.400">
           {`© ${new Date().getFullYear()} Open Commerce. All rights reserved.`}
         </Typography>
+        {locationState?.showResetPasswordSuccessMsg && (
+          <Alert severity="success">
+            Your password was reset. You can log in using your new password.
+          </Alert>
+        )}
       </Box>
       <Box sx={rightPanelStyles}>
         <Typography component="h1" variant="h4" fontWeight={600} gutterBottom>
@@ -110,7 +121,7 @@ const Login = () => {
                 <Box sx={{ position: 'relative' }}>
                   <Link
                     component={RouterLink}
-                    to="#"
+                    to="/password-reset/new"
                     variant="subtitle2"
                     underline="none"
                     sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
