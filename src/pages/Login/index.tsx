@@ -15,7 +15,7 @@ import { TextField } from '@components/TextField'
 import { hashPassword } from '@utils/hashPassword'
 import { useAccount } from '@containers/AccountProvider'
 import { client } from '../../graphql/graphql-request-client'
-import type { Error, GraphQLErrorResponse, LocationState } from '../../types/common'
+import type { Error, GraphQLErrorResponse } from '../../types/common'
 import { UserSchema } from '@utils/validate'
 import { useAuthenticateMutation } from '../../graphql/generates'
 
@@ -32,13 +32,19 @@ const normalizeErrorMessage = (errors: Error[]) => {
   return error?.message
 }
 
+type LocationState = {
+  from?: Location
+  showResetPasswordSuccessMsg?: boolean
+}
+
 const Login = () => {
   const { mutate } = useAuthenticateMutation(client)
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>()
   const { setAccessToken } = useAccount()
   const navigate = useNavigate()
   const location = useLocation()
-  const from = (location.state as LocationState)?.from?.pathname || '/'
+  const locationState = location.state as LocationState | null
+  const from = locationState?.from?.pathname || '/'
 
   return (
     <Container component="main" maxWidth="xs">
@@ -49,6 +55,9 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Login to your shop
         </Typography>
+        {locationState?.showResetPasswordSuccessMsg && (
+          <Alert severity="success">Your password was reset. You can log in using your new password.</Alert>
+        )}
       </Box>
       <Formik
         onSubmit={(values, { setSubmitting }) => {
@@ -105,7 +114,7 @@ const Login = () => {
               </LoadingButton>
               <Grid container>
                 <Grid item xs>
-                  <Link component={RouterLink} to="#" variant="body2">
+                  <Link component={RouterLink} to="/password-reset/new" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>

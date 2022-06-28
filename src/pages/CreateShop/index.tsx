@@ -19,7 +19,7 @@ import { useShop } from '@containers/ShopProvider'
 import { useAccount } from '@containers/AccountProvider'
 import { useCreateShopMutation } from '../../graphql/generates'
 
-export const ShopSchema = Yup.object().shape({
+const ShopSchema = Yup.object().shape({
   name: Yup.string().required('This field is required').trim(),
 })
 

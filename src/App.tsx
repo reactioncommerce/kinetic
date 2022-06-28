@@ -10,6 +10,8 @@ import NotFound from './pages/NotFound'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import CreateShop from './pages/CreateShop'
+import PasswordReset from './pages/PasswordReset'
+import NewPassword from './pages/NewPassword'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route element={<UnauthenticatedRoute />}>
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/password-reset/new" element={<PasswordReset />} />
+              <Route path="/password-reset" element={<NewPassword />} />
             </Route>
 
             <Route element={<RequireAuthRoute />}>
@@ -27,10 +31,10 @@ function App() {
               <Route element={<RequireShopRoute />}>
                 <Route path="/" element={<Layout />}>
                   <Route index element={<Dashboard />} />
+                  <Route path="*" element={<NotFound />} />
                 </Route>
               </Route>
             </Route>
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </AccountProvider>
       </ShopProvider>

@@ -7979,6 +7979,22 @@ export type AuthenticateMutation = {
   } | null
 }
 
+export type ResetPasswordMutationVariables = Exact<{
+  newPassword: Scalars['String']
+  token: Scalars['String']
+}>
+
+export type ResetPasswordMutation = {
+  __typename?: 'Mutation'
+  resetPassword?: { __typename?: 'LoginResult'; user?: { __typename?: 'User'; id: string } | null } | null
+}
+
+export type SendResetPasswordEmailMutationVariables = Exact<{
+  email: Scalars['String']
+}>
+
+export type SendResetPasswordEmailMutation = { __typename?: 'Mutation'; sendResetPasswordEmail?: boolean | null }
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput
 }>
@@ -8114,6 +8130,57 @@ export const useAuthenticateMutation = <TError = unknown, TContext = unknown>(
     ['authenticate'],
     (variables?: AuthenticateMutationVariables) =>
       fetcher<AuthenticateMutation, AuthenticateMutationVariables>(client, AuthenticateDocument, variables, headers)(),
+    options
+  )
+export const ResetPasswordDocument = `
+    mutation resetPassword($newPassword: String!, $token: String!) {
+  resetPassword(newPassword: $newPassword, token: $token) {
+    user {
+      id
+    }
+  }
+}
+    `
+export const useResetPasswordMutation = <TError = unknown, TContext = unknown>(
+  client: GraphQLClient,
+  options?: UseMutationOptions<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>,
+  headers?: RequestInit['headers']
+) =>
+  useMutation<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>(
+    ['resetPassword'],
+    (variables?: ResetPasswordMutationVariables) =>
+      fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(
+        client,
+        ResetPasswordDocument,
+        variables,
+        headers
+      )(),
+    options
+  )
+export const SendResetPasswordEmailDocument = `
+    mutation sendResetPasswordEmail($email: String!) {
+  sendResetPasswordEmail(email: $email)
+}
+    `
+export const useSendResetPasswordEmailMutation = <TError = unknown, TContext = unknown>(
+  client: GraphQLClient,
+  options?: UseMutationOptions<
+    SendResetPasswordEmailMutation,
+    TError,
+    SendResetPasswordEmailMutationVariables,
+    TContext
+  >,
+  headers?: RequestInit['headers']
+) =>
+  useMutation<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>(
+    ['sendResetPasswordEmail'],
+    (variables?: SendResetPasswordEmailMutationVariables) =>
+      fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(
+        client,
+        SendResetPasswordEmailDocument,
+        variables,
+        headers
+      )(),
     options
   )
 export const CreateUserDocument = `
