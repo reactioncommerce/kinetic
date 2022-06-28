@@ -7,44 +7,39 @@ import { Field, Form, Formik } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
+import * as Yup from 'yup';
 
 import { TextField } from '@components/TextField';
-import { hashPassword } from '@utils/hashPassword';
-import { useAccount } from '@containers/AccountProvider';
 import { client } from '../../graphql/graphql-request-client';
 import type { Error, GraphQLErrorResponse } from '../../types/common';
-import { UserSchema } from '@utils/validate';
-import { useAuthenticateMutation } from '../../graphql/generates';
+import { useResetPasswordMutation } from '../../graphql/generates';
+import { hashPassword } from '@utils/hashPassword';
+
+const PasswordResetSchema = Yup.object().shape({
+  newPassword: Yup.string().required('This field is required'),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref('newPassword'), null],
+    'Password confirmation does not match. Re-enter your password.'
+  )
+});
 
 const normalizeErrorMessage = (errors: Error[]) => {
   const error = errors.length ? errors[0] : null;
-
-  if (error?.extensions.exception.code === 'UserNotFound') {
-    return 'User not found. Try again or click "Sign Up" to register new account';
+  if (error?.extensions.exception.code === 'InvalidToken') {
+    return 'Reset token has expired.';
   }
-  if (error?.extensions.exception.code === 'IncorrectPassword') {
-    return 'Wrong password. Try again or click "Forgot password" to reset it';
-  }
-
   return error?.message;
 };
 
-type LocationState = {
-  from?: Location;
-  showResetPasswordSuccessMsg?: boolean;
-};
-
-const Login = () => {
-  const { mutate } = useAuthenticateMutation(client);
+const NewPassword = () => {
+  const { mutate } = useResetPasswordMutation(client);
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
-  const { setAccessToken } = useAccount();
+
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  const locationState = location.state as LocationState | null;
-  const from = locationState?.from?.pathname || '/';
 
   return (
     <Container component="main" maxWidth="xs">
@@ -52,21 +47,17 @@ const Login = () => {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Login to your shop
+        <Typography component="h1" variant="h5" gutterBottom>
+          Reset Password
         </Typography>
-        {locationState?.showResetPasswordSuccessMsg && (
-          <Alert severity="success">
-            Your password was reset. You can log in using your new password.
-          </Alert>
-        )}
+        <Typography variant="body2">Enter a new password for your account.</Typography>
       </Box>
       <Formik
         onSubmit={(values, { setSubmitting }) => {
           mutate(
             {
-              serviceName: 'password',
-              params: { user: { email: values.email }, password: hashPassword(values.password) }
+              newPassword: hashPassword(values.newPassword),
+              token: searchParams.get('resetToken') || ''
             },
             {
               onSettled: () => setSubmitting(false),
@@ -74,18 +65,16 @@ const Login = () => {
                 setSubmitErrorMessage(
                   normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)
                 ),
-              onSuccess: (data) => {
-                data.authenticate?.tokens?.accessToken &&
-                  setAccessToken(data.authenticate.tokens.accessToken);
-                navigate(from, { replace: true });
+              onSuccess: () => {
+                navigate('/login', { state: { showResetPasswordSuccessMsg: true } });
               }
             }
           );
         }}
-        validationSchema={UserSchema}
+        validationSchema={PasswordResetSchema}
         initialValues={{
-          email: '',
-          password: ''
+          newPassword: '',
+          confirmPassword: ''
         }}>
         {({ isSubmitting }) => {
           return (
@@ -95,23 +84,37 @@ const Login = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="password"
+                label="New password"
+                name="newPassword"
+                type="password"
               />
               <Field
                 component={TextField}
                 margin="normal"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
                 id="password"
-                autoComplete="current-password"
+                label="Confirm new password"
+                name="confirmPassword"
+                type="password"
               />
-              {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
+              {submitErrorMessage && (
+                <Alert
+                  severity="error"
+                  sx={{ '.MuiAlert-action': { alignItems: 'center' } }}
+                  action={
+                    <Link
+                      component={RouterLink}
+                      to="/password-reset/new"
+                      variant="body2"
+                      color="inherit">
+                      Send another link
+                    </Link>
+                  }>
+                  {submitErrorMessage}
+                </Alert>
+              )}
 
               <LoadingButton
                 fullWidth
@@ -119,17 +122,12 @@ const Login = () => {
                 sx={{ mt: 3, mb: 2 }}
                 type="submit"
                 loading={isSubmitting}>
-                Sign In
+                Reset Password
               </LoadingButton>
               <Grid container>
                 <Grid item xs>
-                  <Link component={RouterLink} to="/password-reset/new" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link component={RouterLink} to="/signup" variant="body2">
-                    Don't have an account? Sign Up
+                  <Link component={RouterLink} to="/login" variant="body2" color="primary">
+                    Return to login
                   </Link>
                 </Grid>
               </Grid>
@@ -141,4 +139,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default NewPassword;
