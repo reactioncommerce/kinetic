@@ -1,5 +1,5 @@
-import MuiCheckbox, { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
-import { FieldProps } from 'formik';
+import MuiCheckbox, { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox'
+import { FieldProps } from 'formik'
 
 export interface CheckboxProps
   extends FieldProps,
@@ -14,7 +14,7 @@ export interface CheckboxProps
       // Excluded for conflict with Field type
       | 'type'
     > {
-  type?: string;
+  type?: string
 }
 
 export function fieldToCheckbox({
@@ -30,13 +30,13 @@ export function fieldToCheckbox({
     onBlur:
       onBlur ??
       function (e) {
-        fieldOnBlur(e ?? field.name);
+        fieldOnBlur(e ?? field.name)
       },
     ...field,
-    ...props
-  };
+    ...props,
+  }
 }
 
 export const Checkbox = (props: CheckboxProps) => {
-  return <MuiCheckbox {...fieldToCheckbox(props)} />;
-};
+  return <MuiCheckbox {...fieldToCheckbox(props)} />
+}

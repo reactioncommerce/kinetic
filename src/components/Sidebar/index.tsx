@@ -1,14 +1,14 @@
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box'
+import Drawer from '@mui/material/Drawer'
 
-import { SIDEBAR_WIDTH } from '../../constants';
+import { SIDEBAR_WIDTH } from '../../constants'
 
-import { SidebarItems } from './SidebarItems';
+import { SidebarItems } from './SidebarItems'
 
 type SidebarProps = {
-  mobileOpen: boolean;
-  handleDrawerToggle: () => void;
-};
+  mobileOpen: boolean
+  handleDrawerToggle: () => void
+}
 
 export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
   return (
@@ -18,23 +18,25 @@ export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true // Better open performance on mobile.
+          keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
           display: { xs: 'block', sm: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH }
-        }}>
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
+        }}
+      >
         <SidebarItems />
       </Drawer>
       <Drawer
         variant="permanent"
         sx={{
           display: { xs: 'none', sm: 'block' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH }
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
         }}
-        open>
+        open
+      >
         <SidebarItems />
       </Drawer>
     </Box>
-  );
-};
+  )
+}

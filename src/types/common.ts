@@ -1,23 +1,23 @@
 export type Error = {
   extensions: {
-    code: string;
+    code: string
     exception: {
-      code: string;
-    };
-  };
-  message: string;
-};
+      code: string
+    }
+  }
+  message: string
+}
 
 export type GraphQLErrorResponse = {
   response: {
-    errors: Error[];
-  };
-};
+    errors: Error[]
+  }
+}
 
 export type APIErrorResponse = {
   response: {
-    code: number;
-    message: string;
-    status: number;
-  };
-};
+    code: number
+    message: string
+    status: number
+  }
+}
