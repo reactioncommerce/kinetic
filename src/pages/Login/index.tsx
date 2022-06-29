@@ -177,14 +177,7 @@ const Login = () => {
 
                 {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
 
-                <LoadingButton
-                  fullWidth
-                  variant="contained"
-                  sx={{
-                    color: 'white'
-                  }}
-                  type="submit"
-                  loading={isSubmitting}>
+                <LoadingButton fullWidth variant="contained" type="submit" loading={isSubmitting}>
                   Sign In
                 </LoadingButton>
               </Box>

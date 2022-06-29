@@ -1,14 +1,16 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
+import { SxProps } from '@mui/material/styles';
 
 type AppLogoProps = {
   theme: 'light' | 'dark';
+  sx?: SxProps;
 };
 
-export const AppLogo = ({ theme }: AppLogoProps) => {
+export const AppLogo = ({ theme, sx }: AppLogoProps) => {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', ...sx }}>
       {theme === 'light' ? (
         <Avatar alt="Kinetic Logo" src="/src/white-logo.svg" />
       ) : (
