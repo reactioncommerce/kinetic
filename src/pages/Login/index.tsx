@@ -1,13 +1,12 @@
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, FormikConfig } from 'formik';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
-import { SxProps } from '@mui/material/styles';
 
 import { TextField } from '@components/TextField';
 import { hashPassword } from '@utils/hashPassword';
@@ -45,14 +44,60 @@ const Login = () => {
   const locationState = location.state as LocationState | null;
   const from = locationState?.from?.pathname || '/';
 
+  const handleSubmit: FormikConfig<{ email: string; password: string }>['onSubmit'] = (
+    values,
+    { setSubmitting }
+  ) => {
+    mutate(
+      {
+        serviceName: 'password',
+        params: { user: { email: values.email }, password: hashPassword(values.password) }
+      },
+      {
+        onSettled: () => setSubmitting(false),
+        onError: (error) =>
+          setSubmitErrorMessage(
+            normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)
+          ),
+        onSuccess: (data) => {
+          data.authenticate?.tokens?.accessToken &&
+            setAccessToken(data.authenticate.tokens.accessToken);
+          navigate(from, { replace: true });
+        }
+      }
+    );
+  };
+
   return (
     <Container component="main" sx={{ display: 'flex' }} maxWidth={false} disableGutters={true}>
-      <Box sx={leftPanelStyles}>
+      <Box
+        sx={{
+          width: '50%',
+          minHeight: '100vh',
+          backgroundColor: 'background.dark',
+          padding: '60px 80px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          color: 'white'
+        }}>
         <Typography component="h1" variant="h5" fontWeight={500}>
           Open Commerce
         </Typography>
         <Box sx={{ display: 'flex', gap: '20px', flexDirection: 'column' }}>
-          <Box sx={improvementBadgeStyles}>New & Improved</Box>
+          <Box
+            sx={{
+              backgroundColor: 'primary.main',
+              borderRadius: '6px',
+              padding: '5px',
+              textTransform: 'uppercase',
+              width: '150px',
+              fontSize: '13px',
+              fontWeight: 500,
+              textAlign: 'center'
+            }}>
+            New & Improved
+          </Box>
           <Typography variant="h3" component="div" fontWeight="bold">
             Meet Kinetic.
           </Typography>
@@ -70,7 +115,15 @@ const Login = () => {
           </Alert>
         )}
       </Box>
-      <Box sx={rightPanelStyles}>
+      <Box
+        sx={{
+          display: 'flex',
+          minHeight: '100vh',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '50%'
+        }}>
         <Typography component="h1" variant="h4" fontWeight={600} gutterBottom>
           Log in to your shop
         </Typography>
@@ -81,26 +134,7 @@ const Login = () => {
           </Link>
         </Typography>
         <Formik
-          onSubmit={(values, { setSubmitting }) => {
-            mutate(
-              {
-                serviceName: 'password',
-                params: { user: { email: values.email }, password: hashPassword(values.password) }
-              },
-              {
-                onSettled: () => setSubmitting(false),
-                onError: (error) =>
-                  setSubmitErrorMessage(
-                    normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)
-                  ),
-                onSuccess: (data) => {
-                  data.authenticate?.tokens?.accessToken &&
-                    setAccessToken(data.authenticate.tokens.accessToken);
-                  navigate(from, { replace: true });
-                }
-              }
-            );
-          }}
+          onSubmit={handleSubmit}
           validationSchema={UserSchema}
           initialValues={{
             email: '',
@@ -108,15 +142,21 @@ const Login = () => {
           }}>
           {({ isSubmitting }) => {
             return (
-              <Box component={Form} sx={formStyles}>
+              <Box
+                component={Form}
+                sx={{
+                  mt: 1,
+                  width: '50%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 3
+                }}>
                 <Field
                   component={TextField}
-                  fullWidth
                   label="Email"
                   placeholder="Enter your email address"
                   name="email"
                   autoComplete="email"
-                  size="small"
                 />
                 <Box sx={{ position: 'relative' }}>
                   <Link
@@ -127,10 +167,12 @@ const Login = () => {
                     sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
                     Forgot password?
                   </Link>
-                  <PasswordField
+                  <Field
+                    component={PasswordField}
                     name="password"
                     label="Password"
                     placeholder="Enter your password"
+                    margin="none"
                   />
                 </Box>
 
@@ -153,45 +195,6 @@ const Login = () => {
       </Box>
     </Container>
   );
-};
-
-const leftPanelStyles: SxProps = {
-  width: '50%',
-  minHeight: '100vh',
-  backgroundColor: 'background.dark',
-  padding: '60px 80px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  color: 'white'
-};
-
-const rightPanelStyles: SxProps = {
-  display: 'flex',
-  minHeight: '100vh',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '50%'
-};
-
-const formStyles: SxProps = {
-  mt: 1,
-  width: '50%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 3
-};
-
-const improvementBadgeStyles: SxProps = {
-  backgroundColor: 'primary.main',
-  borderRadius: '6px',
-  padding: '5px',
-  textTransform: 'uppercase',
-  width: '150px',
-  fontSize: '13px',
-  fontWeight: 500,
-  textAlign: 'center'
 };
 
 export default Login;

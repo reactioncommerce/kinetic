@@ -1,28 +1,20 @@
-import { Field } from 'formik';
 import { useState } from 'react';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { TextField } from '@components/TextField';
+import { TextField, TextFieldProps } from '@components/TextField';
 
-type PasswordFieldProps = {
-  name: string;
-  label: string;
-  placeholder?: string;
-};
+type PasswordFieldProps = TextFieldProps;
 
 export const PasswordField = (props: PasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <Field
-      component={TextField}
-      fullWidth
+    <TextField
       type={showPassword ? 'text' : 'password'}
       autoComplete="current-password"
-      size="small"
       endAdornment={
         <InputAdornment position="end">
           <IconButton

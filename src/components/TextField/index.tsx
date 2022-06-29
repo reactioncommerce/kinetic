@@ -7,53 +7,43 @@ import uniqueid from 'lodash/uniqueid';
 import { useRef } from 'react';
 
 type CustomTextFieldProps = {
-  label: string;
   helperText?: string;
 };
 
-type TextFieldProps = FieldProps &
+export type TextFieldProps = FieldProps &
   FormControlProps &
-  Omit<OutlinedInputProps, 'name' | 'value' | 'error'> &
+  Omit<OutlinedInputProps, 'name' | 'value' | 'error' | 'margin'> &
   CustomTextFieldProps;
 
-function fieldToTextField({
-  disabled,
-  field: { onBlur: fieldOnBlur, ...field },
+export const TextField = ({
+  field: { onBlur: fieldOnBlur, ...restFieldProps },
   form: { isSubmitting, touched, errors },
+  fullWidth = true,
+  size = 'small',
+  margin = 'normal',
+  required,
+  label,
   onBlur,
-  helperText,
   ...props
-}: TextFieldProps): OutlinedInputProps & CustomTextFieldProps {
-  const fieldError = getIn(errors, field.name) as string;
-  const showError = getIn(touched, field.name) && !!fieldError;
+}: TextFieldProps) => {
+  const fieldError = getIn(errors, restFieldProps.name) as string;
+  const showError = getIn(touched, restFieldProps.name) && !!fieldError;
 
-  return {
-    error: showError,
-    helperText: showError ? fieldError : helperText,
-    disabled: disabled ?? isSubmitting,
-    onBlur:
-      onBlur ??
-      function (e) {
-        fieldOnBlur(e ?? field.name);
-      },
-    ...field,
-    ...props
-  };
-}
+  const helperText = showError ? fieldError : props.helperText;
 
-export const TextField = (props: TextFieldProps) => {
-  const { helperText, label, fullWidth, size, error, required, margin, ...restInputProps } =
-    fieldToTextField(props);
   const fieldId = useRef(uniqueid('text-field')).current;
   const helperTextId = useRef(uniqueid('helper-text')).current;
+
+  const _onBlur = onBlur ?? ((e) => fieldOnBlur(e ?? restFieldProps.name));
 
   return (
     <FormControl
       fullWidth={fullWidth}
       size={size}
-      error={error}
+      error={showError}
       required={required}
       margin={margin}
+      disabled={props.disabled ?? isSubmitting}
       variant="standard">
       <InputLabel sx={{ color: 'grey.900', fontSize: '1.25rem' }} shrink htmlFor={fieldId}>
         {label}
@@ -63,8 +53,10 @@ export const TextField = (props: TextFieldProps) => {
           'label + &': { marginTop: '25px' }
         }}
         id={fieldId}
-        {...restInputProps}
+        onBlur={_onBlur}
         aria-describedby={helperTextId}
+        {...props}
+        {...restFieldProps}
       />
       {helperText && <FormHelperText id={helperTextId}>{helperText}</FormHelperText>}
     </FormControl>
