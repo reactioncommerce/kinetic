@@ -16,6 +16,7 @@ import type { Error, GraphQLErrorResponse } from '../../types/common';
 import { UserSchema } from '@utils/validate';
 import { PasswordField } from '@components/PasswordField';
 import { useAuthenticateMutation } from '../../graphql/generates';
+import { AppLogo } from '@components/AppLogo';
 
 const normalizeErrorMessage = (errors: Error[]) => {
   const error = errors.length ? errors[0] : null;
@@ -81,9 +82,7 @@ const Login = () => {
           justifyContent: 'space-between',
           color: 'white'
         }}>
-        <Typography component="h1" variant="h5" fontWeight={500}>
-          Open Commerce
-        </Typography>
+        <AppLogo theme="light" />
         <Box sx={{ display: 'flex', gap: '20px', flexDirection: 'column' }}>
           <Box
             sx={{
