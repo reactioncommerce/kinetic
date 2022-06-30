@@ -19,7 +19,7 @@ export const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => {
         ml: { sm: `${SIDEBAR_WIDTH}px` },
       }}
     >
-      <Toolbar>
+      <Toolbar sx={{ bgcolor: 'white', color: 'grey.800' }}>
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -29,9 +29,6 @@ export const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          Kinetic
-        </Typography>
       </Toolbar>
     </AppBar>
   )
