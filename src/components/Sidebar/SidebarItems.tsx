@@ -1,15 +1,14 @@
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
 import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import Box from "@mui/material/Box";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SupportOutlinedIcon from "@mui/icons-material/SupportOutlined";
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
@@ -21,9 +20,10 @@ import { useState } from "react";
 import { usePrevious } from "react-use";
 import ListItemButton from "@mui/material/ListItemButton";
 
-import { ProfileToolbar } from "./ProfileToolbar";
-import { SidebarItem, SidebarItemProps } from "./SidebarItem";
+import { SystemInformation } from "@components/SystemInformation";
 
+import { SidebarItem, SidebarItemProps } from "./SidebarItem";
+import { ProfileToolbar } from "./ProfileToolbar";
 
 type ItemProps = SidebarItemProps & {
   subItems?: ItemProps[]
@@ -158,7 +158,7 @@ export const SidebarItems = () => {
                   }
                 }}
                 disabled={activeMenuItem.root || !prevMenuItem}
-                onClick={() => setActiveMenuItem(prevMenuItem)}
+                onClick={() => prevMenuItem && setActiveMenuItem(prevMenuItem)}
               >
                 {activeMenuItem.icon} {activeMenuItem.title}
               </ListItemButton>
@@ -178,12 +178,7 @@ export const SidebarItems = () => {
           </List>
         </Box>
         <List>
-          <SidebarItem
-            key="system-information"
-            icon={<InfoOutlinedIcon fontSize="small" />}
-            to="/system-information"
-            text="System Information"
-          />
+          <SystemInformation />
           <SidebarItem
             key="documentation"
             icon={<SupportOutlinedIcon fontSize="small" />}

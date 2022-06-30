@@ -4,6 +4,7 @@ declare module "@mui/material/styles" {
   interface TypeBackground {
     dark: string
     darkGrey: string
+    light: string
   }
 
   interface Palette {
@@ -16,7 +17,8 @@ const theme = createTheme({
   palette: {
     background: {
       dark: "#001D28",
-      darkGrey: "#2D3748"
+      darkGrey: "#2D3748",
+      light: "#F8FAFC"
     },
     primary: {
       main: "#00C14E",
