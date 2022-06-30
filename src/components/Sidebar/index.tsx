@@ -22,7 +22,7 @@ export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
         }}
         sx={{
           display: { xs: 'block', sm: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
+          '& .MuiDrawer-paper': sharedStyles,
         }}
       >
         <SidebarItems />
@@ -31,7 +31,7 @@ export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
         variant="permanent"
         sx={{
           display: { xs: 'none', sm: 'block' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
+          '& .MuiDrawer-paper': sharedStyles,
         }}
         open
       >
@@ -39,4 +39,12 @@ export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
       </Drawer>
     </Box>
   )
+}
+
+const sharedStyles = {
+  boxSizing: 'border-box',
+  width: SIDEBAR_WIDTH,
+  bgcolor: 'background.dark',
+  color: 'white',
+  padding: '20px 0',
 }

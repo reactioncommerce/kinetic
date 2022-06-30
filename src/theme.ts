@@ -1,12 +1,13 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles'
 
 declare module '@mui/material/styles' {
   interface Palette {
-    background: TypeBackground;
+    background: TypeBackground
   }
 
   interface TypeBackground {
-    dark: string;
+    dark: string
+    darkGrey: string
   }
 }
 
@@ -14,13 +15,17 @@ declare module '@mui/material/styles' {
 const theme = createTheme({
   palette: {
     background: {
-      dark: '#001D28'
+      dark: '#001D28',
+      darkGrey: '#2D3748',
     },
     primary: {
       main: '#00C14E',
-      contrastText: '#fff'
-    }
-  }
-});
+      contrastText: '#fff',
+    },
+    text: {
+      primary: '#001D28',
+    },
+  },
+})
 
-export default theme;
+export default theme
