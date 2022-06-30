@@ -2,7 +2,8 @@ import { createTheme } from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
   interface TypeBackground {
-    dark: string;
+    dark: string
+    darkGrey: string
   }
 
   interface Palette {
