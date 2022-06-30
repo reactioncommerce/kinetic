@@ -9,7 +9,6 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined'
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined'
 import Box from '@mui/material/Box'
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import SupportOutlinedIcon from '@mui/icons-material/SupportOutlined'
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined'
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined'
@@ -21,6 +20,7 @@ import { useState } from 'react'
 import { usePrevious } from 'react-use'
 import ListItemButton from '@mui/material/ListItemButton'
 
+import { SystemInformation } from '@components/SystemInformation'
 import { SidebarItem, SidebarItemProps } from './SidebarItem'
 import { ProfileToolbar } from './ProfileToolbar'
 
@@ -177,12 +177,7 @@ export const SidebarItems = () => {
           </List>
         </Box>
         <List>
-          <SidebarItem
-            key="system-information"
-            icon={<InfoOutlinedIcon fontSize="small" />}
-            to="/system-information"
-            text="System Information"
-          />
+          <SystemInformation />
           <SidebarItem
             key="documentation"
             icon={<SupportOutlinedIcon fontSize="small" />}

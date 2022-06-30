@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import { Outlet } from 'react-router-dom'
 
-import { Sidebar } from '../../components/Sidebar'
+import { Sidebar } from '../../components/Sidebar/Sidebar'
 import { AppHeader } from '../../components/AppHeader'
 import { SIDEBAR_WIDTH } from '../../constants'
 

@@ -8087,6 +8087,13 @@ export type WriteError = {
   errorMsg?: Maybe<Scalars['String']>;
 };
 
+export type SystemInformationQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+}>;
+
+
+export type SystemInformationQuery = { __typename?: 'Query', systemInformation: { __typename?: 'SystemInformation', apiVersion: string, mongoVersion: { __typename?: 'DatabaseInformation', version: string }, plugins?: Array<{ __typename?: 'Plugin', name: string, version?: string | null } | null> | null } };
+
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -8141,6 +8148,34 @@ export const UserFieldsFragmentDoc = `
   username
 }
     `;
+export const SystemInformationDocument = `
+    query systemInformation($shopId: ID!) {
+  systemInformation(shopId: $shopId) {
+    apiVersion
+    mongoVersion {
+      version
+    }
+    plugins {
+      name
+      version
+    }
+  }
+}
+    `;
+export const useSystemInformationQuery = <
+      TData = SystemInformationQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: SystemInformationQueryVariables,
+      options?: UseQueryOptions<SystemInformationQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<SystemInformationQuery, TError, TData>(
+      ['systemInformation', variables],
+      fetcher<SystemInformationQuery, SystemInformationQueryVariables>(client, SystemInformationDocument, variables, headers),
+      options
+    );
 export const GetViewerDocument = `
     query getViewer {
   viewer {
