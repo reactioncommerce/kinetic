@@ -7,7 +7,7 @@ declare module "@mui/material/styles" {
   }
 
   interface Palette {
-    background: TypeBackground;
+    background: TypeBackground
   }
 }
 
