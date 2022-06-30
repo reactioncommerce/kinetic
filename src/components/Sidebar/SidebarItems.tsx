@@ -16,7 +16,11 @@ import SupportOutlinedIcon from "@mui/icons-material/SupportOutlined";
 import { SidebarItem } from "./SidebarItem";
 import { ProfileToolbar } from "./ProfileToolbar";
 
-const ITEMS = [
+type ItemProps = SidebarItemProps & {
+  subItems?: ItemProps[]
+}
+
+const ITEMS: SidebarItemProps[] = [
   {
     text: "Dashboard",
     link: "/",
@@ -29,7 +33,7 @@ const ITEMS = [
   }
 ];
 
-const CORE_FEATURES = [
+const CORE_FEATURES: ItemProps[] = [
   {
     text: "Products",
     link: "/products",
