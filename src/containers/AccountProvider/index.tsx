@@ -11,21 +11,15 @@ import type { APIErrorResponse } from "types/common";
 
 type AccountContextValue = {
   account: GetViewerQuery["viewer"] | null;
-
   setAccessToken: (token: string) => void;
-
   removeAccessToken: () => void;
-
   refetchAccount: () => void;
 };
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
-
   setAccessToken: noop,
-
   removeAccessToken: noop,
-
   refetchAccount: noop
 });
 
@@ -88,11 +82,8 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     <AccountContext.Provider
       value={{
         account: data?.viewer ?? null,
-
         setAccessToken,
-
         removeAccessToken,
-
         refetchAccount: refetch
       }}
     >
