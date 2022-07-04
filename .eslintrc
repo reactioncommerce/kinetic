@@ -5,7 +5,12 @@
   },
   "extends": [
     "react-app",
-    "prettier"
+    "react-app/jest",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:promise/recommended",
+    "plugin:you-dont-need-lodash-underscore/compatible"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -17,8 +22,11 @@
   },
   "plugins": [
     "prettier",
-    "react",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "jsx-a11y",
+    "promise",
+    "import",
+    "you-dont-need-lodash-underscore"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
