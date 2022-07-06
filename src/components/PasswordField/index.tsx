@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useState } from "react";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import { TextField, TextFieldProps } from '@components/TextField';
+import { TextField, TextFieldProps } from "@components/TextField";
 
 type PasswordFieldProps = TextFieldProps;
 
@@ -13,7 +13,7 @@ export const PasswordField = (props: PasswordFieldProps) => {
 
   return (
     <TextField
-      type={showPassword ? 'text' : 'password'}
+      type={showPassword ? "text" : "password"}
       autoComplete="current-password"
       endAdornment={
         <InputAdornment position="end">

@@ -1,8 +1,8 @@
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import { NavLink, useMatch, useResolvedPath } from 'react-router-dom'
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
 
 type SidebarItemProps = {
   to: string
@@ -11,8 +11,8 @@ type SidebarItemProps = {
 }
 
 export const SidebarItem = ({ to, text, icon }: SidebarItemProps) => {
-  const resolvedPath = useResolvedPath(to)
-  const match = useMatch({ path: resolvedPath.pathname, end: true })
+  const resolvedPath = useResolvedPath(to);
+  const match = useMatch({ path: resolvedPath.pathname, end: true });
 
   return (
     <ListItem disablePadding>
@@ -21,5 +21,5 @@ export const SidebarItem = ({ to, text, icon }: SidebarItemProps) => {
         <ListItemText primary={text} />
       </ListItemButton>
     </ListItem>
-  )
-}
+  );
+};

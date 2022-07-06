@@ -1,31 +1,6 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "react-app",
-    "prettier"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
-  "plugins": [
-    "prettier",
-    "react",
-    "@typescript-eslint"
-  ],
+  "extends": "@reactioncommerce/eslint-config/browser-react-ts",
   "rules": {
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-key": "error",
-    "import/first": "error",
-    "import/no-mutable-exports": "error",
-    "import/no-duplicates": "error",
     "import/order": [
       1,
       {
@@ -65,30 +40,6 @@
           "index"
         ],
         "newlines-between": "always"
-      }
-    ],
-    "prettier/prettier": [
-      "error"
-    ],
-    "arrow-parens": [
-      "error",
-      "as-needed"
-    ],
-    "no-console": "warn",
-    "no-debugger": "error",
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "vars": "all",
-        "args": "after-used",
-        "ignoreRestSiblings": true
-      }
-    ],
-    "prefer-const": [
-      "error",
-      {
-        "destructuring": "all"
       }
     ]
   }

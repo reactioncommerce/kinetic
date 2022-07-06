@@ -1,67 +1,67 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import { Field, Form, Formik, FormikConfig } from 'formik'
-import LoadingButton from '@mui/lab/LoadingButton'
-import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import { Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
-import Alert from '@mui/material/Alert'
-import * as Yup from 'yup'
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { Field, Form, Formik, FormikConfig } from "formik";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import { Link as RouterLink, useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import Alert from "@mui/material/Alert";
+import * as Yup from "yup";
 
-import { TextField } from '@components/TextField'
-import { client } from '../../graphql/graphql-request-client'
-import type { Error, GraphQLErrorResponse } from '../../types/common'
-import { useResetPasswordMutation } from '../../graphql/generates'
-import { hashPassword } from '@utils/hashPassword'
-import { FullHeightLayout } from '@containers/Layouts'
-import { AppLogo } from '@components/AppLogo'
+import { TextField } from "@components/TextField";
+import { client } from "../../graphql/graphql-request-client";
+import type { Error, GraphQLErrorResponse } from "../../types/common";
+import { useResetPasswordMutation } from "../../graphql/generates";
+import { hashPassword } from "@utils/hashPassword";
+import { FullHeightLayout } from "@containers/Layouts";
+import { AppLogo } from "@components/AppLogo";
 
 const PasswordResetSchema = Yup.object().shape({
-  newPassword: Yup.string().required('This field is required'),
+  newPassword: Yup.string().required("This field is required"),
   confirmPassword: Yup.string().oneOf(
-    [Yup.ref('newPassword'), null],
-    'Password confirmation does not match. Re-enter your password.'
-  ),
-})
+    [Yup.ref("newPassword"), null],
+    "Password confirmation does not match. Re-enter your password."
+  )
+});
 
 const normalizeErrorMessage = (errors: Error[]) => {
-  const error = errors.length ? errors[0] : null
-  if (error?.extensions.exception.code === 'InvalidToken') {
-    return 'Reset token has expired.'
+  const error = errors.length ? errors[0] : null;
+  if (error?.extensions.exception.code === "InvalidToken") {
+    return "Reset token has expired.";
   }
-  return error?.message
-}
+  return error?.message;
+};
 
 const NewPassword = () => {
-  const { mutate } = useResetPasswordMutation(client)
-  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>()
+  const { mutate } = useResetPasswordMutation(client);
+  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
 
-  const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const handleSubmit: FormikConfig<{ newPassword: string; confirmPassword: string }>['onSubmit'] = (
+  const handleSubmit: FormikConfig<{ newPassword: string; confirmPassword: string }>["onSubmit"] = (
     values,
     { setSubmitting }
   ) => {
     mutate(
       {
         newPassword: hashPassword(values.newPassword),
-        token: searchParams.get('resetToken') || '',
+        token: searchParams.get("resetToken") || ""
       },
       {
         onSettled: () => setSubmitting(false),
-        onError: error => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
+        onError: (error) => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
         onSuccess: () => {
-          navigate('/login', { state: { showResetPasswordSuccessMsg: true } })
-        },
+          navigate("/login", { state: { showResetPasswordSuccessMsg: true } });
+        }
       }
-    )
-  }
+    );
+  };
 
   return (
     <FullHeightLayout>
-      <AppLogo theme="dark" sx={{ mb: '50px' }} />
+      <AppLogo theme="dark" sx={{ mb: "50px" }} />
       <Typography component="h1" variant="h4" fontWeight={600} gutterBottom>
         Reset Password
       </Typography>
@@ -72,12 +72,12 @@ const NewPassword = () => {
         onSubmit={handleSubmit}
         validationSchema={PasswordResetSchema}
         initialValues={{
-          newPassword: '',
-          confirmPassword: '',
+          newPassword: "",
+          confirmPassword: ""
         }}
       >
         {({ isSubmitting }) => (
-          <Box component={Form} sx={{ mt: 1, width: '50%' }}>
+          <Box component={Form} sx={{ mt: 1, width: "50%" }}>
             <Field
               component={TextField}
               margin="normal"
@@ -101,7 +101,7 @@ const NewPassword = () => {
             {submitErrorMessage && (
               <Alert
                 severity="error"
-                sx={{ '.MuiAlert-action': { alignItems: 'center' } }}
+                sx={{ ".MuiAlert-action": { alignItems: "center" } }}
                 action={
                   <Link component={RouterLink} to="/password-reset/new" variant="body2" color="inherit">
                     Send another link
@@ -126,7 +126,7 @@ const NewPassword = () => {
         )}
       </Formik>
     </FullHeightLayout>
-  )
-}
+  );
+};
 
-export default NewPassword
+export default NewPassword;

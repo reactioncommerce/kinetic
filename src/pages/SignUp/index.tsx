@@ -1,65 +1,65 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import { Field, Form, Formik, FormikConfig } from 'formik'
-import Alert from '@mui/material/Alert'
-import LoadingButton from '@mui/lab/LoadingButton'
-import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { Field, Form, Formik, FormikConfig } from "formik";
+import Alert from "@mui/material/Alert";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-import { TextField } from '@components/TextField'
-import { UserSchema } from '@utils/validate'
-import { client } from '../../graphql/graphql-request-client'
-import { hashPassword } from '@utils/hashPassword'
-import type { GraphQLErrorResponse, Error } from '../../types/common'
-import { useAccount } from '@containers/AccountProvider'
-import { useCreateUserMutation } from '../../graphql/generates'
-import { AppLogo } from '@components/AppLogo'
-import { PasswordField } from '@components/PasswordField'
-import { FullHeightLayout } from '@containers/Layouts'
+import { TextField } from "@components/TextField";
+import { UserSchema } from "@utils/validate";
+import { client } from "../../graphql/graphql-request-client";
+import { hashPassword } from "@utils/hashPassword";
+import type { GraphQLErrorResponse, Error } from "../../types/common";
+import { useAccount } from "@containers/AccountProvider";
+import { useCreateUserMutation } from "../../graphql/generates";
+import { AppLogo } from "@components/AppLogo";
+import { PasswordField } from "@components/PasswordField";
+import { FullHeightLayout } from "@containers/Layouts";
 
 const normalizeErrorMessage = (errors: Error[]) => {
-  const error = errors.length ? errors[0] : null
+  const error = errors.length ? errors[0] : null;
 
-  if (error?.extensions.exception.code === 'EmailAlreadyExists') {
-    return 'This email already exists. Try another.'
+  if (error?.extensions.exception.code === "EmailAlreadyExists") {
+    return "This email already exists. Try another.";
   }
 
-  return error?.message
-}
+  return error?.message;
+};
 
 const SignUp = () => {
-  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>()
-  const { mutate } = useCreateUserMutation(client)
-  const { setAccessToken } = useAccount()
-  const navigate = useNavigate()
+  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
+  const { mutate } = useCreateUserMutation(client);
+  const { setAccessToken } = useAccount();
+  const navigate = useNavigate();
 
-  const handleSubmit: FormikConfig<{ email: string; password: string }>['onSubmit'] = (values, { setSubmitting }) => {
+  const handleSubmit: FormikConfig<{ email: string; password: string }>["onSubmit"] = (values, { setSubmitting }) => {
     mutate(
       {
         user: {
           email: values.email,
-          password: hashPassword(values.password),
-        },
+          password: hashPassword(values.password)
+        }
       },
       {
         onSettled: () => setSubmitting(false),
-        onError: error => {
-          setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors))
+        onError: (error) => {
+          setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors));
         },
-        onSuccess: data => {
-          const accessToken = data.createUser?.loginResult?.tokens?.accessToken
-          accessToken && setAccessToken(accessToken)
-          navigate('/new-shop')
-        },
+        onSuccess: (data) => {
+          const accessToken = data.createUser?.loginResult?.tokens?.accessToken;
+          accessToken && setAccessToken(accessToken);
+          navigate("/new-shop");
+        }
       }
-    )
-  }
+    );
+  };
 
   return (
     <FullHeightLayout>
-      <AppLogo theme="dark" sx={{ mb: '50px' }} />
+      <AppLogo theme="dark" sx={{ mb: "50px" }} />
       <Typography component="h1" variant="h4" fontWeight={600} gutterBottom>
         Create an account
       </Typography>
@@ -70,8 +70,8 @@ const SignUp = () => {
         onSubmit={handleSubmit}
         validationSchema={UserSchema}
         initialValues={{
-          email: '',
-          password: '',
+          email: "",
+          password: ""
         }}
       >
         {({ isSubmitting }) => (
@@ -101,7 +101,7 @@ const SignUp = () => {
         )}
       </Formik>
     </FullHeightLayout>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
