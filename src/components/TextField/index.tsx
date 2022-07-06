@@ -34,7 +34,7 @@ export const TextField = ({
   const fieldId = useRef(uniqueid("text-field")).current;
   const helperTextId = useRef(uniqueid("helper-text")).current;
 
-  const _onBlur = onBlur ?? ((e) => fieldOnBlur(e ?? restFieldProps.name));
+  const _onBlur = onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
 
   return (
     <FormControl

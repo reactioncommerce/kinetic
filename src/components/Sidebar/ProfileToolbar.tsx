@@ -33,9 +33,6 @@ export const ProfileToolbar = () => {
     setAnchorEl(null);
   };
 
-  const handleSwitchShop = (shopId: string) => {
-    setShopId(shopId);
-  };
 
   const handleSignOut = () => {
     removeAccessToken();
@@ -116,7 +113,7 @@ export const ProfileToolbar = () => {
       >
         {showShopList
           ? account?.adminUIShops?.map((shop) => (
-            <MenuItem key={shop?._id} onClick={() => handleSwitchShop(shop!._id)}>
+            <MenuItem key={shop?._id} onClick={() => setShopId(shop?._id)}>
               {shop?._id === shopId ? (
                 <ListItemIcon>
                   <Check />

@@ -1,12 +1,12 @@
 import { createTheme } from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
-  interface Palette {
-    background: TypeBackground;
-  }
-
   interface TypeBackground {
     dark: string;
+  }
+
+  interface Palette {
+    background: TypeBackground;
   }
 }
 
