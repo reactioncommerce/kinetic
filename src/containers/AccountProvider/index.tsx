@@ -1,32 +1,25 @@
-import CircularProgress from '@mui/material/CircularProgress';
-import Backdrop from '@mui/material/Backdrop';
-import { createContext, useContext, useEffect } from 'react';
-import { useLocalStorage } from 'react-use';
-import get from 'lodash/get';
-import noop from 'lodash/noop';
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
+import { createContext, useContext, useEffect } from "react";
+import { useLocalStorage } from "react-use";
+import noop from "lodash/noop";
 
-import { client } from '../../graphql/graphql-request-client';
-import { APIErrorResponse } from '../../types/common';
-import { useShop } from '@containers/ShopProvider';
-import { GetViewerQuery, useGetViewerQuery } from '../../graphql/generates';
+import { client } from "@graphql/graphql-request-client";
+import { useShop } from "@containers/ShopProvider";
+import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
+import type { APIErrorResponse } from "types/common";
 
 type AccountContextValue = {
-  account: GetViewerQuery['viewer'] | null;
-
+  account: GetViewerQuery["viewer"] | null;
   setAccessToken: (token: string) => void;
-
   removeAccessToken: () => void;
-
   refetchAccount: () => void;
 };
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
-
   setAccessToken: noop,
-
   removeAccessToken: noop,
-
   refetchAccount: noop
 });
 
@@ -34,7 +27,7 @@ export const useAccount = () => {
   const context = useContext(AccountContext);
 
   if (!context) {
-    throw new Error('useAccount must be used within a AccountProvider');
+    throw new Error("useAccount must be used within a AccountProvider");
   }
 
   return context;
@@ -46,10 +39,10 @@ type AccountProviderProps = {
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
   const [accessToken, setAccessToken, removeAccessToken] =
-    useLocalStorage<string>('accounts:accessToken');
+    useLocalStorage<string>("accounts:accessToken");
 
   if (accessToken) {
-    client.setHeader('Authorization', `Bearer ${accessToken}`);
+    client.setHeader("Authorization", `Bearer ${accessToken}`);
   } else {
     client.setHeaders({});
   }
@@ -65,8 +58,8 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
       if (unauthorized) removeAccessToken();
     },
 
-    onSuccess: (data) => {
-      !shopId && setShopId(get(data, 'viewer.adminUIShops[0]._id'));
+    onSuccess: (response) => {
+      !shopId && setShopId(response.viewer?.adminUIShops?.[0]?._id);
     }
   });
 
@@ -76,7 +69,10 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   if (isLoading) {
     return (
-      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
     );
@@ -86,13 +82,11 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     <AccountContext.Provider
       value={{
         account: data?.viewer ?? null,
-
         setAccessToken,
-
         removeAccessToken,
-
         refetchAccount: refetch
-      }}>
+      }}
+    >
       {children}
     </AccountContext.Provider>
   );

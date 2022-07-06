@@ -1,6 +1,6 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import { useShop } from '@containers/ShopProvider';
+import { useShop } from "@containers/ShopProvider";
 
 export const RequireShopRoute = () => {
   const { shopId } = useShop();
