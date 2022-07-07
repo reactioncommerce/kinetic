@@ -170,7 +170,7 @@ export const SidebarItems = () => {
                 onClick={
                   item.subItems &&
                   (() =>
-                    setActiveMenuItem({ items: item.subItems, title: item.text, icon: <KeyboardArrowLeftIcon /> }))
+                    setActiveMenuItem({ items: item.subItems ?? [], title: item.text, icon: <KeyboardArrowLeftIcon /> }))
                 }
                 {...item}
               />

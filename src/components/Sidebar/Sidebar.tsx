@@ -10,7 +10,6 @@ type SidebarProps = {
   handleDrawerToggle: () => void
 }
 
-
 const sharedStyles = {
   boxSizing: "border-box",
   width: SIDEBAR_WIDTH,
@@ -18,7 +17,6 @@ const sharedStyles = {
   color: "white",
   padding: "20px 0"
 };
-
 
 export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => (
   <Box component="nav" sx={{ width: { sm: SIDEBAR_WIDTH }, flexShrink: { sm: 0 } }}>
@@ -48,3 +46,5 @@ export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => (
     </Drawer>
   </Box>
 );
+
+
