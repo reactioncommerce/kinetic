@@ -10,11 +10,11 @@ import { useState } from "react";
 
 import { TextField } from "@components/TextField";
 import { UserSchema } from "@utils/validate";
-import { client } from "../../graphql/graphql-request-client";
+import { client } from "@graphql/graphql-request-client";
 import { hashPassword } from "@utils/hashPassword";
-import type { GraphQLErrorResponse, Error } from "../../types/common";
+import type { GraphQLErrorResponse, Error } from "types/common";
 import { useAccount } from "@containers/AccountProvider";
-import { useCreateUserMutation } from "../../graphql/generates";
+import { useCreateUserMutation } from "@graphql/generates";
 import { AppLogo } from "@components/AppLogo";
 import { PasswordField } from "@components/PasswordField";
 import { FullHeightLayout } from "@containers/Layouts";

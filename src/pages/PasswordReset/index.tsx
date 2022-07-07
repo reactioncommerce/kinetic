@@ -10,9 +10,9 @@ import Alert from "@mui/material/Alert";
 import * as Yup from "yup";
 
 import { TextField } from "@components/TextField";
-import { client } from "../../graphql/graphql-request-client";
-import type { Error, GraphQLErrorResponse } from "../../types/common";
-import { useSendResetPasswordEmailMutation } from "../../graphql/generates";
+import { client } from "@graphql/graphql-request-client";
+import type { Error, GraphQLErrorResponse } from "types/common";
+import { useSendResetPasswordEmailMutation } from "@graphql/generates";
 import { FullHeightLayout } from "@containers/Layouts";
 import { AppLogo } from "@components/AppLogo";
 
