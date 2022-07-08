@@ -65,9 +65,9 @@ const CreateShop = () => {
   };
 
   return (
-    <FullHeightLayout>
+    <FullHeightLayout maxWidth="xs">
       <AppLogo theme="dark" sx={{ mb: "50px" }} />
-      <Typography component="h1" variant="h4" fontWeight={600} gutterBottom>
+      <Typography component="h1" variant="h4" gutterBottom>
         Set up you shop
       </Typography>
       <Typography variant="body1" gutterBottom color="grey.700">
@@ -81,12 +81,12 @@ const CreateShop = () => {
         }}
       >
         {({ isSubmitting }) => (
-          <Box component={Form} sx={{ mt: 1, width: "50%" }}>
+          <Box component={Form} sx={{ mt: 1, width: "100%" }}>
             <Field component={TextField} label="Shop Name" name="name" placeholder="Enter shop name" />
 
             {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
 
-            <LoadingButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
+            <LoadingButton fullWidth variant="contained" size="large" sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
               Create
             </LoadingButton>
             {!shopId ? (
