@@ -1,8 +1,9 @@
-import InputLabel from "@mui/material/InputLabel";
 import FormControl, { FormControlProps } from "@mui/material/FormControl";
 import { FieldProps, getIn } from "formik";
 import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
+import FormLabel from "@mui/material/FormLabel";
+import Collapse from "@mui/material/Collapse";
 import uniqueid from "lodash/uniqueid";
 import { useRef } from "react";
 
@@ -46,20 +47,19 @@ export const TextField = ({
       disabled={props.disabled ?? isSubmitting}
       variant="standard"
     >
-      <InputLabel sx={{ color: "grey.900", fontSize: "1.25rem" }} shrink htmlFor={fieldId}>
+      <FormLabel htmlFor={fieldId}>
         {label}
-      </InputLabel>
+      </FormLabel>
       <OutlinedInput
-        sx={{
-          "label + &": { marginTop: "25px" }
-        }}
         id={fieldId}
         onBlur={_onBlur}
         aria-describedby={helperTextId}
         {...props}
         {...restFieldProps}
       />
-      {helperText && <FormHelperText id={helperTextId}>{helperText}</FormHelperText>}
+      <Collapse in={!!helperText}>
+        {helperText && <FormHelperText id={helperTextId}>{helperText}</FormHelperText>}
+      </Collapse>
     </FormControl>
   );
 };

@@ -7,6 +7,7 @@ import Link from "@mui/material/Link";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
+import Chip from "@mui/material/Chip";
 
 import { TextField } from "@components/TextField";
 import { hashPassword } from "@utils/hashPassword";
@@ -63,7 +64,7 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" sx={{ display: "flex" }} maxWidth={false} disableGutters={true}>
+    <Container component="main" sx={{ display: "flex" }} maxWidth={false} disableGutters>
       <Box
         sx={{
           width: "50%",
@@ -78,36 +79,25 @@ const Login = () => {
       >
         <AppLogo theme="light" />
         <Box sx={{ display: "flex", gap: "20px", flexDirection: "column" }}>
-          <Box
-            sx={{
-              backgroundColor: "primary.main",
-              borderRadius: "6px",
-              padding: "5px",
-              textTransform: "uppercase",
-              width: "150px",
-              fontSize: "13px",
-              fontWeight: 500,
-              textAlign: "center"
-            }}
-          >
-            New & Improved
-          </Box>
-          <Typography variant="h3" component="div" fontWeight="bold">
+          <Chip label="New & Improved" variant="filled" color="primary" sx={{ width: "fit-content", textTransform: "uppercase" }}/>
+
+          <Typography variant="h2" component="div" fontWeight="bold">
             Meet Kinetic.
           </Typography>
-          <Typography variant="body1">
+          <Typography variant="body1" fontWeight={500} lineHeight={1.75}>
             A new operator experience redesigned from the ground up to power the modern commerce operations of ambitious
             digital teams.
           </Typography>
         </Box>
-        <Typography variant="caption" display="block" color="grey.400">
+        <Typography variant="caption" fontWeight={500} display="block" color="grey.400">
           {`© ${new Date().getFullYear()} Open Commerce. All rights reserved.`}
         </Typography>
         {locationState?.showResetPasswordSuccessMsg && (
           <Alert severity="success">Your password was reset. You can log in using your new password.</Alert>
         )}
       </Box>
-      <Box
+      <Container
+        maxWidth="xs"
         sx={{
           display: "flex",
           minHeight: "100vh",
@@ -117,12 +107,12 @@ const Login = () => {
           width: "50%"
         }}
       >
-        <Typography component="h1" variant="h4" fontWeight={600} gutterBottom>
+        <Typography component="h1" variant="h4" gutterBottom>
           Log in to your shop
         </Typography>
-        <Typography variant="body2" gutterBottom color="grey.700">
+        <Typography variant="body1" gutterBottom color="grey.700">
           Don't have a shop?{" "}
-          <Link component={RouterLink} to="/signup" variant="subtitle2" underline="none">
+          <Link component={RouterLink} to="/signup" fontWeight={600} variant="subtitle2" underline="none">
             Create your first shop
           </Link>
         </Typography>
@@ -139,10 +129,10 @@ const Login = () => {
               component={Form}
               sx={{
                 mt: 1,
-                width: "50%",
+                width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                gap: 3
+                gap: 1
               }}
             >
               <Field
@@ -153,15 +143,6 @@ const Login = () => {
                 autoComplete="email"
               />
               <Box sx={{ position: "relative" }}>
-                <Link
-                  component={RouterLink}
-                  to="/password-reset/new"
-                  variant="subtitle2"
-                  underline="none"
-                  sx={{ position: "absolute", top: 0, right: 0, zIndex: 1 }}
-                >
-                  Forgot password?
-                </Link>
                 <Field
                   component={PasswordField}
                   name="password"
@@ -169,17 +150,33 @@ const Login = () => {
                   placeholder="Enter your password"
                   margin="none"
                 />
+                <Link
+                  component={RouterLink}
+                  to="/password-reset/new"
+                  variant="subtitle2"
+                  underline="none"
+                  sx={{ position: "absolute", top: 0, right: 0, zIndex: 1, fontWeight: 600 }}
+                >
+                  Forgot password?
+                </Link>
+
               </Box>
 
               {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
 
-              <LoadingButton fullWidth variant="contained" type="submit" loading={isSubmitting}>
-                Sign In
+              <LoadingButton
+                fullWidth
+                variant="contained"
+                type="submit"
+                loading={isSubmitting}
+                size="large"
+                sx={{ mt: 3 }}>
+                  Sign In
               </LoadingButton>
             </Box>
           )}
         </Formik>
-      </Box>
+      </Container>
     </Container>
   );
 };

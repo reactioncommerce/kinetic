@@ -1,6 +1,4 @@
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
 import { SxProps } from "@mui/material/styles";
 
 type AppLogoProps = {
@@ -9,14 +7,9 @@ type AppLogoProps = {
 };
 
 export const AppLogo = ({ theme, sx }: AppLogoProps) => (
-  <Box sx={{ display: "flex", alignItems: "center", gap: "10px", ...sx }}>
-    {theme === "light" ? (
-      <Avatar alt="Kinetic Logo" src="/src/white-logo.svg" />
-    ) : (
-      <Avatar alt="Kinetic Logo" src="/src/logo.svg" />
-    )}
-    <Typography component="h1" variant="h5" fontWeight={500}>
-        Open Commerce
-    </Typography>
-  </Box>
+  <Box
+    sx={{ width: "fit-content", height: "2.5rem", ...sx }}
+    component="img"
+    src={theme === "light" ? "/src/full-white-logo.svg" : "/src/full-logo.svg" }
+    alt="Kinetic Logo"/>
 );
