@@ -72,7 +72,6 @@ const Login = () => {
           backgroundColor: "background.dark",
           padding: "60px 80px",
           display: "flex",
-          minHeight: "100vh",
           flexDirection: "column",
           justifyContent: "space-between",
           color: "white"
