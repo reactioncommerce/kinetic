@@ -1,6 +1,4 @@
-import MuiCheckbox, {
-  CheckboxProps as MuiCheckboxProps
-} from "@mui/material/Checkbox";
+import MuiCheckbox, { CheckboxProps as MuiCheckboxProps } from "@mui/material/Checkbox";
 import { FieldProps } from "formik";
 
 export interface CheckboxProps
@@ -16,7 +14,7 @@ export interface CheckboxProps
       // Excluded for conflict with Field type
       | "type"
     > {
-  type?: string;
+  type?: string
 }
 
 export function fieldToCheckbox({
@@ -39,6 +37,4 @@ export function fieldToCheckbox({
   };
 }
 
-export const Checkbox = (props: CheckboxProps) => (
-  <MuiCheckbox {...fieldToCheckbox(props)} />
-);
+export const Checkbox = (props: CheckboxProps) => <MuiCheckbox {...fieldToCheckbox(props)} />;

@@ -1,12 +1,9 @@
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, FormikConfig } from "formik";
 import Alert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
-import StorefrontIcon from "@mui/icons-material/Storefront";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
@@ -14,10 +11,12 @@ import Link from "@mui/material/Link";
 
 import { TextField } from "@components/TextField";
 import { client } from "@graphql/graphql-request-client";
-import { useCreateShopMutation } from "@graphql/generates";
-import type { GraphQLErrorResponse, Error } from "types/common";
 import { useShop } from "@containers/ShopProvider";
 import { useAccount } from "@containers/AccountProvider";
+import { useCreateShopMutation } from "@graphql/generates";
+import { FullHeightLayout } from "@containers/Layouts";
+import { AppLogo } from "@components/AppLogo";
+import type { GraphQLErrorResponse, Error } from "types/common";
 
 const ShopSchema = Yup.object().shape({
   name: Yup.string().required("This field is required").trim()
@@ -46,81 +45,54 @@ const CreateShop = () => {
     navigate("/login", { replace: true });
   };
 
+  const handleSubmit: FormikConfig<{ name: string }>["onSubmit"] = (values, { setSubmitting }) => {
+    mutate(
+      {
+        input: { name: values.name.trimEnd() }
+      },
+      {
+        onSettled: () => setSubmitting(false),
+        onError: (error) => {
+          setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors));
+        },
+        onSuccess: (data) => {
+          setShopId(data.createShop.shop._id);
+          refetchAccount();
+          navigate("/", { replace: true });
+        }
+      }
+    );
+  };
+
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          mt: 8
-        }}
-      >
-        <Avatar sx={{ margin: 1, bgcolor: "secondary.main" }}>
-          <StorefrontIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Set up your shop
-        </Typography>
-      </Box>
+    <FullHeightLayout maxWidth="xs">
+      <AppLogo theme="dark" sx={{ mb: "50px" }} />
+      <Typography component="h1" variant="h4" gutterBottom>
+        Set up you shop
+      </Typography>
+      <Typography variant="body1" gutterBottom color="grey.700">
+        Don't worry, you can always change this later.
+      </Typography>
       <Formik
-        onSubmit={(values, { setSubmitting }) => {
-          mutate(
-            {
-              input: { name: values.name.trimEnd() }
-            },
-            {
-              onSettled: () => setSubmitting(false),
-              onError: (error) => {
-                setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors));
-              },
-              onSuccess: (data) => {
-                setShopId(data.createShop.shop._id);
-                refetchAccount();
-                navigate("/", { replace: true });
-              }
-            }
-          );
-        }}
+        onSubmit={handleSubmit}
         validationSchema={ShopSchema}
         initialValues={{
           name: ""
         }}
       >
         {({ isSubmitting }) => (
-          <Box component={Form} sx={{ mt: 1 }}>
-            <Field
-              component={TextField}
-              margin="normal"
-              required
-              fullWidth
-              id="name"
-              label="Shop Name"
-              name="name"
-              autoComplete="email"
-            />
+          <Box component={Form} sx={{ mt: 1, width: "100%" }}>
+            <Field component={TextField} label="Shop Name" name="name" placeholder="Enter shop name" />
 
-            {submitErrorMessage && (
-              <Alert severity="error">{submitErrorMessage}</Alert>
-            )}
+            {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
 
-            <LoadingButton
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              type="submit"
-              loading={isSubmitting}
-            >
+            <LoadingButton fullWidth variant="contained" size="large" sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
               Create
             </LoadingButton>
             {!shopId ? (
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link
-                    component="button"
-                    onClick={handleClickSignIn}
-                    variant="body2"
-                  >
+                  <Link component="button" onClick={handleClickSignIn} variant="body2" underline="none">
                     Sign in to another account
                   </Link>
                 </Grid>
@@ -129,7 +101,7 @@ const CreateShop = () => {
           </Box>
         )}
       </Formik>
-    </Container>
+    </FullHeightLayout>
   );
 };
 

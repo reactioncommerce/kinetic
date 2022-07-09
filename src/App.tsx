@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
 import { AccountProvider } from "@containers/AccountProvider";
-import Layout from "@containers/Layout";
+import { AppLayout } from "@containers/Layouts";
 import { ShopProvider } from "@containers/ShopProvider";
 
 import Dashboard from "./pages/Dashboard";
@@ -29,7 +29,7 @@ function App() {
             <Route element={<RequireAuthRoute />}>
               <Route path="/new-shop" element={<CreateShop />} />
               <Route element={<RequireShopRoute />}>
-                <Route path="/" element={<Layout />}>
+                <Route path="/" element={<AppLayout />}>
                   <Route index element={<Dashboard />} />
                   <Route path="*" element={<NotFound />} />
                 </Route>

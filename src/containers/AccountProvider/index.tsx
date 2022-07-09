@@ -10,11 +10,11 @@ import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
 import type { APIErrorResponse } from "types/common";
 
 type AccountContextValue = {
-  account: GetViewerQuery["viewer"] | null;
-  setAccessToken: (token: string) => void;
-  removeAccessToken: () => void;
-  refetchAccount: () => void;
-};
+  account: GetViewerQuery["viewer"] | null
+  setAccessToken: (token: string) => void
+  removeAccessToken: () => void
+  refetchAccount: () => void
+}
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
@@ -34,12 +34,11 @@ export const useAccount = () => {
 };
 
 type AccountProviderProps = {
-  children: JSX.Element;
-};
+  children: JSX.Element
+}
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
-  const [accessToken, setAccessToken, removeAccessToken] =
-    useLocalStorage<string>("accounts:accessToken");
+  const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage<string>("accounts:accessToken");
 
   if (accessToken) {
     client.setHeader("Authorization", `Bearer ${accessToken}`);
@@ -69,10 +68,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   if (isLoading) {
     return (
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open
-      >
+      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
         <CircularProgress color="inherit" />
       </Backdrop>
     );

@@ -1,15 +1,13 @@
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, FormikConfig } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
+import Chip from "@mui/material/Chip";
 
 import { TextField } from "@components/TextField";
 import { hashPassword } from "@utils/hashPassword";
@@ -17,7 +15,9 @@ import { useAccount } from "@containers/AccountProvider";
 import { client } from "@graphql/graphql-request-client";
 import type { Error, GraphQLErrorResponse } from "types/common";
 import { UserSchema } from "@utils/validate";
+import { PasswordField } from "@components/PasswordField";
 import { useAuthenticateMutation } from "@graphql/generates";
+import { AppLogo } from "@components/AppLogo";
 
 const normalizeErrorMessage = (errors: Error[]) => {
   const error = errors.length ? errors[0] : null;
@@ -33,9 +33,9 @@ const normalizeErrorMessage = (errors: Error[]) => {
 };
 
 type LocationState = {
-  from?: Location;
-  showResetPasswordSuccessMsg?: boolean;
-};
+  from?: Location
+  showResetPasswordSuccessMsg?: boolean
+}
 
 const Login = () => {
   const { mutate } = useAuthenticateMutation(client);
@@ -46,111 +46,137 @@ const Login = () => {
   const locationState = location.state as LocationState | null;
   const from = locationState?.from?.pathname || "/";
 
+  const handleSubmit: FormikConfig<{ email: string; password: string }>["onSubmit"] = (values, { setSubmitting }) => {
+    mutate(
+      {
+        serviceName: "password",
+        params: { user: { email: values.email }, password: hashPassword(values.password) }
+      },
+      {
+        onSettled: () => setSubmitting(false),
+        onError: (error) => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
+        onSuccess: (data) => {
+          data.authenticate?.tokens?.accessToken && setAccessToken(data.authenticate.tokens.accessToken);
+          navigate(from, { replace: true });
+        }
+      }
+    );
+  };
+
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" sx={{ display: "flex" }} maxWidth={false} disableGutters>
       <Box
         sx={{
+          width: "50%",
+          minHeight: "100vh",
+          backgroundColor: "background.dark",
+          padding: "60px 80px",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          mt: 8
+          justifyContent: "space-between",
+          color: "white"
         }}
       >
-        <Avatar sx={{ margin: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login to your shop
+        <AppLogo theme="light" />
+        <Box sx={{ display: "flex", gap: "20px", flexDirection: "column" }}>
+          <Chip label="New & Improved" variant="filled" color="primary" sx={{ width: "fit-content", textTransform: "uppercase" }}/>
+
+          <Typography variant="h2" component="div" fontWeight="bold">
+            Meet Kinetic.
+          </Typography>
+          <Typography variant="body1" fontWeight={500} lineHeight={1.75}>
+            A new operator experience redesigned from the ground up to power the modern commerce operations of ambitious
+            digital teams.
+          </Typography>
+        </Box>
+        <Typography variant="caption" fontWeight={500} display="block" color="grey.400">
+          {`© ${new Date().getFullYear()} Open Commerce. All rights reserved.`}
         </Typography>
         {locationState?.showResetPasswordSuccessMsg && (
-          <Alert severity="success">
-            Your password was reset. You can log in using your new password.
-          </Alert>
+          <Alert severity="success">Your password was reset. You can log in using your new password.</Alert>
         )}
       </Box>
-      <Formik
-        onSubmit={(values, { setSubmitting }) => {
-          mutate(
-            {
-              serviceName: "password",
-              params: {
-                user: { email: values.email },
-                password: hashPassword(values.password)
-              }
-            },
-            {
-              onSettled: () => setSubmitting(false),
-              onError: (error) =>
-                setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
-              onSuccess: (data) => {
-                data.authenticate?.tokens?.accessToken &&
-                  setAccessToken(data.authenticate.tokens.accessToken);
-                navigate(from, { replace: true });
-              }
-            }
-          );
-        }}
-        validationSchema={UserSchema}
-        initialValues={{
-          email: "",
-          password: ""
+      <Container
+        maxWidth="xs"
+        sx={{
+          display: "flex",
+          minHeight: "100vh",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "50%"
         }}
       >
-        {({ isSubmitting }) => (
-          <Box component={Form} sx={{ mt: 1 }}>
-            <Field
-              component={TextField}
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-            />
-            <Field
-              component={TextField}
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            {submitErrorMessage && (
-              <Alert severity="error">{submitErrorMessage}</Alert>
-            )}
-
-            <LoadingButton
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              type="submit"
-              loading={isSubmitting}
+        <Typography component="h1" variant="h4" gutterBottom>
+          Log in to your shop
+        </Typography>
+        <Typography variant="body1" gutterBottom color="grey.700">
+          Don't have a shop?{" "}
+          <Link component={RouterLink} to="/signup" fontWeight={600} variant="subtitle2" underline="none">
+            Create your first shop
+          </Link>
+        </Typography>
+        <Formik
+          onSubmit={handleSubmit}
+          validationSchema={UserSchema}
+          initialValues={{
+            email: "",
+            password: ""
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Box
+              component={Form}
+              sx={{
+                mt: 1,
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: 1
+              }}
             >
-              Sign In
-            </LoadingButton>
-            <Grid container>
-              <Grid item xs>
+              <Field
+                component={TextField}
+                label="Email"
+                placeholder="Enter your email address"
+                name="email"
+                autoComplete="email"
+              />
+              <Box sx={{ position: "relative" }}>
+                <Field
+                  component={PasswordField}
+                  name="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                  margin="none"
+                />
                 <Link
                   component={RouterLink}
                   to="/password-reset/new"
-                  variant="body2"
+                  variant="subtitle2"
+                  underline="none"
+                  sx={{ position: "absolute", top: 0, right: 0, zIndex: 1, fontWeight: 600 }}
                 >
                   Forgot password?
                 </Link>
-              </Grid>
-              <Grid item>
-                <Link component={RouterLink} to="/signup" variant="body2">
-                  Don't have an account? Sign Up
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        )}
-      </Formik>
+
+              </Box>
+
+              {submitErrorMessage && <Alert severity="error">{submitErrorMessage}</Alert>}
+
+              <LoadingButton
+                fullWidth
+                variant="contained"
+                type="submit"
+                loading={isSubmitting}
+                size="large"
+                sx={{ mt: 3 }}>
+                  Sign In
+              </LoadingButton>
+            </Box>
+          )}
+        </Formik>
+      </Container>
     </Container>
   );
 };

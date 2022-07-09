@@ -33,6 +33,7 @@ export const ProfileToolbar = () => {
     setAnchorEl(null);
   };
 
+
   const handleSignOut = () => {
     removeAccessToken();
     setShopId();
@@ -40,13 +41,10 @@ export const ProfileToolbar = () => {
 
   const activeShop = account?.adminUIShops?.find((shop) => shop?._id === shopId);
 
-  const showShopList =
-    account?.adminUIShops?.length && account.adminUIShops.length > 1;
+  const showShopList = account?.adminUIShops?.length && account.adminUIShops.length > 1;
 
   return (
-    <Toolbar
-      sx={{ pl: { xs: "10px" }, pr: { xs: "10px" }, width: SIDEBAR_WIDTH }}
-    >
+    <Toolbar sx={{ pl: { xs: "10px" }, pr: { xs: "10px" }, width: SIDEBAR_WIDTH }}>
       <Button
         onClick={handleClick}
         size="small"
@@ -66,22 +64,10 @@ export const ProfileToolbar = () => {
             maxWidth: "calc(100% - 60px)"
           }}
         >
-          <Typography
-            noWrap
-            fontSize={13}
-            fontWeight={500}
-            color="text.primary"
-            maxWidth="100%"
-          >
+          <Typography noWrap fontSize={13} fontWeight={500} color="text.primary" maxWidth="100%">
             {activeShop?.name || "Shop Name"}
           </Typography>
-          <Typography
-            noWrap
-            fontSize={13}
-            textTransform="lowercase"
-            color="text.primary"
-            maxWidth="100%"
-          >
+          <Typography noWrap fontSize={13} textTransform="lowercase" color="text.primary" maxWidth="100%">
             {account?.name || account?.primaryEmailAddress}
           </Typography>
         </Box>
