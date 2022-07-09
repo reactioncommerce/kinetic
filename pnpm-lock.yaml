@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@emotion/react': ^11.9.0
   '@emotion/styled': ^11.8.1
-  '@fontsource/roboto': ^4.5.7
+  '@fontsource/inter': ^4.5.11
   '@graphql-codegen/cli': 2.6.2
   '@graphql-codegen/near-operation-file-preset': ^2.2.12
   '@graphql-codegen/typescript': 2.4.11
@@ -43,7 +43,7 @@ specifiers:
 dependencies:
   '@emotion/react': 11.9.0_4mg53anm6bsgggist7tcqrzb4y
   '@emotion/styled': 11.8.1_ys2igmbmyleidw2ceqypd65jey
-  '@fontsource/roboto': 4.5.7
+  '@fontsource/inter': 4.5.11
   '@mui/icons-material': 5.8.2_msmodi7edgaeac7c42yc2tgesu
   '@mui/lab': 5.0.0-alpha.85_zhl4hr7ifyxkhvjp4ffemmthnq
   '@mui/material': 5.8.2_lq5fjjb4pmmidg3r7c37rcsf64
@@ -1663,8 +1663,8 @@ packages:
       - supports-color
     dev: true
 
-  /@fontsource/roboto/4.5.7:
-    resolution: {integrity: sha512-m57UMER23Mk6Drg9OjtHW1Y+0KPGyZfE5XJoPTOsLARLar6013kJj4X2HICt+iFLJqIgTahA/QAvSn9lwF1EEw==}
+  /@fontsource/inter/4.5.11:
+    resolution: {integrity: sha512-toizzQkfXL8YJcG/f8j3EYXYGQe4OxiDEItThSigvHU+cYNDw8HPp3wLYQX745hddsnHqOGCM4exitFSBOU8+w==}
     dev: false
 
   /@graphql-codegen/add/3.1.1_graphql@16.5.0:

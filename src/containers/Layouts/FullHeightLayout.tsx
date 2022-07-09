@@ -1,13 +1,14 @@
-import Container from "@mui/material/Container";
+import Container, { ContainerProps } from "@mui/material/Container";
 
 type FullHeightLayoutProps = {
   children: JSX.Element | JSX.Element[];
+  maxWidth?: ContainerProps["maxWidth"]
 };
 
-export const FullHeightLayout = ({ children }: FullHeightLayoutProps) => (
+export const FullHeightLayout = ({ children, maxWidth = false }: FullHeightLayoutProps) => (
   <Container
     component="main"
-    maxWidth={false}
+    maxWidth={maxWidth}
     sx={{
       display: "flex",
       flexDirection: "column",

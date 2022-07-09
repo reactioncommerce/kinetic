@@ -47,9 +47,9 @@ const PasswordReset = () => {
   };
 
   return (
-    <FullHeightLayout>
+    <FullHeightLayout maxWidth="sm">
       <AppLogo theme="dark" sx={{ mb: "50px" }} />
-      <Typography component="h1" variant="h4" fontWeight={600} gutterBottom>
+      <Typography component="h1" variant="h4" gutterBottom>
         Forgot your password?
       </Typography>
       <Typography variant="body1" gutterBottom color="grey.700">
@@ -76,7 +76,7 @@ const PasswordReset = () => {
             {isSuccess && (
               <Alert severity="success">If you have an account we will email you a reset password link.</Alert>
             )}
-            <LoadingButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
+            <LoadingButton fullWidth variant="contained" size='large' sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
               Reset Password
             </LoadingButton>
             <Grid container>

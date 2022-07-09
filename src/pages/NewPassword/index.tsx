@@ -9,13 +9,13 @@ import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import * as Yup from "yup";
 
-import { TextField } from "@components/TextField";
 import { client } from "@graphql/graphql-request-client";
 import type { Error, GraphQLErrorResponse } from "types/common";
 import { useResetPasswordMutation } from "@graphql/generates";
 import { hashPassword } from "@utils/hashPassword";
 import { FullHeightLayout } from "@containers/Layouts";
 import { AppLogo } from "@components/AppLogo";
+import { PasswordField } from "@components/PasswordField";
 
 const PasswordResetSchema = Yup.object().shape({
   newPassword: Yup.string().required("This field is required"),
@@ -60,9 +60,9 @@ const NewPassword = () => {
   };
 
   return (
-    <FullHeightLayout>
+    <FullHeightLayout maxWidth="xs">
       <AppLogo theme="dark" sx={{ mb: "50px" }} />
-      <Typography component="h1" variant="h4" fontWeight={600} gutterBottom>
+      <Typography component="h1" variant="h4" gutterBottom>
         Reset Password
       </Typography>
       <Typography variant="body1" gutterBottom color="grey.700">
@@ -79,24 +79,16 @@ const NewPassword = () => {
         {({ isSubmitting }) => (
           <Box component={Form} sx={{ mt: 1, width: "50%" }}>
             <Field
-              component={TextField}
-              margin="normal"
-              required
-              fullWidth
-              id="password"
+              component={PasswordField}
               label="New password"
               name="newPassword"
-              type="password"
+              placeholder="Enter new password"
             />
             <Field
-              component={TextField}
-              margin="normal"
-              required
-              fullWidth
-              id="password"
+              component={PasswordField}
               label="Confirm new password"
               name="confirmPassword"
-              type="password"
+              placeholder="Confirm your new password"
             />
             {submitErrorMessage && (
               <Alert
@@ -112,12 +104,18 @@ const NewPassword = () => {
               </Alert>
             )}
 
-            <LoadingButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
+            <LoadingButton fullWidth variant="contained" size="large" sx={{ mt: 3, mb: 2 }} type="submit" loading={isSubmitting}>
               Reset Password
             </LoadingButton>
             <Grid container>
               <Grid item xs>
-                <Link component={RouterLink} to="/login" variant="body2" color="primary">
+                <Link
+                  component={RouterLink}
+                  to="/login"
+                  variant="body2"
+                  color="primary"
+                  underline="none"
+                >
                   Return to login
                 </Link>
               </Grid>
