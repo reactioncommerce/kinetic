@@ -86,7 +86,6 @@ export const ProfileToolbar = () => {
         onClose={handleClose}
         onClick={handleClose}
         PaperProps={{
-          elevation: 0,
           style: {
             width: SIDEBAR_WIDTH - 25
           },

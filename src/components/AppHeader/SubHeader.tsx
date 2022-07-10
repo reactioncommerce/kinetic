@@ -3,7 +3,6 @@ import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { SxProps } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
 
 export type SubHeaderItemProps = {
   label: string
@@ -31,7 +30,7 @@ const SubHeaderItem = ({ href, label }: SubHeaderItemProps) => {
 
   return <Button size="small" color="secondary" component={Link}
     to={href} sx={match ? activeStyles : {}}>
-    <Typography variant="subtitle2">{label}</Typography>
+    {label}
   </Button>;
 };
 

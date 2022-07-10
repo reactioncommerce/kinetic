@@ -40,10 +40,10 @@ export const SystemInformation = () => {
               <Table stickyHeader size="small" aria-label="system information table">
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ padding: "10px", pl: "25px", color: "grey.700" }}>
+                    <TableCell sx={{ padding: "10px", pl: "25px" }}>
                       Name
                     </TableCell>
-                    <TableCell sx={{ color: "grey.700" }} align="right">
+                    <TableCell align="right">
                       Version
                     </TableCell>
                   </TableRow>
