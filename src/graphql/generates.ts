@@ -8129,6 +8129,15 @@ export type SendResetPasswordEmailMutationVariables = Exact<{
 
 export type SendResetPasswordEmailMutation = { __typename?: 'Mutation', sendResetPasswordEmail?: boolean | null };
 
+export type GetShippingMethodsQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetShippingMethodsQuery = { __typename?: 'Query', flatRateFulfillmentMethods: { __typename?: 'FlatRateFulfillmentMethodConnection', nodes?: Array<{ __typename?: 'FlatRateFulfillmentMethod', _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number, shop: { __typename?: 'Shop', _id: string } } | null> | null } };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8308,6 +8317,40 @@ export const useSendResetPasswordEmailMutation = <
     useMutation<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>(
       ['sendResetPasswordEmail'],
       (variables?: SendResetPasswordEmailMutationVariables) => fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(client, SendResetPasswordEmailDocument, variables, headers)(),
+      options
+    );
+export const GetShippingMethodsDocument = `
+    query getShippingMethods($shopId: ID!, $first: ConnectionLimitInt, $offset: Int) {
+  flatRateFulfillmentMethods(shopId: $shopId, first: $first, offset: $offset) {
+    nodes {
+      _id
+      cost
+      fulfillmentTypes
+      group
+      handling
+      isEnabled
+      label
+      name
+      rate
+      shop {
+        _id
+      }
+    }
+  }
+}
+    `;
+export const useGetShippingMethodsQuery = <
+      TData = GetShippingMethodsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetShippingMethodsQueryVariables,
+      options?: UseQueryOptions<GetShippingMethodsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetShippingMethodsQuery, TError, TData>(
+      ['getShippingMethods', variables],
+      fetcher<GetShippingMethodsQuery, GetShippingMethodsQueryVariables>(client, GetShippingMethodsDocument, variables, headers),
       options
     );
 export const CreateUserDocument = `

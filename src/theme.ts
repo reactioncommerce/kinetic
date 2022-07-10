@@ -8,6 +8,11 @@ declare module "@mui/material/styles" {
     lightGrey: string
   }
 
+  interface Shape {
+    borderRadiusLarge?: number
+    borderRadiusSmall?: number
+  }
+
   interface Palette {
     background: TypeBackground;
   }
@@ -51,9 +56,6 @@ const baseTheme = createTheme({
       main: color.grey["700"],
       contrastText: color.white
     }
-  },
-  shape: {
-    borderRadius: 6
   },
   typography: {
     fontFamily: [
@@ -102,6 +104,15 @@ const theme = createTheme(baseTheme, {
         sizeLarge: {
           fontSize: 18,
           padding: 10
+        },
+        sizeSmall: {
+          padding: "4px 8px",
+          borderRadius: baseTheme.shape.borderRadius
+        },
+        outlinedSecondary: {
+          "backgroundColor": baseTheme.palette.background.paper,
+          "border": `1px solid ${baseTheme.palette.grey[400]}`,
+          "&:hover": { borderColor: baseTheme.palette.grey[400], backgroundColor: baseTheme.palette.background.paper }
         }
       }
     },
@@ -135,10 +146,18 @@ const theme = createTheme(baseTheme, {
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: baseTheme.shape.borderRadius,
+          borderRadius: 6,
           height: baseTheme.spacing(3),
           fontWeight: 600,
           fontSize: 14
+        },
+        colorInfo: {
+          color: "#317159",
+          backgroundColor: "#DCF2EA"
+        },
+        sizeSmall: {
+          fontSize: "11px",
+          borderRadius: baseTheme.shape.borderRadius
         }
       }
     },
@@ -189,7 +208,7 @@ const theme = createTheme(baseTheme, {
         },
         h6: {
           fontWeight: 600,
-          fontSize: "1.25rem",
+          fontSize: "1rem",
           lineHeight: 1.2,
           [baseTheme.breakpoints.down("md")]: {
             fontSize: "1.25rem",
@@ -219,6 +238,11 @@ const theme = createTheme(baseTheme, {
         root: {
           minWidth: 0
         }
+      }
+    },
+    MuiPaper: {
+      defaultProps: {
+        elevation: 0
       }
     },
     MuiTableCell: {
