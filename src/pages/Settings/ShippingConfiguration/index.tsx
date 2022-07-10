@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import Container from "@mui/material/Container";
 
 import { SubHeader, SubHeaderItemProps } from "@components/AppHeader";
 
@@ -23,7 +24,10 @@ const headers: SubHeaderItemProps[] = [
 const ShippingConfiguration = () => (
   <>
     <SubHeader items={headers} />
-    <Outlet/>
+    <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
+      <Outlet/>
+    </Container>
+
   </>
 );
 
