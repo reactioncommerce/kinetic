@@ -15,6 +15,7 @@ query getViewer {
       }
       name
       slug
+      shopType
       shopLogoUrls {
         primaryShopLogoUrl
       }

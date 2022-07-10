@@ -33,12 +33,6 @@ export const ProfileToolbar = () => {
     setAnchorEl(null);
   };
 
-
-  const handleSignOut = () => {
-    removeAccessToken();
-    setShopId();
-  };
-
   const activeShop = account?.adminUIShops?.find((shop) => shop?._id === shopId);
 
   const showShopList = account?.adminUIShops?.length && account.adminUIShops.length > 1;
@@ -66,7 +60,7 @@ export const ProfileToolbar = () => {
             flexDirection: "column",
             alignItems: "flex-start",
             flexGrow: 1,
-            maxWidth: "calc(100% - 60px)",
+            maxWidth: "calc(100% - 70px)",
             color: "white"
           }}
         >
@@ -133,7 +127,7 @@ export const ProfileToolbar = () => {
         </MenuItem>
         <MenuItem>My account</MenuItem>
         <Divider />
-        <MenuItem onClick={handleSignOut}>Logout</MenuItem>
+        <MenuItem onClick={removeAccessToken}>Logout</MenuItem>
       </Menu>
     </Toolbar>
   );

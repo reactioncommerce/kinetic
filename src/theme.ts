@@ -188,8 +188,7 @@ const theme = createTheme(baseTheme, {
     MuiListItemIcon: {
       styleOverrides: {
         root: {
-          minWidth: 0,
-          marginRight: baseTheme.spacing(2)
+          minWidth: 0
         }
       }
     }

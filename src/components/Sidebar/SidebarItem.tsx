@@ -35,7 +35,7 @@ const NavLinkSidebarItem = ({ to, text, icon }: NavLinkSidebarItemProps) => {
       dense
       sx={sharedStyles}
     >
-      <ListItemIcon sx={{ color: "white" }}>{icon}</ListItemIcon>
+      <ListItemIcon sx={{ color: "white", marginRight: "16px" }}>{icon}</ListItemIcon>
       <ListItemText primary={text} />
     </ListItemButton>
   );
@@ -51,7 +51,7 @@ export const SidebarItem = ({ to, onClick, ...props }: SidebarItemProps) => (
         sx={sharedStyles}
         onClick={onClick}
       >
-        <ListItemIcon sx={{ color: "white" }}>{props.icon}</ListItemIcon>
+        <ListItemIcon sx={{ color: "white", marginRight: "16px" }}>{props.icon}</ListItemIcon>
         <ListItemText primary={props.text} />
       </ListItemButton>
     )}
