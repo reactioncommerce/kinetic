@@ -1,10 +1,11 @@
-import { createTheme } from "@mui/material/styles";
+import { alpha, createTheme } from "@mui/material/styles";
 
 
 declare module "@mui/material/styles" {
   interface TypeBackground {
     dark: string;
     darkGrey: string
+    lightGreen: string
   }
 
   interface Palette {
@@ -29,7 +30,8 @@ const baseTheme = createTheme({
       dark: color.darkGreen,
       default: color.background,
       paper: color.white,
-      darkGrey: color.darkGrey
+      darkGrey: color.darkGrey,
+      lightGreen: alpha(color.electricGreen, 0.1)
     },
     primary: {
       main: color.electricGreen,
@@ -74,6 +76,10 @@ const theme = createTheme(baseTheme, {
         sizeLarge: {
           fontSize: 18,
           padding: 10
+        },
+        sizeSmall: {
+          padding: "7px 8px",
+          borderRadius: 4
         }
       }
     },
