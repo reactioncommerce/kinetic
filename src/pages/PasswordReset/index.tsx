@@ -63,7 +63,7 @@ const PasswordReset = () => {
         }}
       >
         {({ isSubmitting }) => (
-          <Box component={Form} sx={{ mt: 1, width: "50%" }}>
+          <Box component={Form} sx={{ mt: 1, width: "100%" }}>
             <Field
               component={TextField}
               label="Email"

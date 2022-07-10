@@ -14,10 +14,13 @@ export const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => (
     position="fixed"
     sx={{
       width: { sm: `calc(100% - ${SIDEBAR_WIDTH}px)` },
-      ml: { sm: `${SIDEBAR_WIDTH}px` }
+      ml: { sm: `${SIDEBAR_WIDTH}px` },
+      borderBottom: "1px solid",
+      borderBottomColor: "grey.300"
     }}
+    elevation={0}
   >
-    <Toolbar sx={{ bgcolor: "white", color: "grey.800" }}>
+    <Toolbar>
       <IconButton
         color="inherit"
         aria-label="open drawer"

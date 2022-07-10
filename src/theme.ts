@@ -4,6 +4,7 @@ import { createTheme } from "@mui/material/styles";
 declare module "@mui/material/styles" {
   interface TypeBackground {
     dark: string;
+    darkGrey: string
   }
 
   interface Palette {
@@ -17,7 +18,8 @@ const color = {
   lightGrey: "#A0AEC0",
   background: "#F8FAFC",
   darkGreen: "#001D28",
-  electricGreen: "#00C14E"
+  electricGreen: "#00C14E",
+  darkGrey: "#2D3748"
 };
 
 // Create a theme instance.
@@ -26,10 +28,15 @@ const baseTheme = createTheme({
     background: {
       dark: color.darkGreen,
       default: color.background,
-      paper: color.white
+      paper: color.white,
+      darkGrey: color.darkGrey
     },
     primary: {
       main: color.electricGreen,
+      contrastText: color.white
+    },
+    secondary: {
+      main: color.darkGrey,
       contrastText: color.white
     }
   },
@@ -66,8 +73,7 @@ const theme = createTheme(baseTheme, {
       styleOverrides: {
         sizeLarge: {
           fontSize: 18,
-          paddingTop: 10,
-          paddingBottom: 10
+          padding: 10
         }
       }
     },
@@ -154,7 +160,7 @@ const theme = createTheme(baseTheme, {
           }
         },
         h6: {
-          fontWeight: 700,
+          fontWeight: 600,
           fontSize: "1.25rem",
           lineHeight: 1.2,
           [baseTheme.breakpoints.down("md")]: {
@@ -168,6 +174,22 @@ const theme = createTheme(baseTheme, {
       styleOverrides: {
         root: {
           fontSize: 16
+        }
+      }
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: baseTheme.palette.background.paper,
+          color: baseTheme.palette.grey["800"]
+        }
+      }
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          minWidth: 0,
+          marginRight: baseTheme.spacing(2)
         }
       }
     }

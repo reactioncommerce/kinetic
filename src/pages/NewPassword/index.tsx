@@ -77,7 +77,7 @@ const NewPassword = () => {
         }}
       >
         {({ isSubmitting }) => (
-          <Box component={Form} sx={{ mt: 1, width: "50%" }}>
+          <Box component={Form} sx={{ mt: 1 }}>
             <Field
               component={PasswordField}
               label="New password"

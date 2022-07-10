@@ -15,6 +15,15 @@ type NavLinkSidebarItemProps = Omit<SidebarItemProps, "to" | "onClick"> & {
   to: string
 }
 
+const sharedStyles = {
+  "padding": "4px 10px",
+  "borderRadius": "5px",
+  "&.active": {
+    "bgcolor": "background.darkGrey",
+    "&:hover": { bgcolor: "background.darkGrey" }
+  }
+};
+
 const NavLinkSidebarItem = ({ to, text, icon }: NavLinkSidebarItemProps) => {
   const resolvedPath = useResolvedPath(to);
   const match = useMatch({ path: resolvedPath.pathname, end: true });
@@ -24,16 +33,9 @@ const NavLinkSidebarItem = ({ to, text, icon }: NavLinkSidebarItemProps) => {
       component={NavLink}
       to={to}
       dense
-      sx={{
-        "padding": "4px 10px",
-        "borderRadius": "5px",
-        "&.active": {
-          "bgcolor": "background.darkGrey",
-          "&:hover": { bgcolor: "background.darkGrey" }
-        }
-      }}
+      sx={sharedStyles}
     >
-      <ListItemIcon sx={{ color: "white", minWidth: "0px", mr: "16px" }}>{icon}</ListItemIcon>
+      <ListItemIcon sx={{ color: "white" }}>{icon}</ListItemIcon>
       <ListItemText primary={text} />
     </ListItemButton>
   );
@@ -46,17 +48,10 @@ export const SidebarItem = ({ to, onClick, ...props }: SidebarItemProps) => (
     ) : (
       <ListItemButton
         dense
-        sx={{
-          "padding": "4px 10px",
-          "borderRadius": "5px",
-          "&.active": {
-            "bgcolor": "background.darkGrey",
-            "&:hover": { bgcolor: "background.darkGrey" }
-          }
-        }}
+        sx={sharedStyles}
         onClick={onClick}
       >
-        <ListItemIcon sx={{ color: "white", minWidth: "0px", mr: "16px" }}>{props.icon}</ListItemIcon>
+        <ListItemIcon sx={{ color: "white" }}>{props.icon}</ListItemIcon>
         <ListItemText primary={props.text} />
       </ListItemButton>
     )}

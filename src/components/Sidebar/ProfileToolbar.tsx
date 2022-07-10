@@ -47,17 +47,16 @@ export const ProfileToolbar = () => {
     <Toolbar sx={{ pl: { xs: "10px" }, pr: { xs: "10px" }, width: SIDEBAR_WIDTH }}>
       <Button
         onClick={handleClick}
-        size="small"
+        size="large"
         aria-controls={open ? "account-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        endIcon={<KeyboardArrowDownIcon sx={{ color: "white" }} />}
+        endIcon={<KeyboardArrowDownIcon />}
+        color="secondary"
+        variant="contained"
         sx={{
-          "flexGrow": 1,
-          "justifyContent": "flex-start",
-          "bgcolor": "background.darkGrey",
-          "padding": "10px",
-          "&:hover": { bgcolor: "background.darkGrey" }
+          flexGrow: 1,
+          justifyContent: "flex-start"
         }}
       >
         <Avatar sx={{ width: 32, height: 32, mr: "10px" }} variant="rounded" src="/src/default-avatar.jpeg" />
