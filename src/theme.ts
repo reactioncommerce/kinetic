@@ -224,6 +224,18 @@ const theme = createTheme(baseTheme, {
           color: baseTheme.palette.grey[700]
         }
       }
+    },
+    MuiPaper: {
+      defaultProps: {
+        elevation: 0
+      }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          color: baseTheme.palette.grey[700]
+        }
+      }
     }
   }
 });
