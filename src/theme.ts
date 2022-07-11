@@ -251,6 +251,15 @@ const theme = createTheme(baseTheme, {
           color: baseTheme.palette.grey[700]
         }
       }
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          "&.MuiTableRow-hover": {
+            "&:hover": { cursor: "pointer" }
+          }
+        }
+      }
     }
   }
 } as ThemeOptions);

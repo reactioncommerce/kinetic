@@ -6,7 +6,7 @@ import { SubHeader, SubHeaderItemProps } from "@components/AppHeader";
 const headers: SubHeaderItemProps[] = [
   {
     label: "Methods",
-    href: "methods",
+    href: "",
     key: "methods"
   },
   {
@@ -27,7 +27,6 @@ const ShippingConfiguration = () => (
     <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
       <Outlet/>
     </Container>
-
   </>
 );
 
