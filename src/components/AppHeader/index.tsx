@@ -2,7 +2,6 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import Typography from "@mui/material/Typography";
 
 import { SIDEBAR_WIDTH } from "../../constants";
 
@@ -15,8 +14,11 @@ export const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => (
     position="fixed"
     sx={{
       width: { sm: `calc(100% - ${SIDEBAR_WIDTH}px)` },
-      ml: { sm: `${SIDEBAR_WIDTH}px` }
+      ml: { sm: `${SIDEBAR_WIDTH}px` },
+      borderBottom: "1px solid",
+      borderBottomColor: "grey.300"
     }}
+    elevation={0}
   >
     <Toolbar>
       <IconButton
@@ -28,9 +30,6 @@ export const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => (
       >
         <MenuIcon />
       </IconButton>
-      <Typography variant="h6" noWrap component="div">
-        Kinetic
-      </Typography>
     </Toolbar>
   </AppBar>
 );

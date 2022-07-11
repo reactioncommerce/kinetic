@@ -1,0 +1,12 @@
+query systemInformation($shopId: ID!) {
+  systemInformation(shopId: $shopId) {
+    apiVersion
+    mongoVersion {
+      version
+    }
+    plugins {
+      name
+      version
+    }
+  }
+}
