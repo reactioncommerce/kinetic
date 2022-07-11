@@ -1,7 +1,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 
 import { Table, TableAction, TableContainer } from "@components/Table";
 import { useShop } from "@containers/ShopProvider";
@@ -30,8 +29,11 @@ const columns: ColumnDef<ShippingMethod>[] = [
   },
   {
     accessorKey: "isEnabled",
-    header: () => <Stack direction="row" justifyContent="flex-end">Status</Stack>,
-    cell: (info) => <Stack direction="row" justifyContent="flex-end"><Chip color="info" size="small" label={info.getValue() ? "ENABLED" : "DISABLED"}/></Stack>
+    header: "Status",
+    cell: (info) => <Chip color="info" size="small" label={info.getValue() ? "ENABLED" : "DISABLED"}/>,
+    meta: {
+      align: "right"
+    }
   }
 ];
 

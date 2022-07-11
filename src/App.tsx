@@ -37,10 +37,9 @@ function App() {
                   <Route index element={<Dashboard />} />
                   <Route path="settings">
                     <Route path="shipping-fulfillment" element={<ShippingConfiguration />}>
-                      <Route path="methods" element={<ShippingMethods/>} />
+                      <Route index element={<ShippingMethods/>} />
                       <Route path="restrictions" element={<ShippingRestrictions />} />
                       <Route path="surcharges" element={<ShippingSurcharges />} />
-
                     </Route>
                   </Route>
                   <Route path="*" element={<NotFound />} />
