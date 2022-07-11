@@ -1,9 +1,11 @@
-import { createTheme } from "@mui/material/styles";
+import { alpha, createTheme } from "@mui/material/styles";
 
 
 declare module "@mui/material/styles" {
   interface TypeBackground {
     dark: string;
+    darkGrey: string
+    lightGreen: string
   }
 
   interface Palette {
@@ -17,7 +19,8 @@ const color = {
   lightGrey: "#A0AEC0",
   background: "#F8FAFC",
   darkGreen: "#001D28",
-  electricGreen: "#00C14E"
+  electricGreen: "#00C14E",
+  darkGrey: "#2D3748"
 };
 
 // Create a theme instance.
@@ -26,15 +29,18 @@ const baseTheme = createTheme({
     background: {
       dark: color.darkGreen,
       default: color.background,
-      paper: color.white
+      paper: color.white,
+      darkGrey: color.darkGrey,
+      lightGreen: alpha(color.electricGreen, 0.1)
     },
     primary: {
       main: color.electricGreen,
       contrastText: color.white
+    },
+    secondary: {
+      main: color.darkGrey,
+      contrastText: color.white
     }
-  },
-  shape: {
-    borderRadius: 6
   },
   typography: {
     fontFamily: [
@@ -66,8 +72,16 @@ const theme = createTheme(baseTheme, {
       styleOverrides: {
         sizeLarge: {
           fontSize: 18,
-          paddingTop: 10,
-          paddingBottom: 10
+          padding: 10
+        },
+        sizeSmall: {
+          padding: "4px 8px",
+          borderRadius: baseTheme.shape.borderRadius
+        },
+        outlinedSecondary: {
+          "backgroundColor": baseTheme.palette.background.paper,
+          "border": `1px solid ${baseTheme.palette.grey[400]}`,
+          "&:hover": { borderColor: baseTheme.palette.grey[400], backgroundColor: baseTheme.palette.background.paper }
         }
       }
     },
@@ -101,10 +115,18 @@ const theme = createTheme(baseTheme, {
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: baseTheme.shape.borderRadius,
+          borderRadius: 6,
           height: baseTheme.spacing(3),
           fontWeight: 600,
           fontSize: 14
+        },
+        colorInfo: {
+          color: "#317159",
+          backgroundColor: "#DCF2EA"
+        },
+        sizeSmall: {
+          fontSize: "11px",
+          borderRadius: baseTheme.shape.borderRadius
         }
       }
     },
@@ -154,8 +176,8 @@ const theme = createTheme(baseTheme, {
           }
         },
         h6: {
-          fontWeight: 700,
-          fontSize: "1.25rem",
+          fontWeight: 600,
+          fontSize: "1rem",
           lineHeight: 1.2,
           [baseTheme.breakpoints.down("md")]: {
             fontSize: "1.25rem",
@@ -168,6 +190,33 @@ const theme = createTheme(baseTheme, {
       styleOverrides: {
         root: {
           fontSize: 16
+        }
+      }
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: baseTheme.palette.background.paper,
+          color: baseTheme.palette.grey["800"]
+        }
+      }
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          minWidth: 0
+        }
+      }
+    },
+    MuiPaper: {
+      defaultProps: {
+        elevation: 0
+      }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          color: baseTheme.palette.grey[700]
         }
       }
     }

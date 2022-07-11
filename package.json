@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.8.2",
     "@mui/lab": "5.0.0-alpha.85",
     "@mui/material": "^5.8.2",
+    "@tanstack/react-table": "^8.2.2",
     "crypto-js": "^4.1.1",
     "formik": "^2.2.9",
     "graphql": "^16.5.0",
