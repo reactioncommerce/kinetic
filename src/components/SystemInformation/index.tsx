@@ -15,12 +15,15 @@ import { SidebarItem } from "@components/Sidebar";
 import { useShop } from "@containers/ShopProvider";
 import { useSystemInformationQuery } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
+import { Loader } from "@components/Loader";
 
 export const SystemInformation = () => {
   const [open, setOpen] = useState(false);
   const { shopId } = useShop();
 
-  const { data } = useSystemInformationQuery(client, { shopId: shopId || "" }, { enabled: open && !!shopId });
+  const { data, isLoading } = useSystemInformationQuery(client, { shopId: shopId || "" }, { enabled: open && !!shopId });
+
+  if (isLoading) return <Loader/>;
 
   return (
     <>

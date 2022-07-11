@@ -1,9 +1,11 @@
-import { createTheme } from "@mui/material/styles";
+import { alpha, createTheme } from "@mui/material/styles";
 
 
 declare module "@mui/material/styles" {
   interface TypeBackground {
     dark: string;
+    darkGrey: string
+    lightGreen: string
   }
 
   interface Shape {
@@ -22,7 +24,8 @@ const color = {
   lightGrey: "#A0AEC0",
   background: "#F8FAFC",
   darkGreen: "#001D28",
-  electricGreen: "#00C14E"
+  electricGreen: "#00C14E",
+  darkGrey: "#2D3748"
 };
 
 // Create a theme instance.
@@ -31,10 +34,16 @@ const baseTheme = createTheme({
     background: {
       dark: color.darkGreen,
       default: color.background,
-      paper: color.white
+      paper: color.white,
+      darkGrey: color.darkGrey,
+      lightGreen: alpha(color.electricGreen, 0.1)
     },
     primary: {
       main: color.electricGreen,
+      contrastText: color.white
+    },
+    secondary: {
+      main: color.darkGrey,
       contrastText: color.white
     }
   },

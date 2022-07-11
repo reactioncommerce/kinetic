@@ -12,6 +12,10 @@ import Login from "./pages/Login";
 import CreateShop from "./pages/CreateShop";
 import PasswordReset from "./pages/PasswordReset";
 import NewPassword from "./pages/NewPassword";
+import ShippingConfiguration from "./pages/Settings/ShippingConfiguration";
+import ShippingMethods from "./pages/Settings/ShippingConfiguration/Methods";
+import ShippingRestrictions from "./pages/Settings/ShippingConfiguration/Restrictions";
+import ShippingSurcharges from "./pages/Settings/ShippingConfiguration/Surcharges";
 
 function App() {
   return (
@@ -31,6 +35,14 @@ function App() {
               <Route element={<RequireShopRoute />}>
                 <Route path="/" element={<AppLayout />}>
                   <Route index element={<Dashboard />} />
+                  <Route path="settings">
+                    <Route path="shipping-fulfillment" element={<ShippingConfiguration />}>
+                      <Route path="methods" element={<ShippingMethods/>} />
+                      <Route path="restrictions" element={<ShippingRestrictions />} />
+                      <Route path="surcharges" element={<ShippingSurcharges />} />
+
+                    </Route>
+                  </Route>
                   <Route path="*" element={<NotFound />} />
                 </Route>
               </Route>
