@@ -16,9 +16,9 @@ import ExposureOutlinedIcon from "@mui/icons-material/ExposureOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import { useState } from "react";
-import { usePrevious } from "react-use";
+import { useMemo } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { SystemInformation } from "@components/SystemInformation";
 
@@ -27,6 +27,7 @@ import { ProfileToolbar } from "./ProfileToolbar";
 
 type ItemProps = SidebarItemProps & {
   subItems?: ItemProps[]
+  prev?: string
 }
 
 const ITEMS: SidebarItemProps[] = [
@@ -71,6 +72,7 @@ const CORE_FEATURES: ItemProps[] = [
   {
     text: "Settings",
     icon: <SettingsOutlinedIcon fontSize="small" />,
+    prev: "/products",
     subItems: [
       {
         text: "Users & Permissions",
@@ -106,21 +108,40 @@ const CORE_FEATURES: ItemProps[] = [
   }
 ];
 
-const defaultState = {
+function findActiveItems(items: ItemProps[], pathName: string, path: ItemProps[] = []): ItemProps[] {
+  if (!items.length) return [];
+  for (const item of items) {
+    path.push(item);
+    if (item.to === pathName) return path;
+    if (item.subItems) {
+      const activeItem = findActiveItems(item.subItems, pathName, path);
+      if (activeItem.length) return activeItem;
+    }
+    path.pop();
+  }
+  return [];
+}
+
+type State = {
+  items: ItemProps[]
+  title: string
+  prev?: string
+}
+
+const defaultState: State = {
   title: "Store",
-  items: CORE_FEATURES,
-  root: true
+  items: CORE_FEATURES
 };
 
 export const SidebarItems = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState<{
-    items: ItemProps[]
-    title: string
-    icon?: JSX.Element
-    root?: boolean
-  }>(defaultState);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const prevMenuItem = usePrevious(activeMenuItem);
+  const activeMenuItem = useMemo(() => {
+    const items = findActiveItems(CORE_FEATURES, location.pathname);
+    const parent = items.length <= 1 ? null : items[items.length - 2];
+    return parent ? { title: parent.text, items: parent.subItems ?? [], prev: parent.prev } : defaultState;
+  }, [location.pathname]);
 
   return (
     <>
@@ -143,35 +164,30 @@ export const SidebarItems = () => {
           <List
             subheader={
               <ListItemButton
-                component="button"
                 sx={{
                   "bgcolor": "background.dark",
                   "color": "grey.500",
                   "textTransform": "uppercase",
                   "display": "flex",
                   "alignItems": "center",
-                  "width": "100%",
                   "mt": 1,
                   "&:disabled": {
                     color: "grey.500",
                     opacity: 1
                   }
                 }}
-                disabled={activeMenuItem.root || !prevMenuItem}
-                onClick={() => prevMenuItem && setActiveMenuItem(prevMenuItem)}
+                disabled={!activeMenuItem.prev}
+                component={NavLink}
+                to={activeMenuItem.prev ?? "/"}
               >
-                {activeMenuItem.icon} {activeMenuItem.title}
+                {activeMenuItem.prev && <KeyboardArrowLeftIcon />} {activeMenuItem.title}
               </ListItemButton>
             }
           >
             {activeMenuItem.items.map((item) => (
               <SidebarItem
                 key={item.text}
-                onClick={
-                  item.subItems &&
-                  (() =>
-                    setActiveMenuItem({ items: item.subItems ?? [], title: item.text, icon: <KeyboardArrowLeftIcon /> }))
-                }
+                onClick={() => navigate(item.subItems?.[0].to ?? "/")}
                 {...item}
               />
             ))}

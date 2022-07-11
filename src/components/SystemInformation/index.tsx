@@ -15,12 +15,15 @@ import { SidebarItem } from "@components/Sidebar";
 import { useShop } from "@containers/ShopProvider";
 import { useSystemInformationQuery } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
+import { Loader } from "@components/Loader";
 
 export const SystemInformation = () => {
   const [open, setOpen] = useState(false);
   const { shopId } = useShop();
 
-  const { data } = useSystemInformationQuery(client, { shopId: shopId || "" }, { enabled: open && !!shopId });
+  const { data, isLoading } = useSystemInformationQuery(client, { shopId: shopId || "" }, { enabled: open && !!shopId });
+
+  if (isLoading) return <Loader/>;
 
   return (
     <>
@@ -40,10 +43,10 @@ export const SystemInformation = () => {
               <Table stickyHeader size="small" aria-label="system information table">
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ padding: "10px", pl: "25px", color: "grey.700" }}>
+                    <TableCell sx={{ padding: "10px", pl: "25px" }}>
                       Name
                     </TableCell>
-                    <TableCell sx={{ color: "grey.700" }} align="right">
+                    <TableCell align="right">
                       Version
                     </TableCell>
                   </TableRow>

@@ -191,6 +191,13 @@ const theme = createTheme(baseTheme, {
           minWidth: 0
         }
       }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          color: baseTheme.palette.grey[700]
+        }
+      }
     }
   }
 });
