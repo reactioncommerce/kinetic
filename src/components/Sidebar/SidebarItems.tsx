@@ -97,7 +97,7 @@ const CORE_FEATURES: ItemProps[] = [
       {
         text: "Shipping & Fulfillment",
         icon: <LocalShippingOutlinedIcon fontSize="small" />,
-        to: "/settings/shipping-fulfillment"
+        to: "/settings/shipping-fulfillment/methods"
       },
       {
         text: "Transactional Emails",

@@ -4,7 +4,7 @@ import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import Collapse from "@mui/material/Collapse";
-import uniqueid from "lodash/uniqueid";
+import { uniqueId } from "lodash-es";
 import { useRef } from "react";
 
 type CustomTextFieldProps = {
@@ -32,8 +32,8 @@ export const TextField = ({
 
   const helperText = showError ? fieldError : props.helperText;
 
-  const fieldId = useRef(uniqueid("text-field")).current;
-  const helperTextId = useRef(uniqueid("helper-text")).current;
+  const fieldId = useRef(uniqueId("text-field")).current;
+  const helperTextId = useRef(uniqueId("helper-text")).current;
 
   const _onBlur = onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
 

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import { useLocalStorage } from "react-use";
-import noop from "lodash/noop";
+import { noop } from "lodash-es";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
