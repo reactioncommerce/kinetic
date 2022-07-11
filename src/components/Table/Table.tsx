@@ -2,7 +2,7 @@ import TableContainer from "@mui/material/TableContainer";
 import MuiTable, { TableProps as MuiTableProps } from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { TableCellProps } from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {
   ColumnDef,
@@ -10,6 +10,13 @@ import {
   useReactTable,
   flexRender
 } from "@tanstack/react-table";
+
+declare module "@tanstack/react-table" {
+  interface ColumnMeta {
+    align: TableCellProps["align"]
+  }
+}
+
 
 type TableProps<T> = MuiTableProps & {
   columns: ColumnDef<T>[]
@@ -30,7 +37,7 @@ export function Table<T>({ stickyHeader = true, data, columns }: TableProps<T>) 
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableCell key={header.id}>
+                <TableCell key={header.id} {...header.column.columnDef?.meta}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -46,7 +53,7 @@ export function Table<T>({ stickyHeader = true, data, columns }: TableProps<T>) 
           {table.getRowModel().rows.map((row) => (
             <TableRow hover key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
+                <TableCell key={cell.id} {...{ ...cell.column.columnDef?.meta }}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}

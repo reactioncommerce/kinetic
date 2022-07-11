@@ -112,7 +112,7 @@ function findActiveItems(items: ItemProps[], pathName: string, path: ItemProps[]
   if (!items.length) return [];
   for (const item of items) {
     path.push(item);
-    if (item.to === pathName) return path;
+    if (item.to && pathName.includes(item.to)) return path;
     if (item.subItems) {
       const activeItem = findActiveItems(item.subItems, pathName, path);
       if (activeItem.length) return activeItem;
