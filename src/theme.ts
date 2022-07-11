@@ -106,6 +106,16 @@ const theme = createTheme(baseTheme, {
         }
       }
     },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          marginLeft: 0
+        },
+        label: {
+          color: baseTheme.palette.grey["900"]
+        }
+      }
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
@@ -188,6 +198,9 @@ const theme = createTheme(baseTheme, {
             fontSize: "1.25rem",
             lineHeight: 1.2
           }
+        },
+        subtitle1: {
+          fontWeight: 500
         }
       }
     },
@@ -231,6 +244,44 @@ const theme = createTheme(baseTheme, {
           "&.MuiTableRow-hover": {
             "&:hover": { cursor: "pointer" }
           }
+        }
+      }
+    },
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          width: 48,
+          height: 24,
+          padding: 0,
+          marginRight: baseTheme.spacing(1)
+        },
+        switchBase: {
+          "padding": 0,
+          "margin": 3,
+          "&.Mui-checked": {
+            "transform": "translateX(23px)",
+            "backgroundColor": baseTheme.palette.common.white,
+            "color": color.darkGreen,
+            "&:hover": {
+              backgroundColor: baseTheme.palette.common.white
+            },
+            "& + .MuiSwitch-track": {
+              backgroundColor: baseTheme.palette.background.dark,
+              opacity: 1
+            },
+            "&.Mui-disabled + .MuiSwitch-track": {
+              opacity: 0.5
+            }
+          }
+        },
+        thumb: {
+          boxSizing: "border-box",
+          width: 18,
+          height: 18
+        },
+        track: {
+          borderRadius: 24 / 2,
+          backgroundColor: baseTheme.palette.background.dark
         }
       }
     }
