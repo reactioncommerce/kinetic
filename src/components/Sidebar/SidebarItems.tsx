@@ -150,7 +150,7 @@ export const SidebarItems = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          minHeight: "calc(100% - 80px)",
+          flex: 1,
           justifyContent: "space-between"
         }}
       >
@@ -160,7 +160,7 @@ export const SidebarItems = () => {
               <SidebarItem key={text} icon={icon} to={to} text={text} />
             ))}
           </List>
-          <Divider sx={{ borderColor: "background.darkGrey" }} />
+          <Divider sx={{ mx: 2, borderColor: "background.darkGrey" }} />
           <List
             subheader={
               <ListItemButton
@@ -171,16 +171,19 @@ export const SidebarItems = () => {
                   "display": "flex",
                   "alignItems": "center",
                   "mt": 1,
-                  "&:disabled": {
+                  "fontSize": 12,
+                  "fontWeight": 700,
+                  "&.Mui-disabled": {
                     color: "grey.500",
                     opacity: 1
                   }
                 }}
+                disableRipple
                 disabled={!activeMenuItem.prev}
                 component={NavLink}
                 to={activeMenuItem.prev ?? "/"}
               >
-                {activeMenuItem.prev && <KeyboardArrowLeftIcon />} {activeMenuItem.title}
+                {activeMenuItem.prev && <KeyboardArrowLeftIcon sx={{ fontSize: "1rem" }} />} {activeMenuItem.title}
               </ListItemButton>
             }
           >

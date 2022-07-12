@@ -15,7 +15,8 @@ const sharedStyles = {
   width: SIDEBAR_WIDTH,
   bgcolor: "background.dark",
   color: "white",
-  padding: "20px 0"
+  pt: 3,
+  pb: 1
 };
 
 export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => (

@@ -33,13 +33,13 @@ export const SystemInformation = () => {
         onClick={() => setOpen(true)}
         text="System Information"
       />
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="xl" PaperProps={{ style: { width: "50%" } }}>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" PaperProps={{ sx: { width: "100%" } }}>
         <DialogTitle variant="h6" sx={{ bgcolor: "background.default" }}>
           System Information
         </DialogTitle>
         <DialogContent sx={{ padding: "0" }}>
-          <Paper sx={{ width: "100%", overflow: "hidden" }}>
-            <TableContainer sx={{ maxHeight: 800 }}>
+          <Paper sx={{ width: "100%" }}>
+            <TableContainer sx={{ overflowX: "unset" }}>
               <Table stickyHeader size="small" aria-label="system information table">
                 <TableHead>
                   <TableRow>

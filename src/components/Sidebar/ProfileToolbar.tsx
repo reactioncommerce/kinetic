@@ -38,7 +38,7 @@ export const ProfileToolbar = () => {
   const showShopList = account?.adminUIShops?.length && account.adminUIShops.length > 1;
 
   return (
-    <Toolbar sx={{ pl: { xs: "10px" }, pr: { xs: "10px" }, width: SIDEBAR_WIDTH }}>
+    <Toolbar sx={{ px: { xs: 2 }, width: SIDEBAR_WIDTH }}>
       <Button
         onClick={handleClick}
         size="large"
@@ -50,24 +50,26 @@ export const ProfileToolbar = () => {
         variant="contained"
         sx={{
           flexGrow: 1,
+          pl: 1.5,
+          pr: 2,
           justifyContent: "flex-start"
         }}
       >
-        <Avatar sx={{ width: 32, height: 32, mr: "10px" }} variant="rounded" src="/src/default-avatar.jpeg" />
+        <Avatar sx={{ width: 32, height: 32, mr: 2 }} variant="rounded" src="/src/default-avatar.jpeg" />
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
             flexGrow: 1,
-            maxWidth: "calc(100% - 70px)",
+            maxWidth: "calc(100% - 64px)",
             color: "white"
           }}
         >
-          <Typography noWrap fontSize={13} fontWeight={500} maxWidth="100%">
+          <Typography noWrap variant="body2" maxWidth="100%">
             {activeShop?.name || "Shop Name"}
           </Typography>
-          <Typography noWrap fontSize={13} textTransform="lowercase" maxWidth="100%">
+          <Typography noWrap fontSize={12} textTransform="lowercase" color="grey.300" maxWidth="100%">
             {account?.name || account?.primaryEmailAddress}
           </Typography>
         </Box>
@@ -82,7 +84,7 @@ export const ProfileToolbar = () => {
         PaperProps={{
           elevation: 0,
           style: {
-            width: SIDEBAR_WIDTH - 25
+            width: SIDEBAR_WIDTH - 32
           },
           sx: {
             "overflow": "visible",

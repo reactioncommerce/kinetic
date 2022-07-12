@@ -1,10 +1,11 @@
-import { createTheme } from "@mui/material/styles";
+import { alpha, createTheme, ThemeOptions } from "@mui/material/styles";
 
 
 declare module "@mui/material/styles" {
   interface TypeBackground {
     dark: string;
     darkGrey: string
+    lightGrey: string
   }
 
   interface Palette {
@@ -15,11 +16,21 @@ declare module "@mui/material/styles" {
 const color = {
   black: "#000",
   white: "#FFF",
-  lightGrey: "#A0AEC0",
   background: "#F8FAFC",
   darkGreen: "#001D28",
   electricGreen: "#00C14E",
-  darkGrey: "#2D3748"
+  grey: {
+    50: "#F7FAFC",
+    100: "#EDF2F7",
+    200: "#E2E8F0",
+    300: "#CBD5E0",
+    400: "#A0AEC0",
+    500: "#718096",
+    600: "#4A5568",
+    700: "#2D3748",
+    800: "#1A202C",
+    900: "#171923"
+  }
 };
 
 // Create a theme instance.
@@ -29,14 +40,15 @@ const baseTheme = createTheme({
       dark: color.darkGreen,
       default: color.background,
       paper: color.white,
-      darkGrey: color.darkGrey
+      lightGrey: color.grey["400"],
+      darkGrey: color.grey["700"]
     },
     primary: {
       main: color.electricGreen,
       contrastText: color.white
     },
     secondary: {
-      main: color.darkGrey,
+      main: color.grey["700"],
       contrastText: color.white
     }
   },
@@ -66,6 +78,22 @@ const baseTheme = createTheme({
 
 const theme = createTheme(baseTheme, {
   components: {
+    MuiBackdrop: {
+      styleOverrides: {
+        root: {
+          "&:not(.MuiBackdrop-invisible)": {
+            backgroundColor: alpha(color.darkGreen, 0.7)
+          }
+        }
+      }
+    },
+    MuiMenu: {
+      defaultProps: {
+        PaperProps: {
+          elevation: 0
+        }
+      }
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: true
@@ -99,7 +127,7 @@ const theme = createTheme(baseTheme, {
           backgroundColor: baseTheme.palette.background.paper
         },
         input: {
-          borderColor: color.lightGrey,
+          borderColor: baseTheme.palette.background.lightGrey,
           padding: `${baseTheme.spacing(1)} ${baseTheme.spacing(2)}`
         }
       }
@@ -116,15 +144,6 @@ const theme = createTheme(baseTheme, {
     },
     MuiTypography: {
       styleOverrides: {
-        h4: {
-          fontWeight: 700,
-          fontSize: "2.25rem",
-          lineHeight: 1.2,
-          [baseTheme.breakpoints.down("md")]: {
-            fontSize: "1.875rem",
-            lineHeight: 1.33
-          }
-        },
         h1: {
           fontSize: "4.5rem",
           fontWeight: 700,
@@ -150,6 +169,15 @@ const theme = createTheme(baseTheme, {
             lineHeight: 1.2
           }
         },
+        h4: {
+          fontWeight: 700,
+          fontSize: "2.25rem",
+          lineHeight: 1.2,
+          [baseTheme.breakpoints.down("md")]: {
+            fontSize: "1.875rem",
+            lineHeight: 1.33
+          }
+        },
         h5: {
           fontWeight: 700,
           fontSize: "1.875rem",
@@ -167,7 +195,8 @@ const theme = createTheme(baseTheme, {
             fontSize: "1.25rem",
             lineHeight: 1.2
           }
-        }
+        },
+        body2: { lineHeight: "calc(20/14)" }
       }
     },
     MuiLink: {
@@ -200,6 +229,6 @@ const theme = createTheme(baseTheme, {
       }
     }
   }
-});
+} as ThemeOptions);
 
 export default theme;

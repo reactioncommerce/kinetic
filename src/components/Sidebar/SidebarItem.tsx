@@ -16,15 +16,21 @@ type NavLinkSidebarItemProps = Omit<SidebarItemProps, "to" | "onClick"> & {
 }
 
 const sharedStyles = {
-  "padding": "4px 10px",
-  "borderRadius": "5px",
+  "px": 1.5,
+  "borderRadius": 1,
   "&.active": {
     "bgcolor": "background.darkGrey",
-    "&:hover": { bgcolor: "background.darkGrey" }
+    ".MuiListItemIcon-root": {
+      color: "white"
+    },
+    "&:hover, &:focus": { bgcolor: "background.darkGrey" }
   },
   ".MuiListItemIcon-root": {
-    color: "white",
-    marginRight: "16px"
+    color: "background.lightGrey",
+    marginRight: 1
+  },
+  ".MuiListItemText-root span": {
+    fontWeight: 500
   }
 };
 
@@ -46,7 +52,7 @@ const NavLinkSidebarItem = ({ to, text, icon }: NavLinkSidebarItemProps) => {
 };
 
 export const SidebarItem = ({ to, onClick, ...props }: SidebarItemProps) => (
-  <ListItem dense sx={{ padding: "4px 10px" }}>
+  <ListItem dense sx={{ py: 0.25 }}>
     {to ? (
       <NavLinkSidebarItem to={to} {...props} />
     ) : (
