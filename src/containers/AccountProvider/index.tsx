@@ -1,13 +1,12 @@
-import CircularProgress from "@mui/material/CircularProgress";
-import Backdrop from "@mui/material/Backdrop";
 import { createContext, useContext, useEffect } from "react";
 import { useLocalStorage } from "react-use";
-import noop from "lodash/noop";
+import { noop } from "lodash-es";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
 import type { APIErrorResponse } from "types/common";
+import { Loader } from "@components/Loader";
 
 type AccountContextValue = {
   account: GetViewerQuery["viewer"] | null
@@ -50,15 +49,18 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
-
     onError: (error) => {
       const unauthorized = (error as APIErrorResponse).response.status === 401;
 
       if (unauthorized) removeAccessToken();
     },
-
     onSuccess: (response) => {
-      !shopId && setShopId(response.viewer?.adminUIShops?.[0]?._id);
+      if (response.viewer === null) {
+        setShopId();
+        return;
+      }
+
+      !shopId && setShopId(response.viewer?.adminUIShops?.find((shop) => shop?.shopType === "primary")?._id);
     }
   });
 
@@ -68,9 +70,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   if (isLoading) {
     return (
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open>
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loader />
     );
   }
 
