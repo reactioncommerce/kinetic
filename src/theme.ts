@@ -126,7 +126,6 @@ const theme = createTheme(baseTheme, {
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          fontWeight: 500,
           marginBottom: baseTheme.spacing(1),
           color: baseTheme.palette.grey["900"]
         }

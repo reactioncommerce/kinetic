@@ -8138,15 +8138,6 @@ export type GetShippingMethodsQueryVariables = Exact<{
 
 export type GetShippingMethodsQuery = { __typename?: 'Query', flatRateFulfillmentMethods: { __typename?: 'FlatRateFulfillmentMethodConnection', nodes?: Array<{ __typename?: 'FlatRateFulfillmentMethod', _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number, shop: { __typename?: 'Shop', _id: string } } | null> | null } };
 
-export type GetShippingMethodsQueryVariables = Exact<{
-  shopId: Scalars['ID'];
-  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
-  offset?: InputMaybe<Scalars['Int']>;
-}>;
-
-
-export type GetShippingMethodsQuery = { __typename?: 'Query', flatRateFulfillmentMethods: { __typename?: 'FlatRateFulfillmentMethodConnection', nodes?: Array<{ __typename?: 'FlatRateFulfillmentMethod', _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number, shop: { __typename?: 'Shop', _id: string } } | null> | null } };
-
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
