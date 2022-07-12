@@ -1,18 +1,40 @@
-query getShippingMethods($shopId: ID!, $first: ConnectionLimitInt, $offset: Int) {
-    flatRateFulfillmentMethods(shopId: $shopId, first: $first, offset: $offset) {
-      nodes {
+query getShippingMethods(
+  $shopId: ID!
+  $first: ConnectionLimitInt
+  $offset: Int
+) {
+  flatRateFulfillmentMethods(shopId: $shopId, first: $first, offset: $offset) {
+    nodes {
+      _id
+      cost
+      fulfillmentTypes
+      group
+      handling
+      isEnabled
+      label
+      name
+      rate
+      shop {
         _id
-        cost
-        fulfillmentTypes
-        group
-        handling
-        isEnabled
-        label
-        name
-        rate
-        shop {
-          _id
-        }
       }
     }
   }
+}
+
+mutation createFlatRateFulfillmentMethod(
+  $input: CreateFlatRateFulfillmentMethodInput!
+) {
+  createFlatRateFulfillmentMethod(input: $input) {
+    method {
+      _id
+      cost
+      fulfillmentTypes
+      group
+      handling
+      isEnabled
+      label
+      name
+      rate
+    }
+  }
+}

@@ -8138,6 +8138,13 @@ export type GetShippingMethodsQueryVariables = Exact<{
 
 export type GetShippingMethodsQuery = { __typename?: 'Query', flatRateFulfillmentMethods: { __typename?: 'FlatRateFulfillmentMethodConnection', nodes?: Array<{ __typename?: 'FlatRateFulfillmentMethod', _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number, shop: { __typename?: 'Shop', _id: string } } | null> | null } };
 
+export type CreateFlatRateFulfillmentMethodMutationVariables = Exact<{
+  input: CreateFlatRateFulfillmentMethodInput;
+}>;
+
+
+export type CreateFlatRateFulfillmentMethodMutation = { __typename?: 'Mutation', createFlatRateFulfillmentMethod: { __typename?: 'CreateFlatRateFulfillmentMethodPayload', method: { __typename?: 'FlatRateFulfillmentMethod', _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number } } };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8351,6 +8358,36 @@ export const useGetShippingMethodsQuery = <
     useQuery<GetShippingMethodsQuery, TError, TData>(
       ['getShippingMethods', variables],
       fetcher<GetShippingMethodsQuery, GetShippingMethodsQueryVariables>(client, GetShippingMethodsDocument, variables, headers),
+      options
+    );
+export const CreateFlatRateFulfillmentMethodDocument = `
+    mutation createFlatRateFulfillmentMethod($input: CreateFlatRateFulfillmentMethodInput!) {
+  createFlatRateFulfillmentMethod(input: $input) {
+    method {
+      _id
+      cost
+      fulfillmentTypes
+      group
+      handling
+      isEnabled
+      label
+      name
+      rate
+    }
+  }
+}
+    `;
+export const useCreateFlatRateFulfillmentMethodMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateFlatRateFulfillmentMethodMutation, TError, CreateFlatRateFulfillmentMethodMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateFlatRateFulfillmentMethodMutation, TError, CreateFlatRateFulfillmentMethodMutationVariables, TContext>(
+      ['createFlatRateFulfillmentMethod'],
+      (variables?: CreateFlatRateFulfillmentMethodMutationVariables) => fetcher<CreateFlatRateFulfillmentMethodMutation, CreateFlatRateFulfillmentMethodMutationVariables>(client, CreateFlatRateFulfillmentMethodDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `

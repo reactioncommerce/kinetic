@@ -8,11 +8,6 @@ declare module "@mui/material/styles" {
     lightGrey: string
   }
 
-  interface Shape {
-    borderRadiusLarge?: number
-    borderRadiusSmall?: number
-  }
-
   interface Palette {
     background: TypeBackground;
   }
@@ -56,6 +51,9 @@ const baseTheme = createTheme({
       main: color.grey["700"],
       contrastText: color.white
     }
+  },
+  shape: {
+    borderRadius: 6
   },
   typography: {
     fontFamily: [
@@ -104,15 +102,6 @@ const theme = createTheme(baseTheme, {
         sizeLarge: {
           fontSize: 18,
           padding: 10
-        },
-        sizeSmall: {
-          padding: "4px 8px",
-          borderRadius: baseTheme.shape.borderRadius
-        },
-        outlinedSecondary: {
-          "backgroundColor": baseTheme.palette.background.paper,
-          "border": `1px solid ${baseTheme.palette.grey[400]}`,
-          "&:hover": { borderColor: baseTheme.palette.grey[400], backgroundColor: baseTheme.palette.background.paper }
         }
       }
     },
@@ -126,17 +115,8 @@ const theme = createTheme(baseTheme, {
     MuiFormLabel: {
       styleOverrides: {
         root: {
+          fontWeight: 500,
           marginBottom: baseTheme.spacing(1),
-          color: baseTheme.palette.grey["900"]
-        }
-      }
-    },
-    MuiFormControlLabel: {
-      styleOverrides: {
-        root: {
-          marginLeft: 0
-        },
-        label: {
           color: baseTheme.palette.grey["900"]
         }
       }
@@ -155,18 +135,10 @@ const theme = createTheme(baseTheme, {
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
+          borderRadius: baseTheme.shape.borderRadius,
           height: baseTheme.spacing(3),
           fontWeight: 600,
           fontSize: 14
-        },
-        colorInfo: {
-          color: "#317159",
-          backgroundColor: "#DCF2EA"
-        },
-        sizeSmall: {
-          fontSize: "11px",
-          borderRadius: baseTheme.shape.borderRadius
         }
       }
     },
@@ -217,17 +189,14 @@ const theme = createTheme(baseTheme, {
         },
         h6: {
           fontWeight: 600,
-          fontSize: "1rem",
+          fontSize: "1.25rem",
           lineHeight: 1.2,
           [baseTheme.breakpoints.down("md")]: {
             fontSize: "1.25rem",
             lineHeight: 1.2
           }
         },
-        body2: { lineHeight: "calc(20/14)" },
-        subtitle1: {
-          fontWeight: 500
-        }
+        body2: { lineHeight: "calc(20/14)" }
       }
     },
     MuiLink: {
@@ -252,62 +221,10 @@ const theme = createTheme(baseTheme, {
         }
       }
     },
-    MuiPaper: {
-      defaultProps: {
-        elevation: 0
-      }
-    },
     MuiTableCell: {
       styleOverrides: {
         head: {
           color: baseTheme.palette.grey[700]
-        }
-      }
-    },
-    MuiTableRow: {
-      styleOverrides: {
-        root: {
-          "&.MuiTableRow-hover": {
-            "&:hover": { cursor: "pointer" }
-          }
-        }
-      }
-    },
-    MuiSwitch: {
-      styleOverrides: {
-        root: {
-          width: 48,
-          height: 24,
-          padding: 0,
-          marginRight: baseTheme.spacing(1)
-        },
-        switchBase: {
-          "padding": 0,
-          "margin": 3,
-          "&.Mui-checked": {
-            "transform": "translateX(23px)",
-            "backgroundColor": baseTheme.palette.common.white,
-            "color": color.darkGreen,
-            "&:hover": {
-              backgroundColor: baseTheme.palette.common.white
-            },
-            "& + .MuiSwitch-track": {
-              backgroundColor: baseTheme.palette.background.dark,
-              opacity: 1
-            },
-            "&.Mui-disabled + .MuiSwitch-track": {
-              opacity: 0.5
-            }
-          }
-        },
-        thumb: {
-          boxSizing: "border-box",
-          width: 18,
-          height: 18
-        },
-        track: {
-          borderRadius: 24 / 2,
-          backgroundColor: baseTheme.palette.background.dark
         }
       }
     }
