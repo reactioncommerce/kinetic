@@ -31,11 +31,10 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.6.2",
-    "@graphql-codegen/near-operation-file-preset": "^2.2.12",
     "@graphql-codegen/typescript": "2.4.11",
     "@graphql-codegen/typescript-operations": "2.4.0",
     "@graphql-codegen/typescript-react-query": "^3.5.12",
-    "@reactioncommerce/eslint-config": "^2.3.0",
+    "@reactioncommerce/eslint-config": "^2.4.0",
     "@types/crypto-js": "^4.1.1",
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^18.0.0",

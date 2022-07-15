@@ -27,12 +27,12 @@ const Switch = ({
 }: SwitchProps) => {
   const _onBlur = onBlur ?? ((event) => fieldOnBlur(event ?? fieldProps.name));
 
-
   return (
     <MuiSwitch
       checkedIcon={<CheckIcon sx={{ width: "18px", height: "18px" }} />}
       type={type} disabled={disabled ?? isSubmitting}
       onBlur={_onBlur}
+      checked={fieldProps.value}
       {...fieldProps}
       {...props}/>
   );

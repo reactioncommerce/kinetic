@@ -1,9 +1,10 @@
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
+import { Box } from "@mui/material";
 
 type DrawerActionsProps = {
-  left?: JSX.Element;
-  right?: JSX.Element;
+  left?: JSX.Element | null;
+  right?: JSX.Element | null;
 };
 
 export const DrawerActions = ({ left, right }: DrawerActionsProps) => (
@@ -18,7 +19,7 @@ export const DrawerActions = ({ left, right }: DrawerActionsProps) => (
     alignItems="center"
     direction="row"
   >
-    {left}
+    <Box>{left}</Box>
     {right}
   </Paper>
 );

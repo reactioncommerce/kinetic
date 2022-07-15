@@ -17,8 +17,24 @@ const color = {
   black: "#000",
   white: "#FFF",
   background: "#F8FAFC",
-  darkGreen: "#001D28",
+  dark: "#001D28",
   electricGreen: "#00C14E",
+  darkGreen: "#146343",
+  lightGreen: "#DCF2EA",
+  lightYellow: "#FFEFD2",
+  darkYellow: "#66460D",
+  green: {
+    50: "#F0FFF4",
+    100: "#C6F6D5",
+    200: "#9AE6B4",
+    300: "#68D391",
+    400: "#48BB78",
+    500: "#38A169",
+    600: "#25855A",
+    700: "#276749",
+    800: "#22543D",
+    900: "#1C4532"
+  },
   grey: {
     50: "#F7FAFC",
     100: "#EDF2F7",
@@ -31,14 +47,14 @@ const color = {
     800: "#1A202C",
     900: "#171923"
   },
-  error: "#B7386F"
+  darkRed: "#B7386F"
 };
 
 // Create a theme instance.
 const baseTheme = createTheme({
   palette: {
     background: {
-      dark: color.darkGreen,
+      dark: color.dark,
       default: color.background,
       paper: color.white,
       lightGrey: color.grey["400"],
@@ -52,8 +68,11 @@ const baseTheme = createTheme({
       main: color.grey["700"],
       contrastText: color.white
     },
-    error: {
-      main: color.error
+    success: {
+      main: color.electricGreen,
+      light: alpha(color.electricGreen, 0.1),
+      dark: color.darkGreen,
+      contrastText: color.white
     }
   },
   typography: {
@@ -83,7 +102,7 @@ const theme = createTheme(baseTheme, {
       styleOverrides: {
         root: {
           "&:not(.MuiBackdrop-invisible)": {
-            backgroundColor: alpha(color.darkGreen, 0.7)
+            backgroundColor: alpha(baseTheme.palette.background.dark, 0.7)
           }
         }
       }
@@ -110,7 +129,13 @@ const theme = createTheme(baseTheme, {
         },
         outlinedSecondary: {
           "backgroundColor": baseTheme.palette.background.paper,
-          "border": `1px solid ${baseTheme.palette.grey[400]}`,
+          "borderColor": baseTheme.palette.grey[400],
+          "&:hover": { borderColor: baseTheme.palette.grey[400], backgroundColor: baseTheme.palette.background.paper }
+        },
+        outlinedError: {
+          "color": color.darkRed,
+          "backgroundColor": baseTheme.palette.background.paper,
+          "borderColor": baseTheme.palette.grey[400],
           "&:hover": { borderColor: baseTheme.palette.grey[400], backgroundColor: baseTheme.palette.background.paper }
         }
       }
@@ -146,8 +171,7 @@ const theme = createTheme(baseTheme, {
           backgroundColor: baseTheme.palette.background.paper
         },
         input: {
-          borderColor: baseTheme.palette.background.lightGrey,
-          padding: `${baseTheme.spacing(1)} ${baseTheme.spacing(2)}`
+          borderColor: baseTheme.palette.background.lightGrey
         }
       }
     },
@@ -159,9 +183,13 @@ const theme = createTheme(baseTheme, {
           fontWeight: 600,
           fontSize: 14
         },
-        colorInfo: {
-          color: "#317159",
-          backgroundColor: "#DCF2EA"
+        colorSuccess: {
+          color: color.darkGreen,
+          backgroundColor: color.lightGreen
+        },
+        colorWarning: {
+          backgroundColor: color.lightYellow,
+          color: color.darkYellow
         },
         sizeSmall: {
           fontSize: "11px",
@@ -272,6 +300,13 @@ const theme = createTheme(baseTheme, {
         }
       }
     },
+    MuiTablePagination: {
+      styleOverrides: {
+        root: {
+          backgroundColor: baseTheme.palette.background.default
+        }
+      }
+    },
     MuiSwitch: {
       styleOverrides: {
         root: {
@@ -286,7 +321,7 @@ const theme = createTheme(baseTheme, {
           "&.Mui-checked": {
             "transform": "translateX(23px)",
             "backgroundColor": baseTheme.palette.common.white,
-            "color": color.darkGreen,
+            "color": color.dark,
             "&:hover": {
               backgroundColor: baseTheme.palette.common.white
             },

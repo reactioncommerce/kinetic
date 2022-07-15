@@ -13,7 +13,6 @@ export const DrawerContent = ({ children, sx }: DrawerContentProps) => (
       bgcolor: "background.default",
       flex: 1,
       padding: 3,
-      position: "relative",
       ...sx
     }}
   >

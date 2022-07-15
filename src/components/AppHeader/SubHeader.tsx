@@ -16,10 +16,9 @@ type SubHeaderProps = {
 
 
 const activeStyles: SxProps = {
-  "backgroundColor": "background.lightGreen",
-  "color": "primary.main",
+  "backgroundColor": "success.light",
   "&:hover": {
-    backgroundColor: "background.lightGreen"
+    backgroundColor: "success.light"
   }
 };
 
@@ -28,7 +27,7 @@ const SubHeaderItem = ({ href, label }: SubHeaderItemProps) => {
   const resolvedPath = useResolvedPath(href);
   const match = useMatch({ path: resolvedPath.pathname, end: true });
 
-  return <Button size="small" color="secondary" component={Link}
+  return <Button size="small" color={match ? "success" : "secondary"} component={Link}
     to={href} sx={match ? activeStyles : {}}>
     {label}
   </Button>;
