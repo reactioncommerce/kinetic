@@ -16,6 +16,7 @@ import { Table, TableAction, TableContainer, useTableState } from "@components/T
 import { useShop } from "@containers/ShopProvider";
 import {
   useCreateFlatRateFulfillmentMethodMutation,
+  useDeleteFlatRateFulfillmentMethodMutationMutation,
   useGetShippingMethodsQuery,
   useUpdateFlatRateFulfillmentMethodMutationMutation
 } from "@graphql/generates";
@@ -124,15 +125,23 @@ const ShippingMethods = () => {
   const { mutate: update } =
     useUpdateFlatRateFulfillmentMethodMutationMutation(client);
 
+  const { mutate: deleteShippingMethod, isLoading: isDeleting } = useDeleteFlatRateFulfillmentMethodMutationMutation(client);
+
+  const handleClose = () => {
+    setOpen(false);
+    setActiveRow(undefined);
+  };
+
+  const onSuccess = () => {
+    handleClose();
+    refetch();
+  };
+
+
   const handleSubmit: FormikConfig<ShippingMethodFormValues>["onSubmit"] = (
     values,
     { setSubmitting }
   ) => {
-    const onSuccess = () => {
-      setOpen(false);
-      refetch();
-    };
-
     const method = { ...values, fulfillmentTypes: [values.fulfillmentTypes] };
 
     activeRow
@@ -144,7 +153,10 @@ const ShippingMethods = () => {
             method
           }
         },
-        { onSettled: () => setSubmitting(false), onSuccess }
+        {
+          onSettled: () => setSubmitting(false),
+          onSuccess
+        }
       )
       : create(
         {
@@ -165,6 +177,12 @@ const ShippingMethods = () => {
     setOpen(true);
   };
 
+  const handleDeleteShippingMethod = (methodId: string) => {
+    deleteShippingMethod({ input: { methodId, shopId: shopId! } }, {
+      onSuccess
+    });
+  };
+
   return (
     <TableContainer>
       <TableContainer.Header
@@ -181,10 +199,7 @@ const ShippingMethods = () => {
       />
       <Drawer
         open={open}
-        onClose={() => {
-          setOpen(false);
-          setActiveRow(undefined);
-        }}
+        onClose={handleClose}
         title="Add Shipping Method"
       >
         <Formik<ShippingMethodFormValues>
@@ -291,9 +306,16 @@ const ShippingMethods = () => {
               <Drawer.Actions
                 left={
                   activeRow ? (
-                    <Button variant="outlined" color="error" size="small">
+                    <LoadingButton
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      onClick={() => handleDeleteShippingMethod(activeRow._id)}
+                      loading={isDeleting}
+                      disabled={isSubmitting}
+                    >
                       Delete
-                    </Button>
+                    </LoadingButton>
                   ) : null
                 }
                 right={
@@ -303,6 +325,7 @@ const ShippingMethods = () => {
                       variant="outlined"
                       color="secondary"
                       disabled={isSubmitting}
+                      onClick={handleClose}
                     >
                       Cancel
                     </Button>
