@@ -11,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 
 type TablePaginationProps = Omit<MuiTablePaginationProps, "rowsPerPageOptions" | "onRowsPerPageChange" | "onPageChange"> & {
   pageCount: number
-  rowsLength: number
   onRowsPerPageChange: (newRowsPerPage: number) => void
   rowsPerPageOptions: number[]
   onPageChange: (page: number) => void
@@ -19,6 +18,10 @@ type TablePaginationProps = Omit<MuiTablePaginationProps, "rowsPerPageOptions" |
   disabledNextButton: boolean
   onClickNextPage: () => void
   onClickPreviousPage: () => void
+}
+
+function labelDisplayedRows({ from, to, count }: {from: number, to: number, count: number}) {
+  return `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`;
 }
 
 export default function TablePagination({
@@ -29,17 +32,23 @@ export default function TablePagination({
   rowsPerPage,
   count,
   onRowsPerPageChange,
-  rowsLength,
   disabledNextButton,
   disabledPrevButton,
   onClickNextPage,
   onClickPreviousPage
 }: TablePaginationProps) {
+  const getLabelDisplayedRowsTo = () => {
+    if (count === -1) {
+      return (page + 1) * rowsPerPage;
+    }
+    return rowsPerPage === -1 ? count : Math.min(count, (page + 1) * rowsPerPage);
+  };
+
   return (
     <Stack sx={{ backgroundColor: "background.default", padding: 2 }} direction="row" justifyContent="space-between" alignItems="center">
       <Stack direction="row" alignItems="center">
         <Typography variant="caption" color="grey.700">
-          {page * rowsPerPage + 1}-{page * rowsPerPage + rowsLength} of {count}
+          {labelDisplayedRows({ from: count === 0 ? 0 : page * rowsPerPage + 1, to: getLabelDisplayedRowsTo(), count: count === -1 ? -1 : count })}
         </Typography>
         <Divider orientation="vertical" flexItem sx={{ mx: 3 }} />
         <Typography variant="caption" color="grey.700">Rows/page: </Typography>

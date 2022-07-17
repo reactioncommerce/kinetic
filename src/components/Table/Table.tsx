@@ -115,7 +115,6 @@ export function Table<T>({
         pageCount={table.getPageCount()}
         onPageChange={(newPage) => table.setPageIndex(newPage)}
         onRowsPerPageChange={table.setPageSize}
-        rowsLength={table.getRowModel().rows.length}
         disabledNextButton={!table.getCanNextPage()}
         disabledPrevButton={!table.getCanPreviousPage()}
         onClickNextPage={table.nextPage}
