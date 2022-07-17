@@ -1,14 +1,14 @@
 import "@testing-library/jest-dom";
 import { shippingMethods } from "@mocks/handlers/shippingHandlers";
 
-import { render, screen, waitForElementToBeRemoved } from "@utils/test-utils";
+import { renderWithProviders, screen, waitForElementToBeRemoved } from "@utils/testUtils";
 
 import ShippingMethods from ".";
 
 
 describe("Shipping Methods", () => {
   it("should render shipping methods table", async () => {
-    render(<ShippingMethods/>);
+    renderWithProviders(<ShippingMethods/>);
     await screen.findByText("Shipping Methods");
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
 

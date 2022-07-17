@@ -12,7 +12,7 @@ afterEach(() => {
 
 const client = new QueryClient();
 
-const customRender = (ui: React.ReactElement, options = {}) =>
+const renderWithProviders = (ui: React.ReactElement, options = {}) =>
   render(ui, {
     // wrap provider(s) here if needed
     wrapper: ({ children }) => <QueryClientProvider client={client}>
@@ -27,5 +27,4 @@ const customRender = (ui: React.ReactElement, options = {}) =>
 
 export * from "@testing-library/react";
 export { default as userEvent } from "@testing-library/user-event";
-// override render export
-export { customRender as render };
+export { renderWithProviders };

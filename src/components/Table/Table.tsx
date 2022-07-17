@@ -16,7 +16,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Paper from "@mui/material/Paper";
 import { Dispatch, SetStateAction } from "react";
 
-import TablePagination from "./TablePagination";
+import { TablePagination } from "./TablePagination";
 
 declare module "@tanstack/react-table" {
   interface ColumnMeta {
