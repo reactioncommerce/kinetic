@@ -1,0 +1,52 @@
+query getShippingSurcharges(
+  $shopId: ID!
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+  $sortOrder: SortOrder
+  $sortBy: SurchargeSortByField
+) {
+  surcharges(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      destination {
+        country
+        postal
+        region
+      }
+      amount {
+        amount
+        displayAmount
+        currency {
+          code
+          _id
+          format
+          symbol
+        }
+      }
+      attributes {
+        operator
+        property
+        value
+        propertyType
+      }
+      methodIds
+      messagesByLanguage {
+        content
+        language
+      }
+    }
+    totalCount
+  }
+}
