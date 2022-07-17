@@ -38,8 +38,14 @@
       ],
       "types/*": [
         "types/*"
-      ]
-    }
+      ],
+      "@mocks/*": [
+        "mocks/*"
+      ],
+    },
+    "types": [
+      "vitest/globals"
+    ],
   },
   "include": [
     "src"

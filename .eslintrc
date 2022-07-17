@@ -28,6 +28,10 @@
           {
             "pattern": "types/*",
             "group": "parent"
+          },
+          {
+            "pattern": "@mocks/*",
+            "group": "parent"
           }
         ],
         "pathGroupsExcludedImportTypes": [],
