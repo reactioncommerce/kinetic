@@ -1,0 +1,66 @@
+query getShippingMethods(
+  $shopId: ID!
+  $first: ConnectionLimitInt
+  $offset: Int
+) {
+  flatRateFulfillmentMethods(shopId: $shopId, first: $first, offset: $offset) {
+    nodes {
+      _id
+      cost
+      fulfillmentTypes
+      group
+      handling
+      isEnabled
+      label
+      name
+      rate
+      shop {
+        _id
+      }
+    }
+  }
+}
+
+mutation createFlatRateFulfillmentMethod(
+  $input: CreateFlatRateFulfillmentMethodInput!
+) {
+  createFlatRateFulfillmentMethod(input: $input) {
+    method {
+      _id
+      cost
+      fulfillmentTypes
+      group
+      handling
+      isEnabled
+      label
+      name
+      rate
+    }
+  }
+}
+
+mutation updateFlatRateFulfillmentMethodMutation(
+  $input: UpdateFlatRateFulfillmentMethodInput!
+) {
+  updateFlatRateFulfillmentMethod(input: $input) {
+    method {
+      cost
+      fulfillmentTypes
+      group
+      isEnabled
+      handling
+      label
+      name
+      rate
+      _id
+    }
+  }
+}
+
+mutation deleteFlatRateFulfillmentMethodMutation($input: DeleteFlatRateFulfillmentMethodInput!) {
+    deleteFlatRateFulfillmentMethod(input: $input) {
+      method {
+        _id
+      }
+    }
+  }
