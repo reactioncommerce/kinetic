@@ -55,7 +55,7 @@ dependencies:
   '@mui/icons-material': 5.8.2_msmodi7edgaeac7c42yc2tgesu
   '@mui/lab': 5.0.0-alpha.85_zhl4hr7ifyxkhvjp4ffemmthnq
   '@mui/material': 5.8.2_lq5fjjb4pmmidg3r7c37rcsf64
-  '@tanstack/react-table': 8.2.2_ef5jwxihqo6n7gxfmzogljlgcm
+  '@tanstack/react-table': 8.2.6_ef5jwxihqo6n7gxfmzogljlgcm
   crypto-js: 4.1.1
   formik: 2.2.9_react@18.1.0
   graphql: 16.5.0
@@ -2652,20 +2652,20 @@ packages:
       defer-to-connect: 1.1.3
     dev: true
 
-  /@tanstack/react-table/8.2.2_ef5jwxihqo6n7gxfmzogljlgcm:
-    resolution: {integrity: sha512-X5odzgYciE3PUhlt2Adnc/p2PrR6lMAnUCHAwUGIiwA0TspkIjdhrgrkJf044BDIVytiofdb5fICDfZ77lcz1g==}
+  /@tanstack/react-table/8.2.6_ef5jwxihqo6n7gxfmzogljlgcm:
+    resolution: {integrity: sha512-hHEKSqRPSojhFLosSpqKMRNDX8mk/UVvFdekXHai86NAg1WaLYB51hWVg18IqFe9PCaPZNpTPNguJ7u54ed8Gg==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
-      '@tanstack/table-core': 8.2.2
+      '@tanstack/table-core': 8.2.6
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
     dev: false
 
-  /@tanstack/table-core/8.2.2:
-    resolution: {integrity: sha512-DQpX6S7Fob0ytfx8BzMLNAx/X4s1qxP66xZ5I2h7gHM2pCXmKMPU/dF4IMzq1lbJo7rDFlEMHffSz3knh7yX/Q==}
+  /@tanstack/table-core/8.2.6:
+    resolution: {integrity: sha512-yHjKksyq5ZI4GoVJgR/+X8Z1gaZdOL1om3G9M4af6yTTyRP5ZquMlU5318MBtx2NzXl4BxtENLXBWYrcz5WKSA==}
     engines: {node: '>=12'}
     dev: false
 
@@ -7802,6 +7802,13 @@ packages:
       punycode: 2.1.1
     dev: true
 
+  /tr46/3.0.0:
+    resolution: {integrity: sha512-l7FvfAHlcmulp8kr+flpQZmVwtu7nfRV7NZujtN0OqES8EL4O4e0qqzL0DC5gAvx/ZC/9lk6rhcUwYvkBnBnYA==}
+    engines: {node: '>=12'}
+    dependencies:
+      punycode: 2.1.1
+    dev: true
+
   /ts-easing/0.2.0:
     resolution: {integrity: sha512-Z86EW+fFFh/IFB1fqQ3/+7Zpf9t2ebOAxNI/V6Wo7r5gqiqtxmgTlQ1qbqQcjLKYeSHPTsEmvlJUDg/EuL0uHQ==}
     dev: false
@@ -8143,6 +8150,18 @@ packages:
 
   /webidl-conversions/3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+
+  /webidl-conversions/7.0.0:
+    resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
+    engines: {node: '>=12'}
+    dev: true
+
+  /whatwg-encoding/2.0.0:
+    resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
+    engines: {node: '>=12'}
+    dependencies:
+      iconv-lite: 0.6.3
+    dev: true
 
   /webidl-conversions/7.0.0:
     resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}

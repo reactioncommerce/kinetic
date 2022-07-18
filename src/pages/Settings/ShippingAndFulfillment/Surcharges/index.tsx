@@ -15,18 +15,22 @@ import { Surcharge } from "types/surcharges";
 
 const columns: ColumnDef<Surcharge>[] = [
   {
-    id: "nickName",
-    header: "Nickname",
-    cell: "-"
+    accessorFn: (row) => row.messagesByLanguage?.[0]?.content,
+    header: "Nickname"
   },
   {
     accessorKey: "destination",
     header: "Destination",
-    cell: (info) => (
-      <>{`${
-        info.getValue<SurchargeDestinationRestrictions>()?.country?.length ?? 0
-      } Destinations`}</>
-    )
+    cell: (info) => {
+      const totalCountry = info.getValue<SurchargeDestinationRestrictions>()?.country?.length ?? 0;
+      const totalPostal = info.getValue<SurchargeDestinationRestrictions>()?.postal?.length ?? 0;
+      const totalRegion = info.getValue<SurchargeDestinationRestrictions>()?.region?.length ?? 0;
+      return (
+        <>{`${
+          totalCountry + totalRegion + totalPostal
+        } Destinations`}</>
+      );
+    }
   },
   {
     accessorKey: "methodIds",
@@ -36,7 +40,10 @@ const columns: ColumnDef<Surcharge>[] = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: (info) => info.getValue<Money>().displayAmount
+    cell: (info) => info.getValue<Money>().displayAmount,
+    meta: {
+      align: "right"
+    }
   }
 ];
 
@@ -62,6 +69,7 @@ const Surcharges = () => {
         loading={isLoading}
         tableState={{ pagination }}
         onPaginationChange={handlePaginationChange}
+        totalCount={data?.surcharges.totalCount ?? 0}
       />
     </TableContainer>
   );

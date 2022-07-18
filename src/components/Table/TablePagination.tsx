@@ -8,8 +8,10 @@ import MenuItem from "@mui/material/MenuItem";
 import WestIcon from "@mui/icons-material/West";
 import EastIcon from "@mui/icons-material/East";
 import IconButton from "@mui/material/IconButton";
+import { useRef } from "react";
+import { uniqueId } from "lodash-es";
 
-type TablePaginationProps = Omit<MuiTablePaginationProps, "rowsPerPageOptions" | "onRowsPerPageChange" | "onPageChange"> & {
+export type TablePaginationProps = Omit<MuiTablePaginationProps, "rowsPerPageOptions" | "onRowsPerPageChange" | "onPageChange"> & {
   pageCount: number
   onRowsPerPageChange: (newRowsPerPage: number) => void
   rowsPerPageOptions: number[]
@@ -24,7 +26,7 @@ function labelDisplayedRows({ from, to, count }: {from: number, to: number, coun
   return `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`;
 }
 
-export default function TablePagination({
+export const TablePagination = ({
   rowsPerPageOptions = [10, 25, 50, 100],
   pageCount,
   onPageChange,
@@ -36,7 +38,9 @@ export default function TablePagination({
   disabledPrevButton,
   onClickNextPage,
   onClickPreviousPage
-}: TablePaginationProps) {
+}: TablePaginationProps) => {
+  const rowsPerPageLabelId = useRef(uniqueId("rows-per-page")).current;
+
   const getLabelDisplayedRowsTo = () => {
     if (count === -1) {
       return (page + 1) * rowsPerPage;
@@ -51,11 +55,12 @@ export default function TablePagination({
           {labelDisplayedRows({ from: count === 0 ? 0 : page * rowsPerPage + 1, to: getLabelDisplayedRowsTo(), count: count === -1 ? -1 : count })}
         </Typography>
         <Divider orientation="vertical" flexItem sx={{ mx: 3 }} />
-        <Typography variant="caption" color="grey.700">Rows/page: </Typography>
+        <Typography variant="caption" color="grey.700" id={rowsPerPageLabelId}>Rows/page: </Typography>
         <Select
           variant="standard"
           input={<InputBase />}
           value={rowsPerPage}
+          labelId={rowsPerPageLabelId}
           onChange={(event) => onRowsPerPageChange(Number(event.target.value))}
           sx={{
             "fontSize": "0.75rem",
@@ -79,7 +84,7 @@ export default function TablePagination({
       </Stack>
       <Stack direction="row" alignItems="center">
         <Typography variant="caption" color="grey.700">
-          Page
+          Go to page
         </Typography>
         <InputBase sx={{ "mx": 1, "width": "40px", "fontSize": "0.75rem", "& .MuiInputBase-input": { padding: 0 } }}
           type="number" defaultValue={page + 1} onChange={(event) => {
@@ -100,4 +105,4 @@ export default function TablePagination({
       </Stack>
     </Stack>
   );
-}
+};

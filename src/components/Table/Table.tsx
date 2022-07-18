@@ -15,8 +15,9 @@ import {
 import CircularProgress from "@mui/material/CircularProgress";
 import Paper from "@mui/material/Paper";
 import { Dispatch, SetStateAction } from "react";
+import { ceil } from "lodash-es";
 
-import TablePagination from "./TablePagination";
+import { TablePagination } from "./TablePagination";
 
 declare module "@tanstack/react-table" {
   interface ColumnMeta {
@@ -50,7 +51,8 @@ export function Table<T>({
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     state: tableState,
-    onPaginationChange
+    onPaginationChange,
+    pageCount: tableState.pagination?.pageSize ? ceil(totalCount / tableState.pagination.pageSize) : -1
   });
 
   return (

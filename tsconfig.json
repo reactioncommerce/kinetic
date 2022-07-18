@@ -36,12 +36,12 @@
       "@graphql/*": [
         "graphql/*"
       ],
+      "types/*": [
+        "types/*"
+      ],
       "@mocks/*": [
         "mocks/*"
       ],
-      "types/*": [
-        "types/*"
-      ]
     },
     "types": [
       "vitest/globals"

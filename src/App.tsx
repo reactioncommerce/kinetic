@@ -12,10 +12,9 @@ import Login from "./pages/Login";
 import CreateShop from "./pages/CreateShop";
 import PasswordReset from "./pages/PasswordReset";
 import NewPassword from "./pages/NewPassword";
-import ShippingConfiguration from "./pages/Settings/ShippingConfiguration";
-import ShippingMethods from "./pages/Settings/ShippingConfiguration/Methods";
-import ShippingRestrictions from "./pages/Settings/ShippingConfiguration/Restrictions";
-import ShippingSurcharges from "./pages/Settings/ShippingConfiguration/Surcharges";
+import ShippingConfiguration from "./pages/Settings/ShippingAndFulfillment";
+import ShippingMethods from "./pages/Settings/ShippingAndFulfillment/Methods";
+import ShippingSurcharges from "./pages/Settings/ShippingAndFulfillment/Surcharges";
 
 function App() {
   return (
@@ -38,7 +37,6 @@ function App() {
                   <Route path="settings">
                     <Route path="shipping-fulfillment" element={<ShippingConfiguration />}>
                       <Route index element={<ShippingMethods/>} />
-                      <Route path="restrictions" element={<ShippingRestrictions />} />
                       <Route path="surcharges" element={<ShippingSurcharges />} />
                     </Route>
                   </Route>

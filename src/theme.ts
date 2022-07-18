@@ -23,18 +23,6 @@ const color = {
   lightGreen: "#DCF2EA",
   lightYellow: "#FFEFD2",
   darkYellow: "#66460D",
-  green: {
-    50: "#F0FFF4",
-    100: "#C6F6D5",
-    200: "#9AE6B4",
-    300: "#68D391",
-    400: "#48BB78",
-    500: "#38A169",
-    600: "#25855A",
-    700: "#276749",
-    800: "#22543D",
-    900: "#1C4532"
-  },
   grey: {
     50: "#F7FAFC",
     100: "#EDF2F7",
