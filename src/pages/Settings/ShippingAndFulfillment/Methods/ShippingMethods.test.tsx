@@ -16,7 +16,7 @@ describe("Shipping Methods", () => {
       expect(screen.getByText(method.name)).toBeInTheDocument();
       expect(screen.getByText(method.label)).toBeInTheDocument();
       expect(screen.getAllByText(method.group)[0]).toBeInTheDocument();
-      expect(screen.getByText(method.rate)).toBeInTheDocument();
+      expect(screen.getByText(`$${method.rate + method.handling}`)).toBeInTheDocument();
       const enabledText = method.isEnabled ? "ENABLED" : "DISABLED";
       expect(screen.getAllByText(enabledText)[0]).toBeInTheDocument();
     });
