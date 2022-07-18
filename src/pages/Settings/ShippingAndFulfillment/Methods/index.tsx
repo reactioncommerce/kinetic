@@ -24,8 +24,9 @@ const columns: ColumnDef<ShippingMethod>[] = [
     header: "Group"
   },
   {
-    accessorKey: "rate",
-    header: "S&H Fee"
+    id: "s&h fee",
+    header: "S&H Fee",
+    cell: (info) => `$${info.row.original.rate + info.row.original.handling}`
   },
   {
     accessorKey: "isEnabled",
