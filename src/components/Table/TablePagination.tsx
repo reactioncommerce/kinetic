@@ -49,9 +49,9 @@ export const TablePagination = ({
   };
 
   return (
-    <Stack sx={{ backgroundColor: "background.default", padding: 2 }} direction="row" justifyContent="space-between" alignItems="center">
+    <Stack sx={{ backgroundColor: "background.default", padding: 2, overflowX: "auto" }} direction="row" justifyContent="space-between" alignItems="center">
       <Stack direction="row" alignItems="center">
-        <Typography variant="caption" color="grey.700">
+        <Typography variant="caption" color="grey.700" noWrap>
           {labelDisplayedRows({ from: count === 0 ? 0 : page * rowsPerPage + 1, to: getLabelDisplayedRowsTo(), count: count === -1 ? -1 : count })}
         </Typography>
         <Divider orientation="vertical" flexItem sx={{ mx: 3 }} />
@@ -92,7 +92,7 @@ export const TablePagination = ({
             onPageChange(currentPage);
           }}
         />
-        <Typography variant="caption" color="grey.700">
+        <Typography variant="caption" color="grey.700" noWrap>
           of {pageCount}
         </Typography>
         <Divider orientation="vertical" flexItem sx={{ mx: 3 }} />
