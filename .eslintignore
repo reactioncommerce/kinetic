@@ -1,3 +1,4 @@
 src/graphql/generates.ts
 src/graphql/types.ts
 src/vite-env.d.ts
+vite.config.ts
