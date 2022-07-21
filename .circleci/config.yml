@@ -16,20 +16,13 @@ orbs:
   node: circleci/node@5.0.2
 
 jobs:
-  install-pnpm:
-    <<: *defaults
-    steps:
-      - run:
-          name: Install pnpm
-          command: sudo npm install -g pnpm
   install-dependencies:
     <<: *defaults
     steps:
       - checkout
-      - install-pnpm
       - run:
           name: Install dependencies with pnpm
-          command: pnpm install
+          command: sudo npm install -g pnpm && pnpm install
 
   eslint:
     <<: *defaults
