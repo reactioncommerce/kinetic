@@ -1,7 +1,7 @@
 FROM node:lts-alpine as development
 
 WORKDIR /tmp
-RUN npm i -g pnpm@7
+RUN sudo npm i -g pnpm@7
 
 WORKDIR /app
 COPY pnpm-lock.yaml ./
