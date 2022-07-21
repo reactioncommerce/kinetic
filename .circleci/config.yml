@@ -8,7 +8,7 @@ defaults: &defaults
     DOCKER_NAMESPACE: "reactioncommerce"
     DOCKER_NAME: "kinetic"
   docker:
-    - image: znck/pnpm
+    - image: circleci/node:14.18.1-stretch
 
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
@@ -24,6 +24,9 @@ jobs:
           keys:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
             - kinetic-v1-node-modules-{{ .Branch }}
+      - run:
+          name: Install pnpm
+          command: curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@7
       - run:
           name: Install dependencies with pnpm
           command: pnpm install --frozen-lockfile
