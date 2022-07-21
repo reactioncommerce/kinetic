@@ -48,12 +48,27 @@ jobs:
           name: Lint JavaScript
           command: pnpm run lint
 
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
+            - kinetic-v1-node-modules-{{ .Branch }}
+      - run:
+          name: Run tests
+          command: pnpm run test
+
 workflows:
   version: 2
   build_and_test:
     jobs:
       - install-dependencies
       - eslint:
+          requires:
+            - install-dependencies
+      - test:
           requires:
             - install-dependencies
 
