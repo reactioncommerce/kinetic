@@ -29,8 +29,8 @@ describe("Shipping Methods", () => {
 
     fireEvent.click(screen.getByText("Add"));
     expect(screen.getByText("Add Shipping Method")).toBeInTheDocument();
+    expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     const user = userEvent.setup();
-
 
     await user.click(screen.getByText("Save Changes"));
     expect(screen.getByText("Add Shipping Method")).toBeInTheDocument();
@@ -44,6 +44,22 @@ describe("Shipping Methods", () => {
     await user.click(screen.getByText("Save Changes"));
     await waitFor(() => {
       expect(screen.queryByText("Add Shipping Method")).not.toBeInTheDocument();
+    });
+  });
+
+  it("should successfully delete a shipping method", async () => {
+    renderWithProviders(<ShippingMethods/>);
+    await screen.findByText("Shipping Methods");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+
+    fireEvent.click(screen.getByText(shippingMethods[0].name));
+    expect(screen.getByText("Edit Shipping Method")).toBeInTheDocument();
+    expect(screen.getByText("Delete")).toBeInTheDocument();
+    const user = userEvent.setup();
+
+    await user.click(screen.getByText("Delete"));
+    await waitFor(() => {
+      expect(screen.queryByText("Edit Shipping Method")).not.toBeInTheDocument();
     });
   });
 });

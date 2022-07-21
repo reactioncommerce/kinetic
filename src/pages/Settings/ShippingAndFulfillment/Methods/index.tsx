@@ -208,7 +208,7 @@ const ShippingMethods = () => {
       <Drawer
         open={open}
         onClose={handleClose}
-        title="Add Shipping Method"
+        title={activeRow ? "Edit Shipping Method" : "Add Shipping Method"}
       >
         <Formik<ShippingMethodFormValues>
           onSubmit={handleSubmit}

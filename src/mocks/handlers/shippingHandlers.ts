@@ -25,4 +25,10 @@ const createShippingMethodHandler = graphql.mutation("createFlatRateFulfillmentM
   return res(ctx.data({ input }));
 });
 
-export const handlers = [getShippingMethodsHandlers, createShippingMethodHandler];
+const deleteShippingMethodHandler = graphql.mutation("deleteFlatRateFulfillmentMethodMutation", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+
+export const handlers = [getShippingMethodsHandlers, createShippingMethodHandler, deleteShippingMethodHandler];
