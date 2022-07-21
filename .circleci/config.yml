@@ -7,9 +7,8 @@ defaults: &defaults
     DOCKER_REPOSITORY: "reactioncommerce/kinetic"
     DOCKER_NAMESPACE: "reactioncommerce"
     DOCKER_NAME: "kinetic"
-  executor:
-    name: node/default
-    tag: '16.16.0'
+  docker:
+    - image: circleci/node:14.18.1-stretch
 
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
@@ -21,7 +20,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - node/install-packages
       - restore_cache:
           keys:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
@@ -45,7 +43,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - node/install-packages
       - restore_cache:
           keys:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
@@ -61,7 +58,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - node/install-packages
       - restore_cache:
           keys:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
