@@ -26,8 +26,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - install-pnpm
       - run:
-          name: Install NPM dependencies
+          name: Install dependencies with pnpm
           command: pnpm install
 
   eslint:
