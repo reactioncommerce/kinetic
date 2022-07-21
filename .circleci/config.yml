@@ -26,7 +26,7 @@ jobs:
             - kinetic-v1-node-modules-{{ .Branch }}
       - run:
           name: Install dependencies with pnpm
-          command: pnpm install
+          command: npm ci
       - save_cache:
           key: kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
           paths:
@@ -46,7 +46,7 @@ jobs:
             - kinetic-v1-node-modules{{ .Branch }}
       - run:
           name: Lint JavaScript
-          command: pnpm run lint
+          command: npm run lint
 
 workflows:
   version: 2

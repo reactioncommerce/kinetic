@@ -8,7 +8,7 @@
     "test": "vitest",
     "preview": "vite preview",
     "generate": "graphql-codegen --config codegen.yml",
-    "lint": "./node_modules/eslint/bin/eslint.js --ext=ts,tsx src"
+    "lint": "eslint --ext=ts,tsx src"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
