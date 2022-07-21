@@ -48,6 +48,9 @@ jobs:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
             - kinetic-v1-node-modules-{{ .Branch }}
       - run:
+          name: Install pnpm
+          command: sudo npm i -g pnpm@7
+      - run:
           name: Lint JavaScript
           command: pnpm run lint
 
@@ -59,6 +62,9 @@ jobs:
           keys:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
             - kinetic-v1-node-modules-{{ .Branch }}
+      - run:
+          name: Install pnpm
+          command: sudo npm i -g pnpm@7
       - run:
           name: Run tests
           command: pnpm run test
