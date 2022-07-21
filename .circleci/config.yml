@@ -26,7 +26,7 @@ jobs:
             - kinetic-v1-node-modules-{{ .Branch }}
       - run:
           name: Install pnpm
-          command: curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@7
+          command: curl -f https://get.pnpm.io/v6.16.js | sudo node - add --global pnpm@7
       - run:
           name: Install dependencies with pnpm
           command: pnpm install --frozen-lockfile
