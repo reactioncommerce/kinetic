@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy } from "react";
 
 import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
 import { AccountProvider } from "@containers/AccountProvider";
@@ -7,13 +8,15 @@ import { ShopProvider } from "@containers/ShopProvider";
 
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
 import CreateShop from "./pages/CreateShop";
-import PasswordReset from "./pages/PasswordReset";
-import NewPassword from "./pages/NewPassword";
 import ShippingConfiguration from "./pages/Settings/ShippingAndFulfillment";
 import ShippingMethods from "./pages/Settings/ShippingAndFulfillment/Methods";
+import ShippingSurcharges from "./pages/Settings/ShippingAndFulfillment/Surcharges";
+
+const Login = lazy(() => import("./pages/Login"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const PasswordReset = lazy(() => import("./pages/PasswordReset"));
+const NewPassword = lazy(() => import("./pages/NewPassword"));
 
 function App() {
   return (
@@ -36,6 +39,7 @@ function App() {
                   <Route path="settings">
                     <Route path="shipping-fulfillment" element={<ShippingConfiguration />}>
                       <Route index element={<ShippingMethods/>} />
+                      <Route path="surcharges" element={<ShippingSurcharges />} />
                     </Route>
                   </Route>
                   <Route path="*" element={<NotFound />} />
