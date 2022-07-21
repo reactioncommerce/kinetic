@@ -24,7 +24,7 @@ const Surcharges = () => {
 
   const columns: ColumnDef<Surcharge>[] = useMemo(() => [
     {
-      accessorFn: (row) => row.messagesByLanguage?.[0]?.content,
+      accessorFn: (row) => row.messagesByLanguage?.[0]?.content || "--",
       header: "Nickname"
     },
     {
