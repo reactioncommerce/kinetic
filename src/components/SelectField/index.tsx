@@ -1,22 +1,25 @@
 import FormControl, { FormControlProps } from "@mui/material/FormControl";
-import { FieldProps, getIn } from "formik";
-import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
+import Select, { SelectProps } from "@mui/material/Select";
 import FormHelperText from "@mui/material/FormHelperText";
-import FormLabel from "@mui/material/FormLabel";
 import Collapse from "@mui/material/Collapse";
+import FormLabel from "@mui/material/FormLabel";
+import MenuItem from "@mui/material/MenuItem";
+import { FieldProps, getIn } from "formik";
 import { uniqueId } from "lodash-es";
 import { useRef } from "react";
 
-type CustomTextFieldProps = {
+
+type CustomSelectFieldProps = {
   helperText?: string
+  options: Array<{value: string | number, label: string}>
 }
 
-export type TextFieldProps = FieldProps &
-  FormControlProps &
-  Omit<OutlinedInputProps, "name" | "value" | "error" | "margin"> &
-  CustomTextFieldProps
 
-export const TextField = ({
+type SelectFieldProps = FieldProps &
+  FormControlProps &
+  Omit<SelectProps, "name" | "value" | "error" | "margin"> & CustomSelectFieldProps
+
+export const SelectField = ({
   field: { onBlur: fieldOnBlur, ...restFieldProps },
   form: { isSubmitting, touched, errors },
   fullWidth = true,
@@ -25,39 +28,39 @@ export const TextField = ({
   required,
   label,
   onBlur,
+  options,
   helperText,
   ...props
-}: TextFieldProps) => {
+}: SelectFieldProps) => {
   const fieldError = getIn(errors, restFieldProps.name) as string;
   const showError = getIn(touched, restFieldProps.name) && !!fieldError;
-
   const _helperText = showError ? fieldError : helperText;
 
-  const fieldId = useRef(uniqueId("text-field")).current;
+  const fieldId = useRef(uniqueId("select-field")).current;
   const helperTextId = useRef(uniqueId("helper-text")).current;
 
   const _onBlur = onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
 
   return (
-    <FormControl
-      fullWidth={fullWidth}
+    <FormControl fullWidth={fullWidth}
       size={size}
       error={showError}
       required={required}
       margin={margin}
       disabled={props.disabled ?? isSubmitting}
-      variant="standard"
     >
-      <FormLabel htmlFor={fieldId}>
+      <FormLabel htmlFor={fieldId} sx={{ fontWeight: 400 }}>
         {label}
       </FormLabel>
-      <OutlinedInput
+      <Select
         id={fieldId}
         onBlur={_onBlur}
         aria-describedby={helperTextId}
         {...props}
         {...restFieldProps}
-      />
+      >
+        {options.map((opt) => <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>)}
+      </Select>
       <Collapse in={!!_helperText}>
         {_helperText && <FormHelperText id={helperTextId}>{_helperText}</FormHelperText>}
       </Collapse>
