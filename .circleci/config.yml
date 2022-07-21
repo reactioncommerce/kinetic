@@ -26,7 +26,7 @@ jobs:
             - kinetic-v1-node-modules-{{ .Branch }}
       - run:
           name: Install pnpm
-          command: sudo npm i -g pnpm@7
+          command: sudo npm i -g pnpm@7.5.0
       - run:
           name: Install dependencies with pnpm
           command: pnpm install --frozen-lockfile
@@ -49,7 +49,7 @@ jobs:
             - kinetic-v1-node-modules-{{ .Branch }}
       - run:
           name: Install pnpm
-          command: sudo npm i -g pnpm@7
+          command: sudo npm i -g pnpm@7.5.0
       - run:
           name: Lint JavaScript
           command: pnpm run lint
@@ -64,7 +64,7 @@ jobs:
             - kinetic-v1-node-modules-{{ .Branch }}
       - run:
           name: Install pnpm
-          command: sudo npm i -g pnpm@7
+          command: sudo npm i -g pnpm@7.5.0
       - run:
           name: Run tests
           command: pnpm run test
