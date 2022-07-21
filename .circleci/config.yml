@@ -44,9 +44,7 @@ workflows:
   build_and_test:
     jobs:
       - install-dependencies
-      - install-pnpm
       - eslint:
           requires:
-            - install-pnpm
             - install-dependencies
 
