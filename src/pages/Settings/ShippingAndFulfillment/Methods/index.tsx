@@ -38,10 +38,10 @@ type ShippingMethodFormValues = Omit<
 const shippingMethodSchema = Yup.object().shape({
   name: Yup.string().required("This field is required"),
   label: Yup.string().required("This field is required"),
-  cost: Yup.number(),
+  cost: Yup.number().min(0, "Cost must be greater than or equal to 0").required("This field is required"),
   group: Yup.string().required("This field is required"),
-  handling: Yup.number().required("This field is required"),
-  rate: Yup.number().required("This field is required"),
+  handling: Yup.number().min(0, "Handling must be greater than or equal to 0").required("This field is required"),
+  rate: Yup.number().min(0, "Shipping must be greater than or equal to 0").required("This field is required").required("This field is required"),
   isEnabled: Yup.boolean().required("This field is required"),
   fulfillmentTypes: Yup.string()
     .oneOf(Object.values(FulfillmentType))

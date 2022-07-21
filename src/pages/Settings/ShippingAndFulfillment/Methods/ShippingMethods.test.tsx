@@ -38,8 +38,16 @@ describe("Shipping Methods", () => {
     expect(screen.getByLabelText("Name")).toBeInvalid();
     expect(screen.getByLabelText("Label")).toBeInvalid();
 
+
     await user.type(screen.getByLabelText("Name"), "New Shipping Method");
     await user.type(screen.getByLabelText("Label"), "Shipping Label");
+
+    const handlingInput = screen.getByLabelText("Handling") as HTMLInputElement;
+    await user.type(handlingInput, "-0.5");
+    expect(handlingInput).toBeInvalid();
+
+    await user.clear(handlingInput);
+    await user.type(handlingInput, "0.5");
 
     await user.click(screen.getByText("Save Changes"));
     await waitFor(() => {
