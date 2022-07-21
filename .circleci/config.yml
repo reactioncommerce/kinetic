@@ -9,6 +9,7 @@ defaults: &defaults
     DOCKER_NAME: "kinetic"
   executor:
     name: node/default
+    tag: '16-alpine3.15'
 
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
@@ -20,8 +21,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - restore_cache:
           keys:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
@@ -45,8 +44,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - restore_cache:
           keys:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
@@ -62,8 +59,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - restore_cache:
           keys:
             - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
