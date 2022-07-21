@@ -46,7 +46,7 @@ jobs:
             - kinetic-v1-node-modules{{ .Branch }}
       - run:
           name: Lint JavaScript
-          command: pnpm run lint
+          command: eslint --ext=ts,tsx src
 
 workflows:
   version: 2
