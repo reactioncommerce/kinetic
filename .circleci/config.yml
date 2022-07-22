@@ -1,0 +1,83 @@
+# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+version: 2.1
+
+defaults: &defaults
+  environment:
+    CI_SCRIPTS: "npx --quiet --package @reactioncommerce/ci-scripts@1.6.2"
+    DOCKER_REPOSITORY: "reactioncommerce/kinetic"
+    DOCKER_NAMESPACE: "reactioncommerce"
+    DOCKER_NAME: "kinetic"
+  docker:
+    - image: circleci/node:14.18.1
+
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+orbs:
+  node: circleci/node@5.0.2
+
+jobs:
+  install-dependencies:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
+            - kinetic-v1-node-modules-{{ .Branch }}
+      - run:
+          name: Install pnpm
+          command: sudo npm i -g pnpm@7.5.0
+      - run:
+          name: Install dependencies with pnpm
+          command: pnpm install --frozen-lockfile
+      - save_cache:
+          key: kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - node_modules
+      - save_cache:
+          key: kinetic-v1-node-modules-{{ .Branch }}
+          paths:
+            - node_modules
+
+  eslint:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
+            - kinetic-v1-node-modules-{{ .Branch }}
+      - run:
+          name: Install pnpm
+          command: sudo npm i -g pnpm@7.5.0
+      - run:
+          name: Lint JavaScript
+          command: pnpm run lint
+
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - kinetic-v1-node-modules-{{ checksum "package.json" }}-{{ "pnpm-lock.yaml" }}
+            - kinetic-v1-node-modules-{{ .Branch }}
+      - run:
+          name: Install pnpm
+          command: sudo npm i -g pnpm@7.5.0
+      - run:
+          name: Run tests
+          command: pnpm run test
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - install-dependencies
+      - eslint:
+          requires:
+            - install-dependencies
+      - test:
+          requires:
+            - install-dependencies
+
