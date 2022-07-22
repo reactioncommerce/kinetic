@@ -17,7 +17,7 @@ export interface SwitchProps
   type?: string;
 }
 
-const Switch = ({
+export const Switch = ({
   type = "checkbox",
   disabled,
   field: { onBlur: fieldOnBlur, ...fieldProps },
@@ -37,5 +37,3 @@ const Switch = ({
       {...props}/>
   );
 };
-
-export default Switch;

@@ -20,4 +20,15 @@ export const shippingMethods: ShippingMethod[] = [mockShippingMethods(), mockShi
 const getShippingMethodsHandlers = graphql.query("getShippingMethods", (req, res, ctx) =>
   res(ctx.data({ flatRateFulfillmentMethods: { nodes: shippingMethods } })));
 
-export const handlers = [getShippingMethodsHandlers];
+const createShippingMethodHandler = graphql.mutation("createFlatRateFulfillmentMethod", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+const deleteShippingMethodHandler = graphql.mutation("deleteFlatRateFulfillmentMethodMutation", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+
+export const handlers = [getShippingMethodsHandlers, createShippingMethodHandler, deleteShippingMethodHandler];

@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "test": "vitest",
+    "test": "vitest run --passWithNoTests",
     "preview": "vite preview",
     "generate": "graphql-codegen --config codegen.yml",
-    "lint": "tsc --noEmit && eslint --ext=ts,tsx src"
+    "lint": "eslint --ext=ts,tsx src",
+    "lint:fix": "eslint --ext=ts,tsx src --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",

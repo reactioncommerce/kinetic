@@ -33,6 +33,7 @@ type TableProps<T> = MuiTableProps & {
   totalCount?: number;
   tableState: Partial<TableState>;
   onPaginationChange: Dispatch<SetStateAction<PaginationState>>;
+  emptyPlaceholder?: JSX.Element
 };
 
 export function Table<T>({
@@ -43,7 +44,8 @@ export function Table<T>({
   loading = false,
   totalCount = data.length,
   tableState,
-  onPaginationChange
+  onPaginationChange,
+  emptyPlaceholder
 }: TableProps<T>) {
   const table = useReactTable({
     data,
@@ -51,9 +53,35 @@ export function Table<T>({
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     state: tableState,
-    onPaginationChange,
-    pageCount: tableState.pagination?.pageSize ? ceil(totalCount / tableState.pagination.pageSize) : -1
+    pageCount: tableState.pagination?.pageSize ? ceil(totalCount / tableState.pagination.pageSize) : -1,
+    onPaginationChange
   });
+
+  const tableBodyContent = table.getRowModel().rows.length === 0 ? (
+    <TableRow>
+      <TableCell colSpan={table.getAllColumns().length} sx={{ height: "300px" }} align="center">{emptyPlaceholder ?? "No Data"}</TableCell>
+    </TableRow>
+  ) : (
+    table.getRowModel().rows.map((row) => (
+      <TableRow
+        hover
+        key={row.id}
+        onClick={() => onRowClick?.(row.original)}
+      >
+        {row.getVisibleCells().map((cell) => (
+          <TableCell
+            key={cell.id}
+            {...{ ...cell.column.columnDef?.meta }}
+          >
+            {flexRender(
+              cell.column.columnDef.cell,
+              cell.getContext()
+            )}
+          </TableCell>
+        ))}
+      </TableRow>
+    ))
+  );
 
   return (
     <Paper>
@@ -63,7 +91,7 @@ export function Table<T>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableCell key={header.id} {...header.column.columnDef?.meta}>
+                  <TableCell key={header.id} sx={{ whiteSpace: "nowrap" }} {...header.column.columnDef?.meta}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -85,27 +113,7 @@ export function Table<T>({
                   <CircularProgress color="inherit" />
                 </TableCell>
               </TableRow>
-            ) : (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  hover
-                  key={row.id}
-                  onClick={() => onRowClick?.(row.original)}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      {...{ ...cell.column.columnDef?.meta }}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            )}
+            ) : tableBodyContent}
           </TableBody>
         </MuiTable>
       </TableContainer>

@@ -1,15 +1,14 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Chip from "@mui/material/Chip";
-import { useState } from "react";
-import { Field, Form, Formik, FormikConfig } from "formik";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import Typography from "@mui/material/Typography";
-import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
-import { startCase } from "lodash-es";
+import { useMemo, useState } from "react";
 import * as Yup from "yup";
+import { startCase } from "lodash-es";
+import { Field, Form, Formik, FormikConfig } from "formik";
+import { Divider, FormControlLabel, InputAdornment } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
@@ -21,16 +20,13 @@ import {
   useUpdateFlatRateFulfillmentMethodMutationMutation
 } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
-import { filterNodes } from "@utils/filterEdges";
-import { FulfillmentGroup, ShippingMethod } from "types/shippingMethods";
+import { filterNodes } from "@utils/filterNodes";
+import { FulfillmentGroup, ShippingMethod } from "types/shippingMethod";
+import { FlatRateFulfillmentMethodInput, FulfillmentType } from "@graphql/types";
 import { Drawer } from "@components/Drawer";
-import Switch from "@components/Switch";
+import { Switch } from "@components/Switch";
 import { SelectField } from "@components/SelectField";
 import { TextField } from "@components/TextField";
-import {
-  FlatRateFulfillmentMethodInput,
-  FulfillmentType
-} from "@graphql/types";
 
 type ShippingMethodFormValues = Omit<
   FlatRateFulfillmentMethodInput,
@@ -39,47 +35,13 @@ type ShippingMethodFormValues = Omit<
   fulfillmentTypes: FulfillmentType;
 };
 
-const columns: ColumnDef<ShippingMethod>[] = [
-  {
-    accessorKey: "name",
-    header: "Name"
-  },
-  {
-    accessorKey: "label",
-    header: "Label"
-  },
-  {
-    accessorKey: "group",
-    header: "Group"
-  },
-  {
-    id: "s&h fee",
-    header: "S&H Fee",
-    cell: (info) => `$${info.row.original.rate + info.row.original.handling}`
-  },
-  {
-    accessorKey: "isEnabled",
-    header: "Status",
-    cell: (info) => (
-      <Chip
-        color={info.getValue() ? "success" : "warning"}
-        size="small"
-        label={info.getValue() ? "ENABLED" : "DISABLED"}
-      />
-    ),
-    meta: {
-      align: "right"
-    }
-  }
-];
-
 const shippingMethodSchema = Yup.object().shape({
   name: Yup.string().required("This field is required"),
   label: Yup.string().required("This field is required"),
-  cost: Yup.number(),
+  cost: Yup.number().min(0, "Cost must be greater than or equal to 0").required("This field is required"),
   group: Yup.string().required("This field is required"),
-  handling: Yup.number().required("This field is required"),
-  rate: Yup.number().required("This field is required"),
+  handling: Yup.number().min(0, "Handling must be greater than or equal to 0").required("This field is required"),
+  rate: Yup.number().min(0, "Shipping must be greater than or equal to 0").required("This field is required").required("This field is required"),
   isEnabled: Yup.boolean().required("This field is required"),
   fulfillmentTypes: Yup.string()
     .oneOf(Object.values(FulfillmentType))
@@ -92,7 +54,6 @@ const fulfillmentTypeOptions = Object.values(FulfillmentType).map((value) => ({
 }));
 
 const fulfillmentGroupOptions = Object.values(FulfillmentGroup).map((value) => ({ label: value, value }));
-
 
 const getFormInitialValues = (shippingMethod?: ShippingMethod): ShippingMethodFormValues => ({
   isEnabled: shippingMethod?.isEnabled ?? false,
@@ -112,7 +73,41 @@ const ShippingMethods = () => {
 
   const { pagination, handlePaginationChange } = useTableState();
 
-  const { data, refetch, isLoading } = useGetShippingMethodsQuery(
+  const columns = useMemo((): ColumnDef<ShippingMethod>[] => [
+    {
+      accessorKey: "name",
+      header: "Name"
+    },
+    {
+      accessorKey: "label",
+      header: "Label"
+    },
+    {
+      accessorKey: "group",
+      header: "Group"
+    },
+    {
+      id: "s&h fee",
+      header: "S&H Fee",
+      cell: (info) => `$${info.row.original.rate + info.row.original.handling}`
+    },
+    {
+      accessorKey: "isEnabled",
+      header: "Status",
+      cell: (info) => (
+        <Chip
+          color={info.getValue() ? "success" : "warning"}
+          size="small"
+          label={info.getValue() ? "ENABLED" : "DISABLED"}
+        />
+      ),
+      meta: {
+        align: "right"
+      }
+    }
+  ], []);
+
+  const { data, isLoading, refetch } = useGetShippingMethodsQuery(
     client,
     { shopId: shopId!, first: pagination.pageSize, offset: pagination.pageIndex * pagination.pageSize },
     {
@@ -193,15 +188,26 @@ const ShippingMethods = () => {
       <Table
         columns={columns}
         data={filterNodes(data?.flatRateFulfillmentMethods.nodes)}
-        onRowClick={handleRowClick}
         loading={isLoading}
         tableState={{ pagination }}
         onPaginationChange={handlePaginationChange}
+        onRowClick={handleRowClick}
+        emptyPlaceholder={
+          <Stack alignItems="center" gap={2}>
+            <LocalShippingOutlinedIcon sx={{ color: "grey.500", fontSize: "42px" }} />
+            <div>
+              <Typography variant="h6" gutterBottom>No Shipping Methods</Typography>
+              <Typography variant="body2" color="grey.600">Get started by adding your first shipping method.</Typography>
+            </div>
+            <Button variant="contained" size="small" sx={{ width: "120px" }} onClick={() => setOpen(true)}>
+              Add
+            </Button>
+          </Stack>}
       />
       <Drawer
         open={open}
         onClose={handleClose}
-        title="Add Shipping Method"
+        title={activeRow ? "Edit Shipping Method" : "Add Shipping Method"}
       >
         <Formik<ShippingMethodFormValues>
           onSubmit={handleSubmit}

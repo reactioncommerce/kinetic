@@ -10,18 +10,21 @@ afterEach(() => {
   cleanup();
 });
 
-const client = new QueryClient();
 
 const renderWithProviders = (ui: React.ReactElement, options = {}) =>
   render(ui, {
     // wrap provider(s) here if needed
-    wrapper: ({ children }) => <QueryClientProvider client={client}>
-      <ShopProvider>
-        <AccountProvider>
-          {children}
-        </AccountProvider>
-      </ShopProvider>
-    </QueryClientProvider>,
+    wrapper: ({ children }) => {
+      const client = new QueryClient();
+
+      return <QueryClientProvider client={client}>
+        <ShopProvider>
+          <AccountProvider>
+            {children}
+          </AccountProvider>
+        </ShopProvider>
+      </QueryClientProvider>;
+    },
     ...options
   });
 
