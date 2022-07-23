@@ -8187,6 +8187,13 @@ export type UpdateShippingSurchargeMutationVariables = Exact<{
 
 export type UpdateShippingSurchargeMutation = { __typename?: 'Mutation', updateSurcharge: { __typename?: 'UpdateSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
 
+export type DeleteShippingSurchargeMutationVariables = Exact<{
+  input: DeleteSurchargeInput;
+}>;
+
+
+export type DeleteShippingSurchargeMutation = { __typename?: 'Mutation', deleteSurcharge: { __typename?: 'DeleteSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8585,6 +8592,28 @@ export const useUpdateShippingSurchargeMutation = <
     useMutation<UpdateShippingSurchargeMutation, TError, UpdateShippingSurchargeMutationVariables, TContext>(
       ['updateShippingSurcharge'],
       (variables?: UpdateShippingSurchargeMutationVariables) => fetcher<UpdateShippingSurchargeMutation, UpdateShippingSurchargeMutationVariables>(client, UpdateShippingSurchargeDocument, variables, headers)(),
+      options
+    );
+export const DeleteShippingSurchargeDocument = `
+    mutation deleteShippingSurcharge($input: DeleteSurchargeInput!) {
+  deleteSurcharge(input: $input) {
+    surcharge {
+      _id
+    }
+  }
+}
+    `;
+export const useDeleteShippingSurchargeMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>(
+      ['deleteShippingSurcharge'],
+      (variables?: DeleteShippingSurchargeMutationVariables) => fetcher<DeleteShippingSurchargeMutation, DeleteShippingSurchargeMutationVariables>(client, DeleteShippingSurchargeDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `

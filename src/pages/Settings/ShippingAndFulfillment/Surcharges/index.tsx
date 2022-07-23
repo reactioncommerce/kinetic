@@ -21,6 +21,7 @@ import {
 import { useShop } from "@containers/ShopProvider";
 import {
   useCreateShippingSurchargeMutation,
+  useDeleteShippingSurchargeMutation,
   useGetShippingMethodsQuery,
   useGetShippingSurchargesQuery,
   useUpdateShippingSurchargeMutation
@@ -193,6 +194,8 @@ const Surcharges = () => {
 
   const { mutate: update } = useUpdateShippingSurchargeMutation(client);
 
+  const { mutate: deleteSurcharge, isLoading: isDeleting } = useDeleteShippingSurchargeMutation(client);
+
   const handleClose = () => {
     setOpen(false);
     setActiveRow(undefined);
@@ -247,6 +250,12 @@ const Surcharges = () => {
   const handleRowClick = (rowData: Surcharge) => {
     setActiveRow(rowData);
     setOpen(true);
+  };
+
+  const handleDeleteShippingSurcharge = (surchargeId: string) => {
+    deleteSurcharge({ input: { surchargeId, shopId: shopId! } }, {
+      onSuccess
+    });
   };
 
   return (
@@ -440,8 +449,8 @@ const Surcharges = () => {
                       variant="outlined"
                       color="error"
                       size="small"
-                      // onClick={() => handleDeleteShippingMethod(activeRow._id)}
-                      // loading={isDeleting}
+                      onClick={() => handleDeleteShippingSurcharge(activeRow._id)}
+                      loading={isDeleting}
                       disabled={isSubmitting}
                     >
                       Delete
