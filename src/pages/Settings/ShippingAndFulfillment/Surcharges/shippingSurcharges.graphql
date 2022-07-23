@@ -58,3 +58,11 @@ mutation createShippingSurcharge($input: CreateSurchargeInput!) {
     }
   }
 }
+
+mutation updateShippingSurcharge($input: UpdateSurchargeInput!) {
+  updateSurcharge(input: $input) {
+    surcharge {
+      _id
+    }
+  }
+}

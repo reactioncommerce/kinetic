@@ -22,7 +22,8 @@ import { useShop } from "@containers/ShopProvider";
 import {
   useCreateShippingSurchargeMutation,
   useGetShippingMethodsQuery,
-  useGetShippingSurchargesQuery
+  useGetShippingSurchargesQuery,
+  useUpdateShippingSurchargeMutation
 } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { filterNodes } from "@utils/filterNodes";
@@ -190,6 +191,8 @@ const Surcharges = () => {
 
   const { mutate: create } = useCreateShippingSurchargeMutation(client);
 
+  const { mutate: update } = useUpdateShippingSurchargeMutation(client);
+
   const handleClose = () => {
     setOpen(false);
     setActiveRow(undefined);
@@ -216,15 +219,29 @@ const Surcharges = () => {
       attributes: values.attributes?.map((attr) => ({ ...attr, propertyType: getPropertyType((attr.value ?? "").trim()) })),
       type: SurchargeTypeEnum.Surcharge
     };
-    create({
-      input: {
-        shopId: shopId!,
-        surcharge: surchargeData
-      }
-    }, {
-      onSettled: () => setSubmitting(false),
-      onSuccess
-    });
+    activeRow ?
+      update(
+        {
+          input: {
+            shopId: shopId!,
+            surchargeId: activeRow._id,
+            surcharge: surchargeData
+          }
+        },
+        {
+          onSettled: () => setSubmitting(false),
+          onSuccess
+        }
+      ) :
+      create({
+        input: {
+          shopId: shopId!,
+          surcharge: surchargeData
+        }
+      }, {
+        onSettled: () => setSubmitting(false),
+        onSuccess
+      });
   };
 
   const handleRowClick = (rowData: Surcharge) => {

@@ -1,10 +1,10 @@
 import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { FieldArrayRenderProps } from "formik";
 import Button from "@mui/material/Button";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 
 type FieldArrayRendererProps<T> = FieldArrayRenderProps & {
   renderFieldItem: (index: number) => JSX.Element;
@@ -21,16 +21,20 @@ export const FieldArrayRenderer = <T, >({
 }: FieldArrayRendererProps<T>) => (
     <Box>
       {values[name].map((_: T, index: number) => (
-        <Stack direction="row" alignItems="center" gap={1} key={index}>
-          {renderFieldItem(index)}
-          <IconButton
-            color="secondary"
-            sx={{ color: "grey.500", width: "34px", height: "34px" }}
-            onClick={() => remove(index)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Stack>
+        <Grid container alignItems={"center"} spacing={1} key={index}>
+          <Grid item xs={11}>
+            {renderFieldItem(index)}
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton
+              color="secondary"
+              sx={{ color: "grey.500", width: "34px", height: "34px" }}
+              onClick={() => remove(index)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
       ))}
 
       <Button
