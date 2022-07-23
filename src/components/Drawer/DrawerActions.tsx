@@ -18,6 +18,8 @@ export const DrawerActions = ({ left, right }: DrawerActionsProps) => (
     justifyContent="space-between"
     alignItems="center"
     direction="row"
+    position="sticky"
+    bottom="0"
   >
     <Box>{left}</Box>
     {right}

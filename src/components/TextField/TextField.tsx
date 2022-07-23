@@ -1,25 +1,23 @@
 import FormControl, { FormControlProps } from "@mui/material/FormControl";
-import Select, { SelectProps } from "@mui/material/Select";
-import FormHelperText from "@mui/material/FormHelperText";
-import Collapse from "@mui/material/Collapse";
-import FormLabel from "@mui/material/FormLabel";
-import MenuItem from "@mui/material/MenuItem";
 import { FieldProps, getIn } from "formik";
+import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormLabel from "@mui/material/FormLabel";
+import Collapse from "@mui/material/Collapse";
 import { uniqueId } from "lodash-es";
 import { useRef } from "react";
 
-type CustomSelectFieldProps = {
-  helperText?: string;
-  options: Array<{ value: string | number; label: string }>;
+type CustomTextFieldProps = {
+  helperText?: string
   ariaLabel?: string
-};
+}
 
-type SelectFieldProps = FieldProps &
+export type TextFieldProps = FieldProps &
   FormControlProps &
-  Omit<SelectProps, "name" | "value" | "error" | "margin"> &
-  CustomSelectFieldProps;
+  Omit<OutlinedInputProps, "name" | "value" | "error" | "margin"> &
+  CustomTextFieldProps
 
-export const SelectField = ({
+export const TextField = ({
   field: { onBlur: fieldOnBlur, ...restFieldProps },
   form: { isSubmitting, touched, errors },
   fullWidth = true,
@@ -28,21 +26,20 @@ export const SelectField = ({
   required,
   label,
   onBlur,
-  options,
   helperText,
   hiddenLabel,
   ariaLabel,
   ...props
-}: SelectFieldProps) => {
+}: TextFieldProps) => {
   const fieldError = getIn(errors, restFieldProps.name) as string;
   const showError = getIn(touched, restFieldProps.name) && !!fieldError;
+
   const _helperText = showError ? fieldError : helperText;
 
-  const fieldId = useRef(uniqueId("select-field")).current;
+  const fieldId = useRef(uniqueId("text-field")).current;
   const helperTextId = useRef(uniqueId("helper-text")).current;
 
-  const _onBlur =
-    onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
+  const _onBlur = onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
 
   return (
     <FormControl
@@ -52,30 +49,23 @@ export const SelectField = ({
       required={required}
       margin={margin}
       disabled={props.disabled ?? isSubmitting}
+      variant="standard"
     >
       {!hiddenLabel && (
         <FormLabel htmlFor={fieldId}>
           {label}
         </FormLabel>
       )}
-      <Select
+      <OutlinedInput
         id={fieldId}
         onBlur={_onBlur}
         aria-describedby={helperTextId}
         inputProps={{ "aria-label": ariaLabel }}
         {...props}
         {...restFieldProps}
-      >
-        {options.map((opt) => (
-          <MenuItem key={opt.value} value={opt.value}>
-            {opt.label}
-          </MenuItem>
-        ))}
-      </Select>
+      />
       <Collapse in={!!_helperText}>
-        {_helperText && (
-          <FormHelperText id={helperTextId}>{_helperText}</FormHelperText>
-        )}
+        {_helperText && <FormHelperText id={helperTextId}>{_helperText}</FormHelperText>}
       </Collapse>
     </FormControl>
   );
