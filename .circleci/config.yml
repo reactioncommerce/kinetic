@@ -14,15 +14,11 @@ defaults: &defaults
 orbs:
   node: circleci/node@5.0.2
 
-executors:
-  my-executor:
-    docker:
-      - image: vanguyen282/pnpm:latest
-
 jobs:
   install-dependencies:
     <<: *defaults
-    executor: my-executor
+    docker:
+      - image: vanguyen282/pnpm:latest
     steps:
       - checkout
       - restore_cache:
@@ -44,7 +40,7 @@ jobs:
   eslint:
     <<: *defaults
     docker:
-      - image: znck/pnpm:latest
+      - image: vanguyen282/pnpm:latest
     steps:
       - checkout
       - restore_cache:
