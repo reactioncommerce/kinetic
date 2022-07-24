@@ -14,12 +14,15 @@ defaults: &defaults
 orbs:
   node: circleci/node@5.0.2
 
+executors:
+  my-executor:
+    docker:
+      - image: vanguyen282/pnpm:latest
+
 jobs:
   install-dependencies:
     <<: *defaults
-    executor:
-      name: vanguyen282/pnpm
-      tag: latest
+    executor: my-executor
     steps:
       - checkout
       - restore_cache:
