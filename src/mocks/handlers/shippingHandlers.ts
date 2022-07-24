@@ -45,4 +45,15 @@ const getShippingMethodsHandlers = graphql.query("getShippingMethods", (req, res
 const getShippingSurchargesHandlers = graphql.query("getShippingSurcharges", (req, res, ctx) =>
   res(ctx.data({ surcharges: { nodes: shippingSurcharges } })));
 
-export const handlers = [getShippingMethodsHandlers, getShippingSurchargesHandlers];
+const createShippingMethodHandler = graphql.mutation("createFlatRateFulfillmentMethod", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+const deleteShippingMethodHandler = graphql.mutation("deleteFlatRateFulfillmentMethodMutation", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+
+export const handlers = [getShippingMethodsHandlers, getShippingSurchargesHandlers, createShippingMethodHandler, deleteShippingMethodHandler];
