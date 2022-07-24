@@ -8159,6 +8159,20 @@ export type DeleteFlatRateFulfillmentMethodMutationMutationVariables = Exact<{
 
 export type DeleteFlatRateFulfillmentMethodMutationMutation = { __typename?: 'Mutation', deleteFlatRateFulfillmentMethod: { __typename?: 'DeleteFlatRateFulfillmentMethodPayload', method: { __typename?: 'FlatRateFulfillmentMethod', _id: string } } };
 
+export type GetShippingSurchargesQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<SurchargeSortByField>;
+}>;
+
+
+export type GetShippingSurchargesQuery = { __typename?: 'Query', surcharges: { __typename?: 'SurchargeConnection', totalCount: number, nodes?: Array<{ __typename?: 'Surcharge', _id: string, methodIds?: Array<string | null> | null, destination?: { __typename?: 'SurchargeDestinationRestrictions', country?: Array<string | null> | null, postal?: Array<string | null> | null, region?: Array<string | null> | null } | null, amount: { __typename?: 'Money', amount: number, displayAmount: string, currency: { __typename?: 'Currency', code: string, _id: string, format: string, symbol: string } }, attributes?: Array<{ __typename?: 'SurchargeAttributeRestrictions', operator?: string | null, property?: string | null, value?: string | null, propertyType?: SurchargePropertyType | null } | null> | null, messagesByLanguage?: Array<{ __typename?: 'SurchargeMessagesByLanguage', content: string, language: string } | null> | null } | null> | null } };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8454,6 +8468,65 @@ export const useDeleteFlatRateFulfillmentMethodMutationMutation = <
     useMutation<DeleteFlatRateFulfillmentMethodMutationMutation, TError, DeleteFlatRateFulfillmentMethodMutationMutationVariables, TContext>(
       ['deleteFlatRateFulfillmentMethodMutation'],
       (variables?: DeleteFlatRateFulfillmentMethodMutationMutationVariables) => fetcher<DeleteFlatRateFulfillmentMethodMutationMutation, DeleteFlatRateFulfillmentMethodMutationMutationVariables>(client, DeleteFlatRateFulfillmentMethodMutationDocument, variables, headers)(),
+      options
+    );
+export const GetShippingSurchargesDocument = `
+    query getShippingSurcharges($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder, $sortBy: SurchargeSortByField) {
+  surcharges(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      destination {
+        country
+        postal
+        region
+      }
+      amount {
+        amount
+        displayAmount
+        currency {
+          code
+          _id
+          format
+          symbol
+        }
+      }
+      attributes {
+        operator
+        property
+        value
+        propertyType
+      }
+      methodIds
+      messagesByLanguage {
+        content
+        language
+      }
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetShippingSurchargesQuery = <
+      TData = GetShippingSurchargesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetShippingSurchargesQueryVariables,
+      options?: UseQueryOptions<GetShippingSurchargesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetShippingSurchargesQuery, TError, TData>(
+      ['getShippingSurcharges', variables],
+      fetcher<GetShippingSurchargesQuery, GetShippingSurchargesQueryVariables>(client, GetShippingSurchargesDocument, variables, headers),
       options
     );
 export const CreateUserDocument = `
