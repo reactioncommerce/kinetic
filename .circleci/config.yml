@@ -17,8 +17,9 @@ orbs:
 jobs:
   install-dependencies:
     <<: *defaults
-    docker:
-      - image: znck/pnpm:latest
+    executor:
+      name: vanguyen282/pnpm
+      tag: latest
     steps:
       - checkout
       - restore_cache:
