@@ -4,6 +4,8 @@ import MuiAutocomplete, {
 import ClearIcon from "@mui/icons-material/Clear";
 import { FieldProps } from "formik";
 
+import { SelectOptionType } from "types/common";
+
 interface AutocompleteProps<
   T,
   Multiple extends boolean | undefined,
@@ -16,6 +18,8 @@ interface AutocompleteProps<
     > {
   type?: string;
 }
+
+export const isOptionEqualToValue = (option: SelectOptionType, value: SelectOptionType): boolean => option.value === value.value;
 
 export function AutocompleteField<
   T,

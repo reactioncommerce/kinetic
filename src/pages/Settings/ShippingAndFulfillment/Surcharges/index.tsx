@@ -39,17 +39,19 @@ import { Surcharge } from "types/surcharges";
 import { Drawer } from "@components/Drawer";
 import { InputWithLabel, TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
-import { AutocompleteField } from "@components/AutocompleteField";
+import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { countries } from "@utils/countries";
 import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 import { SelectOptionType } from "types/common";
 import { Operator } from "types/operator";
 
+type CountryOption = { label: string; code: string }
+
 type ShippingSurchargeFormValues = {
   amount: number;
   attributes?: SurchargeAttributeRestrictions[];
   destination?: {
-    country: { label: string; code: string }[];
+    country: CountryOption[];
     postal: string[];
     region: string[];
   };
@@ -356,6 +358,7 @@ const Surcharges = () => {
                   multiple
                   component={AutocompleteField}
                   options={countries}
+                  isOptionEqualToValue={(option: CountryOption, value: CountryOption) => option.code === value.code}
                   renderInput={(params: AutocompleteRenderInputParams) => (
                     <InputWithLabel
                       {...params}
@@ -411,6 +414,7 @@ const Surcharges = () => {
                   component={AutocompleteField}
                   options={shippingMethods.data}
                   loading={shippingMethods.isLoading}
+                  isOptionEqualToValue={isOptionEqualToValue}
                   renderInput={(params: AutocompleteRenderInputParams) => (
                     <InputWithLabel
                       {...params}

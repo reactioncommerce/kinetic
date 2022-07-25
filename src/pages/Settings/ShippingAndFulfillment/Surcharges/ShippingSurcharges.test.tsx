@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { shippingSurcharges } from "@mocks/handlers/shippingHandlers";
+import { shippingMethods, shippingSurcharges } from "@mocks/handlers/shippingHandlers";
 
 import { fireEvent, renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved, within } from "@utils/testUtils";
 
@@ -15,7 +15,7 @@ describe("Shipping Surcharges", () => {
     shippingSurcharges.forEach((surcharge) => {
       expect(screen.getByText(surcharge.messagesByLanguage?.[0]?.content || "--")).toBeInTheDocument();
       expect(screen.getAllByText("0 Destinations")[0]).toBeInTheDocument();
-      expect(screen.getAllByText(`${surcharge.methodIds?.length} Methods`)[0]).toBeInTheDocument();
+      expect(screen.getAllByText(surcharge.methodIds?.length === 1 ? "1 Method" : `${surcharge.methodIds?.length} Methods`)[0]).toBeInTheDocument();
       expect(screen.getByText(surcharge.amount.displayAmount)).toBeInTheDocument();
     });
   });
@@ -45,9 +45,29 @@ describe("Shipping Surcharges", () => {
     fireEvent.click(listbox.getByText("Vietnam"));
 
     expect(screen.getByText("Vietnam")).toBeInTheDocument();
+
     await user.click(screen.getByText("Save Changes"));
     await waitFor(() => {
       expect(screen.queryByText("Add Shipping Surcharge")).not.toBeInTheDocument();
+    });
+  });
+
+  it("should successfully delete a shipping method", async () => {
+    renderWithProviders(<ShippingSurcharges/>);
+    await screen.findByText("Shipping Surcharges");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+
+    fireEvent.click(screen.getByText(shippingSurcharges[0].amount.displayAmount));
+    expect(screen.getByText("Edit Shipping Surcharge")).toBeInTheDocument();
+    await screen.findByText(shippingMethods[0].label);
+    await screen.findByText(shippingMethods[1].label);
+
+    expect(screen.getByText("Delete")).toBeInTheDocument();
+    const user = userEvent.setup();
+
+    await user.click(screen.getByText("Delete"));
+    await waitFor(() => {
+      expect(screen.queryByText("Edit Shipping Surcharge")).not.toBeInTheDocument();
     });
   });
 });
