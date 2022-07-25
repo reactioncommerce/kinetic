@@ -1,0 +1,46 @@
+query getShippingRestrictions(
+$shopId: ID!
+$after: ConnectionCursor
+$before: ConnectionCursor
+$first: ConnectionLimitInt
+$last: ConnectionLimitInt
+$offset: Int
+$sortOrder: SortOrder = desc
+$sortBy: FlatRateFulfillmentRestrictionSortByField = createdAt) {
+  getFlatRateFulfillmentRestrictions(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      attributes {
+        operator
+        property
+        value
+        propertyType
+      }
+      destination {
+        country
+        postal
+        region
+      }
+      methodIds
+      type
+    }
+    totalCount
+  }
+}
+
+mutation createShippingRestriction($input: CreateFlatRateFulfillmentRestrictionInput!) {
+    createFlatRateFulfillmentRestriction(input: $input) {
+      restriction {
+        _id
+      }
+    }
+  }

@@ -13,6 +13,7 @@ import CreateShop from "./pages/CreateShop";
 import ShippingConfiguration from "./pages/Settings/ShippingAndFulfillment";
 import ShippingMethods from "./pages/Settings/ShippingAndFulfillment/Methods";
 import ShippingSurcharges from "./pages/Settings/ShippingAndFulfillment/Surcharges";
+import ShippingRestrictions from "./pages/Settings/ShippingAndFulfillment/Restrictions";
 
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
@@ -42,6 +43,7 @@ function App() {
                       <Route path="shipping-fulfillment" element={<ShippingConfiguration />}>
                         <Route index element={<ShippingMethods/>} />
                         <Route path="surcharges" element={<ShippingSurcharges />} />
+                        <Route path="restrictions" element={<ShippingRestrictions />} />
                       </Route>
                     </Route>
                     <Route path="*" element={<NotFound />} />
