@@ -1,6 +1,7 @@
 import MuiAutocomplete, {
   AutocompleteProps as MuiAutocompleteProps
 } from "@mui/material/Autocomplete";
+import ClearIcon from "@mui/icons-material/Clear";
 import { FieldProps } from "formik";
 
 interface AutocompleteProps<
@@ -48,6 +49,9 @@ export function AutocompleteField<
       onBlur={_onBlur}
       onChange={_onChange}
       disabled={disabled ?? isSubmitting}
+      ChipProps={{
+        deleteIcon: <ClearIcon fontSize="small"/>
+      }}
       {...restFieldProps}
       {...props}
     />

@@ -61,8 +61,7 @@ type ShippingSurchargeFormValues = {
 };
 
 const shippingSurchargeSchema = Yup.object().shape({
-  amount: Yup.number()
-    .min(0, "Amount must be greater than or equal to 0")
+  amount: Yup.number().moreThan(0, "Amount must be greater than 0")
     .required("This field is required"),
   attributes: Yup.array().of(Yup.object({
     operator: Yup.string(),

@@ -332,6 +332,19 @@ const theme = createTheme(baseTheme, {
           backgroundColor: baseTheme.palette.background.dark
         }
       }
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        tag: {
+          color: color.grey[600],
+          fontWeight: 400,
+          borderRadius: baseTheme.shape.borderRadius,
+          svg: {
+            fontSize: 12,
+            fill: color.grey[600]
+          }
+        }
+      }
     }
   }
 } as ThemeOptions);
