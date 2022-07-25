@@ -8173,6 +8173,27 @@ export type GetShippingSurchargesQueryVariables = Exact<{
 
 export type GetShippingSurchargesQuery = { __typename?: 'Query', surcharges: { __typename?: 'SurchargeConnection', totalCount: number, nodes?: Array<{ __typename?: 'Surcharge', _id: string, methodIds?: Array<string | null> | null, destination?: { __typename?: 'SurchargeDestinationRestrictions', country?: Array<string | null> | null, postal?: Array<string | null> | null, region?: Array<string | null> | null } | null, amount: { __typename?: 'Money', amount: number, displayAmount: string, currency: { __typename?: 'Currency', code: string, _id: string, format: string, symbol: string } }, attributes?: Array<{ __typename?: 'SurchargeAttributeRestrictions', operator?: string | null, property?: string | null, value?: string | null, propertyType?: SurchargePropertyType | null } | null> | null, messagesByLanguage?: Array<{ __typename?: 'SurchargeMessagesByLanguage', content: string, language: string } | null> | null } | null> | null } };
 
+export type CreateShippingSurchargeMutationVariables = Exact<{
+  input: CreateSurchargeInput;
+}>;
+
+
+export type CreateShippingSurchargeMutation = { __typename?: 'Mutation', createSurcharge: { __typename?: 'CreateSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
+
+export type UpdateShippingSurchargeMutationVariables = Exact<{
+  input: UpdateSurchargeInput;
+}>;
+
+
+export type UpdateShippingSurchargeMutation = { __typename?: 'Mutation', updateSurcharge: { __typename?: 'UpdateSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
+
+export type DeleteShippingSurchargeMutationVariables = Exact<{
+  input: DeleteSurchargeInput;
+}>;
+
+
+export type DeleteShippingSurchargeMutation = { __typename?: 'Mutation', deleteSurcharge: { __typename?: 'DeleteSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8527,6 +8548,72 @@ export const useGetShippingSurchargesQuery = <
     useQuery<GetShippingSurchargesQuery, TError, TData>(
       ['getShippingSurcharges', variables],
       fetcher<GetShippingSurchargesQuery, GetShippingSurchargesQueryVariables>(client, GetShippingSurchargesDocument, variables, headers),
+      options
+    );
+export const CreateShippingSurchargeDocument = `
+    mutation createShippingSurcharge($input: CreateSurchargeInput!) {
+  createSurcharge(input: $input) {
+    surcharge {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateShippingSurchargeMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateShippingSurchargeMutation, TError, CreateShippingSurchargeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateShippingSurchargeMutation, TError, CreateShippingSurchargeMutationVariables, TContext>(
+      ['createShippingSurcharge'],
+      (variables?: CreateShippingSurchargeMutationVariables) => fetcher<CreateShippingSurchargeMutation, CreateShippingSurchargeMutationVariables>(client, CreateShippingSurchargeDocument, variables, headers)(),
+      options
+    );
+export const UpdateShippingSurchargeDocument = `
+    mutation updateShippingSurcharge($input: UpdateSurchargeInput!) {
+  updateSurcharge(input: $input) {
+    surcharge {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateShippingSurchargeMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateShippingSurchargeMutation, TError, UpdateShippingSurchargeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateShippingSurchargeMutation, TError, UpdateShippingSurchargeMutationVariables, TContext>(
+      ['updateShippingSurcharge'],
+      (variables?: UpdateShippingSurchargeMutationVariables) => fetcher<UpdateShippingSurchargeMutation, UpdateShippingSurchargeMutationVariables>(client, UpdateShippingSurchargeDocument, variables, headers)(),
+      options
+    );
+export const DeleteShippingSurchargeDocument = `
+    mutation deleteShippingSurcharge($input: DeleteSurchargeInput!) {
+  deleteSurcharge(input: $input) {
+    surcharge {
+      _id
+    }
+  }
+}
+    `;
+export const useDeleteShippingSurchargeMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>(
+      ['deleteShippingSurcharge'],
+      (variables?: DeleteShippingSurchargeMutationVariables) => fetcher<DeleteShippingSurchargeMutation, DeleteShippingSurchargeMutationVariables>(client, DeleteShippingSurchargeDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `

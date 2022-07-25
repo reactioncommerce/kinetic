@@ -21,3 +21,8 @@ export type APIErrorResponse = {
     status: number
   }
 }
+
+export type SelectOptionType = {
+  label: string
+  value: string
+}
