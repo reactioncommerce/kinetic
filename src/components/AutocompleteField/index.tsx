@@ -1,7 +1,10 @@
 import MuiAutocomplete, {
   AutocompleteProps as MuiAutocompleteProps
 } from "@mui/material/Autocomplete";
+import ClearIcon from "@mui/icons-material/Clear";
 import { FieldProps } from "formik";
+
+import { SelectOptionType } from "types/common";
 
 interface AutocompleteProps<
   T,
@@ -15,6 +18,8 @@ interface AutocompleteProps<
     > {
   type?: string;
 }
+
+export const isOptionEqualToValue = (option: SelectOptionType, value: SelectOptionType): boolean => option.value === value.value;
 
 export function AutocompleteField<
   T,
@@ -48,6 +53,9 @@ export function AutocompleteField<
       onBlur={_onBlur}
       onChange={_onChange}
       disabled={disabled ?? isSubmitting}
+      ChipProps={{
+        deleteIcon: <ClearIcon fontSize="small"/>
+      }}
       {...restFieldProps}
       {...props}
     />

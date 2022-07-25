@@ -27,29 +27,31 @@ import {
   useUpdateShippingSurchargeMutation
 } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
-import { filterNodes } from "@utils/filterNodes";
+import { filterNodes, getPropertyType } from "@utils/common";
 import {
   Money,
   SurchargeAttributeRestrictions,
   SurchargeAttributeRestrictionsInput,
   SurchargeDestinationRestrictions,
-  SurchargePropertyType,
   SurchargeTypeEnum
 } from "@graphql/types";
 import { Surcharge } from "types/surcharges";
 import { Drawer } from "@components/Drawer";
-import { Input, TextField } from "@components/TextField";
+import { InputWithLabel, TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
-import { AutocompleteField } from "@components/AutocompleteField";
+import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { countries } from "@utils/countries";
 import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 import { SelectOptionType } from "types/common";
+import { Operator } from "types/operator";
+
+type CountryOption = { label: string; code: string }
 
 type ShippingSurchargeFormValues = {
   amount: number;
   attributes?: SurchargeAttributeRestrictions[];
   destination?: {
-    country: { label: string; code: string }[];
+    country: CountryOption[];
     postal: string[];
     region: string[];
   };
@@ -61,8 +63,7 @@ type ShippingSurchargeFormValues = {
 };
 
 const shippingSurchargeSchema = Yup.object().shape({
-  amount: Yup.number()
-    .min(0, "Amount must be greater than or equal to 0")
+  amount: Yup.number().moreThan(0, "Amount must be greater than 0")
     .required("This field is required"),
   attributes: Yup.array().of(Yup.object({
     operator: Yup.string(),
@@ -80,14 +81,6 @@ const shippingSurchargeSchema = Yup.object().shape({
   methods: Yup.array()
 });
 
-const operatorOptions = ["eq", "gt", "lt", "ne", "match", "includes"].map((value) => ({ value, label: value }));
-
-const getPropertyType = (value: string): SurchargePropertyType => {
-  if (value.toLowerCase() === "false" || value.toLowerCase() === "true") return SurchargePropertyType.Bool;
-  if (!Number.isNaN(value) && Number.isInteger(+value)) return SurchargePropertyType.Int;
-  if (!Number.isNaN(value) && !Number.isInteger(+value)) return SurchargePropertyType.Float;
-  return SurchargePropertyType.String;
-};
 
 const getInitialValues = ({ surcharge, shippingMethods }:{surcharge?: Surcharge, shippingMethods: SelectOptionType[]}): ShippingSurchargeFormValues => ({
   amount: surcharge?.amount.amount ?? 0,
@@ -339,7 +332,7 @@ const Surcharges = () => {
                           <Field
                             component={SelectField}
                             name={`attributes[${index}].operator`}
-                            options={operatorOptions}
+                            options={Object.values(Operator).map((value) => ({ value, label: value }))}
                             ariaLabel="Operator"
                             hiddenLabel
                           />
@@ -365,8 +358,9 @@ const Surcharges = () => {
                   multiple
                   component={AutocompleteField}
                   options={countries}
+                  isOptionEqualToValue={(option: CountryOption, value: CountryOption) => option.code === value.code}
                   renderInput={(params: AutocompleteRenderInputParams) => (
-                    <Input
+                    <InputWithLabel
                       {...params}
                       name="autocomplete"
                       error={touched.destination && !!errors.destination}
@@ -383,7 +377,7 @@ const Surcharges = () => {
                   freeSolo
                   options={[]}
                   renderInput={(params: AutocompleteRenderInputParams) => (
-                    <Input
+                    <InputWithLabel
                       {...params}
                       name="postal"
                       error={touched.destination && !!errors.destination}
@@ -400,7 +394,7 @@ const Surcharges = () => {
                   freeSolo
                   options={[]}
                   renderInput={(params: AutocompleteRenderInputParams) => (
-                    <Input
+                    <InputWithLabel
                       {...params}
                       name="autocomplete"
                       error={touched.destination && !!errors.destination}
@@ -420,8 +414,9 @@ const Surcharges = () => {
                   component={AutocompleteField}
                   options={shippingMethods.data}
                   loading={shippingMethods.isLoading}
+                  isOptionEqualToValue={isOptionEqualToValue}
                   renderInput={(params: AutocompleteRenderInputParams) => (
-                    <Input
+                    <InputWithLabel
                       {...params}
                       name="methodIds"
                       error={touched.methods && !!errors.methods}

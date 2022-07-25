@@ -20,7 +20,7 @@ import {
   useUpdateFlatRateFulfillmentMethodMutationMutation
 } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
-import { filterNodes } from "@utils/filterNodes";
+import { filterNodes } from "@utils/common";
 import { FulfillmentGroup, ShippingMethod } from "types/shippingMethod";
 import { FlatRateFulfillmentMethodInput, FulfillmentType } from "@graphql/types";
 import { Drawer } from "@components/Drawer";
