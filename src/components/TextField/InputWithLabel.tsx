@@ -40,13 +40,13 @@ export const InputWithLabel = forwardRef((
     >
       {!hiddenLabel && <FormLabel htmlFor={fieldId}>{label}</FormLabel>}
       <OutlinedInput
-        id={fieldId}
         aria-describedby={helperTextId}
         error={error}
         disabled={disabled}
         ref={ref}
         inputProps={inputProps}
         placeholder={placeholder}
+        id={fieldId}
         {...InputProps}
       />
       <Collapse in={!!helperText}>
