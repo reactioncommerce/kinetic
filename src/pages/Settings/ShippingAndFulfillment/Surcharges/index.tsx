@@ -9,7 +9,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FormLabel from "@mui/material/FormLabel";
 import Divider from "@mui/material/Divider";
-import { AutocompleteRenderInputParams } from "@mui/material";
 import * as Yup from "yup";
 
 import {
@@ -32,18 +31,19 @@ import {
   Money,
   SurchargeAttributeRestrictions,
   SurchargeAttributeRestrictionsInput,
-  SurchargeDestinationRestrictions,
   SurchargeTypeEnum
 } from "@graphql/types";
 import { Surcharge } from "types/surcharges";
 import { Drawer } from "@components/Drawer";
-import { InputWithLabel, TextField } from "@components/TextField";
-import { SelectField } from "@components/SelectField";
-import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
+import { TextField } from "@components/TextField";
 import { countries } from "@utils/countries";
 import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 import { SelectOptionType } from "types/common";
-import { Operator } from "types/operator";
+import { DestinationCell } from "../components/DestinationCell";
+import { MethodCell } from "../components/MethodCell";
+import { OperatorsField } from "../components/OperatorsField";
+import { DestinationField } from "../components/DestinationField";
+import { ShippingMethodsField } from "../components/ShippingMethodsField";
 
 type CountryOption = { label: string; code: string }
 
@@ -117,32 +117,12 @@ const Surcharges = () => {
       {
         accessorKey: "destination",
         header: "Destination",
-        cell: (info) => {
-          const rowValue = info.getValue<SurchargeDestinationRestrictions>();
-          const totalCountry = rowValue?.country?.length ?? 0;
-          const totalPostal = rowValue?.postal?.length ?? 0;
-          const totalRegion = rowValue?.region?.length ?? 0;
-          const totalDestinations = totalCountry + totalRegion + totalPostal;
-
-          return (
-            <>
-              {totalDestinations === 1
-                ? "1 Destination"
-                : `${totalDestinations} Destinations`}
-            </>
-          );
-        }
+        cell: (info) => <DestinationCell data={info.getValue()} />
       },
       {
         accessorKey: "methodIds",
         header: "Methods",
-        cell: (info) => (
-          <>
-            {info.getValue<string[]>()?.length === 1
-              ? "1 Method"
-              : `${info.getValue<string[]>()?.length} Methods`}
-          </>
-        )
+        cell: (info) => <MethodCell data={info.getValue()} />
       },
       {
         accessorKey: "amount",
@@ -321,111 +301,20 @@ const Surcharges = () => {
                       {...props}
                       initialValue={{ property: "", value: "", operator: "eq" }}
                       renderFieldItem={(index) => (
-                        <Stack direction="row" gap={3}>
-                          <Field
-                            component={TextField}
-                            name={`attributes[${index}].property`}
-                            placeholder="Property"
-                            ariaLabel="Property"
-                            hiddenLabel
-                          />
-                          <Field
-                            component={SelectField}
-                            name={`attributes[${index}].operator`}
-                            options={Object.values(Operator).map((value) => ({ value, label: value }))}
-                            ariaLabel="Operator"
-                            hiddenLabel
-                          />
-                          <Field
-                            component={TextField}
-                            name={`attributes[${index}].value`}
-                            placeholder="Value"
-                            ariaLabel="Value"
-                            hiddenLabel
-                          />
-                        </Stack>
+                        <OperatorsField index={index} />
                       )}
                     />
                   )}
                 />
 
                 <Divider sx={{ my: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Destinations
-                </Typography>
-                <Field
-                  name="destination.country"
-                  multiple
-                  component={AutocompleteField}
-                  options={countries}
-                  isOptionEqualToValue={(option: CountryOption, value: CountryOption) => option.code === value.code}
-                  renderInput={(params: AutocompleteRenderInputParams) => (
-                    <InputWithLabel
-                      {...params}
-                      name="autocomplete"
-                      error={touched.destination && !!errors.destination}
-                      helperText={touched.destination && errors.destination}
-                      label="Country"
-                      placeholder="Type to enter a country"
-                    />
-                  )}
-                />
-                <Field
-                  name="destination.postal"
-                  multiple
-                  component={AutocompleteField}
-                  freeSolo
-                  options={[]}
-                  renderInput={(params: AutocompleteRenderInputParams) => (
-                    <InputWithLabel
-                      {...params}
-                      name="postal"
-                      error={touched.destination && !!errors.destination}
-                      helperText={touched.destination && errors.destination}
-                      label="Postal Code"
-                      placeholder="Type to enter a zip code"
-                    />
-                  )}
-                />
-                <Field
-                  name="destination.region"
-                  multiple
-                  component={AutocompleteField}
-                  freeSolo
-                  options={[]}
-                  renderInput={(params: AutocompleteRenderInputParams) => (
-                    <InputWithLabel
-                      {...params}
-                      name="autocomplete"
-                      error={touched.destination && !!errors.destination}
-                      helperText={touched.destination && errors.destination}
-                      label="Region"
-                      placeholder="Type to enter a region"
-                    />
-                  )}
-                />
+                <DestinationField isInvalid={touched.destination && !!errors.destination} errors={touched.destination ? errors.destination : undefined} />
                 <Divider sx={{ my: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Shipping Methods
-                </Typography>
-                <Field
-                  name="methods"
-                  multiple
-                  component={AutocompleteField}
-                  options={shippingMethods.data}
-                  loading={shippingMethods.isLoading}
-                  isOptionEqualToValue={isOptionEqualToValue}
-                  renderInput={(params: AutocompleteRenderInputParams) => (
-                    <InputWithLabel
-                      {...params}
-                      name="methodIds"
-                      error={touched.methods && !!errors.methods}
-                      helperText={touched.methods && errors.methods}
-                      label="Methods"
-                      hiddenLabel
-                      placeholder="Type to select shipping method(s)"
-                    />
-                  )}
+                <ShippingMethodsField
+                  shippingMethodOptions={shippingMethods.data}
+                  isLoading={shippingMethods.isLoading}
+                  isInvalid={touched.methods && !!errors.methods}
+                  errors={touched.methods ? errors.methods : ""}
                 />
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="h6" gutterBottom>
