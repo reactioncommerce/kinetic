@@ -59,8 +59,8 @@ describe("Shipping Surcharges", () => {
 
     fireEvent.click(screen.getByText(shippingSurcharges[0].amount.displayAmount));
     expect(screen.getByText("Edit Shipping Surcharge")).toBeInTheDocument();
-    await screen.findByText(shippingMethods[0].label);
-    await screen.findByText(shippingMethods[1].label);
+    await screen.findByText(shippingMethods[0].name);
+    await screen.findByText(shippingMethods[1].name);
 
     expect(screen.getByText("Delete")).toBeInTheDocument();
     const user = userEvent.setup();

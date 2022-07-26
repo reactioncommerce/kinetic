@@ -154,7 +154,7 @@ const Surcharges = () => {
     {
       enabled: !!shopId,
       select: (response) =>
-        filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ _id, label }) => ({ label, value: _id }))
+        filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ _id, name }) => ({ label: name, value: _id }))
     }
   );
 
@@ -301,7 +301,7 @@ const Surcharges = () => {
                       {...props}
                       initialValue={{ property: "", value: "", operator: "eq" }}
                       renderFieldItem={(index) => (
-                        <OperatorsField index={index}/>
+                        <OperatorsField index={index} />
                       )}
                     />
                   )}
@@ -310,9 +310,12 @@ const Surcharges = () => {
                 <Divider sx={{ my: 2 }} />
                 <DestinationField isInvalid={touched.destination && !!errors.destination} errors={touched.destination ? errors.destination : undefined} />
                 <Divider sx={{ my: 2 }} />
-                <ShippingMethodsField shippingMethodOptions={shippingMethods.data}
-                  isLoading={shippingMethods.isLoading} isInvalid={touched.methods && !!errors.methods} errors={touched.methods ? errors.methods : ""} />
-
+                <ShippingMethodsField
+                  shippingMethodOptions={shippingMethods.data}
+                  isLoading={shippingMethods.isLoading}
+                  isInvalid={touched.methods && !!errors.methods}
+                  errors={touched.methods ? errors.methods : ""}
+                />
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="h6" gutterBottom>
                   Storefront

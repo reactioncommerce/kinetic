@@ -5,7 +5,11 @@ import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { Operator } from "types/operator";
 
-export const OperatorsField = ({ index }:{index: number}) => (
+type OperatorsFieldProps = {
+  index: number
+}
+
+export const OperatorsField = ({ index }: OperatorsFieldProps) => (
   <Stack direction="row" gap={3}>
     <Field
       component={TextField}

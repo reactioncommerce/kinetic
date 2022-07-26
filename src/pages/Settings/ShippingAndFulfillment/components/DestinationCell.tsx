@@ -1,6 +1,10 @@
 import { DestinationRestrictions, SurchargeDestinationRestrictions } from "@graphql/types";
 
-export const DestinationCell = ({ data }: {data?: SurchargeDestinationRestrictions | DestinationRestrictions}) => {
+type DestinationCellProps = {
+  data?: SurchargeDestinationRestrictions | DestinationRestrictions
+}
+
+export const DestinationCell = ({ data }: DestinationCellProps) => {
   const totalCountry = data?.country?.length ?? 0;
   const totalPostal = data?.postal?.length ?? 0;
   const totalRegion = data?.region?.length ?? 0;

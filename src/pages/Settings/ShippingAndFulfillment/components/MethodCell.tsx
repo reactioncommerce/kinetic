@@ -1,4 +1,8 @@
-export const MethodCell = ({ data = [] }: {data?: string[]}) => (
+type MethodCellProps = {
+  data?: string[]
+}
+
+export const MethodCell = ({ data = [] }: MethodCellProps) => (
   <>
     {data.length === 1
       ? "1 Method"
