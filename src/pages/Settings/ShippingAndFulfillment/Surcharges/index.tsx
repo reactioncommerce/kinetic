@@ -65,19 +65,13 @@ const shippingSurchargeSchema = Yup.object().shape({
   amount: Yup.number().moreThan(0, "Amount must be greater than 0")
     .required("This field is required"),
   attributes: Yup.array().of(Yup.object({
-    operator: Yup.string(),
-    property: Yup.string(),
-    value: Yup.string()
+    operator: Yup.string().required("This field is required"),
+    property: Yup.string().required("This field is required"),
+    value: Yup.string().required("This field is required")
   })),
-  destination: Yup.object().shape({
-    country: Yup.array(),
-    postal: Yup.array(),
-    region: Yup.array()
-  }),
   messagesByLanguage: Yup.object()
     .shape({ content: Yup.string().required("This field is required") })
-    .required("This field is required"),
-  methods: Yup.array()
+    .required("This field is required")
 });
 
 

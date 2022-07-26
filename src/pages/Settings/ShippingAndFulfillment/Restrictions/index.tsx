@@ -10,6 +10,7 @@ import FormLabel from "@mui/material/FormLabel";
 import Divider from "@mui/material/Divider";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { startCase } from "lodash-es";
+import * as Yup from "yup";
 
 import { useShop } from "@containers/ShopProvider";
 import { ShippingRestriction } from "types/shippingRestrictions";
@@ -43,6 +44,15 @@ type ShippingRestrictionFormValues = {
   };
   methods?: SelectOptionType[];
 };
+
+const shippingRestrictionSchema = Yup.object().shape({
+  attributes: Yup.array().of(Yup.object({
+    operator: Yup.string().required("This field is required"),
+    property: Yup.string().required("This field is required"),
+    value: Yup.string().required("This field is required")
+  }))
+});
+
 
 const getInitialValues = ({ restriction, shippingMethods }:
   {restriction?: ShippingRestriction, shippingMethods: SelectOptionType[]}): ShippingRestrictionFormValues => ({
@@ -239,6 +249,7 @@ const Restrictions = () => {
         <Formik<ShippingRestrictionFormValues>
           onSubmit={onSubmit}
           initialValues={initialValues}
+          validationSchema={shippingRestrictionSchema}
         >
           {({ isSubmitting, touched, errors, submitForm }) => (
             <Stack component={Form} flex={1}>
