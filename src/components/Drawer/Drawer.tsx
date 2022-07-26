@@ -23,8 +23,7 @@ const Drawer = ({
         width: 620,
         maxWidth: "100%",
         display: "flex",
-        flexDirection: "column",
-        overflowY: "scroll"
+        flexDirection: "column"
       },
       ...PaperProps
     }}

@@ -154,7 +154,7 @@ const Surcharges = () => {
     {
       enabled: !!shopId,
       select: (response) =>
-        filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ _id, label }) => ({ label, value: _id }))
+        filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ _id, name }) => ({ label: name, value: _id }))
     }
   );
 
