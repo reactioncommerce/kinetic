@@ -35,7 +35,11 @@ const color = {
     800: "#1A202C",
     900: "#171923"
   },
-  darkRed: "#B7386F"
+  darkRed: "#B7386F",
+  red: {
+    100: "#F9DADA",
+    900: "#7D2828"
+  }
 };
 
 // Create a theme instance.
@@ -178,6 +182,10 @@ const theme = createTheme(baseTheme, {
         colorWarning: {
           backgroundColor: color.lightYellow,
           color: color.darkYellow
+        },
+        colorError: {
+          backgroundColor: color.red[100],
+          color: color.red[900]
         },
         sizeSmall: {
           fontSize: "11px",

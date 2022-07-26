@@ -1,3 +1,5 @@
+import Typography from "@mui/material/Typography";
+
 import { DestinationRestrictions, SurchargeDestinationRestrictions } from "@graphql/types";
 
 type DestinationCellProps = {
@@ -11,10 +13,10 @@ export const DestinationCell = ({ data }: DestinationCellProps) => {
   const totalDestinations = totalCountry + totalRegion + totalPostal;
 
   return (
-    <>
+    <Typography noWrap variant="body2">
       {totalDestinations === 1
         ? "1 Destination"
         : `${totalDestinations} Destinations`}
-    </>
+    </Typography>
   );
 };

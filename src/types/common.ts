@@ -22,7 +22,7 @@ export type APIErrorResponse = {
   }
 }
 
-export type SelectOptionType = {
+export type SelectOptionType<T = string> = {
   label: string
-  value: string
+  value: T
 }

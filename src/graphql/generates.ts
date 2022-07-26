@@ -8159,6 +8159,41 @@ export type DeleteFlatRateFulfillmentMethodMutationMutationVariables = Exact<{
 
 export type DeleteFlatRateFulfillmentMethodMutationMutation = { __typename?: 'Mutation', deleteFlatRateFulfillmentMethod: { __typename?: 'DeleteFlatRateFulfillmentMethodPayload', method: { __typename?: 'FlatRateFulfillmentMethod', _id: string } } };
 
+export type GetShippingRestrictionsQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<FlatRateFulfillmentRestrictionSortByField>;
+}>;
+
+
+export type GetShippingRestrictionsQuery = { __typename?: 'Query', getFlatRateFulfillmentRestrictions: { __typename?: 'FlatRateFulfillmentRestrictionConnection', totalCount: number, nodes?: Array<{ __typename?: 'FlatRateFulfillmentRestriction', _id: string, methodIds?: Array<string | null> | null, type: RestrictionTypeEnum, attributes?: Array<{ __typename?: 'AttributeRestrictions', operator: string, property: string, value: string, propertyType: string } | null> | null, destination?: { __typename?: 'DestinationRestrictions', country?: Array<string | null> | null, postal?: Array<string | null> | null, region?: Array<string | null> | null } | null } | null> | null } };
+
+export type CreateShippingRestrictionMutationVariables = Exact<{
+  input: CreateFlatRateFulfillmentRestrictionInput;
+}>;
+
+
+export type CreateShippingRestrictionMutation = { __typename?: 'Mutation', createFlatRateFulfillmentRestriction: { __typename?: 'CreateFlatRateFulfillmentRestrictionPayload', restriction: { __typename?: 'FlatRateFulfillmentRestriction', _id: string } } };
+
+export type UpdateShippingRestrictionMutationVariables = Exact<{
+  input: UpdateFlatRateFulfillmentRestrictionInput;
+}>;
+
+
+export type UpdateShippingRestrictionMutation = { __typename?: 'Mutation', updateFlatRateFulfillmentRestriction: { __typename?: 'UpdateFlatRateFulfillmentRestrictionPayload', restriction: { __typename?: 'FlatRateFulfillmentRestriction', _id: string } } };
+
+export type DeleteShippingRestrictionMutationVariables = Exact<{
+  input: DeleteFlatRateFulfillmentRestrictionInput;
+}>;
+
+
+export type DeleteShippingRestrictionMutation = { __typename?: 'Mutation', deleteFlatRateFulfillmentRestriction: { __typename?: 'DeleteFlatRateFulfillmentRestrictionPayload', restriction: { __typename?: 'FlatRateFulfillmentRestriction', _id: string } } };
+
 export type GetShippingSurchargesQueryVariables = Exact<{
   shopId: Scalars['ID'];
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -8489,6 +8524,118 @@ export const useDeleteFlatRateFulfillmentMethodMutationMutation = <
     useMutation<DeleteFlatRateFulfillmentMethodMutationMutation, TError, DeleteFlatRateFulfillmentMethodMutationMutationVariables, TContext>(
       ['deleteFlatRateFulfillmentMethodMutation'],
       (variables?: DeleteFlatRateFulfillmentMethodMutationMutationVariables) => fetcher<DeleteFlatRateFulfillmentMethodMutationMutation, DeleteFlatRateFulfillmentMethodMutationMutationVariables>(client, DeleteFlatRateFulfillmentMethodMutationDocument, variables, headers)(),
+      options
+    );
+export const GetShippingRestrictionsDocument = `
+    query getShippingRestrictions($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder = desc, $sortBy: FlatRateFulfillmentRestrictionSortByField = createdAt) {
+  getFlatRateFulfillmentRestrictions(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      attributes {
+        operator
+        property
+        value
+        propertyType
+      }
+      destination {
+        country
+        postal
+        region
+      }
+      methodIds
+      type
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetShippingRestrictionsQuery = <
+      TData = GetShippingRestrictionsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetShippingRestrictionsQueryVariables,
+      options?: UseQueryOptions<GetShippingRestrictionsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetShippingRestrictionsQuery, TError, TData>(
+      ['getShippingRestrictions', variables],
+      fetcher<GetShippingRestrictionsQuery, GetShippingRestrictionsQueryVariables>(client, GetShippingRestrictionsDocument, variables, headers),
+      options
+    );
+export const CreateShippingRestrictionDocument = `
+    mutation createShippingRestriction($input: CreateFlatRateFulfillmentRestrictionInput!) {
+  createFlatRateFulfillmentRestriction(input: $input) {
+    restriction {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateShippingRestrictionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateShippingRestrictionMutation, TError, CreateShippingRestrictionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateShippingRestrictionMutation, TError, CreateShippingRestrictionMutationVariables, TContext>(
+      ['createShippingRestriction'],
+      (variables?: CreateShippingRestrictionMutationVariables) => fetcher<CreateShippingRestrictionMutation, CreateShippingRestrictionMutationVariables>(client, CreateShippingRestrictionDocument, variables, headers)(),
+      options
+    );
+export const UpdateShippingRestrictionDocument = `
+    mutation updateShippingRestriction($input: UpdateFlatRateFulfillmentRestrictionInput!) {
+  updateFlatRateFulfillmentRestriction(input: $input) {
+    restriction {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateShippingRestrictionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateShippingRestrictionMutation, TError, UpdateShippingRestrictionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateShippingRestrictionMutation, TError, UpdateShippingRestrictionMutationVariables, TContext>(
+      ['updateShippingRestriction'],
+      (variables?: UpdateShippingRestrictionMutationVariables) => fetcher<UpdateShippingRestrictionMutation, UpdateShippingRestrictionMutationVariables>(client, UpdateShippingRestrictionDocument, variables, headers)(),
+      options
+    );
+export const DeleteShippingRestrictionDocument = `
+    mutation deleteShippingRestriction($input: DeleteFlatRateFulfillmentRestrictionInput!) {
+  deleteFlatRateFulfillmentRestriction(input: $input) {
+    restriction {
+      _id
+    }
+  }
+}
+    `;
+export const useDeleteShippingRestrictionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteShippingRestrictionMutation, TError, DeleteShippingRestrictionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteShippingRestrictionMutation, TError, DeleteShippingRestrictionMutationVariables, TContext>(
+      ['deleteShippingRestriction'],
+      (variables?: DeleteShippingRestrictionMutationVariables) => fetcher<DeleteShippingRestrictionMutation, DeleteShippingRestrictionMutationVariables>(client, DeleteShippingRestrictionDocument, variables, headers)(),
       options
     );
 export const GetShippingSurchargesDocument = `
