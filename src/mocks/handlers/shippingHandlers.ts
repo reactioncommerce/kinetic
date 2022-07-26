@@ -5,6 +5,7 @@ import { FulfillmentGroup, ShippingMethod } from "types/shippingMethod";
 import { FulfillmentType } from "@graphql/types";
 import { Surcharge } from "types/surcharges";
 
+
 const mockShippingMethods = () => ({
   _id: faker.datatype.uuid(),
   fulfillmentTypes: [FulfillmentType.Shipping],
@@ -16,7 +17,7 @@ const mockShippingMethods = () => ({
   rate: faker.datatype.float()
 });
 
-const mockShippingSurcharges = () => ({
+const mockShippingSurcharges = (methodIds?: string[]) => ({
   _id: faker.datatype.uuid(),
   amount: {
     amount: faker.datatype.float(),
@@ -32,12 +33,12 @@ const mockShippingSurcharges = () => ({
     content: faker.random.words(),
     language: "en"
   }],
-  methodIds: [faker.datatype.uuid(), faker.datatype.uuid()]
+  methodIds: methodIds ?? [faker.datatype.uuid(), faker.datatype.uuid()]
 });
 
 export const shippingMethods: ShippingMethod[] = [mockShippingMethods(), mockShippingMethods()];
 
-export const shippingSurcharges: Surcharge[] = [mockShippingSurcharges(), mockShippingSurcharges()];
+export const shippingSurcharges: Surcharge[] = [mockShippingSurcharges(shippingMethods.map(({ _id }) => _id))];
 
 const getShippingMethodsHandlers = graphql.query("getShippingMethods", (req, res, ctx) =>
   res(ctx.data({ flatRateFulfillmentMethods: { nodes: shippingMethods } })));
@@ -55,5 +56,22 @@ const deleteShippingMethodHandler = graphql.mutation("deleteFlatRateFulfillmentM
   return res(ctx.data({ input }));
 });
 
+const createShippingSurchargeHandler = graphql.mutation("createShippingSurcharge", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
 
-export const handlers = [getShippingMethodsHandlers, getShippingSurchargesHandlers, createShippingMethodHandler, deleteShippingMethodHandler];
+const deleteShippingSurchargeHandler = graphql.mutation("deleteShippingSurcharge", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+
+export const handlers = [
+  getShippingMethodsHandlers,
+  getShippingSurchargesHandlers,
+  createShippingMethodHandler,
+  deleteShippingMethodHandler,
+  createShippingSurchargeHandler,
+  deleteShippingSurchargeHandler
+];

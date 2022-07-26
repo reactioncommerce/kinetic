@@ -29,7 +29,7 @@ const Drawer = ({
     }}
     {...props}
   >
-    <Paper variant="outlined" square sx={{ padding: 3 }}>
+    <Paper variant="outlined" square sx={{ padding: 3, position: "sticky", top: 0, zIndex: 1 }}>
       <Typography variant="subtitle1">{title}</Typography>
     </Paper>
     {children}

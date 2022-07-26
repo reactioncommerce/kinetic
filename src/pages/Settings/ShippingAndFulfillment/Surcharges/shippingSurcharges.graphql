@@ -50,3 +50,27 @@ query getShippingSurcharges(
     totalCount
   }
 }
+
+mutation createShippingSurcharge($input: CreateSurchargeInput!) {
+  createSurcharge(input: $input) {
+    surcharge {
+      _id
+    }
+  }
+}
+
+mutation updateShippingSurcharge($input: UpdateSurchargeInput!) {
+  updateSurcharge(input: $input) {
+    surcharge {
+      _id
+    }
+  }
+}
+
+mutation deleteShippingSurcharge($input: DeleteSurchargeInput!) {
+  deleteSurcharge(input: $input) {
+    surcharge {
+      _id
+    }
+  }
+}

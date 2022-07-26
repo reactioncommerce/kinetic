@@ -8,16 +8,16 @@ import { FieldProps, getIn } from "formik";
 import { uniqueId } from "lodash-es";
 import { useRef } from "react";
 
-
 type CustomSelectFieldProps = {
-  helperText?: string
-  options: Array<{value: string | number, label: string}>
-}
-
+  helperText?: string;
+  options: Array<{ value: string | number; label: string }>;
+  ariaLabel?: string
+};
 
 type SelectFieldProps = FieldProps &
   FormControlProps &
-  Omit<SelectProps, "name" | "value" | "error" | "margin"> & CustomSelectFieldProps
+  Omit<SelectProps, "name" | "value" | "error" | "margin"> &
+  CustomSelectFieldProps;
 
 export const SelectField = ({
   field: { onBlur: fieldOnBlur, ...restFieldProps },
@@ -30,6 +30,8 @@ export const SelectField = ({
   onBlur,
   options,
   helperText,
+  hiddenLabel,
+  ariaLabel,
   ...props
 }: SelectFieldProps) => {
   const fieldError = getIn(errors, restFieldProps.name) as string;
@@ -39,30 +41,41 @@ export const SelectField = ({
   const fieldId = useRef(uniqueId("select-field")).current;
   const helperTextId = useRef(uniqueId("helper-text")).current;
 
-  const _onBlur = onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
+  const _onBlur =
+    onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
 
   return (
-    <FormControl fullWidth={fullWidth}
+    <FormControl
+      fullWidth={fullWidth}
       size={size}
       error={showError}
       required={required}
       margin={margin}
       disabled={props.disabled ?? isSubmitting}
     >
-      <FormLabel htmlFor={fieldId} sx={{ fontWeight: 400 }}>
-        {label}
-      </FormLabel>
+      {!hiddenLabel && (
+        <FormLabel htmlFor={fieldId}>
+          {label}
+        </FormLabel>
+      )}
       <Select
         id={fieldId}
         onBlur={_onBlur}
         aria-describedby={helperTextId}
+        inputProps={{ "aria-label": ariaLabel }}
         {...props}
         {...restFieldProps}
       >
-        {options.map((opt) => <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>)}
+        {options.map((opt) => (
+          <MenuItem key={opt.value} value={opt.value}>
+            {opt.label}
+          </MenuItem>
+        ))}
       </Select>
       <Collapse in={!!_helperText}>
-        {_helperText && <FormHelperText id={helperTextId}>{_helperText}</FormHelperText>}
+        {_helperText && (
+          <FormHelperText id={helperTextId}>{_helperText}</FormHelperText>
+        )}
       </Collapse>
     </FormControl>
   );

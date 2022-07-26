@@ -9,6 +9,7 @@ import { useRef } from "react";
 
 type CustomTextFieldProps = {
   helperText?: string
+  ariaLabel?: string
 }
 
 export type TextFieldProps = FieldProps &
@@ -26,6 +27,8 @@ export const TextField = ({
   label,
   onBlur,
   helperText,
+  hiddenLabel,
+  ariaLabel,
   ...props
 }: TextFieldProps) => {
   const fieldError = getIn(errors, restFieldProps.name) as string;
@@ -48,13 +51,16 @@ export const TextField = ({
       disabled={props.disabled ?? isSubmitting}
       variant="standard"
     >
-      <FormLabel htmlFor={fieldId}>
-        {label}
-      </FormLabel>
+      {!hiddenLabel && (
+        <FormLabel htmlFor={fieldId}>
+          {label}
+        </FormLabel>
+      )}
       <OutlinedInput
         id={fieldId}
         onBlur={_onBlur}
         aria-describedby={helperTextId}
+        inputProps={{ "aria-label": ariaLabel }}
         {...props}
         {...restFieldProps}
       />
