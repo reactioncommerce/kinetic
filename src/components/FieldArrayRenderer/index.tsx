@@ -21,7 +21,7 @@ export const FieldArrayRenderer = <T, >({
 }: FieldArrayRendererProps<T>) => (
     <Box>
       {values[name].map((_: T, index: number) => (
-        <Grid container alignItems={"center"} spacing={1} key={index}>
+        <Grid container alignItems="baseline" spacing={1} key={index}>
           <Grid item xs={11}>
             {renderFieldItem(index)}
           </Grid>
