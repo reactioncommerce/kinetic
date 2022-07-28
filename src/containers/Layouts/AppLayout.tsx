@@ -16,7 +16,7 @@ export const AppLayout = () => {
     <Box sx={{ display: "flex" }}>
       <AppHeader handleDrawerToggle={handleDrawerToggle} />
       <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-      <Box component="main" sx={{ flexGrow: 1, width: { sx: "100%", sm: `calc(100% - ${SIDEBAR_WIDTH}px)` } }}>
+      <Box component="main" sx={{ flexGrow: 1, width: { xs: "100%", sm: `calc(100% - ${SIDEBAR_WIDTH}px)` } }}>
         <Toolbar />
         <Outlet />
       </Box>

@@ -1,2 +1,2 @@
-export { TextField } from "./TextField";
+export * from "./TextField";
 export { InputWithLabel } from "./InputWithLabel";

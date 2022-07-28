@@ -5,11 +5,24 @@ import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 import { AutocompleteField } from "@components/AutocompleteField";
 import { countries, CountryType } from "@utils/countries";
 import { InputWithLabel } from "@components/TextField";
+import { DestinationRestrictions, SurchargeDestinationRestrictions } from "@graphql/types";
+import { filterNodes } from "@utils/common";
 
 type DestinationFieldProps = {
   isInvalid?: boolean
   errors?: string
 }
+
+export const getInitialDestinationValue = (destination?: DestinationRestrictions | SurchargeDestinationRestrictions | null) => (destination ? {
+  region: filterNodes(destination.region),
+  postal: filterNodes(destination.postal),
+  country: filterNodes(destination.country).map((countryCode) =>
+    ({ code: countryCode, label: countries.find(({ code }) => code === countryCode)?.label ?? "Unknown" }))
+} : {
+  country: [],
+  postal: [],
+  region: []
+});
 
 export const DestinationField = ({ isInvalid, errors }: DestinationFieldProps) => (
   <>

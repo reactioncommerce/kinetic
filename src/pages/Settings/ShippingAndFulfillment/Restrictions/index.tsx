@@ -1,101 +1,85 @@
-import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Field, FieldArray, Form, Formik, FormikConfig } from "formik";
-import InputAdornment from "@mui/material/InputAdornment";
-import LoadingButton from "@mui/lab/LoadingButton";
 import FormLabel from "@mui/material/FormLabel";
 import Divider from "@mui/material/Divider";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { startCase } from "lodash-es";
 import * as Yup from "yup";
 
-import {
-  Table,
-  TableAction,
-  TableContainer,
-  useTableState
-} from "@components/Table";
 import { useShop } from "@containers/ShopProvider";
-import {
-  useCreateShippingSurchargeMutation,
-  useDeleteShippingSurchargeMutation,
-  useGetShippingMethodsQuery,
-  useGetShippingSurchargesQuery,
-  useUpdateShippingSurchargeMutation
-} from "@graphql/generates";
-import { client } from "@graphql/graphql-request-client";
-import { filterNodes, getPropertyType } from "@utils/common";
-import {
-  Money,
-  SurchargeAttributeRestrictions,
-  SurchargeAttributeRestrictionsInput,
-  SurchargeTypeEnum
-} from "@graphql/types";
-import { Surcharge } from "types/surcharges";
-import { Drawer } from "@components/Drawer";
-import { TextField } from "@components/TextField";
-import { CountryType } from "@utils/countries";
-import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
-import { SelectOptionType } from "types/common";
+import { ShippingRestriction } from "types/shippingRestrictions";
 import { DestinationCell } from "../components/DestinationCell";
 import { MethodCell } from "../components/MethodCell";
+import { AttributeRestrictionsInput, RestrictionTypeEnum } from "@graphql/types";
+import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
+import { useCreateShippingRestrictionMutation, useDeleteShippingRestrictionMutation,
+  useGetShippingMethodsQuery,
+  useGetShippingRestrictionsQuery,
+  useUpdateShippingRestrictionMutation }
+  from "@graphql/generates";
+import { client } from "@graphql/graphql-request-client";
+import { filterNodes, getPropertyType } from "@utils/common";
+import { Drawer } from "@components/Drawer";
+import { SelectField } from "@components/SelectField";
+import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 import { OperatorsField } from "../components/OperatorsField";
 import { DestinationField, getInitialDestinationValue } from "../components/DestinationField";
 import { ShippingMethodsField } from "../components/ShippingMethodsField";
+import { CountryType } from "@utils/countries";
+import { SelectOptionType } from "types/common";
 
-
-type ShippingSurchargeFormValues = {
-  amount: number;
-  attributes?: SurchargeAttributeRestrictions[];
+type ShippingRestrictionFormValues = {
+  type: RestrictionTypeEnum;
+  attributes?: AttributeRestrictionsInput[];
   destination?: {
     country: Pick<CountryType, "code" | "label">[];
     postal: string[];
     region: string[];
   };
-  messagesByLanguage: {
-    content: string;
-    language: string;
-  };
   methods?: SelectOptionType[];
 };
 
-const shippingSurchargeSchema = Yup.object().shape({
-  amount: Yup.number().moreThan(0, "Amount must be greater than 0")
-    .required("This field is required"),
+const shippingRestrictionSchema = Yup.object().shape({
   attributes: Yup.array().of(Yup.object({
     operator: Yup.string().required("This field is required"),
     property: Yup.string().required("This field is required"),
     value: Yup.string().required("This field is required")
-  })),
-  messagesByLanguage: Yup.object()
-    .shape({ content: Yup.string().required("This field is required") })
-    .required("This field is required")
+  }))
 });
 
 
-const getInitialValues = ({ surcharge, shippingMethods }:{surcharge?: Surcharge, shippingMethods: SelectOptionType[]}): ShippingSurchargeFormValues => ({
-  amount: surcharge?.amount.amount ?? 0,
-  attributes: filterNodes(surcharge?.attributes),
-  destination: getInitialDestinationValue(surcharge?.destination),
-  methods: filterNodes(surcharge?.methodIds).map((id) => ({ label: shippingMethods.find((method) => method.value === id)?.label ?? "Unknown", value: id })),
-  messagesByLanguage: surcharge?.messagesByLanguage ? filterNodes(surcharge.messagesByLanguage)?.[0] : {
-    content: "",
-    language: "en"
-  }
+const getInitialValues = ({ restriction, shippingMethods }:
+  {restriction?: ShippingRestriction, shippingMethods: SelectOptionType[]}): ShippingRestrictionFormValues => ({
+  attributes: filterNodes(restriction?.attributes),
+  destination: getInitialDestinationValue(restriction?.destination),
+  methods: filterNodes(restriction?.methodIds).map((id) => ({ label: shippingMethods.find((method) => method.value === id)?.label ?? "Unknown", value: id })),
+  type: restriction?.type ?? RestrictionTypeEnum.Allow
 });
 
-const Surcharges = () => {
+const Restrictions = () => {
   const { shopId } = useShop();
   const [open, setOpen] = useState(false);
-  const [activeRow, setActiveRow] = useState<Surcharge>();
+  const [activeRow, setActiveRow] = useState<ShippingRestriction>();
 
-  const columns: ColumnDef<Surcharge>[] = useMemo(
+  const columns: ColumnDef<ShippingRestriction>[] = useMemo(
     () => [
       {
-        accessorFn: (row) => row.messagesByLanguage?.[0]?.content || "--",
-        header: "Nickname"
+        accessorKey: "attributes",
+        header: "Conditions",
+        cell: (info) => {
+          const attributes = info.getValue<AttributeRestrictionsInput[]>();
+          if (attributes.length === 0) return "0 Conditions";
+          const firstCondition = `${attributes[0].property} ${attributes[0].operator} ${attributes[0].value}`;
+          const totalRemainConditions = attributes.length - 1;
+
+          return `${firstCondition} ${totalRemainConditions > 0 ? `+ ${totalRemainConditions} condition(s)` : ""}`;
+        }
       },
       {
         accessorKey: "destination",
@@ -108,9 +92,18 @@ const Surcharges = () => {
         cell: (info) => <MethodCell data={info.getValue()} />
       },
       {
-        accessorKey: "amount",
-        header: "Amount",
-        cell: (info) => info.getValue<Money>().displayAmount,
+        accessorKey: "type",
+        header: "Type",
+        cell: (info) => {
+          const type = info.getValue<RestrictionTypeEnum>();
+          return (
+            <Chip
+              color={type === RestrictionTypeEnum.Allow ? "success" : "error"}
+              size="small"
+              label={type === RestrictionTypeEnum.Allow ? "ALLOW" : "DENY"}
+            />
+          );
+        },
         meta: {
           align: "right"
         }
@@ -121,15 +114,11 @@ const Surcharges = () => {
 
   const { pagination, handlePaginationChange } = useTableState();
 
-  const { data, isLoading, refetch } = useGetShippingSurchargesQuery(
-    client,
-    {
-      shopId: shopId!,
-      first: pagination.pageSize,
-      offset: pagination.pageIndex * pagination.pageSize
-    },
-    { enabled: !!shopId }
-  );
+  const { data, isLoading, refetch } = useGetShippingRestrictionsQuery(client, {
+    shopId: shopId!,
+    first: pagination.pageSize,
+    offset: pagination.pageIndex * pagination.pageSize
+  }, { enabled: !!shopId });
 
   const shippingMethods = useGetShippingMethodsQuery(
     client,
@@ -142,20 +131,25 @@ const Surcharges = () => {
   );
 
   const initialValues = useMemo(
-    () => getInitialValues({ surcharge: activeRow, shippingMethods: shippingMethods.data ?? [] }),
+    () => getInitialValues({ restriction: activeRow, shippingMethods: shippingMethods.data ?? [] }),
     [activeRow, shippingMethods.data]
   );
 
-  const { mutate: create } = useCreateShippingSurchargeMutation(client);
+  const { mutate: create } = useCreateShippingRestrictionMutation(client);
+  const { mutate: update } = useUpdateShippingRestrictionMutation(client);
 
-  const { mutate: update } = useUpdateShippingSurchargeMutation(client);
-
-  const { mutate: deleteSurcharge, isLoading: isDeleting } = useDeleteShippingSurchargeMutation(client);
+  const { mutate: deleteRestriction, isLoading: isDeleting } = useDeleteShippingRestrictionMutation(client);
 
   const handleClose = () => {
     setOpen(false);
     setActiveRow(undefined);
   };
+
+  const handleRowClick = (rowData: ShippingRestriction) => {
+    setActiveRow(rowData);
+    setOpen(true);
+  };
+
 
   const onSuccess = () => {
     handleClose();
@@ -163,28 +157,27 @@ const Surcharges = () => {
   };
 
 
-  const onSubmit: FormikConfig<ShippingSurchargeFormValues>["onSubmit"] = (
+  const onSubmit: FormikConfig<ShippingRestrictionFormValues>["onSubmit"] = (
     values,
     { setSubmitting }
   ) => {
-    const surchargeData = {
-      amount: values.amount,
+    const restriction = {
+      type: values.type,
       methodIds: values.methods?.map(({ value }) => value),
-      messagesByLanguage: [values.messagesByLanguage],
       destination: {
         ...values.destination,
         country: values.destination?.country.map(({ code }) => code)
       },
-      attributes: values.attributes?.map((attr) => ({ ...attr, propertyType: getPropertyType((attr.value ?? "").trim()) })),
-      type: SurchargeTypeEnum.Surcharge
+      attributes: values.attributes?.map((attr) => ({ ...attr, propertyType: getPropertyType((attr.value ?? "").trim()) }))
     };
+
     activeRow ?
       update(
         {
           input: {
             shopId: shopId!,
-            surchargeId: activeRow._id,
-            surcharge: surchargeData
+            restrictionId: activeRow._id,
+            restriction
           }
         },
         {
@@ -195,7 +188,7 @@ const Surcharges = () => {
       create({
         input: {
           shopId: shopId!,
-          surcharge: surchargeData
+          restriction
         }
       }, {
         onSettled: () => setSubmitting(false),
@@ -203,30 +196,26 @@ const Surcharges = () => {
       });
   };
 
-  const handleRowClick = (rowData: Surcharge) => {
-    setActiveRow(rowData);
-    setOpen(true);
-  };
-
-  const handleDeleteShippingSurcharge = (surchargeId: string) => {
-    deleteSurcharge({ input: { surchargeId, shopId: shopId! } }, {
+  const handleDeleteShippingRestriction = (restrictionId: string) => {
+    deleteRestriction({ input: { restrictionId, shopId: shopId! } }, {
       onSuccess
     });
   };
 
+
   return (
     <TableContainer>
       <TableContainer.Header
-        title="Shipping Surcharges"
+        title="Shipping Restrictions"
         action={<TableAction onClick={() => setOpen(true)}>Add</TableAction>}
       />
       <Table
         columns={columns}
-        data={filterNodes(data?.surcharges.nodes)}
+        data={filterNodes(data?.getFlatRateFulfillmentRestrictions.nodes)}
         loading={isLoading}
         tableState={{ pagination }}
         onPaginationChange={handlePaginationChange}
-        totalCount={data?.surcharges.totalCount ?? 0}
+        totalCount={data?.getFlatRateFulfillmentRestrictions.totalCount ?? 0}
         onRowClick={handleRowClick}
         emptyPlaceholder={
           <Stack alignItems="center" gap={2}>
@@ -235,10 +224,10 @@ const Surcharges = () => {
             />
             <div>
               <Typography variant="h6" gutterBottom>
-                No Shipping Surcharges
+                No Shipping Restrictions
               </Typography>
               <Typography variant="body2" color="grey.600">
-                Get started by adding your first shipping surcharge.
+                Get started by adding your first shipping restriction.
               </Typography>
             </div>
             <Button
@@ -255,58 +244,49 @@ const Surcharges = () => {
       <Drawer
         open={open}
         onClose={handleClose}
-        title={activeRow ? "Edit Shipping Surcharge" : "Add Shipping Surcharge"}
+        title={activeRow ? "Edit Shipping Restriction" : "Add Shipping Restriction"}
       >
-        <Formik<ShippingSurchargeFormValues>
+        <Formik<ShippingRestrictionFormValues>
           onSubmit={onSubmit}
           initialValues={initialValues}
-          validationSchema={shippingSurchargeSchema}
+          validationSchema={shippingRestrictionSchema}
         >
           {({ isSubmitting, touched, errors, submitForm }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Stack direction="row" width="50%" mb={2}>
                   <Field
-                    component={TextField}
-                    name="amount"
-                    label="Amount"
-                    type="number"
-                    startAdornment={
-                      <InputAdornment position="start">$</InputAdornment>
-                    }
+                    component={SelectField}
+                    name="type"
+                    label="Type"
+                    options={Object.values(RestrictionTypeEnum).map((value) => ({ value, label: startCase(value) }))}
                   />
                 </Stack>
                 <FormLabel>Conditions</FormLabel>
                 <FieldArray
                   name="attributes"
                   render={(props) => (
-                    <FieldArrayRenderer<SurchargeAttributeRestrictionsInput>
+                    <FieldArrayRenderer<AttributeRestrictionsInput>
                       {...props}
-                      initialValue={{ property: "", value: "", operator: "eq" }}
+                      initialValue={{ property: "", value: "", operator: "eq", propertyType: "string" }}
                       renderFieldItem={(index) => (
-                        <OperatorsField index={index} />
+                        <OperatorsField index={index}/>
                       )}
                     />
                   )}
                 />
 
                 <Divider sx={{ my: 2 }} />
-                <DestinationField isInvalid={touched.destination && !!errors.destination} errors={touched.destination ? errors.destination : undefined} />
+                <DestinationField
+                  isInvalid={touched.destination && !!errors.destination}
+                  errors={touched.destination ? errors.destination : undefined}
+                />
                 <Divider sx={{ my: 2 }} />
                 <ShippingMethodsField
                   shippingMethodOptions={shippingMethods.data}
                   isLoading={shippingMethods.isLoading}
                   isInvalid={touched.methods && !!errors.methods}
-                  errors={touched.methods ? errors.methods : undefined}
-                />
-                <Divider sx={{ my: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Storefront
-                </Typography>
-                <Field
-                  component={TextField}
-                  name="messagesByLanguage.content"
-                  label="Customer Message"
+                  errors={touched.methods ? errors.methods : ""}
                 />
               </Drawer.Content>
               <Drawer.Actions
@@ -316,7 +296,7 @@ const Surcharges = () => {
                       variant="outlined"
                       color="error"
                       size="small"
-                      onClick={() => handleDeleteShippingSurcharge(activeRow._id)}
+                      onClick={() => handleDeleteShippingRestriction(activeRow._id)}
                       loading={isDeleting}
                       disabled={isSubmitting}
                     >
@@ -354,4 +334,4 @@ const Surcharges = () => {
   );
 };
 
-export default Surcharges;
+export default Restrictions;
