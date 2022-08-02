@@ -11,6 +11,7 @@ import Divider from "@mui/material/Divider";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { startCase } from "lodash-es";
 import * as Yup from "yup";
+import Tooltip from "@mui/material/Tooltip";
 
 import { useShop } from "@containers/ShopProvider";
 import { ShippingRestriction } from "types/shippingRestrictions";
@@ -62,6 +63,9 @@ const getInitialValues = ({ restriction, shippingMethods }:
   type: restriction?.type ?? RestrictionTypeEnum.Allow
 });
 
+const OperatorsTooltipTitle = ({ attributes }: {attributes: AttributeRestrictionsInput[]}) =>
+  <>{attributes.map((attr, index) => <Typography variant="body2" key={index}>{`${attr.property} ${attr.operator} ${attr.value}`}</Typography>)}</>;
+
 const Restrictions = () => {
   const { shopId } = useShop();
   const [open, setOpen] = useState(false);
@@ -78,7 +82,12 @@ const Restrictions = () => {
           const firstCondition = `${attributes[0].property} ${attributes[0].operator} ${attributes[0].value}`;
           const totalRemainConditions = attributes.length - 1;
 
-          return `${firstCondition} ${totalRemainConditions > 0 ? `+ ${totalRemainConditions} condition(s)` : ""}`;
+          return totalRemainConditions > 0 ?
+            <Tooltip placement="bottom-start" title={<OperatorsTooltipTitle attributes={attributes}/>}>
+              <Typography variant="body2">{`${firstCondition} ${totalRemainConditions > 0 ? `+ ${totalRemainConditions} condition(s)` : ""}`}
+              </Typography>
+            </Tooltip>
+            : <Typography variant="body2">{firstCondition}</Typography>;
         }
       },
       {

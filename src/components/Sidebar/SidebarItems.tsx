@@ -19,6 +19,9 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useMemo } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import ListItem from "@mui/material/ListItem";
+import Link from "@mui/material/Link";
 
 import { SystemInformation } from "@components/SystemInformation";
 
@@ -201,9 +204,13 @@ export const SidebarItems = () => {
           <SidebarItem
             key="documentation"
             icon={<SupportOutlinedIcon fontSize="small" />}
-            to="/documentations"
-            text="Documentations"
+            onClick={() => window.open("https://mailchimp.com/developer/open-commerce/docs/", "_blank")}
+            text="Documentation"
           />
+          <ListItem dense sx={{ py: 0.25, px: 0, justifyContent: "center", mt: 1 }}>
+            <Typography variant="body2">Powered by <Link underline="none" href="https://mailchimp.com/developer/open-commerce/" target="_blank" sx={{ fontSize: "inherit" }}>Open Commerce</Link></Typography>
+          </ListItem>
+
         </List>
       </Box>
     </>
