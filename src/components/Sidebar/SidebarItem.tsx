@@ -7,7 +7,7 @@ import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
 export type SidebarItemProps = {
   to?: string
   text: string
-  icon: JSX.Element
+  icon?: JSX.Element
   onClick?: () => void
 }
 
@@ -45,7 +45,7 @@ const NavLinkSidebarItem = ({ to, text, icon }: NavLinkSidebarItemProps) => {
       dense
       sx={sharedStyles}
     >
-      <ListItemIcon>{icon}</ListItemIcon>
+      {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
       <ListItemText primary={text} />
     </ListItemButton>
   );
@@ -61,7 +61,7 @@ export const SidebarItem = ({ to, onClick, ...props }: SidebarItemProps) => (
         sx={sharedStyles}
         onClick={onClick}
       >
-        <ListItemIcon>{props.icon}</ListItemIcon>
+        {props.icon ? <ListItemIcon>{props.icon}</ListItemIcon> : null}
         <ListItemText primary={props.text} />
       </ListItemButton>
     )}

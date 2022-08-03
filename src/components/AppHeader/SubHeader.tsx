@@ -6,7 +6,7 @@ import Paper from "@mui/material/Paper";
 
 export type SubHeaderItemProps = {
   label: string
-  href: string
+  path: string
   key: string
 }
 
@@ -23,12 +23,12 @@ const activeStyles: SxProps = {
 };
 
 
-const SubHeaderItem = ({ href, label }: SubHeaderItemProps) => {
-  const resolvedPath = useResolvedPath(href);
+const SubHeaderItem = ({ path, label }: SubHeaderItemProps) => {
+  const resolvedPath = useResolvedPath(path);
   const match = useMatch({ path: resolvedPath.pathname, end: true });
 
   return <Button size="small" color={match ? "success" : "secondary"} component={Link}
-    to={href} sx={match ? activeStyles : {}}>
+    to={path} sx={match ? activeStyles : {}}>
     {label}
   </Button>;
 };

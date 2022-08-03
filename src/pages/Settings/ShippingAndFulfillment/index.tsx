@@ -1,33 +1,20 @@
-import { Outlet } from "react-router-dom";
-import Container from "@mui/material/Container";
+import { SubHeaderItemProps } from "@components/AppHeader";
 
-import { SubHeader, SubHeaderItemProps } from "@components/AppHeader";
-
-const headers: SubHeaderItemProps[] = [
+export const HEADERS: SubHeaderItemProps[] = [
   {
     label: "Methods",
-    href: "",
+    path: "",
     key: "methods"
   },
   {
     label: "Restrictions",
-    href: "restrictions",
+    path: "restrictions",
     key: "restrictions"
   },
   {
     label: "Surcharges",
-    href: "surcharges",
+    path: "surcharges",
     key: "surcharges"
   }
 ];
 
-const ShippingConfiguration = () => (
-  <>
-    <SubHeader items={headers} />
-    <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
-      <Outlet/>
-    </Container>
-  </>
-);
-
-export default ShippingConfiguration;
