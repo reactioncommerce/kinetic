@@ -1,10 +1,8 @@
 import { RouteObject } from "react-router-dom";
 import { lazy } from "react";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
 
 import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
 import { AppLayout, PageLayout } from "@containers/Layouts";
-import { FEATURE_KEYS, SIDEBAR_ITEMS } from "@components/Sidebar";
 
 import Dashboard from "./pages/Dashboard";
 import { HEADERS } from "./pages/Settings/ShippingAndFulfillment";
@@ -53,36 +51,7 @@ export const routes: RouteObject[] = [
         children: [
           {
             path: "/",
-            element: <AppLayout
-              sidebar={{
-                coreFeatures: SIDEBAR_ITEMS.coreFeatures.map((features) => {
-                  if (features.key === FEATURE_KEYS.settings) {
-                    return {
-                      ...features,
-                      subItems: [...(features.subItems ? features.subItems : []), {
-                        key: "newSetting",
-                        text: "New Settings",
-                        to: "/new-settings"
-                      }]
-                    };
-                  }
-
-                  return features;
-                }),
-                plugins: [
-                  {
-                    text: "Plugins",
-                    key: "plugins",
-                    subItems: [
-                      {
-                        text: "Store Pickup",
-                        icon: <LocalMallIcon fontSize="small" />,
-                        to: "/pickup",
-                        key: "storePickup"
-                      }]
-                  }
-                ]
-              }}/>,
+            element: <AppLayout/>,
             children: [
               {
                 index: true,
