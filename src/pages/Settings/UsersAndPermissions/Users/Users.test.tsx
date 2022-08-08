@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { users } from "@mocks/handlers/userAndPermissionHandlers";
+import { startCase } from "lodash-es";
 
 import { renderWithProviders, screen, waitForElementToBeRemoved } from "@utils/testUtils";
 
@@ -15,7 +16,7 @@ describe("Users", () => {
     users.forEach((user) => {
       expect(screen.getByText(user.name ?? "--")).toBeInTheDocument();
       expect(screen.getByText(user.primaryEmailAddress)).toBeInTheDocument();
-      expect(screen.getByText(user.groups.nodes[0].name)).toBeInTheDocument();
+      expect(screen.getByText(startCase(user.groups.nodes[0].name))).toBeInTheDocument();
     });
   });
 });
