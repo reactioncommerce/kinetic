@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Field, Form, Formik, FormikConfig } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { startCase } from "lodash-es";
+import { noop, startCase } from "lodash-es";
 import * as Yup from "yup";
 
 import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
@@ -64,7 +64,7 @@ const Users = () => {
     },
     {
       id: "actions",
-      cell: () => <MenuActions options={[{ label: "Send Password Reset", onClick: () => { console.log("aa"); } }]}/>,
+      cell: () => <MenuActions options={[{ label: "Send Password Reset", onClick: noop }]}/>,
       header: "",
       meta: {
         align: "right"
