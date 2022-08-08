@@ -22,6 +22,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import Link from "@mui/material/Link";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 
 import { SystemInformation } from "@components/SystemInformation";
 
@@ -79,7 +80,7 @@ const CORE_FEATURES: ItemProps[] = [
     subItems: [
       {
         text: "Users & Permissions",
-        icon: <GroupOutlinedIcon fontSize="small" />,
+        icon: <AdminPanelSettingsOutlinedIcon fontSize="small" />,
         to: "/settings/users"
       },
       {
