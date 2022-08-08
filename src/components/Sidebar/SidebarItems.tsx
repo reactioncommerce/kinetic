@@ -14,6 +14,7 @@ import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import ExposureOutlinedIcon from "@mui/icons-material/ExposureOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useMemo } from "react";
@@ -79,7 +80,7 @@ const CORE_FEATURES: ItemProps[] = [
     subItems: [
       {
         text: "Users & Permissions",
-        icon: <GroupOutlinedIcon fontSize="small" />,
+        icon: <AdminPanelSettingsOutlinedIcon fontSize="small" />,
         to: "/settings/users"
       },
       {

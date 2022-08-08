@@ -1,0 +1,61 @@
+query getUsers(
+  $groupIds: [ID]
+  $notInAnyGroups: Boolean
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+  $sortOrder: SortOrder = asc
+  $sortBy: AccountSortByField = createdAt
+) {
+  accounts(
+    groupIds: $groupIds,
+    notInAnyGroups: $notInAnyGroups,
+    after: $after,
+    before: $before,
+    first: $first,
+    last: $last,
+    offset: $offset,
+    sortOrder: $sortOrder,
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      adminUIShops {
+        _id
+      }
+      createdAt
+      emailRecords {
+        address
+      }
+      primaryEmailAddress
+      userId
+      name
+      firstName
+      lastName
+      username
+      groups {
+        nodes {
+          _id
+          createdAt
+          description
+          name
+          slug
+          updatedAt
+        }
+      }
+    }
+    totalCount
+  }
+}
+
+mutation inviteUser($input: InviteShopMemberInput!) {
+  inviteShopMember(input: $input) {
+    account {
+      _id
+      name
+      primaryEmailAddress
+    }
+  }
+}
