@@ -59,7 +59,7 @@ const Users = () => {
       cell: (info) => {
         const groups = info.getValue<Group[]>();
         if (groups.length === 0) return "--";
-        return <Typography variant="body2">{groups[0].name}</Typography>;
+        return <Typography variant="body2">{startCase(groups[0].name)}</Typography>;
       }
     },
     {
