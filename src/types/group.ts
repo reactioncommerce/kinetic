@@ -5,4 +5,5 @@ export type Group = {
   name: APIGroup["name"],
   description?: APIGroup["description"],
   permissions?: APIGroup["permissions"],
+  shop?: APIGroup["shop"]
 }

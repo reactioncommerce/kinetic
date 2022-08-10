@@ -8265,6 +8265,20 @@ export type InviteUserMutationVariables = Exact<{
 
 export type InviteUserMutation = { __typename?: 'Mutation', inviteShopMember?: { __typename?: 'InviteShopMemberPayload', account?: { __typename?: 'Account', _id: string, name?: string | null, primaryEmailAddress: any } | null } | null };
 
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateAccountInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateAccount?: { __typename?: 'UpdateAccountPayload', account: { __typename?: 'Account', _id: string } } | null };
+
+export type UpdateGroupsForAccountsMutationVariables = Exact<{
+  input: UpdateGroupsForAccountsInput;
+}>;
+
+
+export type UpdateGroupsForAccountsMutation = { __typename?: 'Mutation', updateGroupsForAccounts?: { __typename?: 'UpdateGroupsForAccountsPayload', accounts: Array<{ __typename?: 'Account', _id: string } | null> } | null };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8917,6 +8931,50 @@ export const useInviteUserMutation = <
     useMutation<InviteUserMutation, TError, InviteUserMutationVariables, TContext>(
       ['inviteUser'],
       (variables?: InviteUserMutationVariables) => fetcher<InviteUserMutation, InviteUserMutationVariables>(client, InviteUserDocument, variables, headers)(),
+      options
+    );
+export const UpdateUserDocument = `
+    mutation updateUser($input: UpdateAccountInput!) {
+  updateAccount(input: $input) {
+    account {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
+      ['updateUser'],
+      (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(client, UpdateUserDocument, variables, headers)(),
+      options
+    );
+export const UpdateGroupsForAccountsDocument = `
+    mutation updateGroupsForAccounts($input: UpdateGroupsForAccountsInput!) {
+  updateGroupsForAccounts(input: $input) {
+    accounts {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateGroupsForAccountsMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateGroupsForAccountsMutation, TError, UpdateGroupsForAccountsMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateGroupsForAccountsMutation, TError, UpdateGroupsForAccountsMutationVariables, TContext>(
+      ['updateGroupsForAccounts'],
+      (variables?: UpdateGroupsForAccountsMutationVariables) => fetcher<UpdateGroupsForAccountsMutation, UpdateGroupsForAccountsMutationVariables>(client, UpdateGroupsForAccountsDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `

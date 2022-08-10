@@ -59,3 +59,19 @@ mutation inviteUser($input: InviteShopMemberInput!) {
     }
   }
 }
+
+mutation updateUser($input: UpdateAccountInput!) {
+  updateAccount(input: $input) {
+    account {
+      _id
+    }
+  }
+}
+
+mutation updateGroupsForAccounts($input: UpdateGroupsForAccountsInput!) {
+  updateGroupsForAccounts(input: $input) {
+    accounts {
+      _id
+    }
+  }
+}

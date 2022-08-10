@@ -4,7 +4,7 @@ import Snackbar from "@mui/material/Snackbar";
 type ToastProps = {
   open: boolean
   handleClose: () => void
-  message: string
+  message?: string
   severity?: AlertColor
 }
 

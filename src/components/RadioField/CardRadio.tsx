@@ -9,14 +9,15 @@ type CardRadioProps = {
   description?: string | null
   value: string
   selected: boolean
+  disabled?: boolean
 }
 
-export const CardRadio = ({ title, description, value, selected }: CardRadioProps) => (
+export const CardRadio = ({ title, description, value, selected, disabled = false }: CardRadioProps) => (
   <Paper variant="outlined" sx={{
     py: 2,
     px: 1,
     borderWidth: "2px",
-    ...(selected ?
+    ...(selected && !disabled ?
       {
         borderColor: "primary.main",
         backgroundColor: "background.lightGreen"
@@ -26,6 +27,7 @@ export const CardRadio = ({ title, description, value, selected }: CardRadioProp
     <FormControlLabel
       control={<Radio/>}
       value={value}
+      disabled={disabled}
       label={
         <Stack sx={{ pl: 1 }}>
           <Typography variant="h6" gutterBottom>{title}</Typography>

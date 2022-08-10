@@ -8,10 +8,11 @@ import { Field, Form, Formik, FormikConfig } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { noop, startCase } from "lodash-es";
 import * as Yup from "yup";
+import { Alert } from "@mui/material";
 
 import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
 import { User } from "types/user";
-import { useGetGroupsQuery, useGetUsersQuery, useInviteUserMutation } from "@graphql/generates";
+import { useGetGroupsQuery, useGetUsersQuery, useInviteUserMutation, useUpdateGroupsForAccountsMutation, useUpdateUserMutation } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { filterNodes } from "@utils/common";
 import { Group } from "types/group";
@@ -21,6 +22,8 @@ import { useShop } from "@containers/ShopProvider";
 import { TextField } from "@components/TextField";
 import { CardRadio, RadioGroup } from "@components/RadioField";
 import { Toast } from "@components/Toast";
+import { GraphQLErrorResponse } from "types/common";
+import { useAccount } from "@containers/AccountProvider";
 
 
 type UserFormValues = {
@@ -31,18 +34,32 @@ type UserFormValues = {
 };
 
 const userSchema = Yup.object().shape({
-  name: Yup.string().required("This field is required"),
   email: Yup.string().email("Email is invalid").required("This field is required")
 });
 
+
 const Users = () => {
   const [open, setOpen] = useState(false);
-  const [openToast, showToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string>();
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const { pagination, handlePaginationChange } = useTableState();
   const [activeRow, setActiveRow] = useState<User>();
 
   const { shopId } = useShop();
+  const { account } = useAccount();
+
+  const { data: groupsData, isLoading: isGroupsLoading } = useGetGroupsQuery(client, { shopId: shopId! }, {
+    select: (response) => {
+      const validGroups = filterNodes(response.groups?.nodes);
+      return {
+        groups: validGroups,
+        totalCount: response.groups?.totalCount,
+        groupIds: validGroups.map(({ _id }) => _id)
+      };
+    }
+  });
+
   const columns = useMemo((): ColumnDef<User>[] => [
     {
       accessorKey: "name",
@@ -54,13 +71,12 @@ const Users = () => {
       header: "Email"
     },
     {
-      accessorKey: "groups",
-      header: "Groups",
-      cell: (info) => {
-        const groups = info.getValue<Group[]>();
-        if (groups.length === 0) return "--";
-        return <Typography variant="body2">{startCase(groups[0].name)}</Typography>;
-      }
+      accessorKey: "group",
+      header: "Group",
+      cell: (info) =>
+        <Typography variant="body2">
+          {startCase(info.getValue<Group>().name)}
+        </Typography>
     },
     {
       id: "actions",
@@ -72,49 +88,93 @@ const Users = () => {
     }
   ], []);
 
-  const groupsData = useGetGroupsQuery(client, { shopId: shopId! }, {
-    select: (response) => ({
-      groups: filterNodes(response.groups?.nodes),
-      totalCount: response.groups?.totalCount
-    })
-  });
 
-
-  const { data, isLoading, refetch } = useGetUsersQuery(
-    client, { first: pagination.pageSize, offset: pagination.pageIndex * pagination.pageSize, groupIds: groupsData.data?.groups.map(({ _id }) => _id) },
+  const { data: { users = [], totalCount } = {}, isLoading, refetch } = useGetUsersQuery(
+    client, { first: pagination.pageSize, offset: pagination.pageIndex * pagination.pageSize, groupIds: groupsData?.groupIds },
     {
       keepPreviousData: true,
-      enabled: !groupsData.isLoading
+      enabled: !isGroupsLoading,
+      select: (response) => {
+        const validUsers: User[] =
+        filterNodes(response?.accounts.nodes)
+          .map((user) => ({
+            ...user,
+            // The accounts API returns all groups of an account, we need to filter valid group that exists in current active shop
+            group: filterNodes(user.groups?.nodes)
+              .find((group) => (group._id ? groupsData?.groupIds.includes(group._id) : false))
+              ?? groupsData?.groups[0]
+          }));
+        return { users: validUsers, totalCount: response.accounts.totalCount };
+      }
     }
   );
 
-  const users = filterNodes(data?.accounts.nodes).map((user) => ({ ...user, groups: filterNodes<Group>(user.groups?.nodes) }));
-
-
   const { mutate: inviteUser } = useInviteUserMutation(client);
+  const { mutateAsync: updateUserGroup } = useUpdateGroupsForAccountsMutation(client);
+  const { mutateAsync: updateUser } = useUpdateUserMutation(client);
 
   const handleClose = () => {
     setOpen(false);
     setActiveRow(undefined);
+    setErrorMessage(undefined);
   };
 
-  const onSuccess = () => {
+  const onSuccess = (message: string) => {
     handleClose();
     refetch();
+    setToastMessage(message);
   };
 
-  const handleSubmit: FormikConfig<UserFormValues>["onSubmit"] = (
+  const onError = (error: unknown) => {
+    const { errors } = (error as GraphQLErrorResponse).response;
+    setErrorMessage(errors[0].message);
+  };
+
+  const isLoggedInUser = account?._id === activeRow?._id;
+
+  const handleSubmit: FormikConfig<UserFormValues>["onSubmit"] = async (
     values,
     { setSubmitting }
   ) => {
-    inviteUser({ input: values }, {
-      onSettled: () => setSubmitting(false),
-      onSuccess: () => {
-        onSuccess();
-        showToast(true);
+    if (activeRow) {
+      try {
+        isLoggedInUser && await updateUser({ input: { name: values.name } });
+
+        !isLoggedInUser &&
+      await updateUserGroup({
+        input: {
+          groupIds: [values.groupId],
+          accountIds: [activeRow._id]
+        }
+      });
+
+        onSuccess("Update user successfully");
+      } catch (error) {
+        onError(error);
+      } finally {
+        setSubmitting(false);
       }
-    });
+    } else {
+      inviteUser({ input: values }, {
+        onSettled: () => setSubmitting(false),
+        onSuccess: () => onSuccess("Invite user successfully"),
+        onError
+      });
+    }
   };
+
+  const handleRowClick = (rowData: User) => {
+    setActiveRow(rowData);
+    setOpen(true);
+  };
+
+  const initialValues: UserFormValues = {
+    name: activeRow?.name || "",
+    email: activeRow?.primaryEmailAddress || "",
+    groupId: (activeRow?.group?._id || groupsData?.groups[0]?._id) ?? "",
+    shopId: shopId!
+  };
+
 
   return (
     <TableContainer>
@@ -125,11 +185,11 @@ const Users = () => {
       <Table
         columns={columns}
         data={users}
-        loading={isLoading || groupsData.isLoading}
+        loading={isLoading || isGroupsLoading}
         tableState={{ pagination }}
         onPaginationChange={handlePaginationChange}
-        // onRowClick={handleRowClick}
-        totalCount={data?.accounts.totalCount}
+        onRowClick={handleRowClick}
+        totalCount={totalCount}
         emptyPlaceholder={
           <Stack alignItems="center" gap={2}>
             <AdminPanelSettingsOutlinedIcon sx={{ color: "grey.500", fontSize: "42px" }} />
@@ -150,14 +210,7 @@ const Users = () => {
       >
         <Formik<UserFormValues>
           onSubmit={handleSubmit}
-          initialValues={
-            {
-              name: "",
-              email: "",
-              groupId: groupsData.data?.groups[0]?._id ?? "",
-              shopId: shopId!
-            }
-          }
+          initialValues={initialValues}
           validationSchema={userSchema}
         >
           {({ isSubmitting, values }) => (
@@ -174,22 +227,27 @@ const Users = () => {
                   component={TextField}
                   name="name"
                   label="Name"
+                  placeholder="Enter user name"
+                  disabled={!isLoggedInUser}
                 />
                 <Field
                   component={TextField}
                   name="email"
                   label="Email Address"
+                  placeholder="Enter email address"
+                  disabled
                 />
-                {groupsData.data?.totalCount ?
+                {groupsData?.totalCount ?
                   <Stack mt={2}>
                     <Field name="groupId" label="Groups" component={RadioGroup}>
                       <Stack gap={2}>
-                        {groupsData.data.groups.map((group) =>
+                        {groupsData.groups.map((group) =>
                           <CardRadio
                             value={group._id}
                             key={group._id}
                             selected={values.groupId === group._id}
                             title={startCase(group.name)}
+                            disabled={isLoggedInUser}
                             description={group.description}
                           />)}
                       </Stack>
@@ -197,6 +255,8 @@ const Users = () => {
                   </Stack>
                   : null
                 }
+                {errorMessage ? <Alert severity="error" sx={{ mt: 2 }}>{errorMessage}</Alert> : null}
+
               </Drawer.Content>
               <Drawer.Actions
                 right={
@@ -216,7 +276,7 @@ const Users = () => {
                       type="submit"
                       loading={isSubmitting}
                     >
-                      Send Invite
+                      {activeRow ? "Save Changes" : "Send Invite"}
                     </LoadingButton>
                   </Stack>
                 }
@@ -225,7 +285,10 @@ const Users = () => {
           )}
         </Formik>
       </Drawer>
-      <Toast open={openToast} handleClose={() => showToast(false)} message="Invite user successfully"/>
+      <Toast
+        open={!!toastMessage}
+        handleClose={() => setToastMessage(undefined)}
+        message={toastMessage}/>
     </TableContainer>
   );
 };
