@@ -20,6 +20,19 @@ const Users = () => {
   const { pagination, handlePaginationChange } = useTableState();
 
   const { shopId } = useShop();
+
+  const { data: groupsData, isLoading: isGroupsLoading } = useGetGroupsQuery(client, { shopId: shopId! }, {
+    select: (response) => {
+      const validGroups = filterNodes(response.groups?.nodes);
+      return {
+        groups: validGroups,
+        totalCount: response.groups?.totalCount,
+        groupIds: validGroups.map(({ _id }) => _id)
+      };
+    }
+  });
+
+
   const columns = useMemo((): ColumnDef<User>[] => [
     {
       accessorKey: "name",
@@ -31,13 +44,12 @@ const Users = () => {
       header: "Email"
     },
     {
-      accessorKey: "groups",
-      header: "Groups",
-      cell: (info) => {
-        const groups = info.getValue<Group[]>();
-        if (groups.length === 0) return "--";
-        return <Typography variant="body2">{startCase(groups[0].name)}</Typography>;
-      }
+      accessorKey: "group",
+      header: "Group",
+      cell: (info) =>
+        <Typography variant="body2">
+          {startCase(info.getValue<Group>().name)}
+        </Typography>
     },
     {
       id: "actions",
@@ -49,23 +61,26 @@ const Users = () => {
     }
   ], []);
 
-  const groupsData = useGetGroupsQuery(client, { shopId: shopId! }, {
-    select: (response) => ({
-      groups: filterNodes(response.groups?.nodes),
-      totalCount: response.groups?.totalCount
-    })
-  });
 
-
-  const { data, isLoading } = useGetUsersQuery(
-    client, { first: pagination.pageSize, offset: pagination.pageIndex * pagination.pageSize, groupIds: groupsData.data?.groups.map(({ _id }) => _id) },
+  const { data: { users = [], totalCount } = {}, isLoading } = useGetUsersQuery(
+    client, { first: pagination.pageSize, offset: pagination.pageIndex * pagination.pageSize, groupIds: groupsData?.groupIds },
     {
       keepPreviousData: true,
-      enabled: !groupsData.isLoading
+      enabled: !isGroupsLoading,
+      select: (response) => {
+        const validUsers: User[] =
+        filterNodes(response?.accounts.nodes)
+          .map((user) => ({
+            ...user,
+            // The accounts API returns all groups of an account, we need to filter valid group that exists in current active shop
+            group: filterNodes(user.groups?.nodes)
+              .find((group) => (group._id ? groupsData?.groupIds.includes(group._id) : false))
+              ?? groupsData?.groups[0]
+          }));
+        return { users: validUsers, totalCount: response.accounts.totalCount };
+      }
     }
   );
-
-  const users = filterNodes(data?.accounts.nodes).map((user) => ({ ...user, groups: filterNodes<Group>(user.groups?.nodes) }));
 
 
   return (
@@ -77,10 +92,10 @@ const Users = () => {
       <Table
         columns={columns}
         data={users}
-        loading={isLoading || groupsData.isLoading}
+        loading={isLoading || isGroupsLoading}
         tableState={{ pagination }}
         onPaginationChange={handlePaginationChange}
-        totalCount={data?.accounts.totalCount}
+        totalCount={totalCount}
         emptyPlaceholder={
           <Stack alignItems="center" gap={2}>
             <AdminPanelSettingsOutlinedIcon sx={{ color: "grey.500", fontSize: "42px" }} />
