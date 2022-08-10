@@ -235,7 +235,7 @@ const Users = () => {
                   name="email"
                   label="Email Address"
                   placeholder="Enter email address"
-                  disabled={activeRow}
+                  disabled={!!activeRow}
                 />
                 {groupsData?.totalCount ?
                   <Stack mt={2}>
