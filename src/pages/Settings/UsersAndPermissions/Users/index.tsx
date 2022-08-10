@@ -228,14 +228,14 @@ const Users = () => {
                   name="name"
                   label="Name"
                   placeholder="Enter user name"
-                  disabled={!isLoggedInUser}
+                  disabled={activeRow && !isLoggedInUser}
                 />
                 <Field
                   component={TextField}
                   name="email"
                   label="Email Address"
                   placeholder="Enter email address"
-                  disabled
+                  disabled={activeRow}
                 />
                 {groupsData?.totalCount ?
                   <Stack mt={2}>
