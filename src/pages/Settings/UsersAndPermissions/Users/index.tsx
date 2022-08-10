@@ -138,15 +138,16 @@ const Users = () => {
   ) => {
     if (activeRow) {
       try {
-        isLoggedInUser && await updateUser({ input: { name: values.name } });
+        await Promise.all([
+          ...(isLoggedInUser ? [updateUser({ input: { name: values.name } })] : []),
+          ...(!isLoggedInUser ?
+            [updateUserGroup({
+              input: {
+                groupIds: [values.groupId],
+                accountIds: [activeRow._id]
+              }
+            })] : [])]);
 
-        !isLoggedInUser &&
-      await updateUserGroup({
-        input: {
-          groupIds: [values.groupId],
-          accountIds: [activeRow._id]
-        }
-      });
 
         onSuccess("Update user successfully");
       } catch (error) {
