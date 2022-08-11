@@ -4,7 +4,9 @@ import { graphql } from "msw";
 import { Group } from "types/group";
 
 const mockGroup = (): Group => ({
-  _id: faker.datatype.uuid(), name: faker.random.word()
+  _id: faker.datatype.uuid(),
+  name: faker.random.word(),
+  description: faker.random.words()
 });
 
 const mockUser = (group: Group) => ({
@@ -36,10 +38,15 @@ const updateUserGroupHandler = graphql.mutation("updateGroupsForAccounts", (req,
   return res(ctx.data({ input }));
 });
 
+const updateGroupHandler = graphql.mutation("updateGroup", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
 
 export const handlers = [
   getUsersHandler,
   getGroupsHandler,
   inviteUserHandler,
-  updateUserGroupHandler
+  updateUserGroupHandler,
+  updateGroupHandler
 ];
