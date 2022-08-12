@@ -1,7 +1,5 @@
-import { Outlet } from "react-router-dom";
-import Container from "@mui/material/Container";
-
-import { SubHeader, SubHeaderItemProps } from "@components/AppHeader";
+import { SubHeaderItemProps } from "@components/AppHeader";
+import { PageLayout } from "@containers/Layouts";
 
 const headers: SubHeaderItemProps[] = [
   {
@@ -22,12 +20,7 @@ const headers: SubHeaderItemProps[] = [
 ];
 
 const ShippingConfiguration = () => (
-  <>
-    <SubHeader items={headers} />
-    <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
-      <Outlet/>
-    </Container>
-  </>
+  <PageLayout headers={headers} />
 );
 
 export default ShippingConfiguration;

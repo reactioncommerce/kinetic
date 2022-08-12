@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import CreateShop from "./pages/CreateShop";
 import ShippingConfiguration from "./pages/Settings/ShippingAndFulfillment";
+import UsersAndPermissions from "./pages/Settings/UsersAndPermissions";
 
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
@@ -19,6 +20,7 @@ const NewPassword = lazy(() => import("./pages/NewPassword"));
 const ShippingMethods = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Methods"));
 const ShippingSurcharges = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Surcharges"));
 const ShippingRestrictions = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Restrictions"));
+const Users = lazy(() => import("./pages/Settings/UsersAndPermissions/Users"));
 
 function App() {
   return (
@@ -44,6 +46,9 @@ function App() {
                         <Route index element={<ShippingMethods/>} />
                         <Route path="surcharges" element={<ShippingSurcharges />} />
                         <Route path="restrictions" element={<ShippingRestrictions />} />
+                      </Route>
+                      <Route path="users" element={<UsersAndPermissions />}>
+                        <Route index element={<Users/>} />
                       </Route>
                     </Route>
                     <Route path="*" element={<NotFound />} />
