@@ -1,16 +1,15 @@
-import Alert, { AlertColor } from "@mui/material/Alert";
+import Alert, { AlertProps } from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
-type ToastProps = {
+type ToastProps = AlertProps & {
   open: boolean
   handleClose: () => void
   message?: string
-  severity?: AlertColor
 }
 
-export const Toast = ({ handleClose, open, message, severity = "success" }: ToastProps) => (
+export const Toast = ({ handleClose, open, message, severity = "success", ...rest }: ToastProps) => (
   <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-    <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
+    <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }} {...rest}>
       {message}
     </Alert>
   </Snackbar>

@@ -15,10 +15,17 @@ export const MenuActions = ({ options }: MenuActionsProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (event: MouseEvent<HTMLElement>, optionOnClick: () => void) => {
+    event.stopPropagation();
+    setAnchorEl(null);
+    optionOnClick();
   };
 
   return (
@@ -54,7 +61,9 @@ export const MenuActions = ({ options }: MenuActionsProps) => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {options.map((option) => (
-          <MenuItem key={option.label} onClick={option.onClick} sx={{ fontSize: "0.9rem" }}>
+          <MenuItem key={option.label}
+            onClick={(event) => handleMenuItemClick(event, option.onClick)}
+            sx={{ fontSize: "0.9rem" }}>
             {option.label}
           </MenuItem>
         ))}

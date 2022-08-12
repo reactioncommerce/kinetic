@@ -36,10 +36,16 @@ const updateUserGroupHandler = graphql.mutation("updateGroupsForAccounts", (req,
   return res(ctx.data({ input }));
 });
 
+const sendResetPasswordEmailHandler = graphql.mutation("sendResetPasswordEmail", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
 
 export const handlers = [
   getUsersHandler,
   getGroupsHandler,
   inviteUserHandler,
-  updateUserGroupHandler
+  updateUserGroupHandler,
+  sendResetPasswordEmailHandler
 ];

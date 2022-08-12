@@ -92,9 +92,7 @@ const Login = () => {
         <Typography variant="caption" fontWeight={500} display="block" color="grey.400">
           {`© ${new Date().getFullYear()} Open Commerce. All rights reserved.`}
         </Typography>
-        {locationState?.showResetPasswordSuccessMsg && (
-          <Alert severity="success">Your password was reset. You can log in using your new password.</Alert>
-        )}
+
       </Box>
       <Container
         maxWidth="xs"
@@ -116,6 +114,9 @@ const Login = () => {
             Create your first shop
           </Link>
         </Typography>
+        {locationState?.showResetPasswordSuccessMsg && (
+          <Alert severity="success">Your password was reset. You can log in using your new password.</Alert>
+        )}
         <Formik
           onSubmit={handleSubmit}
           validationSchema={UserSchema}
