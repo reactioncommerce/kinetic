@@ -14,6 +14,7 @@ import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import ExposureOutlinedIcon from "@mui/icons-material/ExposureOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useMemo } from "react";
@@ -22,7 +23,6 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import Link from "@mui/material/Link";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 
 import { SystemInformation } from "@components/SystemInformation";
 

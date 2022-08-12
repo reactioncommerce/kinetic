@@ -23,9 +23,23 @@ const getUsersHandler = graphql.query("getUsers", (req, res, ctx) =>
   res(ctx.data({ accounts: { nodes: users } })));
 
 const getGroupsHandler = graphql.query("getGroups", (req, res, ctx) =>
-  res(ctx.data({ groups: { nodes: groups } })));
+  res(ctx.data({ groups: { nodes: groups, totalCount: groups.length } })));
+
+
+const inviteUserHandler = graphql.mutation("inviteUser", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+const updateUserGroupHandler = graphql.mutation("updateGroupsForAccounts", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
 
 export const handlers = [
   getUsersHandler,
-  getGroupsHandler
+  getGroupsHandler,
+  inviteUserHandler,
+  updateUserGroupHandler
 ];

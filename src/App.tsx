@@ -51,6 +51,7 @@ function App() {
                         <Route index element={<Users/>} />
                       </Route>
                     </Route>
+
                     <Route path="*" element={<NotFound />} />
                   </Route>
                 </Route>
