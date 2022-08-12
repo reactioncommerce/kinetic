@@ -44,40 +44,4 @@ describe("Groups", () => {
       expect(screen.queryByText("Edit Group")).not.toBeInTheDocument();
     });
   });
-
-  // it("should successfully update user group", async () => {
-  //   renderWithProviders(<Users/>);
-  //   await screen.findByText("Users");
-  //   await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
-
-  //   fireEvent.click(screen.getByText(users[0].name));
-  //   expect(screen.getByText("Edit User")).toBeInTheDocument();
-
-  //   const drawer = screen.getByRole("presentation");
-
-  //   groups.forEach((group) => {
-  //     expect(within(drawer).getByText(startCase(group.name))).toBeInTheDocument();
-  //   });
-
-
-  //   expect(within(screen.getByRole("radiogroup"))
-  //     .getByRole("radio", { name: startCase(users[0].groups.nodes[0].name) }))
-  //     .toBeChecked();
-
-  //   const user = userEvent.setup();
-
-  //   await user.click(within(screen.getByRole("radiogroup"))
-  //     .getByRole("radio", { name: startCase(groups[1].name) }));
-
-  //   expect(within(screen.getByRole("radiogroup"))
-  //     .getByRole("radio", { name: startCase(groups[1].name) }))
-  //     .toBeChecked();
-  //   expect(screen.getByLabelText("Email Address")).toBeDisabled();
-  //   expect(screen.getByLabelText("Name")).toBeDisabled();
-
-  //   await user.click(screen.getByText("Save Changes"));
-  //   await waitFor(() => {
-  //     expect(screen.queryByText("Edit User")).not.toBeInTheDocument();
-  //   });
-  // });
 });
