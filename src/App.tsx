@@ -1,14 +1,14 @@
-import { useRoutes } from "react-router-dom";
+import { useRoutes as useReactRouterRoutes } from "react-router-dom";
 import { Suspense } from "react";
 
 import { AccountProvider } from "@containers/AccountProvider";
 import { ShopProvider } from "@containers/ShopProvider";
 import { Loader } from "@components/Loader";
-
-import { routes } from "./routes";
+import { useRoutes } from "@containers/RoutesProvider";
 
 function App() {
-  const routeElement = useRoutes(routes);
+  const routes = useRoutes();
+  const routeElement = useReactRouterRoutes(routes);
 
   return (
     <Suspense fallback={<Loader />}>

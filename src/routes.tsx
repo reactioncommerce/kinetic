@@ -2,11 +2,11 @@ import { RouteObject } from "react-router-dom";
 import { lazy } from "react";
 
 import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
-import { AppLayout, PageLayout } from "@containers/Layouts";
+import { AppLayout } from "@containers/Layouts";
 
 import Dashboard from "./pages/Dashboard";
-import { HEADERS } from "./pages/Settings/ShippingAndFulfillment";
 import NotFound from "./pages/NotFound";
+import ShippingAndFulfillment from "./pages/Settings/ShippingAndFulfillment";
 
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
@@ -62,19 +62,22 @@ export const routes: RouteObject[] = [
                 children: [
                   {
                     path: "shipping-fulfillment",
-                    element: <PageLayout headers={HEADERS}/>,
+                    element: <ShippingAndFulfillment/>,
                     children: [
                       {
                         index: true,
-                        element: <ShippingMethods/>
+                        element: <ShippingMethods/>,
+                        title: "Methods"
                       },
                       {
                         path: "surcharges",
-                        element: <ShippingSurcharges/>
+                        element: <ShippingSurcharges/>,
+                        title: "Surcharges"
                       },
                       {
                         path: "restrictions",
-                        element: <ShippingRestrictions/>
+                        element: <ShippingRestrictions/>,
+                        title: "Restrictions"
                       }
                     ]
                   }

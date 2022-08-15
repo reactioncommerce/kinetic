@@ -1,3 +1,9 @@
+declare module "react-router-dom" {
+  interface RouteObject {
+    title?: string;
+  }
+}
+
 export type Error = {
   extensions: {
     code: string

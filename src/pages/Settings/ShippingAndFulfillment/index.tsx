@@ -1,20 +1,18 @@
+import { useMemo } from "react";
+
+import { PageLayout } from "@containers/Layouts";
+import { useRoute } from "@containers/RoutesProvider";
 import { SubHeaderItemProps } from "@components/AppHeader";
 
-export const HEADERS: SubHeaderItemProps[] = [
-  {
-    label: "Methods",
-    path: "",
-    key: "methods"
-  },
-  {
-    label: "Restrictions",
-    path: "restrictions",
-    key: "restrictions"
-  },
-  {
-    label: "Surcharges",
-    path: "surcharges",
-    key: "surcharges"
-  }
-];
+export default function ShippingAndFulfillment() {
+  const route = useRoute("shipping-fulfillment");
+
+  const headers = useMemo<SubHeaderItemProps[]>(() => route?.children?.map((child) => ({
+    label: child.title || "",
+    path: child.path || "",
+    key: child.path || ""
+  })) || [], [route]);
+
+  return <PageLayout headers={headers}/>;
+}
 
