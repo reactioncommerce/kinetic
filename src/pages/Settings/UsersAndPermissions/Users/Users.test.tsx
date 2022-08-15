@@ -66,16 +66,16 @@ describe("Users", () => {
 
 
     expect(within(screen.getByRole("radiogroup"))
-      .getByRole("radio", { name: startCase(users[0].groups.nodes[0].name) }))
+      .getByRole("radio", { name: `${startCase(users[0].groups.nodes[0].name)} ${users[0].groups.nodes[0].description}` }))
       .toBeChecked();
 
     const user = userEvent.setup();
 
     await user.click(within(screen.getByRole("radiogroup"))
-      .getByRole("radio", { name: startCase(groups[1].name) }));
+      .getByRole("radio", { name: `${startCase(groups[1].name)} ${groups[1].description}` }));
 
     expect(within(screen.getByRole("radiogroup"))
-      .getByRole("radio", { name: startCase(groups[1].name) }))
+      .getByRole("radio", { name: `${startCase(groups[1].name)} ${groups[1].description}` }))
       .toBeChecked();
     expect(screen.getByLabelText("Email Address")).toBeDisabled();
     expect(screen.getByLabelText("Name")).toBeDisabled();

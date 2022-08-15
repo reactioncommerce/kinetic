@@ -8243,6 +8243,13 @@ export type GetGroupsQueryVariables = Exact<{
 
 export type GetGroupsQuery = { __typename?: 'Query', groups?: { __typename?: 'GroupConnection', totalCount: number, nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any, permissions?: Array<string | null> | null } | null> | null } | null };
 
+export type UpdateGroupMutationVariables = Exact<{
+  input: UpdateAccountGroupInput;
+}>;
+
+
+export type UpdateGroupMutation = { __typename?: 'Mutation', updateAccountGroup?: { __typename?: 'UpdateAccountGroupPayload', group?: { __typename?: 'Group', _id: string } | null } | null };
+
 export type GetUsersQueryVariables = Exact<{
   groupIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
   notInAnyGroups?: InputMaybe<Scalars['Boolean']>;
@@ -8850,6 +8857,28 @@ export const useGetGroupsQuery = <
     useQuery<GetGroupsQuery, TError, TData>(
       ['getGroups', variables],
       fetcher<GetGroupsQuery, GetGroupsQueryVariables>(client, GetGroupsDocument, variables, headers),
+      options
+    );
+export const UpdateGroupDocument = `
+    mutation updateGroup($input: UpdateAccountGroupInput!) {
+  updateAccountGroup(input: $input) {
+    group {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateGroupMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateGroupMutation, TError, UpdateGroupMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateGroupMutation, TError, UpdateGroupMutationVariables, TContext>(
+      ['updateGroup'],
+      (variables?: UpdateGroupMutationVariables) => fetcher<UpdateGroupMutation, UpdateGroupMutationVariables>(client, UpdateGroupDocument, variables, headers)(),
       options
     );
 export const GetUsersDocument = `

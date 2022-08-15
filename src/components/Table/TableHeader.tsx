@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 
 export type TableHeaderProps = {
   title: string
-  action: JSX.Element
+  action?: JSX.Element
 }
 
 export const TableHeader = ({ title, action }: TableHeaderProps) => (
