@@ -1,20 +1,31 @@
+import { lazy } from "react";
+import { RouteObject } from "react-router-dom";
+
 import { SubHeaderItemProps } from "@components/AppHeader";
 
-export const HEADERS: SubHeaderItemProps[] = [
+const ShippingMethods = lazy(() => import("./Methods"));
+const ShippingSurcharges = lazy(() => import("./Surcharges"));
+const ShippingRestrictions = lazy(() => import("./Restrictions"));
+
+export const SHIPPING_PAGE_FEATURES: Array<SubHeaderItemProps & RouteObject> = [
   {
-    label: "Methods",
+    header: "Methods",
     path: "",
-    key: "methods"
+    key: "methods",
+    element: <ShippingMethods/>,
+    index: true
   },
   {
-    label: "Restrictions",
+    header: "Restrictions",
     path: "restrictions",
-    key: "restrictions"
+    key: "restrictions",
+    element: <ShippingRestrictions/>
   },
   {
-    label: "Surcharges",
+    header: "Surcharges",
     path: "surcharges",
-    key: "surcharges"
+    key: "surcharges",
+    element: <ShippingSurcharges/>
   }
 ];
 

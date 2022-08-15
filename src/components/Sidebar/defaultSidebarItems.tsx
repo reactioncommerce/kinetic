@@ -11,6 +11,7 @@ import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 
 import { SidebarItemProps } from "./SidebarItem";
 
@@ -101,7 +102,7 @@ export const CORE_FEATURES: ItemProps[] = [
       {
         key: FEATURE_KEYS.settings,
         text: "Users & Permissions",
-        icon: <GroupOutlinedIcon fontSize="small" />,
+        icon: <AdminPanelSettingsOutlinedIcon fontSize="small" />,
         to: "/settings/users"
       },
       {

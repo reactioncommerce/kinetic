@@ -1,21 +1,21 @@
-import { SubHeaderItemProps } from "@components/AppHeader";
-import { PageLayout } from "@containers/Layouts";
+import { RouteObject } from "react-router-dom";
+import { lazy } from "react";
 
-const headers: SubHeaderItemProps[] = [
+import { SubHeaderItemProps } from "@components/AppHeader";
+
+const Users = lazy(() => import("./Users"));
+
+export const USER_PAGE_FEATURES: Array<SubHeaderItemProps & RouteObject> = [
   {
-    label: "Users",
-    href: "",
-    key: "users"
+    header: "Users",
+    path: "",
+    key: "users",
+    element: <Users/>,
+    index: true
   },
   {
-    label: "Groups",
-    href: "groups",
+    header: "Groups",
+    path: "groups",
     key: "groups"
   }
 ];
-
-const UsersAndPermissions = () => (
-  <PageLayout headers={headers}/>
-);
-
-export default UsersAndPermissions;
