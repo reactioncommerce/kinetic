@@ -65,6 +65,8 @@ Kinetic have a level of extensibility and allow users to add custom plugins as w
 Example:
 
 ```javascript
+// routes.tsx
+
 {
   // ... routes object
   path: "/",
@@ -92,6 +94,8 @@ Example:
 - If you want to disable or custom a core feature in the sidebar, extends the `CORE_FEATURES` from the `Sidebar` component, modify it and apply to the `AppLayout`. For example, we want to hide the default Orders from the core features and provide our custom Orders page
 
 ```javascript
+// routes.tsx
+
 import { CORE_FEATURES, FEATURE_KEYS } from "@components/Sidebar";
 
 {
