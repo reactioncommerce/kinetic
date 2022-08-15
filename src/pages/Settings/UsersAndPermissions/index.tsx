@@ -1,11 +1,11 @@
-import { RouteObject } from "react-router-dom";
 import { lazy } from "react";
 
 import { SubHeaderItemProps } from "@components/AppHeader";
 
 const Users = lazy(() => import("./Users"));
+const Groups = lazy(() => import("./Groups"));
 
-export const USER_PAGE_FEATURES: Array<SubHeaderItemProps & RouteObject> = [
+export const USER_PAGE_FEATURES: SubHeaderItemProps[] = [
   {
     header: "Users",
     path: "",
@@ -16,6 +16,7 @@ export const USER_PAGE_FEATURES: Array<SubHeaderItemProps & RouteObject> = [
   {
     header: "Groups",
     path: "groups",
-    key: "groups"
+    key: "groups",
+    element: <Groups/>
   }
 ];
