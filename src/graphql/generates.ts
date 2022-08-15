@@ -8229,6 +8229,56 @@ export type DeleteShippingSurchargeMutationVariables = Exact<{
 
 export type DeleteShippingSurchargeMutation = { __typename?: 'Mutation', deleteSurcharge: { __typename?: 'DeleteSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
 
+export type GetGroupsQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<GroupSortByField>;
+}>;
+
+
+export type GetGroupsQuery = { __typename?: 'Query', groups?: { __typename?: 'GroupConnection', totalCount: number, nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any, permissions?: Array<string | null> | null } | null> | null } | null };
+
+export type GetUsersQueryVariables = Exact<{
+  groupIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  notInAnyGroups?: InputMaybe<Scalars['Boolean']>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<AccountSortByField>;
+}>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', accounts: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, createdAt: any, primaryEmailAddress: any, userId: string, name?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, adminUIShops?: Array<{ __typename?: 'Shop', _id: string } | null> | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any } | null> | null } | null } | null> | null } };
+
+export type InviteUserMutationVariables = Exact<{
+  input: InviteShopMemberInput;
+}>;
+
+
+export type InviteUserMutation = { __typename?: 'Mutation', inviteShopMember?: { __typename?: 'InviteShopMemberPayload', account?: { __typename?: 'Account', _id: string, name?: string | null, primaryEmailAddress: any } | null } | null };
+
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateAccountInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateAccount?: { __typename?: 'UpdateAccountPayload', account: { __typename?: 'Account', _id: string } } | null };
+
+export type UpdateGroupsForAccountsMutationVariables = Exact<{
+  input: UpdateGroupsForAccountsInput;
+}>;
+
+
+export type UpdateGroupsForAccountsMutation = { __typename?: 'Mutation', updateGroupsForAccounts?: { __typename?: 'UpdateGroupsForAccountsPayload', accounts: Array<{ __typename?: 'Account', _id: string } | null> } | null };
+
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
@@ -8761,6 +8811,170 @@ export const useDeleteShippingSurchargeMutation = <
     useMutation<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>(
       ['deleteShippingSurcharge'],
       (variables?: DeleteShippingSurchargeMutationVariables) => fetcher<DeleteShippingSurchargeMutation, DeleteShippingSurchargeMutationVariables>(client, DeleteShippingSurchargeDocument, variables, headers)(),
+      options
+    );
+export const GetGroupsDocument = `
+    query getGroups($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder = asc, $sortBy: GroupSortByField = createdAt) {
+  groups(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      createdAt
+      description
+      name
+      slug
+      updatedAt
+      permissions
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetGroupsQuery = <
+      TData = GetGroupsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetGroupsQueryVariables,
+      options?: UseQueryOptions<GetGroupsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetGroupsQuery, TError, TData>(
+      ['getGroups', variables],
+      fetcher<GetGroupsQuery, GetGroupsQueryVariables>(client, GetGroupsDocument, variables, headers),
+      options
+    );
+export const GetUsersDocument = `
+    query getUsers($groupIds: [ID], $notInAnyGroups: Boolean, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder = asc, $sortBy: AccountSortByField = createdAt) {
+  accounts(
+    groupIds: $groupIds
+    notInAnyGroups: $notInAnyGroups
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      adminUIShops {
+        _id
+      }
+      createdAt
+      emailRecords {
+        address
+      }
+      primaryEmailAddress
+      userId
+      name
+      firstName
+      lastName
+      username
+      groups {
+        nodes {
+          _id
+          createdAt
+          description
+          name
+          slug
+          updatedAt
+        }
+      }
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetUsersQuery = <
+      TData = GetUsersQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetUsersQueryVariables,
+      options?: UseQueryOptions<GetUsersQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetUsersQuery, TError, TData>(
+      variables === undefined ? ['getUsers'] : ['getUsers', variables],
+      fetcher<GetUsersQuery, GetUsersQueryVariables>(client, GetUsersDocument, variables, headers),
+      options
+    );
+export const InviteUserDocument = `
+    mutation inviteUser($input: InviteShopMemberInput!) {
+  inviteShopMember(input: $input) {
+    account {
+      _id
+      name
+      primaryEmailAddress
+    }
+  }
+}
+    `;
+export const useInviteUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<InviteUserMutation, TError, InviteUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<InviteUserMutation, TError, InviteUserMutationVariables, TContext>(
+      ['inviteUser'],
+      (variables?: InviteUserMutationVariables) => fetcher<InviteUserMutation, InviteUserMutationVariables>(client, InviteUserDocument, variables, headers)(),
+      options
+    );
+export const UpdateUserDocument = `
+    mutation updateUser($input: UpdateAccountInput!) {
+  updateAccount(input: $input) {
+    account {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
+      ['updateUser'],
+      (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(client, UpdateUserDocument, variables, headers)(),
+      options
+    );
+export const UpdateGroupsForAccountsDocument = `
+    mutation updateGroupsForAccounts($input: UpdateGroupsForAccountsInput!) {
+  updateGroupsForAccounts(input: $input) {
+    accounts {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateGroupsForAccountsMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateGroupsForAccountsMutation, TError, UpdateGroupsForAccountsMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateGroupsForAccountsMutation, TError, UpdateGroupsForAccountsMutationVariables, TContext>(
+      ['updateGroupsForAccounts'],
+      (variables?: UpdateGroupsForAccountsMutationVariables) => fetcher<UpdateGroupsForAccountsMutation, UpdateGroupsForAccountsMutationVariables>(client, UpdateGroupsForAccountsDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `

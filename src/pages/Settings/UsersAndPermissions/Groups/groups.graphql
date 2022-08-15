@@ -1,0 +1,32 @@
+query getGroups(
+  $shopId: ID!
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+  $sortOrder: SortOrder = asc
+  $sortBy: GroupSortByField = createdAt
+) {
+  groups(
+    shopId: $shopId,
+    after: $after,
+    before: $before,
+    first: $first,
+    last: $last,
+    offset: $offset,
+    sortOrder: $sortOrder,
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      createdAt
+      description
+      name
+      slug
+      updatedAt
+      permissions
+    }
+    totalCount
+  }
+}

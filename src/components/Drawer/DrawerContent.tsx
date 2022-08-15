@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 import React from "react";
 
 type DrawerContentProps = {
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | (JSX.Element | null)[] | null;
   sx?: SxProps;
 };
 

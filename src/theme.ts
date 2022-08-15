@@ -6,6 +6,7 @@ declare module "@mui/material/styles" {
     dark: string;
     darkGrey: string
     lightGrey: string
+    lightGreen: string
   }
 
   interface Palette {
@@ -50,7 +51,8 @@ const baseTheme = createTheme({
       default: color.background,
       paper: color.white,
       lightGrey: color.grey["400"],
-      darkGrey: color.grey["700"]
+      darkGrey: color.grey["700"],
+      lightGreen: alpha(color.electricGreen, 0.03)
     },
     primary: {
       main: color.electricGreen,
@@ -352,6 +354,18 @@ const theme = createTheme(baseTheme, {
             fill: color.grey[600]
           }
         }
+      }
+    },
+    MuiAlert: {
+      styleOverrides: {
+        standardSuccess: {
+          "backgroundColor": baseTheme.palette.success.main,
+          "color": color.white,
+          ".MuiAlert-icon": {
+            color: color.white
+          }
+        }
+
       }
     }
   }
