@@ -42,7 +42,7 @@ export type ItemProps = SidebarItemProps & {
 
 
 export type SidebarFeaturesProps = {
-  coreFeatures: ItemProps[]
+  coreFeatures?: ItemProps[]
   plugins?: ItemProps[]
 }
 

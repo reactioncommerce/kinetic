@@ -10,7 +10,7 @@ import { SystemInformation } from "@components/SystemInformation";
 
 import { SidebarItem } from "./SidebarItem";
 import { ProfileToolbar } from "./ProfileToolbar";
-import { FEATURE_KEYS, SidebarFeaturesProps, SIDEBAR_ITEMS, STOREFRONT_FEATURES } from "./defaultSidebarItems";
+import { CORE_FEATURES, FEATURE_KEYS, SidebarFeaturesProps, SIDEBAR_ITEMS, STOREFRONT_FEATURES } from "./defaultSidebarItems";
 import { SidebarItems } from "./SidebarItems";
 
 
@@ -19,7 +19,7 @@ type SidebarItemsProps = {
 }
 
 export const SidebarContent = ({ sidebar = SIDEBAR_ITEMS }: SidebarItemsProps) => {
-  const { coreFeatures, plugins = [] } = sidebar;
+  const { coreFeatures = CORE_FEATURES, plugins = [] } = sidebar;
 
   return (
     <>
