@@ -1,10 +1,10 @@
 import Stack from "@mui/material/Stack";
-import { Link, RouteObject, useMatch, useResolvedPath } from "react-router-dom";
+import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { SxProps } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 
-export type SubHeaderItemProps = RouteObject & {
+export type SubHeaderItemProps = {
   header: string
   path: string
   key: string

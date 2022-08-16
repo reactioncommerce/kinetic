@@ -4,9 +4,8 @@ import { lazy } from "react";
 
 import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
 import { AppLayout, PageLayout } from "@containers/Layouts";
+import { SubHeaderItemProps } from "@components/AppHeader";
 
-import { USER_PAGE_FEATURES } from "./pages/Settings/UsersAndPermissions";
-import { SHIPPING_PAGE_FEATURES } from "./pages/Settings/ShippingAndFulfillment";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
@@ -15,6 +14,50 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const PasswordReset = lazy(() => import("./pages/PasswordReset"));
 const NewPassword = lazy(() => import("./pages/NewPassword"));
 const CreateShop = lazy(() => import("./pages/CreateShop"));
+const ShippingMethods = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Methods"));
+const ShippingSurcharges = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Surcharges"));
+const ShippingRestrictions = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Restrictions"));
+const Users = lazy(() => import("./pages/Settings/UsersAndPermissions/Users"));
+const Groups = lazy(() => import("./pages/Settings/UsersAndPermissions/Groups"));
+
+type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
+const shippingPageRoutes: SubPageRouteProps = [
+  {
+    header: "Methods",
+    path: "",
+    key: "methods",
+    index: true,
+    element: <ShippingMethods/>
+  },
+  {
+    header: "Restrictions",
+    path: "restrictions",
+    key: "restrictions",
+    element: <ShippingRestrictions/>
+  },
+  {
+    header: "Surcharges",
+    path: "surcharges",
+    key: "surcharges",
+    element: <ShippingSurcharges/>
+  }
+];
+
+const userPageRoutes: SubPageRouteProps = [
+  {
+    header: "Users",
+    path: "",
+    key: "users",
+    element: <Users/>,
+    index: true
+  },
+  {
+    header: "Groups",
+    path: "groups",
+    key: "groups",
+    element: <Groups/>
+  }
+];
 
 export const routes: RouteObject[] = [
   {
@@ -61,13 +104,13 @@ export const routes: RouteObject[] = [
                 children: [
                   {
                     path: "shipping-fulfillment",
-                    element: <PageLayout headers={SHIPPING_PAGE_FEATURES}/>,
-                    children: SHIPPING_PAGE_FEATURES.map((page) => ({ ...page }))
+                    element: <PageLayout headers={shippingPageRoutes}/>,
+                    children: shippingPageRoutes
                   },
                   {
                     path: "users",
-                    element: <PageLayout headers={USER_PAGE_FEATURES}/>,
-                    children: USER_PAGE_FEATURES.map((page) => ({ ...page }))
+                    element: <PageLayout headers={userPageRoutes}/>,
+                    children: userPageRoutes
                   }
                 ]
               },
