@@ -21,6 +21,7 @@ const ShippingMethods = lazy(() => import("./pages/Settings/ShippingAndFulfillme
 const ShippingSurcharges = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Surcharges"));
 const ShippingRestrictions = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Restrictions"));
 const Users = lazy(() => import("./pages/Settings/UsersAndPermissions/Users"));
+const Groups = lazy(() => import("./pages/Settings/UsersAndPermissions/Groups"));
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
                       </Route>
                       <Route path="users" element={<UsersAndPermissions />}>
                         <Route index element={<Users/>} />
+                        <Route path="groups" element={<Groups/>} />
                       </Route>
                     </Route>
 
