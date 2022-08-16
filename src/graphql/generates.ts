@@ -8264,6 +8264,20 @@ export type UpdateGroupMutationVariables = Exact<{
 
 export type UpdateGroupMutation = { __typename?: 'Mutation', updateAccountGroup?: { __typename?: 'UpdateAccountGroupPayload', group?: { __typename?: 'Group', _id: string } | null } | null };
 
+export type GetPendingInvitationsQueryVariables = Exact<{
+  shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<AccountSortByField>;
+}>;
+
+
+export type GetPendingInvitationsQuery = { __typename?: 'Query', invitations: { __typename?: 'InvitationConnection', totalCount: number, nodes?: Array<{ __typename?: 'Invitation', _id: string, email: string, groups: Array<{ __typename?: 'Group', _id: string, name: string } | null>, invitedBy?: { __typename?: 'Account', _id: string, primaryEmailAddress: any } | null } | null> | null } };
+
 export type GetUsersQueryVariables = Exact<{
   groupIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
   notInAnyGroups?: InputMaybe<Scalars['Boolean']>;
@@ -8968,6 +8982,48 @@ export const useUpdateGroupMutation = <
     useMutation<UpdateGroupMutation, TError, UpdateGroupMutationVariables, TContext>(
       ['updateGroup'],
       (variables?: UpdateGroupMutationVariables) => fetcher<UpdateGroupMutation, UpdateGroupMutationVariables>(client, UpdateGroupDocument, variables, headers)(),
+      options
+    );
+export const GetPendingInvitationsDocument = `
+    query getPendingInvitations($shopIds: [ID], $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder = asc, $sortBy: AccountSortByField = createdAt) {
+  invitations(
+    shopIds: $shopIds
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    totalCount
+    nodes {
+      _id
+      email
+      groups {
+        _id
+        name
+      }
+      invitedBy {
+        _id
+        primaryEmailAddress
+      }
+    }
+  }
+}
+    `;
+export const useGetPendingInvitationsQuery = <
+      TData = GetPendingInvitationsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetPendingInvitationsQueryVariables,
+      options?: UseQueryOptions<GetPendingInvitationsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetPendingInvitationsQuery, TError, TData>(
+      variables === undefined ? ['getPendingInvitations'] : ['getPendingInvitations', variables],
+      fetcher<GetPendingInvitationsQuery, GetPendingInvitationsQueryVariables>(client, GetPendingInvitationsDocument, variables, headers),
       options
     );
 export const GetUsersDocument = `
