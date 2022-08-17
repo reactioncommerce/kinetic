@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import Stack from "@mui/material/Stack";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
@@ -6,13 +6,19 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Field, Form, Formik, FormikConfig } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { noop, startCase } from "lodash-es";
+import { startCase } from "lodash-es";
 import * as Yup from "yup";
 import { Alert } from "@mui/material";
 
 import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
 import { User } from "types/user";
-import { useGetGroupsQuery, useGetUsersQuery, useInviteUserMutation, useUpdateGroupsForAccountsMutation, useUpdateUserMutation } from "@graphql/generates";
+import { useGetGroupsQuery,
+  useGetUsersQuery,
+  useInviteUserMutation,
+  useSendResetPasswordEmailMutation,
+  useUpdateGroupsForAccountsMutation,
+  useUpdateUserMutation }
+  from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { filterNodes } from "@utils/common";
 import { Group } from "types/group";
@@ -60,6 +66,15 @@ const Users = () => {
     }
   });
 
+  const { mutate: sendResetEmailPassword } = useSendResetPasswordEmailMutation(client);
+
+  const handleSendResetPasswordEmail = useCallback((email: string) => {
+    sendResetEmailPassword({ email }, {
+      onSuccess: () => setToastMessage("Reset password email has been sent successfully"),
+      onError: () => setToastMessage("Failed to sent reset password email")
+    });
+  }, [sendResetEmailPassword]);
+
   const columns = useMemo((): ColumnDef<User>[] => [
     {
       accessorKey: "name",
@@ -80,13 +95,20 @@ const Users = () => {
     },
     {
       id: "actions",
-      cell: () => <MenuActions options={[{ label: "Send Password Reset", onClick: noop }]}/>,
+      cell: ({ row }) =>
+        <MenuActions
+          options={[{
+            label: "Send Password Reset",
+            onClick: () =>
+              handleSendResetPasswordEmail(row.original.primaryEmailAddress)
+          }]}
+        />,
       header: "",
       meta: {
         align: "right"
       }
     }
-  ], []);
+  ], [handleSendResetPasswordEmail]);
 
 
   const { data: { users = [], totalCount } = {}, isLoading, refetch } = useGetUsersQuery(
@@ -289,7 +311,9 @@ const Users = () => {
       <Toast
         open={!!toastMessage}
         handleClose={() => setToastMessage(undefined)}
-        message={toastMessage}/>
+        message={toastMessage}
+        variant="filled"
+      />
     </TableContainer>
   );
 };

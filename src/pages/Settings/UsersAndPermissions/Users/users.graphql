@@ -75,3 +75,7 @@ mutation updateGroupsForAccounts($input: UpdateGroupsForAccountsInput!) {
     }
   }
 }
+
+mutation sendResetPasswordEmail($email: String!) {
+  sendResetPasswordEmail(email: $email)
+}

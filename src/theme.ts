@@ -359,10 +359,10 @@ const theme = createTheme(baseTheme, {
     MuiAlert: {
       styleOverrides: {
         standardSuccess: {
-          "backgroundColor": baseTheme.palette.success.main,
-          "color": color.white,
+          "backgroundColor": baseTheme.palette.success.light,
+          "color": baseTheme.palette.success.dark,
           ".MuiAlert-icon": {
-            color: color.white
+            color: baseTheme.palette.success.dark
           }
         }
 

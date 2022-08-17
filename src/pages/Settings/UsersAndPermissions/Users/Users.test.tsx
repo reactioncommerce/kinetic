@@ -85,4 +85,19 @@ describe("Users", () => {
       expect(screen.queryByText("Edit User")).not.toBeInTheDocument();
     });
   });
+
+  it("should successfully send reset password email", async () => {
+    renderWithProviders(<Users/>);
+    await screen.findByText("Users");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+
+    fireEvent.click(screen.getAllByLabelText("more")[0]);
+    expect(screen.getByText("Send Password Reset")).toBeInTheDocument();
+    const user = userEvent.setup();
+
+    await user.click(screen.getByText("Send Password Reset"));
+
+    expect(screen.queryByText("Send Password Reset")).not.toBeInTheDocument();
+    expect(screen.getByText("Reset password email has been sent successfully")).toBeInTheDocument();
+  });
 });
