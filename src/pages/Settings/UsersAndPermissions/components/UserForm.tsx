@@ -20,12 +20,14 @@ import { client } from "@graphql/graphql-request-client";
 import { filterNodes } from "@utils/common";
 import { GraphQLErrorResponse } from "types/common";
 import { Toast } from "@components/Toast";
+import { CheckboxWithLabel } from "@components/Checkbox";
 
 type UserFormValues = {
   name: string
   email: string
   groupId: string
   shopId: string
+  shouldGetAdminUIAccess?: boolean
 };
 
 const userSchema = Yup.object().shape({
@@ -60,7 +62,8 @@ export const UserForm = ({ onClose, open, onOpen, data, onSuccess }: UserFormPro
     name: data?.name || "",
     email: data?.primaryEmailAddress || "",
     groupId: (data?.group?._id || groups[0]?._id) ?? "",
-    shopId: shopId!
+    shopId: shopId!,
+    shouldGetAdminUIAccess: false
   };
   const handleClose = () => {
     onClose();
@@ -149,6 +152,12 @@ export const UserForm = ({ onClose, open, onOpen, data, onSuccess }: UserFormPro
                   placeholder="Enter email address"
                   disabled={!!data}
                 />
+                {!data ?
+                  <Field
+                    name="shouldGetAdminUIAccess"
+                    component={CheckboxWithLabel}
+                    labelProps={{ label: "Allow access to admin UI" }}
+                  /> : null}
                 {groupsData?.groups?.totalCount ?
                   <Stack mt={2}>
                     <Field name="groupId" label="Groups" component={RadioGroup}>
