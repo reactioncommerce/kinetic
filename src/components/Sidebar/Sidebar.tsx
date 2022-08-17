@@ -3,11 +3,13 @@ import Drawer from "@mui/material/Drawer";
 
 import { SIDEBAR_WIDTH } from "../../constants";
 
-import { SidebarItems } from "./SidebarItems";
+import { SidebarFeaturesProps } from "./defaultSidebarItems";
+import { SidebarContent } from "./SidebarContent";
 
 type SidebarProps = {
   mobileOpen: boolean
   handleDrawerToggle: () => void
+  sidebar?: SidebarFeaturesProps
 }
 
 const sharedStyles = {
@@ -19,7 +21,7 @@ const sharedStyles = {
   pb: 1
 };
 
-export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => (
+export const Sidebar = ({ mobileOpen, handleDrawerToggle, sidebar }: SidebarProps) => (
   <Box component="nav" sx={{ width: { sm: SIDEBAR_WIDTH }, flexShrink: { sm: 0 } }}>
     <Drawer
       variant="temporary"
@@ -33,7 +35,7 @@ export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => (
         "& .MuiDrawer-paper": sharedStyles
       }}
     >
-      <SidebarItems />
+      <SidebarContent sidebar={sidebar}/>
     </Drawer>
     <Drawer
       variant="permanent"
@@ -43,7 +45,7 @@ export const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => (
       }}
       open
     >
-      <SidebarItems />
+      <SidebarContent sidebar={sidebar}/>
     </Drawer>
   </Box>
 );

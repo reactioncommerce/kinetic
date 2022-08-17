@@ -33,7 +33,7 @@ export const useAccount = () => {
 };
 
 type AccountProviderProps = {
-  children: JSX.Element
+  children: JSX.Element | null
 }
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
