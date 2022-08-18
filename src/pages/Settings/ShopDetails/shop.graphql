@@ -1,0 +1,45 @@
+query getShop($id: ID!) {
+  shop(id: $id) {
+    _id
+    currency {
+      _id
+      code
+      format
+      symbol
+    }
+    description
+    emails {
+      address
+      provides
+    }
+    language
+    name
+    shopLogoUrls {
+      primaryShopLogoUrl
+    }
+    shopType
+    slug
+    storefrontUrls {
+      storefrontHomeUrl
+    }
+    timezone
+    unitsOfLength {
+      default
+      label
+      uol
+    }
+    unitsOfMeasure {
+      default
+      label
+      uom
+    }
+  }
+}
+
+mutation updateShop($input: UpdateShopInput!) {
+  updateShop(input: $input) {
+    shop {
+      _id
+    }
+  }
+}

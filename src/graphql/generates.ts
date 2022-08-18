@@ -8229,6 +8229,20 @@ export type DeleteShippingSurchargeMutationVariables = Exact<{
 
 export type DeleteShippingSurchargeMutation = { __typename?: 'Mutation', deleteSurcharge: { __typename?: 'DeleteSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
 
+export type GetShopQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetShopQuery = { __typename?: 'Query', shop?: { __typename?: 'Shop', _id: string, description?: string | null, language: string, name: string, shopType?: string | null, slug?: string | null, timezone?: string | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string }, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, provides?: string | null } | null> | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, unitsOfLength?: Array<{ __typename?: 'UnitOfLength', default?: boolean | null, label?: string | null, uol?: string | null } | null> | null, unitsOfMeasure?: Array<{ __typename?: 'UnitOfMeasure', default?: boolean | null, label?: string | null, uom?: string | null } | null> | null } | null };
+
+export type UpdateShopMutationVariables = Exact<{
+  input: UpdateShopInput;
+}>;
+
+
+export type UpdateShopMutation = { __typename?: 'Mutation', updateShop: { __typename?: 'UpdateShopPayload', shop: { __typename?: 'Shop', _id: string } } };
+
 export type GetGroupsQueryVariables = Exact<{
   shopId: Scalars['ID'];
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -8818,6 +8832,81 @@ export const useDeleteShippingSurchargeMutation = <
     useMutation<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>(
       ['deleteShippingSurcharge'],
       (variables?: DeleteShippingSurchargeMutationVariables) => fetcher<DeleteShippingSurchargeMutation, DeleteShippingSurchargeMutationVariables>(client, DeleteShippingSurchargeDocument, variables, headers)(),
+      options
+    );
+export const GetShopDocument = `
+    query getShop($id: ID!) {
+  shop(id: $id) {
+    _id
+    currency {
+      _id
+      code
+      format
+      symbol
+    }
+    description
+    emails {
+      address
+      provides
+    }
+    language
+    name
+    shopLogoUrls {
+      primaryShopLogoUrl
+    }
+    shopType
+    slug
+    storefrontUrls {
+      storefrontHomeUrl
+    }
+    timezone
+    unitsOfLength {
+      default
+      label
+      uol
+    }
+    unitsOfMeasure {
+      default
+      label
+      uom
+    }
+  }
+}
+    `;
+export const useGetShopQuery = <
+      TData = GetShopQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetShopQueryVariables,
+      options?: UseQueryOptions<GetShopQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetShopQuery, TError, TData>(
+      ['getShop', variables],
+      fetcher<GetShopQuery, GetShopQueryVariables>(client, GetShopDocument, variables, headers),
+      options
+    );
+export const UpdateShopDocument = `
+    mutation updateShop($input: UpdateShopInput!) {
+  updateShop(input: $input) {
+    shop {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateShopMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateShopMutation, TError, UpdateShopMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateShopMutation, TError, UpdateShopMutationVariables, TContext>(
+      ['updateShop'],
+      (variables?: UpdateShopMutationVariables) => fetcher<UpdateShopMutation, UpdateShopMutationVariables>(client, UpdateShopDocument, variables, headers)(),
       options
     );
 export const GetGroupsDocument = `

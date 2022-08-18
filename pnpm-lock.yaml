@@ -46,7 +46,7 @@ specifiers:
   react-use: ^17.4.0
   typescript: ^4.6.3
   vite: ^2.9.9
-  vitest: ^0.18.1
+  vitest: ^0.22.0
   yup: ^0.32.11
 
 dependencies:
@@ -98,7 +98,7 @@ devDependencies:
   msw: 0.44.1_typescript@4.7.2
   typescript: 4.7.2
   vite: 2.9.9
-  vitest: 0.18.1_c8@7.12.0+jsdom@20.0.0
+  vitest: 0.22.0_jsdom@20.0.0
 
 packages:
 
@@ -236,7 +236,7 @@ packages:
       '@babel/traverse': 7.18.2
       debug: 4.3.4
       lodash.debounce: 4.0.8
-      resolve: 1.22.0
+      resolve: 1.22.1
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -2742,11 +2742,11 @@ packages:
   /@types/chai-subset/1.3.3:
     resolution: {integrity: sha512-frBecisrNGz+F4T6bcc+NLeolfiojh5FxW2klu669+8BARtyQv2C/GkNW6FUodVe4BroGMP/wER/YDGc7rEllw==}
     dependencies:
-      '@types/chai': 4.3.1
+      '@types/chai': 4.3.3
     dev: true
 
-  /@types/chai/4.3.1:
-    resolution: {integrity: sha512-/zPMqDkzSZ8t3VtxOa4KPq7uzzW978M9Tvh+j7GHKuo6k6GTLxPJ4J5gE5cjfJ26pnXst0N5Hax8Sr0T2Mi9zQ==}
+  /@types/chai/4.3.3:
+    resolution: {integrity: sha512-hC7OMnszpxhZPduX+m+nrx+uFoLkWOMiR4oa/AZF3MuSETYTZmFfJAHqZEM8MVlvfG7BEUcgvtwoCTxBp6hm3g==}
     dev: true
 
   /@types/cookie/0.4.1:
@@ -3297,7 +3297,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.3
       cosmiconfig: 6.0.0
-      resolve: 1.22.0
+      resolve: 1.22.1
     dev: false
 
   /babel-plugin-macros/3.1.0:
@@ -3306,7 +3306,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.3
       cosmiconfig: 7.0.1
-      resolve: 1.22.0
+      resolve: 1.22.1
     dev: true
 
   /babel-plugin-polyfill-corejs2/0.3.1_@babel+core@7.18.2:
@@ -7339,6 +7339,7 @@ packages:
       is-core-module: 2.9.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+    dev: true
 
   /resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
@@ -7347,7 +7348,6 @@ packages:
       is-core-module: 2.9.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
-    dev: true
 
   /resolve/2.0.0-next.3:
     resolution: {integrity: sha512-W8LucSynKUIDu9ylraa7ueVZ7hc0uAgJBxVsQSKOXOyle8a93qXhcz+XAXZ8bIq2d6i4Ehddn6Evt+0/UwKk6Q==}
@@ -8179,32 +8179,31 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.18.1_c8@7.12.0+jsdom@20.0.0:
-    resolution: {integrity: sha512-4F/1K/Vn4AvJwe7i2YblR02PT5vMKcw9KN4unDq2KD0YcSxX0B/6D6Qu9PJaXwVuxXMFTQ5ovd4+CQaW3bwofA==}
+  /vitest/0.22.0_jsdom@20.0.0:
+    resolution: {integrity: sha512-BSIro/QOHLaQY08FHwT6THWhqLQ+VPU+N4Rdo4pcP+16XB6oLmNNAXGcSh/MOLUhfUy+mqCwx7AyKmU7Ms5R+g==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
+      '@vitest/browser': '*'
       '@vitest/ui': '*'
-      c8: '*'
       happy-dom: '*'
       jsdom: '*'
     peerDependenciesMeta:
       '@edge-runtime/vm':
         optional: true
-      '@vitest/ui':
+      '@vitest/browser':
         optional: true
-      c8:
+      '@vitest/ui':
         optional: true
       happy-dom:
         optional: true
       jsdom:
         optional: true
     dependencies:
-      '@types/chai': 4.3.1
+      '@types/chai': 4.3.3
       '@types/chai-subset': 1.3.3
       '@types/node': 17.0.38
-      c8: 7.12.0
       chai: 4.3.6
       debug: 4.3.4
       jsdom: 20.0.0
