@@ -63,7 +63,7 @@ const GeneralSettings = () => {
   if (isLoading) return <Loader/>;
 
   return (
-    <Container>
+    <Container disableGutters>
       <EditableCard<ShopFormValues>
         cardTitle="Details"
         cardContent={
