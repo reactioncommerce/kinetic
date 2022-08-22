@@ -22,7 +22,17 @@ const mockShop = (): Shop => ({
   language: "en",
   shopLogoUrls: {
     primaryShopLogoUrl: faker.internet.url()
-  }
+  },
+  addressBook: [{
+    address1: faker.address.street(),
+    fullName: faker.random.words(),
+    postal: faker.address.zipCode(),
+    city: faker.address.city(),
+    country: "VN",
+    isCommercial: false,
+    phone: faker.phone.number(),
+    region: faker.address.state()
+  }]
 });
 
 
