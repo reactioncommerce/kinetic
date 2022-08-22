@@ -33,6 +33,7 @@ export function AutocompleteField<
   onChange,
   onBlur,
   disabled,
+  fullWidth = true,
   ...props
 }: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>) {
   const {
@@ -56,6 +57,7 @@ export function AutocompleteField<
       ChipProps={{
         deleteIcon: <ClearIcon fontSize="small"/>
       }}
+      fullWidth={fullWidth}
       {...restFieldProps}
       {...props}
     />

@@ -5,7 +5,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import Collapse from "@mui/material/Collapse";
 import { uniqueId } from "lodash-es";
-import { useRef } from "react";
+import { forwardRef, useRef } from "react";
 
 type CustomTextFieldProps = {
   helperText?: string
@@ -17,7 +17,7 @@ export type TextFieldProps = FieldProps &
   Omit<OutlinedInputProps, "name" | "value" | "error" | "margin"> &
   CustomTextFieldProps
 
-export const TextField = ({
+export const TextField = forwardRef(({
   field: { onBlur: fieldOnBlur, ...restFieldProps },
   form: { isSubmitting, touched, errors },
   fullWidth = true,
@@ -30,7 +30,7 @@ export const TextField = ({
   hiddenLabel,
   ariaLabel,
   ...props
-}: TextFieldProps) => {
+}: TextFieldProps, ref) => {
   const fieldError = getIn(errors, restFieldProps.name) as string;
   const showError = getIn(touched, restFieldProps.name) && !!fieldError;
 
@@ -61,6 +61,7 @@ export const TextField = ({
         onBlur={_onBlur}
         aria-describedby={helperTextId}
         inputProps={{ "aria-label": ariaLabel }}
+        ref={ref}
         {...props}
         {...restFieldProps}
       />
@@ -69,4 +70,4 @@ export const TextField = ({
       </Collapse>
     </FormControl>
   );
-};
+});
