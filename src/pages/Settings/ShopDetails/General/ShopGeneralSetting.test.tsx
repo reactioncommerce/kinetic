@@ -1,5 +1,6 @@
 import { shop } from "@mocks/handlers/shopSettingsHandlers";
 
+import { decodeOpaqueId } from "@utils/decodedOpaqueId";
 import { fireEvent, renderWithProviders, screen, userEvent, waitFor } from "@utils/testUtils";
 
 import ShopGeneralSettings from ".";
@@ -23,10 +24,10 @@ describe("Shop General Settings", () => {
     expect(screen.getByText("Edit Shop Details")).toBeInTheDocument();
 
     expect(screen.getByText(shop.name)).toBeInTheDocument();
-    expect(screen.getByText(shop.description ?? "--")).toBeInTheDocument();
-    expect(screen.getByText(shop.emails?.[0]?.address ?? "--")).toBeInTheDocument();
-    expect(screen.getByText(shop.storefrontUrls?.storefrontHomeUrl ?? "--")).toBeInTheDocument();
-    expect(screen.getByText(shop._id)).toBeInTheDocument();
+    expect(screen.getByText(shop.description ?? "Not provided")).toBeInTheDocument();
+    expect(screen.getByText(shop.emails?.[0]?.address ?? "Not provided")).toBeInTheDocument();
+    expect(screen.getByText(shop.storefrontUrls?.storefrontHomeUrl ?? "Not provided")).toBeInTheDocument();
+    expect(screen.getByText(decodeOpaqueId(shop._id)?.id || "Not provided")).toBeInTheDocument();
     expect(screen.getByLabelText("Shop Logo URL")).toHaveDisplayValue(shop.shopLogoUrls?.primaryShopLogoUrl ?? "");
 
     const user = userEvent.setup();

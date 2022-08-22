@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 
 type DisplayFieldProps = {
   label: string
-  value: string | JSX.Element
+  value?: string | JSX.Element | null
   gutterBottom?: boolean
   editable?: boolean
 }
@@ -14,12 +14,22 @@ export const DisplayField = ({ label, value, gutterBottom = true, editable = tru
       <Typography variant="body2" color="grey.700">{label}</Typography>
     </Grid>
     <Grid item xs={8}>
-      {typeof value === "string" ?
+      {!value ?
         <Typography
           variant="body2"
-          sx={{ wordBreak: "break-word", ...(!editable && { color: "grey.500" }) }}>
-          {value}
-        </Typography> : value}
+          sx={{ color: "grey.400", fontStyle: "italic" }}>
+          Not provided
+        </Typography>
+        :
+        <>
+          {typeof value === "string" ?
+            <Typography
+              variant="body2"
+              sx={{ wordBreak: "break-word", ...(!editable && { color: "grey.500" }) }}>
+              {value}
+            </Typography> : value}
+        </>}
+
     </Grid>
   </Grid>
 );

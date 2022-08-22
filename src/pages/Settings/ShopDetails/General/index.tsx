@@ -12,6 +12,7 @@ import { useShop } from "@containers/ShopProvider";
 import { TextField } from "@components/TextField";
 import { Shop } from "types/shop";
 import { Loader } from "@components/Loader";
+import { decodeOpaqueId } from "@utils/decodedOpaqueId";
 
 type ShopFormValues = {
   name: string
@@ -71,11 +72,11 @@ const GeneralSettings = () => {
               <Avatar sx={{ width: 100, height: 100 }} variant="rounded" src={data?.shop?.shopLogoUrls?.primaryShopLogoUrl || ""} />
             </Grid>
             <Grid item xs={12} md>
-              <DisplayField label="Name" value={data?.shop?.name || "--"}/>
-              <DisplayField label="Email" value={data?.shop?.emails?.[0]?.address || "--"}/>
-              <DisplayField label="Description" value={data?.shop?.description || "--"}/>
-              <DisplayField label="Storefront URL" value={data?.shop?.storefrontUrls?.storefrontHomeUrl || "--"} editable={false}/>
-              <DisplayField label="ID" value={data?.shop?._id || "--"} editable={false}/>
+              <DisplayField label="Name" value={data?.shop?.name}/>
+              <DisplayField label="Email" value={data?.shop?.emails?.[0]?.address}/>
+              <DisplayField label="Description" value={data?.shop?.description}/>
+              <DisplayField label="Storefront URL" value={data?.shop?.storefrontUrls?.storefrontHomeUrl} editable={false}/>
+              <DisplayField label="ID" value={decodeOpaqueId(data?.shop?._id)?.id} editable={false}/>
             </Grid>
           </Grid>}
         formTitle="Edit Shop Details"
