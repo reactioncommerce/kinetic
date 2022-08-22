@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { startCase } from "lodash-es";
 
-import { Table, TableContainer, useTableState } from "@components/Table";
+import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
 import { PendingInvitation, User } from "types/user";
 import { useGetPendingInvitationsQuery } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
@@ -63,13 +63,7 @@ const PendingInvitations = () => {
     <TableContainer>
       <TableContainer.Header
         title="Pending Invitations"
-        action={
-          <UserForm
-            open={open}
-            onOpen={() => setOpen(true)}
-            onClose={() => setOpen(false)}
-            onSuccess={refetch}
-          />}
+        action={<TableAction onClick={() => setOpen(true)}>Invite</TableAction>}
       />
       <Table
         columns={columns}
@@ -89,6 +83,11 @@ const PendingInvitations = () => {
               Invite
             </Button>
           </Stack>}
+      />
+      <UserForm
+        open={open}
+        onClose={() => setOpen(false)}
+        onSuccess={refetch}
       />
     </TableContainer>
   );

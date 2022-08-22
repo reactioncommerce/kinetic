@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { startCase } from "lodash-es";
 
-import { Table, TableContainer, useTableState } from "@components/Table";
+import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
 import { User } from "types/user";
 import { useGetGroupsQuery,
   useGetUsersQuery,
@@ -104,30 +104,21 @@ const Users = () => {
     }
   );
 
-  const handleClose = () => {
-    setOpen(false);
-    setActiveRow(undefined);
-  };
-
-
   const handleRowClick = (rowData: User) => {
     setActiveRow(rowData);
     setOpen(true);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+    setActiveRow(undefined);
   };
 
   return (
     <TableContainer>
       <TableContainer.Header
         title="Users"
-        action={
-          <UserForm
-            open={open}
-            onClose={handleClose}
-            data={activeRow}
-            onOpen={() => setOpen(true)}
-            onSuccess={refetch}
-          />
-        }
+        action={<TableAction onClick={handleOpen}>Invite</TableAction>}
       />
       <Table
         columns={columns}
@@ -149,7 +140,12 @@ const Users = () => {
             </Button>
           </Stack>}
       />
-
+      <UserForm
+        open={open}
+        onClose={() => setOpen(false)}
+        data={activeRow}
+        onSuccess={refetch}
+      />
       <Toast
         open={!!toastMessage}
         handleClose={() => setToastMessage(undefined)}

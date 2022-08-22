@@ -9,7 +9,6 @@ import Alert from "@mui/material/Alert";
 import { startCase } from "lodash-es";
 
 import { Drawer } from "@components/Drawer";
-import { TableAction } from "@components/Table";
 import { User } from "types/user";
 import { TextField } from "@components/TextField";
 import { useAccount } from "@containers/AccountProvider";
@@ -38,12 +37,11 @@ const userSchema = Yup.object().shape({
 type UserFormProps = {
   open: boolean
   onClose: () => void
-  onOpen: () => void
   data?: User,
   onSuccess: () => void
 }
 
-export const UserForm = ({ onClose, open, onOpen, data, onSuccess }: UserFormProps) => {
+export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
   const { account } = useAccount();
   const { shopId } = useShop();
   const [toastMessage, setToastMessage] = useState<string>();
@@ -117,7 +115,6 @@ export const UserForm = ({ onClose, open, onOpen, data, onSuccess }: UserFormPro
 
   return (
     <>
-      <TableAction onClick={onOpen}>Invite</TableAction>
       <Drawer
         open={open}
         onClose={handleClose}
@@ -131,13 +128,14 @@ export const UserForm = ({ onClose, open, onOpen, data, onSuccess }: UserFormPro
           {({ isSubmitting, values }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "grey.700" }}
-                  gutterBottom
-                >
+                {!data ?
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "grey.700" }}
+                    gutterBottom
+                  >
                   Send an invitation to add a member of your team to your shop and select a group that matches what you’d like them to be able to do in Kinetic.
-                </Typography>
+                  </Typography> : null}
                 <Field
                   component={TextField}
                   name="name"
