@@ -91,7 +91,7 @@ const GeneralSettings = () => {
         cardContent={
           <Grid container spacing={4}>
             <Grid item>
-              <Avatar sx={{ width: 100, height: 100 }} variant="rounded" src={data?.shop?.shopLogoUrls?.primaryShopLogoUrl || "/src/default-avatar.svg"} />
+              <Avatar sx={{ width: 100, height: 100 }} variant="rounded" src={data?.shop?.shopLogoUrls?.primaryShopLogoUrl || ""} />
             </Grid>
             <Grid item xs={12} md>
               <DisplayField label="Name" value={data?.shop?.name}/>

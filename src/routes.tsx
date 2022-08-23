@@ -67,12 +67,6 @@ const shopSettingPageRoutes: SubPageRouteProps = [
     key: "shop-general-setting",
     element: <ShopGeneralSettings/>,
     index: true
-  },
-  {
-    header: "Localization",
-    path: "localization",
-    key: "localization",
-    element: <Groups/>
   }
 ];
 
