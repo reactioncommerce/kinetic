@@ -85,7 +85,7 @@ const GeneralSettings = () => {
   if (isLoading) return <Loader/>;
 
   return (
-    <Stack gap={2} component={Container}>
+    <Stack gap={3} component={Container}>
       <EditableCard<ShopFormValues>
         cardTitle="Details"
         cardContent={
