@@ -1,6 +1,6 @@
 import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 import { Field, useFormikContext } from "formik";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 import { InputWithLabel } from "@components/TextField";
 import { AutocompleteField } from "@components/AutocompleteField";
