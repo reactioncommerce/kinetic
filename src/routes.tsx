@@ -19,6 +19,7 @@ const ShippingSurcharges = lazy(() => import("./pages/Settings/ShippingAndFulfil
 const ShippingRestrictions = lazy(() => import("./pages/Settings/ShippingAndFulfillment/Restrictions"));
 const Users = lazy(() => import("./pages/Settings/UsersAndPermissions/Users"));
 const Groups = lazy(() => import("./pages/Settings/UsersAndPermissions/Groups"));
+const ShopGeneralSettings = lazy(() => import("./pages/Settings/ShopDetails/General"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -58,6 +59,17 @@ const userPageRoutes: SubPageRouteProps = [
     element: <Groups/>
   }
 ];
+
+const shopSettingPageRoutes: SubPageRouteProps = [
+  {
+    header: "Generals",
+    path: "",
+    key: "shop-general-setting",
+    element: <ShopGeneralSettings/>,
+    index: true
+  }
+];
+
 
 export const routes: RouteObject[] = [
   {
@@ -111,6 +123,11 @@ export const routes: RouteObject[] = [
                     path: "users",
                     element: <PageLayout headers={userPageRoutes}/>,
                     children: userPageRoutes
+                  },
+                  {
+                    path: "shop-details",
+                    element: <PageLayout headers={shopSettingPageRoutes}/>,
+                    children: shopSettingPageRoutes
                   }
                 ]
               },

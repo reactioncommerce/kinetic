@@ -55,7 +55,7 @@ export const ProfileToolbar = () => {
           justifyContent: "flex-start"
         }}
       >
-        <Avatar sx={{ width: 32, height: 32, mr: 2 }} variant="rounded" src="/src/default-avatar.jpeg" />
+        <Avatar sx={{ width: 32, height: 32, mr: 2 }} variant="rounded" src={activeShop?.shopLogoUrls?.primaryShopLogoUrl || ""} />
         <Box
           sx={{
             display: "flex",
