@@ -50,8 +50,8 @@ describe("Shop General Settings", () => {
     expect(screen.getByText(shop.addressBook?.[0]?.phone || "Not provided")).toBeInTheDocument();
     expect(screen.getByText(shop.addressBook?.[0]?.address1 || "Not provided")).toBeInTheDocument();
     expect(screen.getByText(shop.addressBook?.[0]?.city || "Not provided")).toBeInTheDocument();
-    expect(screen.getByText("Vietnam")).toBeInTheDocument();
-    expect(screen.getByText(shop.addressBook?.[0]?.region || "Not provided")).toBeInTheDocument();
+    expect(screen.getByText("United States")).toBeInTheDocument();
+    expect(screen.getByText("Connecticut")).toBeInTheDocument();
     expect(screen.getByText(shop.addressBook?.[0]?.postal || "Not provided")).toBeInTheDocument();
   });
 
@@ -66,7 +66,7 @@ describe("Shop General Settings", () => {
     await user.clear(screen.getByLabelText("Legal Name"));
     await user.type(screen.getByLabelText("Legal Name"), "Roberts 50 USA LLC");
 
-    expect(screen.getByText("Vietnam")).toBeInTheDocument();
+    expect(screen.getByText("United States")).toBeInTheDocument();
     expect(screen.getByText(shop.addressBook?.[0]?.phone || "Not provided")).toBeInTheDocument();
     await user.clear(screen.getByLabelText("Phone Number"));
     await user.type(screen.getByLabelText("Phone Number"), "0324835435");
