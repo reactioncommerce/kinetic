@@ -1,5 +1,5 @@
 import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
-import { Field, useFormikContext } from "formik";
+import { Field, FieldProps, useFormikContext } from "formik";
 import { useMemo } from "react";
 
 import { InputWithLabel } from "@components/TextField";
@@ -37,23 +37,27 @@ export const RegionField =
      return options;
    }, [country?.value]);
 
+
    return (
      <Field
        name={name}
-       multiple={multiple}
-       component={AutocompleteField}
-       freeSolo
-       options={regionOptions}
-       renderInput={(params: AutocompleteRenderInputParams) => (
-         <InputWithLabel
-           {...params}
-           name={name}
-           error={isInvalid}
-           helperText={error}
-           label={label}
-           placeholder={placeholder}
-         />
-       )}
-     />
+     >
+       {(props: FieldProps<FormValues>) =>
+         <AutocompleteField
+           {...props}
+           multiple={multiple}
+           freeSolo
+           options={regionOptions}
+           renderInput={(params: AutocompleteRenderInputParams) => (
+             <InputWithLabel
+               {...params}
+               name={name}
+               error={isInvalid || !!props.meta.error}
+               helperText={error || props.meta.error || undefined}
+               label={label}
+               placeholder={placeholder}
+             />
+           )}/>}
+     </Field>
    );
  };

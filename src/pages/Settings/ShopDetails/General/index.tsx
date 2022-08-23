@@ -13,7 +13,7 @@ import { useShop } from "@containers/ShopProvider";
 import { PhoneNumberField, TextField } from "@components/TextField";
 import { Shop } from "types/shop";
 import { Loader } from "@components/Loader";
-import { countries } from "@utils/countries";
+import { countries, getRegion } from "@utils/countries";
 import { SelectOptionType } from "types/common";
 import { CountryField, RegionField } from "@components/AddressField";
 
@@ -27,7 +27,7 @@ type ShopFormValues = {
   address1: string,
   address2: string,
   city: string,
-  region: string,
+  region?: SelectOptionType | null,
   postal: string,
   country?: SelectOptionType
 }
@@ -41,12 +41,15 @@ const shopSchema = Yup.object().shape({
   address1: Yup.string().required("This field is required"),
   country: Yup.object({
     label: Yup.string(),
-    code: Yup.string()
+    value: Yup.string()
   }).nullable().required("This field is required"),
   legalName: Yup.string().required("This field is required"),
   phone: Yup.string().required("This field is required"),
   postal: Yup.string().required("This field is required"),
-  region: Yup.string().required("This field is required")
+  region: Yup.object({
+    label: Yup.string(),
+    value: Yup.string()
+  }).nullable().required("This field is required")
 });
 
 const GeneralSettings = () => {
@@ -55,7 +58,7 @@ const GeneralSettings = () => {
   const { mutate } = useUpdateShopMutation(client);
 
   const handleSubmit: EditableCardProps<ShopFormValues>["onSubmit"] = ({ values, setSubmitting, setDrawerOpen }) => {
-    const { name, description, email, shopLogoUrls, legalName, country, ...rest } = values;
+    const { name, description, email, shopLogoUrls, legalName, country, region, ...rest } = values;
     mutate({
       input: {
         name,
@@ -63,7 +66,7 @@ const GeneralSettings = () => {
         shopLogoUrls,
         emails: [{ address: email }],
         shopId: shopId!,
-        addressBook: [{ ...rest, fullName: legalName, company: legalName, isCommercial: false, country: country?.value || "" }]
+        addressBook: [{ ...rest, fullName: legalName, company: legalName, isCommercial: false, country: country?.value || "", region: region?.value || "" }]
       }
     }, {
       onSettled: () => setSubmitting(false),
@@ -75,6 +78,7 @@ const GeneralSettings = () => {
   };
 
   const country = countries.find(({ value }) => value === data?.shop?.addressBook?.[0]?.country);
+  const region = getRegion({ countryCode: country?.value, regionCode: data?.shop?.addressBook?.[0]?.region });
 
   const initialValues = {
     name: data?.shop?.name || "",
@@ -86,7 +90,7 @@ const GeneralSettings = () => {
     address1: data?.shop?.addressBook?.[0]?.address1 || "",
     address2: data?.shop?.addressBook?.[0]?.address2 || "",
     city: data?.shop?.addressBook?.[0]?.city || "",
-    region: data?.shop?.addressBook?.[0]?.region || "",
+    region,
     postal: data?.shop?.addressBook?.[0]?.postal || "",
     country
   };
@@ -138,7 +142,7 @@ const GeneralSettings = () => {
               <DisplayField label="Address Line 1" value={data?.shop?.addressBook?.[0]?.address1}/>
               <DisplayField label="Address Line 2" value={data?.shop?.addressBook?.[0]?.address2}/>
               <DisplayField label="City" value={data?.shop?.addressBook?.[0]?.city}/>
-              <DisplayField label="Region" value={data?.shop?.addressBook?.[0]?.region}/>
+              <DisplayField label="Region" value={region?.label}/>
               <DisplayField label="Postal" value={data?.shop?.addressBook?.[0]?.postal}/>
               <DisplayField label="Country" value={country?.label}/>
             </Stack>

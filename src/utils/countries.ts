@@ -2566,3 +2566,9 @@ export const locales: Record<string, CountryType> = {
 };
 
 export const countries: Array<SelectOptionType> = Object.keys(locales).map((key) => ({ value: key, label: locales[key].name }));
+
+export const getRegion = ({ countryCode, regionCode }: {countryCode?: string, regionCode?: string}) => {
+  if (!regionCode) return null;
+  const states = countryCode ? locales[countryCode]?.states : null;
+  return states ? { label: states[regionCode].name, value: regionCode } : null;
+};
