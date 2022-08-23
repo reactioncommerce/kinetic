@@ -1,0 +1,26 @@
+query getPendingInvitations(
+  $shopIds: [ID]
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+  $sortOrder: SortOrder = asc
+  $sortBy: AccountSortByField = createdAt
+) {
+  invitations(shopIds: $shopIds, after: $after, before: $before, first: $first, last: $last, offset: $offset, sortOrder: $sortOrder, sortBy: $sortBy) {
+    totalCount
+    nodes {
+      _id
+      email
+      groups {
+        _id
+        name
+      }
+      invitedBy {
+        _id
+        primaryEmailAddress
+      }
+    }
+  }
+}
