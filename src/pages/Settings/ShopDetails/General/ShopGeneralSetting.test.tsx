@@ -23,9 +23,9 @@ describe("Shop General Settings", () => {
     expect(screen.getByText("Edit Shop Details")).toBeInTheDocument();
 
     expect(screen.getByText(shop.name)).toBeInTheDocument();
-    expect(screen.getByText(shop.description ?? "--")).toBeInTheDocument();
-    expect(screen.getByText(shop.emails?.[0]?.address ?? "--")).toBeInTheDocument();
-    expect(screen.getByText(shop.storefrontUrls?.storefrontHomeUrl ?? "--")).toBeInTheDocument();
+    expect(screen.getByText(shop.description ?? "Not provided")).toBeInTheDocument();
+    expect(screen.getByText(shop.emails?.[0]?.address ?? "Not provided")).toBeInTheDocument();
+    expect(screen.getByText(shop.storefrontUrls?.storefrontHomeUrl ?? "Not provided")).toBeInTheDocument();
     expect(screen.getByText(shop._id)).toBeInTheDocument();
     expect(screen.getByLabelText("Shop Logo URL")).toHaveDisplayValue(shop.shopLogoUrls?.primaryShopLogoUrl ?? "");
 
