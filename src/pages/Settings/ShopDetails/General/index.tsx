@@ -11,7 +11,6 @@ import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { TextField } from "@components/TextField";
 import { Shop } from "types/shop";
-import { Loader } from "@components/Loader";
 import { decodeOpaqueId } from "@utils/decodedOpaqueId";
 
 type ShopFormValues = {
@@ -60,11 +59,11 @@ const GeneralSettings = () => {
     email: data?.shop?.emails?.[0]?.address || ""
   };
 
-  if (isLoading) return <Loader/>;
 
   return (
     <Container disableGutters>
       <EditableCard<ShopFormValues>
+        isLoading={isLoading}
         cardTitle="Details"
         cardContent={
           <Grid container spacing={4}>

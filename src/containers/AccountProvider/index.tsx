@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect } from "react";
 import { useLocalStorage } from "react-use";
 import { noop } from "lodash-es";
+import { FullPageLoader } from "@components/Loader/FullPageLoader";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
 import type { APIErrorResponse } from "types/common";
-import { Loader } from "@components/Loader";
 
 type AccountContextValue = {
   account: GetViewerQuery["viewer"] | null
@@ -70,7 +70,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   if (isLoading) {
     return (
-      <Loader />
+      <FullPageLoader />
     );
   }
 
