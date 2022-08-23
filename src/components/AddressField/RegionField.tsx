@@ -9,8 +9,6 @@ import { locales } from "@utils/countries";
 
 type RegionFieldProps = {
   name: string
-  isInvalid?: boolean
-  error?: string
   label: string
   placeholder?: string
   multiple?: boolean
@@ -18,7 +16,7 @@ type RegionFieldProps = {
 }
 export const RegionField =
  <FormValues extends Record<string, SelectOptionType | null>, >
-  ({ name, isInvalid, error, label, placeholder, multiple, countryFieldName = "country" }: RegionFieldProps) => {
+  ({ name, label, placeholder, multiple, countryFieldName = "country" }: RegionFieldProps) => {
    const {
      values
    } = useFormikContext<FormValues>();
@@ -52,8 +50,8 @@ export const RegionField =
              <InputWithLabel
                {...params}
                name={name}
-               error={isInvalid || !!props.meta.error}
-               helperText={error || props.meta.error || undefined}
+               error={!!props.meta.error}
+               helperText={ props.meta.error || undefined}
                label={label}
                placeholder={placeholder}
              />

@@ -33,8 +33,6 @@ export const DestinationField = ({ isInvalid, errors }: DestinationFieldProps) =
     <CountryField
       name="destination.country"
       multiple
-      isInvalid={isInvalid}
-      error={errors}
       label="Country"
       placeholder="Type to enter a country"/>
 
@@ -58,8 +56,6 @@ export const DestinationField = ({ isInvalid, errors }: DestinationFieldProps) =
     <RegionField
       name="destination.region"
       multiple
-      isInvalid={isInvalid}
-      error={errors}
       label="Region"
       placeholder="Type to enter a region"
     />

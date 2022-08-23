@@ -4,17 +4,16 @@ import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { countries } from "@utils/countries";
 import { InputWithLabel } from "@components/TextField";
+import { SelectOptionType } from "types/common";
 
 type CountryFieldProps = {
   name: string
-  isInvalid?: boolean
-  error?: string
   label: string
   multiple?: boolean
   placeholder?: string
 }
 
-export const CountryField = <T, >({ name, isInvalid, error, label, multiple, placeholder }: CountryFieldProps) => (
+export const CountryField = <T extends SelectOptionType, >({ name, label, multiple, placeholder }: CountryFieldProps) => (
   <Field
     name={name}
   >
@@ -28,8 +27,8 @@ export const CountryField = <T, >({ name, isInvalid, error, label, multiple, pla
           <InputWithLabel
             {...params}
             name={name}
-            error={isInvalid || !!props.meta.error}
-            helperText={error || props.meta.error || undefined}
+            error={!!props.meta.error}
+            helperText={props.meta.error || undefined}
             label={label}
             placeholder={placeholder}
           />

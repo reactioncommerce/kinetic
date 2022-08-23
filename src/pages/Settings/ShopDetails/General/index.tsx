@@ -16,6 +16,7 @@ import { Loader } from "@components/Loader";
 import { countries, getRegion } from "@utils/countries";
 import { SelectOptionType } from "types/common";
 import { CountryField, RegionField } from "@components/AddressField";
+import { decodeOpaqueId } from "@utils/decodedOpaqueId";
 
 type ShopFormValues = {
   name: string
@@ -29,7 +30,7 @@ type ShopFormValues = {
   city: string,
   region?: SelectOptionType | null,
   postal: string,
-  country?: SelectOptionType
+  country?: SelectOptionType | null
 }
 
 const shopSchema = Yup.object().shape({
@@ -46,6 +47,7 @@ const shopSchema = Yup.object().shape({
   legalName: Yup.string().required("This field is required"),
   phone: Yup.string().required("This field is required"),
   postal: Yup.string().required("This field is required"),
+  city: Yup.string().required("This field is required"),
   region: Yup.object({
     label: Yup.string(),
     value: Yup.string()
@@ -64,7 +66,7 @@ const GeneralSettings = () => {
         name,
         description,
         shopLogoUrls,
-        emails: [{ address: email }],
+        emails: email ? [{ address: email }] : undefined,
         shopId: shopId!,
         addressBook: [{ ...rest, fullName: legalName, company: legalName, isCommercial: false, country: country?.value || "", region: region?.value || "" }]
       }
@@ -77,7 +79,7 @@ const GeneralSettings = () => {
     });
   };
 
-  const country = countries.find(({ value }) => value === data?.shop?.addressBook?.[0]?.country);
+  const country = countries.find(({ value }) => value === data?.shop?.addressBook?.[0]?.country) || null;
   const region = getRegion({ countryCode: country?.value, regionCode: data?.shop?.addressBook?.[0]?.region });
 
   const initialValues = {
@@ -111,7 +113,7 @@ const GeneralSettings = () => {
               <DisplayField label="Email" value={data?.shop?.emails?.[0]?.address}/>
               <DisplayField label="Description" value={data?.shop?.description}/>
               <DisplayField label="Storefront URL" value={data?.shop?.storefrontUrls?.storefrontHomeUrl} editable={false}/>
-              <DisplayField label="ID" value={data?.shop?._id} editable={false}/>
+              <DisplayField label="ID" value={decodeOpaqueId(data?.shop?._id)?.id} editable={false}/>
             </Grid>
           </Grid>}
         formTitle="Edit Shop Details"
