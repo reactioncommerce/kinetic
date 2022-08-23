@@ -32,14 +32,13 @@ import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 import { OperatorsField } from "../components/OperatorsField";
 import { DestinationField, getInitialDestinationValue } from "../components/DestinationField";
 import { ShippingMethodsField } from "../components/ShippingMethodsField";
-import { CountryType } from "@utils/countries";
 import { SelectOptionType } from "types/common";
 
 type ShippingRestrictionFormValues = {
   type: RestrictionTypeEnum;
   attributes?: AttributeRestrictionsInput[];
   destination?: {
-    country: Pick<CountryType, "code" | "label">[];
+    country: SelectOptionType[];
     postal: string[];
     region: string[];
   };
@@ -175,7 +174,7 @@ const Restrictions = () => {
       methodIds: values.methods?.map(({ value }) => value),
       destination: {
         ...values.destination,
-        country: values.destination?.country.map(({ code }) => code)
+        country: values.destination?.country.map(({ value }) => value)
       },
       attributes: values.attributes?.map((attr) => ({ ...attr, propertyType: getPropertyType((attr.value ?? "").trim()) }))
     };

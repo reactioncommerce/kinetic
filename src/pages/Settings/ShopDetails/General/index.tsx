@@ -4,18 +4,18 @@ import Avatar from "@mui/material/Avatar";
 import { Field } from "formik";
 import * as Yup from "yup";
 import Stack from "@mui/material/Stack";
-import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 
 import { EditableCard, EditableCardProps } from "@components/Card";
 import { DisplayField } from "@components/DisplayField";
 import { useGetShopQuery, useUpdateShopMutation } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
-import { InputWithLabel, PhoneNumberField, TextField } from "@components/TextField";
+import { PhoneNumberField, TextField } from "@components/TextField";
 import { Shop } from "types/shop";
 import { Loader } from "@components/Loader";
-import { AutocompleteField } from "@components/AutocompleteField";
-import { countries, CountryType } from "@utils/countries";
+import { countries } from "@utils/countries";
+import { SelectOptionType } from "types/common";
+import { CountryField, RegionField } from "@components/AddressField";
 
 type ShopFormValues = {
   name: string
@@ -29,15 +29,24 @@ type ShopFormValues = {
   city: string,
   region: string,
   postal: string,
-  country?: Pick<CountryType, "label" | "code">
+  country?: SelectOptionType
 }
 
 const shopSchema = Yup.object().shape({
-  name: Yup.string().required(),
-  email: Yup.string().email(),
+  name: Yup.string().required("This field is required"),
+  email: Yup.string().email("This email is invalid"),
   shopLogoUrls: Yup.object().shape({
     primaryShopLogoUrl: Yup.string().url("Please enter a valid logo URL")
-  })
+  }),
+  address1: Yup.string().required("This field is required"),
+  country: Yup.object({
+    label: Yup.string(),
+    code: Yup.string()
+  }).nullable().required("This field is required"),
+  legalName: Yup.string().required("This field is required"),
+  phone: Yup.string().required("This field is required"),
+  postal: Yup.string().required("This field is required"),
+  region: Yup.string().required("This field is required")
 });
 
 const GeneralSettings = () => {
@@ -54,7 +63,7 @@ const GeneralSettings = () => {
         shopLogoUrls,
         emails: [{ address: email }],
         shopId: shopId!,
-        addressBook: [{ ...rest, fullName: legalName, company: legalName, isCommercial: false, country: country?.code || "" }]
+        addressBook: [{ ...rest, fullName: legalName, company: legalName, isCommercial: false, country: country?.value || "" }]
       }
     }, {
       onSettled: () => setSubmitting(false),
@@ -65,7 +74,7 @@ const GeneralSettings = () => {
     });
   };
 
-  const country = countries.find(({ code }) => code === data?.shop?.addressBook?.[0]?.country);
+  const country = countries.find(({ value }) => value === data?.shop?.addressBook?.[0]?.country);
 
   const initialValues = {
     name: data?.shop?.name || "",
@@ -149,29 +158,16 @@ const GeneralSettings = () => {
             <Field name="address1" component={TextField} label="Address Line 1" />
             <Field name="address2" component={TextField} label="Address Line 2" />
             <Stack direction="row" gap={2}>
-              <Field name="city" component={TextField} label="City" />
-              <Field name="region" component={TextField} label="Region" />
+              <CountryField name="country" label="Country"/>
+              <RegionField name="region" label="Region"/>
             </Stack>
 
             <Stack direction="row" gap={2}>
+              <Field name="city" component={TextField} label="City" />
               <Field name="postal" component={TextField} label="Postal"/>
-              <Field
-                name="country"
-                component={AutocompleteField}
-                options={countries}
-                isOptionEqualToValue={(option: CountryType, value: CountryType) => option.code === value.code}
-                renderInput={(params: AutocompleteRenderInputParams) => (
-                  <InputWithLabel
-                    {...params}
-                    name="country"
-                    label="Country"
-                  />
-                )}
-              />
             </Stack>
 
-          </>
-        }
+          </>}
       />
     </Stack>
   );

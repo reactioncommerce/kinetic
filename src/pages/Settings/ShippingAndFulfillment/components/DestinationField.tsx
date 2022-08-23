@@ -3,10 +3,11 @@ import { Field } from "formik";
 import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 
 import { AutocompleteField } from "@components/AutocompleteField";
-import { countries, CountryType } from "@utils/countries";
+import { countries } from "@utils/countries";
 import { InputWithLabel } from "@components/TextField";
 import { DestinationRestrictions, SurchargeDestinationRestrictions } from "@graphql/types";
 import { filterNodes } from "@utils/common";
+import { CountryField, RegionField } from "@components/AddressField";
 
 type DestinationFieldProps = {
   isInvalid?: boolean
@@ -17,7 +18,7 @@ export const getInitialDestinationValue = (destination?: DestinationRestrictions
   region: filterNodes(destination.region),
   postal: filterNodes(destination.postal),
   country: filterNodes(destination.country).map((countryCode) =>
-    ({ code: countryCode, label: countries.find(({ code }) => code === countryCode)?.label ?? "Unknown" }))
+    ({ value: countryCode, label: countries.find(({ value }) => value === countryCode)?.label ?? "Unknown" }))
 } : {
   country: [],
   postal: [],
@@ -29,23 +30,14 @@ export const DestinationField = ({ isInvalid, errors }: DestinationFieldProps) =
     <Typography variant="h6" gutterBottom>
         Destinations
     </Typography>
-    <Field
+    <CountryField
       name="destination.country"
       multiple
-      component={AutocompleteField}
-      options={countries}
-      isOptionEqualToValue={(option: CountryType, value: CountryType) => option.code === value.code}
-      renderInput={(params: AutocompleteRenderInputParams) => (
-        <InputWithLabel
-          {...params}
-          name="country"
-          error={isInvalid}
-          helperText={errors}
-          label="Country"
-          placeholder="Type to enter a country"
-        />
-      )}
-    />
+      isInvalid={isInvalid}
+      error={errors}
+      label="Country"
+      placeholder="Type to enter a country"/>
+
     <Field
       name="destination.postal"
       multiple
@@ -63,22 +55,13 @@ export const DestinationField = ({ isInvalid, errors }: DestinationFieldProps) =
         />
       )}
     />
-    <Field
+    <RegionField
       name="destination.region"
       multiple
-      component={AutocompleteField}
-      freeSolo
-      options={[]}
-      renderInput={(params: AutocompleteRenderInputParams) => (
-        <InputWithLabel
-          {...params}
-          name="autocomplete"
-          error={isInvalid}
-          helperText={errors}
-          label="Region"
-          placeholder="Type to enter a region"
-        />
-      )}
+      isInvalid={isInvalid}
+      error={errors}
+      label="Region"
+      placeholder="Type to enter a region"
     />
   </>
 );

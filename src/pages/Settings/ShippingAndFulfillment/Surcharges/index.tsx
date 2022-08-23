@@ -36,7 +36,6 @@ import {
 import { Surcharge } from "types/surcharges";
 import { Drawer } from "@components/Drawer";
 import { TextField } from "@components/TextField";
-import { CountryType } from "@utils/countries";
 import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 import { SelectOptionType } from "types/common";
 import { DestinationCell } from "../components/DestinationCell";
@@ -50,7 +49,7 @@ type ShippingSurchargeFormValues = {
   amount: number;
   attributes?: SurchargeAttributeRestrictions[];
   destination?: {
-    country: Pick<CountryType, "code" | "label">[];
+    country: SelectOptionType[];
     postal: string[];
     region: string[];
   };
@@ -173,7 +172,7 @@ const Surcharges = () => {
       messagesByLanguage: [values.messagesByLanguage],
       destination: {
         ...values.destination,
-        country: values.destination?.country.map(({ code }) => code)
+        country: values.destination?.country.map(({ value }) => value)
       },
       attributes: values.attributes?.map((attr) => ({ ...attr, propertyType: getPropertyType((attr.value ?? "").trim()) })),
       type: SurchargeTypeEnum.Surcharge
