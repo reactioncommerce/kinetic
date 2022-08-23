@@ -33,12 +33,15 @@ type ShopFormValues = {
   country?: SelectOptionType | null
 }
 
-const shopSchema = Yup.object().shape({
+const shopGeneralSchema = Yup.object().shape({
   name: Yup.string().required("This field is required"),
-  email: Yup.string().email("This email is invalid"),
+  email: Yup.string().email("This email is invalid").required("This field is required"),
   shopLogoUrls: Yup.object().shape({
     primaryShopLogoUrl: Yup.string().url("Please enter a valid logo URL")
-  }),
+  })
+});
+
+const shopPrimarySchema = Yup.object().shape({
   address1: Yup.string().required("This field is required"),
   country: Yup.object({
     label: Yup.string(),
@@ -59,16 +62,43 @@ const GeneralSettings = () => {
   const { data, refetch, isLoading } = useGetShopQuery(client, { id: shopId! });
   const { mutate } = useUpdateShopMutation(client);
 
-  const handleSubmit: EditableCardProps<ShopFormValues>["onSubmit"] = ({ values, setSubmitting, setDrawerOpen }) => {
-    const { name, description, email, shopLogoUrls, legalName, country, region, ...rest } = values;
+  const handleSubmitGeneralSettings: EditableCardProps<ShopFormValues>["onSubmit"] = ({ values, setSubmitting, setDrawerOpen }) => {
+    const { name, description, email, shopLogoUrls } = values;
     mutate({
       input: {
         name,
         description,
         shopLogoUrls,
-        emails: email ? [{ address: email }] : undefined,
+        emails: [{ address: email }],
+        shopId: shopId!
+
+      }
+    }, {
+      onSettled: () => setSubmitting(false),
+      onSuccess: () => {
+        setDrawerOpen(false);
+        refetch();
+      }
+    });
+  };
+
+  const handleSubmitPrimaryAddress: EditableCardProps<ShopFormValues>["onSubmit"] = ({ values, setSubmitting, setDrawerOpen }) => {
+    const { legalName, country, region, address1, address2, phone, postal, city } = values;
+    mutate({
+      input: {
         shopId: shopId!,
-        addressBook: [{ ...rest, fullName: legalName, company: legalName, isCommercial: false, country: country?.value || "", region: region?.value || "" }]
+        addressBook: [{
+          address1,
+          address2,
+          phone,
+          postal,
+          city,
+          fullName: legalName,
+          company: legalName,
+          isCommercial: false,
+          country: country?.value || "",
+          region: region?.value || ""
+        }]
       }
     }, {
       onSettled: () => setSubmitting(false),
@@ -119,9 +149,9 @@ const GeneralSettings = () => {
         formTitle="Edit Shop Details"
         formConfig={{
           initialValues,
-          validationSchema: shopSchema
+          validationSchema: shopGeneralSchema
         }}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitGeneralSettings}
         formContent={
           <>
             <Field name="name" component={TextField} placeholder="Enter Shop Name" label="Name" />
@@ -154,9 +184,9 @@ const GeneralSettings = () => {
         formTitle="Edit Primary Address"
         formConfig={{
           initialValues,
-          validationSchema: shopSchema
+          validationSchema: shopPrimarySchema
         }}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitPrimaryAddress}
         formContent={
           <>
             <Field name="legalName" component={TextField} label="Legal Name" />

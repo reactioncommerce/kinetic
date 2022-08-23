@@ -3,7 +3,7 @@ import { Field, FieldProps, useFormikContext } from "formik";
 import { useMemo } from "react";
 
 import { InputWithLabel } from "@components/TextField";
-import { AutocompleteField } from "@components/AutocompleteField";
+import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { SelectOptionType } from "types/common";
 import { locales } from "@utils/countries";
 
@@ -11,14 +11,15 @@ type RegionFieldProps = {
   name: string
   label: string
   placeholder?: string
-  multiple?: boolean
   countryFieldName?: string
 }
+
 export const RegionField =
  <FormValues extends Record<string, SelectOptionType | null>, >
-  ({ name, label, placeholder, multiple, countryFieldName = "country" }: RegionFieldProps) => {
+  ({ name, label, placeholder, countryFieldName = "country" }: RegionFieldProps) => {
    const {
-     values
+     values,
+     setFieldValue
    } = useFormikContext<FormValues>();
 
    const country = values[countryFieldName];
@@ -35,6 +36,11 @@ export const RegionField =
      return options;
    }, [country?.value]);
 
+   const handleInputChange = (value: string) => {
+     if (value && !regionOptions.length) {
+       setFieldValue(name, { label: value, value });
+     }
+   };
 
    return (
      <Field
@@ -43,9 +49,10 @@ export const RegionField =
        {(props: FieldProps<FormValues>) =>
          <AutocompleteField
            {...props}
-           multiple={multiple}
-           freeSolo
+           freeSolo={!regionOptions.length}
            options={regionOptions}
+           onInputChange={(_, value) => handleInputChange(value)}
+           isOptionEqualToValue={isOptionEqualToValue}
            renderInput={(params: AutocompleteRenderInputParams) => (
              <InputWithLabel
                {...params}

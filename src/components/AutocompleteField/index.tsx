@@ -6,7 +6,7 @@ import { FieldProps } from "formik";
 
 import { SelectOptionType } from "types/common";
 
-export interface AutocompleteProps<
+interface AutocompleteProps<
   T,
   Multiple extends boolean | undefined,
   DisableClearable extends boolean | undefined,

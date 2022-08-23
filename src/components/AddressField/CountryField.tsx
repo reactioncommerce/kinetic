@@ -9,18 +9,16 @@ import { SelectOptionType } from "types/common";
 type CountryFieldProps = {
   name: string
   label: string
-  multiple?: boolean
   placeholder?: string
 }
 
-export const CountryField = <T extends SelectOptionType, >({ name, label, multiple, placeholder }: CountryFieldProps) => (
+export const CountryField = <T extends SelectOptionType, >({ name, label, placeholder }: CountryFieldProps) => (
   <Field
     name={name}
   >
     {(props: FieldProps<T>) =>
       <AutocompleteField
         {...props}
-        multiple={multiple}
         options={countries}
         isOptionEqualToValue={isOptionEqualToValue}
         renderInput={(params: AutocompleteRenderInputParams) => (
