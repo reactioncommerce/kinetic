@@ -17,7 +17,7 @@ export const getInitialDestinationValue = (destination?: DestinationRestrictions
   region: filterNodes(destination.region),
   postal: filterNodes(destination.postal),
   country: filterNodes(destination.country).map((countryCode) =>
-    ({ code: countryCode, label: countries.find(({ value }) => value === countryCode)?.label ?? "Unknown" }))
+    ({ value: countryCode, label: countries.find(({ value }) => value === countryCode)?.label ?? "Unknown" }))
 } : {
   country: [],
   postal: [],
