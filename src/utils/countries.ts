@@ -1,3 +1,5 @@
+import { sortBy } from "lodash-es";
+
 import { SelectOptionType } from "types/common";
 
 export interface CountryType {
@@ -2565,7 +2567,7 @@ export const locales: Record<string, CountryType> = {
   }
 };
 
-export const countries: Array<SelectOptionType> = Object.keys(locales).map((key) => ({ value: key, label: locales[key].name }));
+export const countries: Array<SelectOptionType> = sortBy(Object.keys(locales).map((key) => ({ value: key, label: locales[key].name })), "label");
 
 export const getRegion = ({ countryCode, regionCode }: {countryCode?: string, regionCode?: string}) => {
   if (!regionCode) return null;

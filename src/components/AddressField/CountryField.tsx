@@ -25,8 +25,8 @@ export const CountryField = <T extends SelectOptionType, >({ name, label, placeh
           <InputWithLabel
             {...params}
             name={name}
-            error={!!props.meta.error}
-            helperText={props.meta.error || undefined}
+            error={props.meta.touched && !!props.meta.error}
+            helperText={(props.meta.touched && props.meta.error) || undefined}
             label={label}
             placeholder={placeholder}
           />

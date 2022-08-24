@@ -21,7 +21,8 @@ export const InputWithLabel = forwardRef((
     disabled,
     InputProps,
     inputProps,
-    placeholder
+    placeholder,
+    name
   }: TextFieldProps,
   ref
 ) => {
@@ -47,6 +48,7 @@ export const InputWithLabel = forwardRef((
         inputProps={inputProps}
         placeholder={placeholder}
         id={fieldId}
+        name={name}
         {...InputProps}
       />
       <Collapse in={!!helperText}>

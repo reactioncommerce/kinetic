@@ -42,6 +42,7 @@ export const RegionField =
      }
    };
 
+
    return (
      <Field
        name={name}
@@ -57,8 +58,8 @@ export const RegionField =
              <InputWithLabel
                {...params}
                name={name}
-               error={!!props.meta.error}
-               helperText={ props.meta.error || undefined}
+               error={props.meta.touched && !!props.meta.error}
+               helperText={(props.meta.touched && props.meta.error) || undefined}
                label={label}
                placeholder={placeholder}
              />
