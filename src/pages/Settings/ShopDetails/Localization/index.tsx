@@ -18,17 +18,14 @@ const Localization = () => {
         isLoading={isLoading}
         cardTitle="Shop Defaults"
         cardContent={
-          <Stack gap={3} direction="column">
-            {/* <DisplayField label="Legal Name" value={data?.shop?.addressBook?.[0]?.fullName}/>
-            <DisplayField label="Phone Name" value={data?.shop?.addressBook?.[0]?.phone}/>
-            <DisplayField label="Address Line 1" value={data?.shop?.addressBook?.[0]?.address1}/>
-            <DisplayField label="Address Line 2" value={data?.shop?.addressBook?.[0]?.address2}/>
-            <DisplayField label="City" value={data?.shop?.addressBook?.[0]?.city}/>
-            <DisplayField label="Region" value={data?.shop?.addressBook?.[0]?.region}/>
-            <DisplayField label="Postal" value={data?.shop?.addressBook?.[0]?.postal}/>
-            <DisplayField label="Country" value={country?.label}/> */}
+          <>
+            <DisplayField label="Timezone" value={data?.shop?.timezone}/>
+            <DisplayField label="Currency" value={data?.shop?.currency.code}/>
+            <DisplayField label="Language" value={data?.shop?.language}/>
+            <DisplayField label="Unit of Weight" value={data?.shop?.unitsOfMeasure?.[0]?.label}/>
+            <DisplayField label="Unit of Length" value={data?.shop?.unitsOfLength?.[0]?.label}/>
 
-          </Stack>}
+          </>}
         formTitle="Edit Shop Defaults"
         formConfig={{
           initialValues: {}
