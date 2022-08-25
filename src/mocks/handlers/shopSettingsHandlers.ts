@@ -1,7 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { graphql } from "msw";
 
+import { currencyDefinition } from "@utils/currency";
 import { Shop } from "types/shop";
+
 
 const mockShop = (): Shop => ({
   _id: faker.datatype.uuid(),
@@ -15,14 +17,25 @@ const mockShop = (): Shop => ({
   },
   currency: {
     _id: faker.datatype.uuid(),
-    code: faker.finance.currencyCode(),
-    symbol: faker.finance.currencySymbol(),
-    format: faker.finance.currencyName()
+    code: "USD",
+    ...currencyDefinition.USD
   },
   language: "en",
   shopLogoUrls: {
     primaryShopLogoUrl: faker.internet.url()
-  }
+  },
+  baseUOL: "ft",
+  baseUOM: "lb",
+  unitsOfLength:
+  [{ default: true, label: "Inches", uol: "in" }, { default: null, label: "Centimeters", uol: "cm" }, { default: null, label: "Feet", uol: "ft" }],
+  unitsOfMeasure:
+   [
+     { default: true, label: "Ounces", uom: "oz" },
+     { default: null, label: "Pounds", uom: "lb" },
+     { default: null, label: "Grams", uom: "g" },
+     { default: null, label: "Kilograms", uom: "kg" }
+   ],
+  timezone: "Asia/Barnaul"
 });
 
 

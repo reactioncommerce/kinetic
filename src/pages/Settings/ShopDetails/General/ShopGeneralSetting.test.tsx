@@ -1,7 +1,7 @@
 import { shop } from "@mocks/handlers/shopSettingsHandlers";
 
 import { decodeOpaqueId } from "@utils/decodedOpaqueId";
-import { fireEvent, renderWithProviders, screen, userEvent, waitFor } from "@utils/testUtils";
+import { fireEvent, renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved } from "@utils/testUtils";
 
 import ShopGeneralSettings from ".";
 
@@ -9,7 +9,7 @@ describe("Shop General Settings", () => {
   it("should render shipping methods table", async () => {
     renderWithProviders(<ShopGeneralSettings/>);
     await screen.findByText("Details");
-
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
     expect(screen.getByText(shop.name)).toBeInTheDocument();
     expect(screen.getByText(shop.description ?? "--")).toBeInTheDocument();
     expect(screen.getByText(shop.emails?.[0]?.address ?? "--")).toBeInTheDocument();
@@ -20,6 +20,7 @@ describe("Shop General Settings", () => {
   it("should update shop details successfully", async () => {
     renderWithProviders(<ShopGeneralSettings/>);
     await screen.findByText("Details");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
     fireEvent.click(screen.getByText("Edit"));
     expect(screen.getByText("Edit Shop Details")).toBeInTheDocument();
 

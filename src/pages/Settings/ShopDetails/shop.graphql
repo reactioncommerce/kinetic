@@ -33,6 +33,8 @@ query getShop($id: ID!) {
       label
       uom
     }
+    baseUOM
+    baseUOL
   }
 }
 

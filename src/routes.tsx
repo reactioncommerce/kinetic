@@ -20,6 +20,7 @@ const ShippingRestrictions = lazy(() => import("./pages/Settings/ShippingAndFulf
 const Users = lazy(() => import("./pages/Settings/UsersAndPermissions/Users"));
 const Groups = lazy(() => import("./pages/Settings/UsersAndPermissions/Groups"));
 const ShopGeneralSettings = lazy(() => import("./pages/Settings/ShopDetails/General"));
+const LocalizationSettings = lazy(() => import("./pages/Settings/ShopDetails/Localization"));
 const PendingInvitations = lazy(() => import("./pages/Settings/UsersAndPermissions/PendingInvitations"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
@@ -74,6 +75,12 @@ const shopSettingPageRoutes: SubPageRouteProps = [
     key: "shop-general-setting",
     element: <ShopGeneralSettings/>,
     index: true
+  },
+  {
+    header: "Localization",
+    path: "localization",
+    key: "shop-localization-setting",
+    element: <LocalizationSettings/>
   }
 ];
 
