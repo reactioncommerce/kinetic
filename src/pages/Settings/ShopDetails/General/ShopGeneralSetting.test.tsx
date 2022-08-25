@@ -47,6 +47,7 @@ describe("Shop General Settings", () => {
   it("should render shop primary address settings section", async () => {
     renderWithProviders(<ShopGeneralSettings/>);
     await screen.findByText("Primary Address");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
 
     expect(screen.getByText(shop.addressBook?.[0]?.fullName || "Not provided")).toBeInTheDocument();
     expect(screen.getByText(shop.addressBook?.[0]?.phone || "Not provided")).toBeInTheDocument();
@@ -61,6 +62,8 @@ describe("Shop General Settings", () => {
   it("should update shop primary address successfully", async () => {
     renderWithProviders(<ShopGeneralSettings/>);
     await screen.findByText("Primary Address");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+
     fireEvent.click(screen.getAllByText("Edit")[1]);
     expect(screen.getByText("Edit Primary Address")).toBeInTheDocument();
 
