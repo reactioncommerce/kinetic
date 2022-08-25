@@ -1,8 +1,8 @@
 import MuiAutocomplete, {
-  AutocompleteProps as MuiAutocompleteProps
+  AutocompleteProps as MuiAutocompleteProps, AutocompleteRenderInputParams
 } from "@mui/material/Autocomplete";
 import ClearIcon from "@mui/icons-material/Clear";
-import { FieldProps } from "formik";
+import { FieldProps, getIn } from "formik";
 
 import { SelectOptionType } from "types/common";
 
@@ -14,9 +14,13 @@ interface AutocompleteProps<
 > extends FieldProps,
     Omit<
       MuiAutocompleteProps<T, Multiple, DisableClearable, FreeSolo>,
-      "name" | "value" | "defaultValue"
+      "name" | "value" | "defaultValue" | "renderInput"
     > {
   type?: string;
+  renderInput: (props: AutocompleteRenderInputParams & {
+    error: boolean
+    helperText?: string
+  }) => JSX.Element
 }
 
 export const isOptionEqualToValue = (option: SelectOptionType, value: SelectOptionType): boolean => option.value === value.value;
@@ -28,11 +32,12 @@ export function AutocompleteField<
   FreeSolo extends boolean | undefined
 >({
   field,
-  form: { isSubmitting, setFieldValue },
+  form: { isSubmitting, setFieldValue, errors, touched },
   type,
   onChange,
   onBlur,
   disabled,
+  renderInput,
   ...props
 }: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>) {
   const {
@@ -41,6 +46,11 @@ export function AutocompleteField<
     multiple: _multiple,
     ...restFieldProps
   } = field;
+
+  const fieldError = getIn(errors, restFieldProps.name) as string;
+  const showError: boolean = getIn(touched, restFieldProps.name) && !!fieldError;
+
+  const helperText = showError ? fieldError : undefined;
 
   const _onBlur =
     onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
@@ -56,6 +66,7 @@ export function AutocompleteField<
       ChipProps={{
         deleteIcon: <ClearIcon fontSize="small"/>
       }}
+      renderInput={(inputProps) => renderInput({ ...inputProps, error: showError, helperText })}
       {...restFieldProps}
       {...props}
     />
