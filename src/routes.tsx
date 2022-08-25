@@ -21,6 +21,7 @@ const Users = lazy(() => import("./pages/Settings/UsersAndPermissions/Users"));
 const Groups = lazy(() => import("./pages/Settings/UsersAndPermissions/Groups"));
 const ShopGeneralSettings = lazy(() => import("./pages/Settings/ShopDetails/General"));
 const LocalizationSettings = lazy(() => import("./pages/Settings/ShopDetails/Localization"));
+const PendingInvitations = lazy(() => import("./pages/Settings/UsersAndPermissions/PendingInvitations"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -52,6 +53,12 @@ const userPageRoutes: SubPageRouteProps = [
     key: "users",
     element: <Users/>,
     index: true
+  },
+  {
+    header: "Invitations",
+    path: "invitations",
+    key: "invitations",
+    element: <PendingInvitations/>
   },
   {
     header: "Groups",

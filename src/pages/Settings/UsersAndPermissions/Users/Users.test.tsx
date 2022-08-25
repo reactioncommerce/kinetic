@@ -41,6 +41,7 @@ describe("Users", () => {
     expect(screen.getByText("Invite User")).toBeInTheDocument();
 
     expect(screen.getByLabelText("Email Address")).toBeInvalid();
+    expect(screen.getByLabelText("Allow access to admin UI")).toBeInTheDocument();
 
     await user.type(screen.getByLabelText("Email Address"), "user@email.org");
 
@@ -79,6 +80,7 @@ describe("Users", () => {
       .toBeChecked();
     expect(screen.getByLabelText("Email Address")).toBeDisabled();
     expect(screen.getByLabelText("Name")).toBeDisabled();
+    expect(screen.queryByLabelText("Allow access to admin UI")).not.toBeInTheDocument();
 
     await user.click(screen.getByText("Save Changes"));
     await waitFor(() => {
