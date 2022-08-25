@@ -13,7 +13,7 @@ import { useShop } from "@containers/ShopProvider";
 import { PhoneNumberField, TextField } from "@components/TextField";
 import { Shop } from "types/shop";
 import { Loader } from "@components/Loader";
-import { countries, getRegion } from "@utils/countries";
+import { countries, getRegion, locales } from "@utils/countries";
 import { SelectOptionType } from "types/common";
 import { CountryField, RegionField } from "@components/AddressField";
 import { decodeOpaqueId } from "@utils/decodedOpaqueId";
@@ -84,6 +84,8 @@ const GeneralSettings = () => {
 
   const handleSubmitPrimaryAddress: EditableCardProps<ShopFormValues>["onSubmit"] = ({ values, setSubmitting, setDrawerOpen }) => {
     const { legalName, country, region, address1, address2, phone, postal, city } = values;
+    const regionValue = country?.value && locales[country.value]?.states ? region?.value : region?.label;
+
     mutate({
       input: {
         shopId: shopId!,
@@ -97,7 +99,7 @@ const GeneralSettings = () => {
           company: legalName,
           isCommercial: false,
           country: country?.value || "",
-          region: region?.value || ""
+          region: regionValue || ""
         }]
       }
     }, {

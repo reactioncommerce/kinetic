@@ -1,11 +1,10 @@
 import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 import { Field, FieldProps, useFormikContext } from "formik";
-import { useMemo } from "react";
 
 import { InputWithLabel } from "@components/TextField";
 import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { SelectOptionType } from "types/common";
-import { locales } from "@utils/countries";
+import { locales, CountryType } from "@utils/countries";
 
 type RegionFieldProps = {
   name: string
@@ -13,6 +12,14 @@ type RegionFieldProps = {
   placeholder?: string
   countryFieldName?: string
 }
+
+const validateRegion = (states: CountryType["states"]) => (region: SelectOptionType) => {
+  let error;
+  if (states && region && !states[region.value]) {
+    error = "Please select a valid region";
+  }
+  return error;
+};
 
 export const RegionField =
  <FormValues extends Record<string, SelectOptionType | null>, >
@@ -23,18 +30,14 @@ export const RegionField =
    } = useFormikContext<FormValues>();
 
    const country = values[countryFieldName];
+   const states = country?.value && locales[country.value] ? locales[country.value].states : undefined;
 
-   const regionOptions = useMemo(() => {
-     const options: SelectOptionType[] = [];
-     const states = country?.value && locales[country.value] ? locales[country.value].states : undefined;
-     if (states) {
-       Object.keys(states).forEach((key) => {
-         options.push({ value: key, label: states[key].name });
-       });
-     }
-
-     return options;
-   }, [country?.value]);
+   const regionOptions: SelectOptionType[] = [];
+   if (states) {
+     Object.keys(states).forEach((key) => {
+       regionOptions.push({ value: key, label: states[key].name });
+     });
+   }
 
    const handleInputChange = (value: string) => {
      if (value && !regionOptions.length) {
@@ -46,6 +49,7 @@ export const RegionField =
    return (
      <Field
        name={name}
+       validate={validateRegion(states)}
      >
        {(props: FieldProps<FormValues>) =>
          <AutocompleteField
@@ -53,7 +57,7 @@ export const RegionField =
            freeSolo={!regionOptions.length}
            options={regionOptions}
            onInputChange={(_, value) => handleInputChange(value)}
-           isOptionEqualToValue={isOptionEqualToValue}
+           isOptionEqualToValue={regionOptions.length ? isOptionEqualToValue : () => true}
            renderInput={(params: AutocompleteRenderInputParams) => (
              <InputWithLabel
                {...params}

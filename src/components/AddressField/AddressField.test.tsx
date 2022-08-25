@@ -49,4 +49,31 @@ describe("AddressField", () => {
     await user.click(screen.getByText("Submit"));
     expect(handleSubmit).toBeCalledWith({ country: { value: "VN", label: "Vietnam" }, region: { value: "Ha Noi", label: "Ha Noi" } });
   });
+
+
+  it("RegionField should not accept an invalid region value", async () => {
+    render(<Formik initialValues={{ country: null, region: null }} onSubmit={vi.fn()}>
+      <Form>
+        <CountryField name="country" label="Country" placeholder="Enter Country"/>
+        <RegionField name="region" label="Region" placeholder="Enter Region"/>
+        <button type="submit">Submit</button>
+      </Form>
+    </Formik>);
+
+    fireEvent.mouseDown(screen.getByPlaceholderText("Enter Country"));
+    fireEvent.click(within(screen.getByRole("listbox")).getByText("Vietnam"));
+    const user = userEvent.setup();
+
+    fireEvent.mouseDown(screen.getByPlaceholderText("Enter Country"));
+    await user.type(screen.getByPlaceholderText("Enter Region"), "Ha Noi");
+    fireEvent.click(within(screen.getByRole("listbox")).getByText("United States"));
+
+    await user.click(screen.getByText("Submit"));
+    expect(screen.getByPlaceholderText("Enter Region")).toBeInvalid();
+
+    fireEvent.mouseDown(screen.getByPlaceholderText("Enter Region"));
+    fireEvent.click(within(screen.getByRole("listbox")).getByText("Arkansas"));
+    await user.click(screen.getByText("Submit"));
+    expect(screen.getByPlaceholderText("Enter Region")).toBeValid();
+  });
 });
