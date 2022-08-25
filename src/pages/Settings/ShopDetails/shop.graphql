@@ -45,6 +45,8 @@ query getShop($id: ID!) {
       postal
       region
     }
+    baseUOM
+    baseUOL
   }
 }
 

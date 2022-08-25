@@ -1,14 +1,16 @@
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import { Form, Formik, FormikConfig } from "formik";
-import Stack from "@mui/material/Stack";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Stack from "@mui/material/Stack";
 
 import { Drawer } from "@components/Drawer";
+import { Loader } from "@components/Loader";
 
 import { Card } from "./Card";
 
 export type EditableCardProps<T> = {
+  isLoading?: boolean
   cardTitle: string
   cardContent: JSX.Element
   formContent: JSX.Element
@@ -18,7 +20,7 @@ export type EditableCardProps<T> = {
 }
 
 
-export const EditableCard = <T, >({ cardTitle, cardContent, formContent, formTitle, formConfig, onSubmit }: EditableCardProps<T>) => {
+export const EditableCard = <T, >({ isLoading = false, cardTitle, cardContent, formContent, formTitle, formConfig, onSubmit }: EditableCardProps<T>) => {
   const [open, setOpen] = useState(false);
 
   const handleSubmit: FormikConfig<T>["onSubmit"] = (values, { setSubmitting }) => {
@@ -27,7 +29,7 @@ export const EditableCard = <T, >({ cardTitle, cardContent, formContent, formTit
   return (
     <>
       <Card title={cardTitle} action={<Button variant="text" onClick={() => setOpen(true)}>Edit</Button>}>
-        {cardContent}
+        {isLoading ? <Loader/> : cardContent}
       </Card>
       <Drawer
         open={open}

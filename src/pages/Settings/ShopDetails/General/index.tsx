@@ -129,11 +129,11 @@ const GeneralSettings = () => {
     country
   };
 
-  if (isLoading) return <Loader/>;
 
   return (
     <Stack gap={3} component={Container}>
       <EditableCard<ShopFormValues>
+        isLoading={isLoading}
         cardTitle="Details"
         cardContent={
           <Grid container spacing={4}>

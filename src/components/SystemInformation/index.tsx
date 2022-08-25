@@ -10,12 +10,12 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import DialogTitle from "@mui/material/DialogTitle";
+import { FullPageLoader } from "@components/Loader/FullPageLoader";
 
 import { SidebarItem } from "@components/Sidebar";
 import { useShop } from "@containers/ShopProvider";
 import { useSystemInformationQuery } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
-import { Loader } from "@components/Loader";
 
 export const SystemInformation = () => {
   const [open, setOpen] = useState(false);
@@ -23,7 +23,7 @@ export const SystemInformation = () => {
 
   const { data, isLoading } = useSystemInformationQuery(client, { shopId: shopId || "" }, { enabled: open && !!shopId });
 
-  if (isLoading) return <Loader/>;
+  if (isLoading) return <FullPageLoader/>;
 
   return (
     <>

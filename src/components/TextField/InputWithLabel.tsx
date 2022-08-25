@@ -26,7 +26,7 @@ export const InputWithLabel = forwardRef((
   }: TextFieldProps,
   ref
 ) => {
-  const fieldId = useRef(uniqueId("text-field")).current;
+  const labelId = useRef(uniqueId("label")).current;
   const helperTextId = useRef(uniqueId("helper-text")).current;
 
   return (
@@ -39,15 +39,14 @@ export const InputWithLabel = forwardRef((
       disabled={disabled}
       variant="standard"
     >
-      {!hiddenLabel && <FormLabel htmlFor={fieldId}>{label}</FormLabel>}
+      {!hiddenLabel && <FormLabel id={labelId}>{label}</FormLabel>}
       <OutlinedInput
         aria-describedby={helperTextId}
         error={error}
         disabled={disabled}
         ref={ref}
-        inputProps={inputProps}
+        inputProps={{ ...inputProps, "aria-labelledby": labelId }}
         placeholder={placeholder}
-        id={fieldId}
         name={name}
         {...InputProps}
       />
