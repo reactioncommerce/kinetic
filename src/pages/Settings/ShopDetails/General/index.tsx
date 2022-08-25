@@ -12,7 +12,6 @@ import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { PhoneNumberField, TextField } from "@components/TextField";
 import { Shop } from "types/shop";
-import { Loader } from "@components/Loader";
 import { countries, getRegion, locales } from "@utils/countries";
 import { SelectOptionType } from "types/common";
 import { CountryField, RegionField } from "@components/AddressField";

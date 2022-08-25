@@ -70,7 +70,7 @@ const userPageRoutes: SubPageRouteProps = [
 
 const shopSettingPageRoutes: SubPageRouteProps = [
   {
-    header: "Generals",
+    header: "General",
     path: "",
     key: "shop-general-setting",
     element: <ShopGeneralSettings/>,
