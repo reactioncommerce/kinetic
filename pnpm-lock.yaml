@@ -42,6 +42,7 @@ specifiers:
   msw: ^0.44.1
   react: ^18.0.0
   react-dom: ^18.0.0
+  react-imask: ^6.4.2
   react-query: ^3.39.1
   react-router-dom: '6'
   react-use: ^17.4.0
@@ -66,6 +67,7 @@ dependencies:
   lodash-es: 4.17.21
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
+  react-imask: 6.4.2_react@18.1.0
   react-query: 3.39.1_ef5jwxihqo6n7gxfmzogljlgcm
   react-router-dom: 6.3.0_ef5jwxihqo6n7gxfmzogljlgcm
   react-use: 17.4.0_ef5jwxihqo6n7gxfmzogljlgcm
@@ -5601,6 +5603,11 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /imask/6.4.2:
+    resolution: {integrity: sha512-xvEgbTdk6y2dW2UAysq0NRPmO6PuaXM5NHIt4TXEJEwXUHj26M0p/fXqyrSJdNXFaGVOtqYjPRnNdrjQQhDuuA==}
+    engines: {npm: '>=4.0.0'}
+    dev: false
+
   /immutable/3.7.6:
     resolution: {integrity: sha512-AizQPcaofEtO11RZhPPHBOJRdo/20MKQF9mBLnVkBoyHi1/zXK8fzVdnEpSV9gxqtnh6Qomfp3F0xT5qP/vThw==}
     engines: {node: '>=0.8.0'}
@@ -7051,6 +7058,17 @@ packages:
 
   /react-fast-compare/2.0.4:
     resolution: {integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==}
+    dev: false
+
+  /react-imask/6.4.2_react@18.1.0:
+    resolution: {integrity: sha512-xBGZyM0RwQ/ujX7f2ccaYxE41eB81q5Yqek6SYXAq6XT88+TdCSmIpgh5GeygRedPJu6tnnN8OXrUMTc2uFNSw==}
+    engines: {npm: '>=4.0.0'}
+    peerDependencies:
+      react: '>=0.14.0'
+    dependencies:
+      imask: 6.4.2
+      prop-types: 15.8.1
+      react: 18.1.0
     dev: false
 
   /react-is/16.13.1:

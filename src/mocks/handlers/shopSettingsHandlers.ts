@@ -35,7 +35,17 @@ const mockShop = (): Shop => ({
      { default: null, label: "Grams", uom: "g" },
      { default: null, label: "Kilograms", uom: "kg" }
    ],
-  timezone: "Asia/Barnaul"
+  timezone: "Asia/Barnaul",
+  addressBook: [{
+    address1: faker.address.street(),
+    fullName: faker.random.words(),
+    postal: faker.address.zipCode(),
+    city: faker.address.city(),
+    country: "US",
+    isCommercial: false,
+    phone: faker.phone.number(),
+    region: "CT"
+  }]
 });
 
 

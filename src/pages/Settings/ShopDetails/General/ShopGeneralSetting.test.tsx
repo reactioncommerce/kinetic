@@ -6,7 +6,7 @@ import { fireEvent, renderWithProviders, screen, userEvent, waitFor, waitForElem
 import ShopGeneralSettings from ".";
 
 describe("Shop General Settings", () => {
-  it("should render shipping methods table", async () => {
+  it("should render shop general settings section", async () => {
     renderWithProviders(<ShopGeneralSettings/>);
     await screen.findByText("Details");
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
@@ -21,7 +21,7 @@ describe("Shop General Settings", () => {
     renderWithProviders(<ShopGeneralSettings/>);
     await screen.findByText("Details");
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
-    fireEvent.click(screen.getByText("Edit"));
+    fireEvent.click(screen.getAllByText("Edit")[0]);
     expect(screen.getByText("Edit Shop Details")).toBeInTheDocument();
 
     expect(screen.getByText(shop.name)).toBeInTheDocument();
@@ -41,6 +41,46 @@ describe("Shop General Settings", () => {
 
     await waitFor(() => {
       expect(screen.queryByText("Edit Shop Details")).not.toBeInTheDocument();
+    });
+  });
+
+  it("should render shop primary address settings section", async () => {
+    renderWithProviders(<ShopGeneralSettings/>);
+    await screen.findByText("Primary Address");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+
+    expect(screen.getByText(shop.addressBook?.[0]?.fullName || "Not provided")).toBeInTheDocument();
+    expect(screen.getByText(shop.addressBook?.[0]?.phone || "Not provided")).toBeInTheDocument();
+    expect(screen.getByText(shop.addressBook?.[0]?.address1 || "Not provided")).toBeInTheDocument();
+    expect(screen.getByText(shop.addressBook?.[0]?.city || "Not provided")).toBeInTheDocument();
+    expect(screen.getByText("United States")).toBeInTheDocument();
+    expect(screen.getByText("Connecticut")).toBeInTheDocument();
+    expect(screen.getByText(shop.addressBook?.[0]?.postal || "Not provided")).toBeInTheDocument();
+  });
+
+
+  it("should update shop primary address successfully", async () => {
+    renderWithProviders(<ShopGeneralSettings/>);
+    await screen.findByText("Primary Address");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+
+    fireEvent.click(screen.getAllByText("Edit")[1]);
+    expect(screen.getByText("Edit Primary Address")).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.clear(screen.getByLabelText("Legal Name"));
+    await user.type(screen.getByLabelText("Legal Name"), "Roberts 50 USA LLC");
+
+    expect(screen.getByText("United States")).toBeInTheDocument();
+    expect(screen.getByText(shop.addressBook?.[0]?.phone || "Not provided")).toBeInTheDocument();
+    await user.clear(screen.getByLabelText("Phone Number"));
+    await user.type(screen.getByLabelText("Phone Number"), "0324835435");
+    expect(screen.getByLabelText("Phone Number")).toHaveDisplayValue("032-483-5435");
+
+    await user.click(screen.getByText("Save Changes"));
+
+    await waitFor(() => {
+      expect(screen.queryByText("Edit Primary Address")).not.toBeInTheDocument();
     });
   });
 });

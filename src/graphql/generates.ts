@@ -8234,7 +8234,7 @@ export type GetShopQueryVariables = Exact<{
 }>;
 
 
-export type GetShopQuery = { __typename?: 'Query', shop?: { __typename?: 'Shop', _id: string, description?: string | null, language: string, name: string, shopType?: string | null, slug?: string | null, timezone?: string | null, baseUOM?: string | null, baseUOL?: string | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string }, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, provides?: string | null } | null> | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, unitsOfLength?: Array<{ __typename?: 'UnitOfLength', default?: boolean | null, label?: string | null, uol?: string | null } | null> | null, unitsOfMeasure?: Array<{ __typename?: 'UnitOfMeasure', default?: boolean | null, label?: string | null, uom?: string | null } | null> | null } | null };
+export type GetShopQuery = { __typename?: 'Query', shop?: { __typename?: 'Shop', _id: string, description?: string | null, language: string, name: string, shopType?: string | null, slug?: string | null, timezone?: string | null, baseUOM?: string | null, baseUOL?: string | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string }, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, provides?: string | null } | null> | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, unitsOfLength?: Array<{ __typename?: 'UnitOfLength', default?: boolean | null, label?: string | null, uol?: string | null } | null> | null, unitsOfMeasure?: Array<{ __typename?: 'UnitOfMeasure', default?: boolean | null, label?: string | null, uom?: string | null } | null> | null, addressBook?: Array<{ __typename?: 'Address', _id?: string | null, address1: string, address2?: string | null, city: string, company?: string | null, country: string, fullName: string, phone: string, postal: string, region: string } | null> | null } | null };
 
 export type UpdateShopMutationVariables = Exact<{
   input: UpdateShopInput;
@@ -8883,6 +8883,18 @@ export const GetShopDocument = `
       default
       label
       uom
+    }
+    addressBook {
+      _id
+      address1
+      address2
+      city
+      company
+      country
+      fullName
+      phone
+      postal
+      region
     }
     baseUOM
     baseUOL
