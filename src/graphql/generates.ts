@@ -8129,6 +8129,18 @@ export type SendResetPasswordEmailMutationVariables = Exact<{
 
 export type SendResetPasswordEmailMutation = { __typename?: 'Mutation', sendResetPasswordEmail?: boolean | null };
 
+export type GetEmailTemplatesQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetEmailTemplatesQuery = { __typename?: 'Query', emailTemplates?: { __typename?: 'TemplateConnection', totalCount: number, nodes?: Array<{ __typename?: 'Template', _id: string, language?: string | null, name?: string | null, subject?: string | null, template?: string | null, title?: string | null } | null> | null } | null };
+
 export type GetShippingMethodsQueryVariables = Exact<{
   shopId: Scalars['ID'];
   first?: InputMaybe<Scalars['ConnectionLimitInt']>;
@@ -8493,6 +8505,42 @@ export const useSendResetPasswordEmailMutation = <
     useMutation<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>(
       ['sendResetPasswordEmail'],
       (variables?: SendResetPasswordEmailMutationVariables) => fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(client, SendResetPasswordEmailDocument, variables, headers)(),
+      options
+    );
+export const GetEmailTemplatesDocument = `
+    query getEmailTemplates($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int) {
+  emailTemplates(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+  ) {
+    nodes {
+      _id
+      language
+      name
+      subject
+      template
+      title
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetEmailTemplatesQuery = <
+      TData = GetEmailTemplatesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetEmailTemplatesQueryVariables,
+      options?: UseQueryOptions<GetEmailTemplatesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetEmailTemplatesQuery, TError, TData>(
+      ['getEmailTemplates', variables],
+      fetcher<GetEmailTemplatesQuery, GetEmailTemplatesQueryVariables>(client, GetEmailTemplatesDocument, variables, headers),
       options
     );
 export const GetShippingMethodsDocument = `

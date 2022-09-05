@@ -1,0 +1,27 @@
+query getEmailTemplates(
+  $shopId: ID!
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+) {
+  emailTemplates(
+    shopId: $shopId,
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+  ) {
+    nodes {
+      _id
+      language
+      name
+      subject
+      template
+      title
+    }
+    totalCount
+  }
+}
