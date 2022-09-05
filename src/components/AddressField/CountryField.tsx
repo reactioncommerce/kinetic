@@ -6,19 +6,21 @@ import { countries } from "@utils/countries";
 import { InputWithLabel } from "@components/TextField";
 import { SelectOptionType } from "types/common";
 
-type CountryFieldProps = {
+export type CountryFieldProps = {
   name: string
   label: string
   placeholder?: string
+  onChange?: (value: SelectOptionType | null) => void
 }
 
-export const CountryField = <T extends SelectOptionType, >({ name, label, placeholder }: CountryFieldProps) => (
+export const CountryField = <T extends SelectOptionType, >({ name, label, placeholder, onChange }: CountryFieldProps) => (
   <Field
     name={name}
   >
     {(props: FieldProps<T>) =>
       <AutocompleteField
         {...props}
+        onChange={onChange ? (_, value) => onChange(value as SelectOptionType | null) : undefined}
         options={countries}
         isOptionEqualToValue={isOptionEqualToValue}
         renderInput={(params: AutocompleteRenderInputParams) => (

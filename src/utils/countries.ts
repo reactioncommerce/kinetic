@@ -17,7 +17,7 @@ export interface CountryType {
  }
 }
 
-// From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js
+
 export const locales: Record<string, CountryType> = {
   AD: {
     name: "Andorra",
@@ -2566,6 +2566,14 @@ export const locales: Record<string, CountryType> = {
     languages: "en,sn,nd"
   }
 };
+
+export const countriesWithoutState = ["AO", "AG", "AW", "BS", "BZ", "BJ", "BW",
+  "BF", "BI", "CM", "CF", "KM", "CG", "CD", "CK", "CI", "DJ",
+  "DM", "GQ", "ER", "FJ", "TF", "GM", "GH", "GD", "GN", "GY",
+  "HK", "IE", "JM", "KE", "KI", "MO", "MW", "ML", "MR", "MU",
+  "MS", "NR", "AN", "NU", "KP", "PA", "QA", "RW", "KN", "LC",
+  "ST", "SA", "SC", "SL", "SB", "SO", "SR", "SY", "TZ", "TL",
+  "TK", "TO", "TT", "TV", "UG", "AE", "VU", "YE", "ZW"];
 
 export const countries: Array<SelectOptionType> = sortBy(Object.keys(locales).map((key) => ({ value: key, label: locales[key].name })), "label");
 

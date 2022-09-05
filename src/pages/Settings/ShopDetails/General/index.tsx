@@ -14,7 +14,7 @@ import { PhoneNumberField, TextField } from "@components/TextField";
 import { Shop } from "types/shop";
 import { countries, getRegion, locales } from "@utils/countries";
 import { SelectOptionType } from "types/common";
-import { CountryField, RegionField } from "@components/AddressField";
+import { AddressField } from "@components/AddressField";
 import { decodeOpaqueId } from "@utils/decodedOpaqueId";
 
 type ShopFormValues = {
@@ -49,11 +49,7 @@ const shopPrimarySchema = Yup.object().shape({
   legalName: Yup.string().required("This field is required"),
   phone: Yup.string().required("This field is required"),
   postal: Yup.string().required("This field is required"),
-  city: Yup.string().required("This field is required"),
-  region: Yup.object({
-    label: Yup.string(),
-    value: Yup.string()
-  }).nullable().required("This field is required")
+  city: Yup.string().required("This field is required")
 });
 
 const GeneralSettings = () => {
@@ -195,8 +191,7 @@ const GeneralSettings = () => {
             <Field name="address1" component={TextField} label="Address Line 1" />
             <Field name="address2" component={TextField} label="Address Line 2" />
             <Stack direction="row" gap={2}>
-              <CountryField name="country" label="Country"/>
-              <RegionField name="region" label="Region"/>
+              <AddressField countryFieldProps={{ name: "country", label: "Country" }} regionFieldProps={{ name: "region", label: "Region" }}/>
             </Stack>
 
             <Stack direction="row" gap={2}>
