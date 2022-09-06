@@ -24,6 +24,10 @@ const EmailTemplates = () => {
       header: "Title"
     },
     {
+      accessorKey: "name",
+      header: "Name"
+    },
+    {
       accessorKey: "subject",
       header: "Subject"
     },
@@ -40,7 +44,7 @@ const EmailTemplates = () => {
     <TableContainer>
       <TableContainer.Header
         title="Email Templates"
-        action={<TableAction>Add</TableAction>}
+        action={<TableAction>Configure</TableAction>}
       />
       <Table
         columns={columns}

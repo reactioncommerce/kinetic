@@ -6,4 +6,5 @@ export type EmailTemplate = {
   subject?: APITemplate["subject"],
   template?: APITemplate["template"],
   language?: APITemplate["language"]
+  name?: APITemplate["name"],
 }
