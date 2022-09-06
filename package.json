@@ -1,7 +1,23 @@
 {
   "name": "kinetic",
-  "private": true,
+  "description": "A suite of opinionated admin tools that internal teams can use to manage and run their stores on Open Commerce",
   "version": "0.0.0",
+  "homepage": "https://github.com/reactioncommerce/kinetic",
+  "url": "https://github.com/reactioncommerce/kinetic",
+  "email": "hello-open-commerce@mailchimp.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reactioncommerce/kinetic.git"
+  },
+  "author": {
+    "name": "Mailchimp Open Commerce",
+    "email": "hello-open-commerce@mailchimp.com",
+    "url": "https://mailchimp.com/developer/open-commerce/"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/reactioncommerce/kinetic/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
