@@ -1,10 +1,10 @@
 {
   "name": "kinetic",
-  "private": true,
+  "description": "A suite of opinionated admin tools that internal teams can use to manage and run their stores on Open Commerce"
   "version": "0.0.0",
   "homepage": "https://github.com/reactioncommerce/kinetic",
   "url": "https://github.com/reactioncommerce/kinetic",
-  "email": "engineering@reactioncommerce.com",
+  "email": "hello-open-commerce@mailchimp.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reactioncommerce/api-plugin-discounts.git"
