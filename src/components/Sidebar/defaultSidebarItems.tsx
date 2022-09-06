@@ -131,7 +131,7 @@ export const CORE_FEATURES: ItemProps[] = [
       },
       {
         key: FEATURE_KEYS.emails,
-        text: "Emails",
+        text: "Transactional Emails",
         icon: <EmailOutlinedIcon fontSize="small" />,
         to: "/settings/emails"
       }
