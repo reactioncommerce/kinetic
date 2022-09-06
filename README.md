@@ -1,4 +1,5 @@
-https://user-images.githubusercontent.com/72819/188587709-94e25136-8a77-4d52-8774-ead032d7eaf4.pn
+![Screenshot](https://user-images.githubusercontent.com/72819/188587709-94e25136-8a77-4d52-8774-ead032d7eaf4.png)
+
 
 # Kinetic
 
