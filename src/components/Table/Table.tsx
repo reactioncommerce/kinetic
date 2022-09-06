@@ -34,6 +34,7 @@ type TableProps<T> = MuiTableProps & {
   tableState: Partial<TableState>;
   onPaginationChange: Dispatch<SetStateAction<PaginationState>>;
   emptyPlaceholder?: JSX.Element
+  maxHeight?: number
 };
 
 export function Table<T>({
@@ -45,7 +46,8 @@ export function Table<T>({
   totalCount = data.length,
   tableState,
   onPaginationChange,
-  emptyPlaceholder
+  emptyPlaceholder,
+  maxHeight
 }: TableProps<T>) {
   const table = useReactTable({
     data,
@@ -85,7 +87,7 @@ export function Table<T>({
 
   return (
     <Paper>
-      <TableContainer>
+      <TableContainer sx={{ maxHeight }}>
         <MuiTable stickyHeader={stickyHeader}>
           <TableHead>
             {table.getHeaderGroups().map((headerGroup) => (
