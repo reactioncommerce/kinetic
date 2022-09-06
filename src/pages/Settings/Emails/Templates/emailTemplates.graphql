@@ -25,3 +25,11 @@ query getEmailTemplates(
     totalCount
   }
 }
+
+mutation updateEmailTemplate($input: UpdateTemplateInput!) {
+  updateTemplate(input: $input) {
+    template {
+      _id
+    }
+  }
+}
