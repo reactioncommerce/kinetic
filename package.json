@@ -2,6 +2,22 @@
   "name": "kinetic",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://github.com/reactioncommerce/kinetic",
+  "url": "https://github.com/reactioncommerce/kinetic",
+  "email": "engineering@reactioncommerce.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reactioncommerce/api-plugin-discounts.git"
+  },
+  "author": {
+    "name": "Mailchimp Open Commerce",
+    "email": "hello-open-commerce@mailchimp.com",
+    "url": "https://mailchimp.com/developer/open-commerce/"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/reactioncommerce/kinetic/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
