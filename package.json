@@ -7,7 +7,7 @@
   "email": "hello-open-commerce@mailchimp.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reactioncommerce/api-plugin-discounts.git"
+    "url": "git+https://github.com/reactioncommerce/kinetic.git"
   },
   "author": {
     "name": "Mailchimp Open Commerce",
