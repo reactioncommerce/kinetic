@@ -4,6 +4,7 @@ import { Field, Form, Formik, FormikConfig } from "formik";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
+import * as Yup from "yup";
 
 import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
 import { EmailTemplate } from "types/email";
@@ -13,6 +14,12 @@ import { useShop } from "@containers/ShopProvider";
 import { filterNodes } from "@utils/common";
 import { Drawer } from "@components/Drawer";
 import { TextField } from "@components/TextField";
+
+const emailTemplateSchema = Yup.object({
+  title: Yup.string().required("This field is required."),
+  subject: Yup.string().required("This field is required."),
+  template: Yup.string().required("This field is required.")
+});
 
 type EmailTemplateFormValue = Omit<EmailTemplate, "_id">
 
@@ -35,10 +42,6 @@ const EmailTemplates = () => {
     {
       accessorKey: "name",
       header: "Name"
-    },
-    {
-      accessorKey: "subject",
-      header: "Subject"
     },
     {
       accessorKey: "language",
@@ -106,7 +109,7 @@ const EmailTemplates = () => {
         <Formik<EmailTemplateFormValue>
           onSubmit={handleSubmit}
           initialValues={initialValues}
-          // validationSchema={shippingMethodSchema}
+          validationSchema={emailTemplateSchema}
         >
           {({ isSubmitting }) => (
             <Stack component={Form} flex={1}>
