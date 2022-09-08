@@ -8148,6 +8148,20 @@ export type UpdateEmailTemplateMutationVariables = Exact<{
 
 export type UpdateEmailTemplateMutation = { __typename?: 'Mutation', updateTemplate: { __typename?: 'UpdateTemplatePayload', template: { __typename?: 'Template', _id: string } } };
 
+export type GetEmailVariablesQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetEmailVariablesQuery = { __typename?: 'Query', shop?: { __typename?: 'Shop', storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontAccountProfileUrl?: string | null, storefrontHomeUrl?: string | null, storefrontLoginUrl?: string | null, storefrontOrderUrl?: string | null, storefrontOrdersUrl?: string | null } | null } | null };
+
+export type UpdateEmailVariablesMutationVariables = Exact<{
+  input: UpdateShopInput;
+}>;
+
+
+export type UpdateEmailVariablesMutation = { __typename?: 'Mutation', updateShop: { __typename?: 'UpdateShopPayload', shop: { __typename?: 'Shop', _id: string } } };
+
 export type GetShippingMethodsQueryVariables = Exact<{
   shopId: Scalars['ID'];
   first?: InputMaybe<Scalars['ConnectionLimitInt']>;
@@ -8570,6 +8584,55 @@ export const useUpdateEmailTemplateMutation = <
     useMutation<UpdateEmailTemplateMutation, TError, UpdateEmailTemplateMutationVariables, TContext>(
       ['updateEmailTemplate'],
       (variables?: UpdateEmailTemplateMutationVariables) => fetcher<UpdateEmailTemplateMutation, UpdateEmailTemplateMutationVariables>(client, UpdateEmailTemplateDocument, variables, headers)(),
+      options
+    );
+export const GetEmailVariablesDocument = `
+    query getEmailVariables($id: ID!) {
+  shop(id: $id) {
+    storefrontUrls {
+      storefrontAccountProfileUrl
+      storefrontHomeUrl
+      storefrontLoginUrl
+      storefrontOrderUrl
+      storefrontOrdersUrl
+    }
+  }
+}
+    `;
+export const useGetEmailVariablesQuery = <
+      TData = GetEmailVariablesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetEmailVariablesQueryVariables,
+      options?: UseQueryOptions<GetEmailVariablesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetEmailVariablesQuery, TError, TData>(
+      ['getEmailVariables', variables],
+      fetcher<GetEmailVariablesQuery, GetEmailVariablesQueryVariables>(client, GetEmailVariablesDocument, variables, headers),
+      options
+    );
+export const UpdateEmailVariablesDocument = `
+    mutation updateEmailVariables($input: UpdateShopInput!) {
+  updateShop(input: $input) {
+    shop {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateEmailVariablesMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateEmailVariablesMutation, TError, UpdateEmailVariablesMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateEmailVariablesMutation, TError, UpdateEmailVariablesMutationVariables, TContext>(
+      ['updateEmailVariables'],
+      (variables?: UpdateEmailVariablesMutationVariables) => fetcher<UpdateEmailVariablesMutation, UpdateEmailVariablesMutationVariables>(client, UpdateEmailVariablesDocument, variables, headers)(),
       options
     );
 export const GetShippingMethodsDocument = `

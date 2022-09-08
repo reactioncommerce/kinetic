@@ -1,4 +1,4 @@
-import { Template as APITemplate } from "@graphql/types";
+import { StorefrontUrls, Template as APITemplate } from "@graphql/types";
 
 export type EmailTemplate = {
   _id: APITemplate["_id"],
@@ -8,3 +8,5 @@ export type EmailTemplate = {
   language?: APITemplate["language"]
   name?: APITemplate["name"],
 }
+
+export type EmailVariables = Omit<StorefrontUrls, "__typename">
