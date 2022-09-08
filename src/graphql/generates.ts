@@ -8141,6 +8141,13 @@ export type GetEmailTemplatesQueryVariables = Exact<{
 
 export type GetEmailTemplatesQuery = { __typename?: 'Query', emailTemplates?: { __typename?: 'TemplateConnection', totalCount: number, nodes?: Array<{ __typename?: 'Template', _id: string, language?: string | null, name?: string | null, subject?: string | null, template?: string | null, title?: string | null } | null> | null } | null };
 
+export type UpdateEmailTemplateMutationVariables = Exact<{
+  input: UpdateTemplateInput;
+}>;
+
+
+export type UpdateEmailTemplateMutation = { __typename?: 'Mutation', updateTemplate: { __typename?: 'UpdateTemplatePayload', template: { __typename?: 'Template', _id: string } } };
+
 export type GetShippingMethodsQueryVariables = Exact<{
   shopId: Scalars['ID'];
   first?: InputMaybe<Scalars['ConnectionLimitInt']>;
@@ -8541,6 +8548,28 @@ export const useGetEmailTemplatesQuery = <
     useQuery<GetEmailTemplatesQuery, TError, TData>(
       ['getEmailTemplates', variables],
       fetcher<GetEmailTemplatesQuery, GetEmailTemplatesQueryVariables>(client, GetEmailTemplatesDocument, variables, headers),
+      options
+    );
+export const UpdateEmailTemplateDocument = `
+    mutation updateEmailTemplate($input: UpdateTemplateInput!) {
+  updateTemplate(input: $input) {
+    template {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateEmailTemplateMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateEmailTemplateMutation, TError, UpdateEmailTemplateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateEmailTemplateMutation, TError, UpdateEmailTemplateMutationVariables, TContext>(
+      ['updateEmailTemplate'],
+      (variables?: UpdateEmailTemplateMutationVariables) => fetcher<UpdateEmailTemplateMutation, UpdateEmailTemplateMutationVariables>(client, UpdateEmailTemplateDocument, variables, headers)(),
       options
     );
 export const GetShippingMethodsDocument = `

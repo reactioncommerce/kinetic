@@ -8,11 +8,18 @@ const emailTemplate = (): EmailTemplate => ({
   title: faker.random.word(),
   name: faker.word.noun(),
   subject: faker.lorem.sentence(),
-  language: "en"
+  language: "en",
+  template: faker.lorem.paragraphs()
 });
 
 export const emailTemplates = new Array(3).fill(0).map(() => emailTemplate());
+
 const getEmailTemplatesHandler = graphql.query("getEmailTemplates", (req, res, ctx) =>
   res(ctx.data({ emailTemplates: { nodes: emailTemplates, totalCount: emailTemplates.length } })));
 
-export const handlers = [getEmailTemplatesHandler];
+const updateEmailTemplateHandler = graphql.mutation("updateEmailTemplate", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+export const handlers = [getEmailTemplatesHandler, updateEmailTemplateHandler];
