@@ -37,8 +37,7 @@ const EmailTemplates = () => {
 
   const emailVariables = useGetEmailVariablesQuery(
     client,
-    { id: shopId! },
-    { enabled: openConfigurePanel }
+    { id: shopId! }
   );
 
   const { mutate } = useUpdateEmailTemplateMutation(client);
