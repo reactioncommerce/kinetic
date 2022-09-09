@@ -69,6 +69,11 @@ describe("Email Templates", () => {
     await user.type(within(drawer).getByLabelText("Homepage URL"), "https://slingshotstore.com/");
     await user.clear(within(drawer).getByLabelText("Single Order Page URL"));
     await user.clear(within(drawer).getByLabelText("Account Profile Page URL"));
+    await user.type(within(drawer).getByLabelText("Account Profile Page URL"), "fakeUrl");
+    await user.tab();
+    expect(within(drawer).getByLabelText("Account Profile Page URL")).toBeInvalid();
+    await user.clear(within(drawer).getByLabelText("Account Profile Page URL"));
+
     await user.type(within(drawer).getByLabelText("Homepage URL"), "https://slingshotstore.com/account");
 
     await user.click(screen.getByText("Save Changes"));

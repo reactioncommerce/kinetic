@@ -21,6 +21,14 @@ const emailTemplateSchema = Yup.object({
   template: Yup.string().required("This field is required.")
 });
 
+const emailVariablesSchema = Yup.object({
+  storefrontAccountProfileUrl: Yup.string().url("Please enter a valid url"),
+  storefrontHomeUrl: Yup.string().url("Please enter a valid url"),
+  storefrontLoginUrl: Yup.string().url("Please enter a valid url"),
+  storefrontOrdersUrl: Yup.string().url("Please enter a valid url"),
+  storefrontOrderUrl: Yup.string().url("Please enter a valid url")
+});
+
 type EmailTemplateFormValue = Omit<EmailTemplate, "_id">
 
 
@@ -214,6 +222,7 @@ const EmailTemplates = () => {
         <Formik<EmailVariables>
           onSubmit={handleSubmitEmailVariables}
           initialValues={initialEmailVariablesValues}
+          validationSchema={emailVariablesSchema}
         >
           {({ isSubmitting }) => (
             <Stack component={Form} flex={1}>
