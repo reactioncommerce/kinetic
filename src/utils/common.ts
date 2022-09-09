@@ -11,3 +11,5 @@ export const getPropertyType = (value: string): SurchargePropertyType => {
   return SurchargePropertyType.String;
 };
 
+
+export const formatDateTime = (date: Date, locale = "en-US") => new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(date);
