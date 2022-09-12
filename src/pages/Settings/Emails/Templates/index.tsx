@@ -26,7 +26,14 @@ const emailVariablesSchema = Yup.object({
   storefrontHomeUrl: Yup.string().url("Please enter a valid url"),
   storefrontLoginUrl: Yup.string().url("Please enter a valid url"),
   storefrontOrdersUrl: Yup.string().url("Please enter a valid url"),
-  storefrontOrderUrl: Yup.string().url("Please enter a valid url")
+  storefrontOrderUrl: Yup.string().url("Please enter a valid url").test({
+    test: (value, ctx) => {
+      if (value && (!value.includes(":orderId") || !value.includes(":token"))) {
+        return ctx.createError({ message: 'Please provider ":orderId" and ":token" in this field' });
+      }
+      return true;
+    }
+  })
 });
 
 type EmailTemplateFormValue = Omit<EmailTemplate, "_id">
