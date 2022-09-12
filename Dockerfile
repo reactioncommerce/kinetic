@@ -1,7 +1,7 @@
-FROM node:lts-alpine as development
+FROM node:14.18.1-slim as development
 
 WORKDIR /tmp
-RUN sudo npm i -g pnpm@7
+RUN npm i -g pnpm@7
 
 WORKDIR /app
 COPY pnpm-lock.yaml ./
@@ -10,4 +10,4 @@ RUN pnpm fetch
 ADD . ./
 RUN pnpm install
 
-CMD ["pnpm", "dev", "--host"]
+CMD ["pnpm", "dev"]
