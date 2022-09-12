@@ -23,6 +23,7 @@ const ShopGeneralSettings = lazy(() => import("./pages/Settings/ShopDetails/Gene
 const LocalizationSettings = lazy(() => import("./pages/Settings/ShopDetails/Localization"));
 const PendingInvitations = lazy(() => import("./pages/Settings/UsersAndPermissions/PendingInvitations"));
 const EmailTemplatesSettings = lazy(() => import("./pages/Settings/Emails/Templates"));
+const EmailLogsSettings = lazy(() => import("./pages/Settings/Emails/EmailLogs"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -92,6 +93,12 @@ const emailsSettingPageRoutes: SubPageRouteProps = [
     key: "email-templates-settings",
     element: <EmailTemplatesSettings/>,
     index: true
+  },
+  {
+    header: "Logs",
+    path: "logs",
+    key: "email-logs-settings",
+    element: <EmailLogsSettings/>
   }
 ];
 

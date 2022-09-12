@@ -1,0 +1,21 @@
+query getEmailLogs(
+  $shopIds: [ID]!
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+) {
+  emailJobs(shopIds: $shopIds, after: $after, before: $before, first: $first, last: $last, offset: $offset) {
+    nodes {
+      _id
+      updated
+      status
+      data {
+        to
+        subject
+      }
+    }
+    totalCount
+  }
+}
