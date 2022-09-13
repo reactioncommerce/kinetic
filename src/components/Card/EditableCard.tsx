@@ -40,7 +40,7 @@ export const EditableCard = <T, >({ isLoading = false, cardTitle, cardContent, f
           onSubmit={handleSubmit}
           {...formConfig}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, dirty }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 {formContent}
@@ -62,6 +62,7 @@ export const EditableCard = <T, >({ isLoading = false, cardTitle, cardContent, f
                       variant="contained"
                       type="submit"
                       loading={isSubmitting}
+                      disabled={!dirty}
                     >
                       Save Changes
                     </LoadingButton>

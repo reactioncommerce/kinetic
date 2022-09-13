@@ -259,7 +259,7 @@ const Restrictions = () => {
           initialValues={initialValues}
           validationSchema={shippingRestrictionSchema}
         >
-          {({ isSubmitting, touched, errors, submitForm }) => (
+          {({ isSubmitting, touched, errors, submitForm, dirty }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Stack direction="row" width="50%" mb={2}>
@@ -328,6 +328,7 @@ const Restrictions = () => {
                       variant="contained"
                       loading={isSubmitting}
                       onClick={submitForm}
+                      disabled={!dirty}
                     >
                       Save Changes
                     </LoadingButton>

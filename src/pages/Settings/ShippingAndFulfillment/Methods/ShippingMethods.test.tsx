@@ -32,8 +32,16 @@ describe("Shipping Methods", () => {
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     const user = userEvent.setup();
 
-    await user.click(screen.getByText("Save Changes"));
     expect(screen.getByText("Add Shipping Method")).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText("Handling"), "-0.5");
+    await user.tab();
+    expect(screen.getByLabelText("Handling")).toBeInvalid();
+
+    await user.clear(screen.getByLabelText("Handling"));
+    await user.type(screen.getByLabelText("Handling"), "0.5");
+
+    await user.click(screen.getByText("Save Changes"));
 
     expect(screen.getByLabelText("Name")).toBeInvalid();
     expect(screen.getByLabelText("Label")).toBeInvalid();
@@ -41,15 +49,8 @@ describe("Shipping Methods", () => {
 
     await user.type(screen.getByLabelText("Name"), "New Shipping Method");
     await user.type(screen.getByLabelText("Label"), "Shipping Label");
-
-    const handlingInput = screen.getByLabelText("Handling") as HTMLInputElement;
-    await user.type(handlingInput, "-0.5");
-    expect(handlingInput).toBeInvalid();
-
-    await user.clear(handlingInput);
-    await user.type(handlingInput, "0.5");
-
     await user.click(screen.getByText("Save Changes"));
+
     await waitFor(() => {
       expect(screen.queryByText("Add Shipping Method")).not.toBeInTheDocument();
     });

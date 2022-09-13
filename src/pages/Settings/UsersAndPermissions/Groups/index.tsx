@@ -101,7 +101,7 @@ const Groups = () => {
           initialValues={{ name: activeRow?.name || "", description: activeRow?.description || "" }}
           validationSchema={groupSchema}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, dirty }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Typography
@@ -144,6 +144,7 @@ const Groups = () => {
                       variant="contained"
                       type="submit"
                       loading={isSubmitting}
+                      disabled={!dirty}
                     >
                       Save Changes
                     </LoadingButton>

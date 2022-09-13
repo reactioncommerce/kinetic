@@ -160,7 +160,7 @@ const EmailTemplates = () => {
           initialValues={initialTemplatesValues}
           validationSchema={emailTemplateSchema}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, dirty }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Field
@@ -211,6 +211,7 @@ const EmailTemplates = () => {
                       variant="contained"
                       type="submit"
                       loading={isSubmitting}
+                      disabled={!dirty}
                     >
                       Save Changes
                     </LoadingButton>
@@ -232,7 +233,7 @@ const EmailTemplates = () => {
           initialValues={initialEmailVariablesValues}
           validationSchema={emailVariablesSchema}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, dirty }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Field
@@ -279,6 +280,7 @@ const EmailTemplates = () => {
                       variant="contained"
                       type="submit"
                       loading={isSubmitting}
+                      disabled={!dirty}
                     >
                       Save Changes
                     </LoadingButton>
