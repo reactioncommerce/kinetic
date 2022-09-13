@@ -14,6 +14,7 @@ import { useShop } from "@containers/ShopProvider";
 import { filterNodes } from "@utils/common";
 import { Drawer } from "@components/Drawer";
 import { TextField } from "@components/TextField";
+import { urlSchema } from "@utils/validate";
 
 const emailTemplateSchema = Yup.object({
   title: Yup.string().required("This field is required."),
@@ -22,11 +23,11 @@ const emailTemplateSchema = Yup.object({
 });
 
 const emailVariablesSchema = Yup.object({
-  storefrontAccountProfileUrl: Yup.string().url("Please enter a valid url"),
-  storefrontHomeUrl: Yup.string().url("Please enter a valid url"),
-  storefrontLoginUrl: Yup.string().url("Please enter a valid url"),
-  storefrontOrdersUrl: Yup.string().url("Please enter a valid url"),
-  storefrontOrderUrl: Yup.string().url("Please enter a valid url").test({
+  storefrontAccountProfileUrl: urlSchema,
+  storefrontHomeUrl: urlSchema,
+  storefrontLoginUrl: urlSchema,
+  storefrontOrdersUrl: urlSchema,
+  storefrontOrderUrl: urlSchema.test({
     test: (value, ctx) => {
       if (value && (!value.includes(":orderId") || !value.includes(":token"))) {
         return ctx.createError({ message: 'Please provider ":orderId" and ":token" in this field' });

@@ -65,8 +65,6 @@ describe("Email Templates", () => {
 
     const user = userEvent.setup();
 
-    await user.clear(within(drawer).getByLabelText("Homepage URL"));
-    await user.type(within(drawer).getByLabelText("Homepage URL"), "https://slingshotstore.com/");
     await user.clear(within(drawer).getByLabelText("Single Order Page URL"));
     await user.clear(within(drawer).getByLabelText("Account Profile Page URL"));
     await user.type(within(drawer).getByLabelText("Account Profile Page URL"), "fakeUrl");
@@ -74,7 +72,12 @@ describe("Email Templates", () => {
     expect(within(drawer).getByLabelText("Account Profile Page URL")).toBeInvalid();
     await user.clear(within(drawer).getByLabelText("Account Profile Page URL"));
 
-    await user.type(within(drawer).getByLabelText("Homepage URL"), "https://slingshotstore.com/account");
+    await user.clear(within(drawer).getByLabelText("Homepage URL"));
+    await user.type(within(drawer).getByLabelText("Homepage URL"), "ftp://fake.com");
+    await user.tab();
+    expect(within(drawer).getByLabelText("Homepage URL")).toBeInvalid();
+    await user.clear(within(drawer).getByLabelText("Homepage URL"));
+    await user.type(within(drawer).getByLabelText("Homepage URL"), "https://slingshotstore.com/");
 
     await user.click(screen.getByText("Save Changes"));
 
