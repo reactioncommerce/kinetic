@@ -23,8 +23,8 @@ describe("RequireAuthRoute", () => {
     </Routes>, { initialEntries: ["/promotions"] });
 
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
-
-    expect(screen.getByText("/login?redirectUrl=/promotions")).toBeInTheDocument();
+    const login = await screen.findByText("/login?redirectUrl=/promotions");
+    expect(login).toBeInTheDocument();
   });
 
   it("should render correct page if user already logged in", async () => {
