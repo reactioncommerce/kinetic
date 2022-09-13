@@ -28,7 +28,7 @@ describe("RequireAuthRoute", () => {
   });
 
   it("should render correct page if user already logged in", async () => {
-    const { container } = renderWithProviders(<Routes>
+    renderWithProviders(<Routes>
       <Route element={<RequireAuthRoute/>}>
         <Route path="promotions" element={<ShowPath/>} />
       </Route>
