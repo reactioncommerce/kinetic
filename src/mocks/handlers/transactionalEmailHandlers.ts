@@ -1,7 +1,7 @@
 import { graphql } from "msw";
 import { faker } from "@faker-js/faker";
 
-import { EmailTemplate, EmailVariables } from "types/email";
+import { EmailTemplate, EmailVariables, EmailLog } from "types/email";
 
 const emailTemplate = (): EmailTemplate => ({
   _id: faker.datatype.uuid(),
@@ -22,6 +22,19 @@ export const emailVariables: EmailVariables = {
 
 export const emailTemplates = new Array(3).fill(0).map(() => emailTemplate());
 
+const emailLog = (status: string): EmailLog => ({
+  _id: faker.datatype.uuid(),
+  status,
+  updated: faker.date.recent(),
+  data: {
+    subject: faker.lorem.sentence(),
+    to: faker.internet.email()
+  }
+}
+);
+
+export const emailLogs = new Array(3).fill(0).map((_, index) => emailLog(index % 2 !== 0 ? "failed" : "completed"));
+
 const getEmailTemplatesHandler = graphql.query("getEmailTemplates", (req, res, ctx) =>
   res(ctx.data({ emailTemplates: { nodes: emailTemplates, totalCount: emailTemplates.length } })));
 
@@ -38,4 +51,8 @@ const updateEmailVariableConfigHandler = graphql.mutation("updateEmailVariables"
   return res(ctx.data({ input }));
 });
 
-export const handlers = [getEmailTemplatesHandler, updateEmailTemplateHandler, getEmailVariablesHandler, updateEmailVariableConfigHandler];
+
+const getEmailLogsHandler = graphql.query("getEmailLogs", (req, res, ctx) =>
+  res(ctx.data({ emailJobs: { nodes: emailLogs, totalCount: emailLogs.length } })));
+
+export const handlers = [getEmailTemplatesHandler, updateEmailTemplateHandler, getEmailLogsHandler, getEmailVariablesHandler, updateEmailVariableConfigHandler];
