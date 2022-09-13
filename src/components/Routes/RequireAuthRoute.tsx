@@ -5,10 +5,9 @@ import { useAccount } from "@containers/AccountProvider";
 export const RequireAuthRoute = () => {
   const { account } = useAccount();
   const location = useLocation();
-
   const resetToken = new URLSearchParams(location.search).get("resetToken");
 
   if (resetToken) return <Navigate to={`/password-reset?resetToken=${resetToken}`} />;
 
-  return account ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
+  return account ? <Outlet /> : <Navigate to={`/login?redirectUrl=${location.pathname}`} replace />;
 };
