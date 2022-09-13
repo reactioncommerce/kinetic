@@ -6,8 +6,8 @@ import { server, graphql } from "@mocks/server";
 import { RequireAuthRoute } from "./RequireAuthRoute";
 
 const ShowPath = () => {
-  const { pathname, search, hash } = useLocation();
-  return <pre>{JSON.stringify({ pathname, search, hash })}</pre>;
+  const { pathname, search } = useLocation();
+  return <pre>{`${pathname}${search}`}</pre>;
 };
 
 describe("RequireAuthRoute", () => {
@@ -15,7 +15,7 @@ describe("RequireAuthRoute", () => {
     server.use(graphql.query("getViewer", (req, res, ctx) =>
       res.once(ctx.data({ viewer: null }))));
 
-    const { container } = renderWithProviders(<Routes>
+    renderWithProviders(<Routes>
       <Route element={<RequireAuthRoute/>}>
         <Route path="promotions" element={<ShowPath/>} />
       </Route>
@@ -24,13 +24,7 @@ describe("RequireAuthRoute", () => {
 
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
 
-    expect(container).toMatchInlineSnapshot(`
-      <div>
-        <pre>
-          {"pathname":"/login","search":"?redirectUrl=/promotions","hash":""}
-        </pre>
-      </div>
-    `);
+    expect(screen.getByText("/login?redirectUrl=/promotions")).toBeInTheDocument();
   });
 
   it("should render correct page if user already logged in", async () => {
@@ -43,12 +37,6 @@ describe("RequireAuthRoute", () => {
 
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
 
-    expect(container).toMatchInlineSnapshot(`
-      <div>
-        <pre>
-          {"pathname":"/promotions","search":"","hash":""}
-        </pre>
-      </div>
-    `);
+    expect(screen.getByText("/promotions")).toBeInTheDocument();
   });
 });
