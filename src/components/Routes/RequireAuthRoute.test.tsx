@@ -13,7 +13,7 @@ const ShowPath = () => {
 describe("RequireAuthRoute", () => {
   it("should redirect to Login page with redirectUrl when session is expired", async () => {
     server.use(graphql.query("getViewer", (req, res, ctx) =>
-      res(ctx.data({ viewer: null }))));
+      res.once(ctx.data({ viewer: null }))));
 
     const { container } = renderWithProviders(<Routes>
       <Route element={<RequireAuthRoute/>}>
