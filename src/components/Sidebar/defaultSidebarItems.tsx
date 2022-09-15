@@ -26,7 +26,7 @@ export const FEATURE_KEYS = {
   settings: "settings",
   users: "users",
   shopDetails: "shopDetails",
-  payments: "payments",
+  checkout: "checkout",
   taxes: "taxes",
   shippingFulfillment: "shippingFulfillment",
   categories: "categories",
@@ -112,10 +112,10 @@ export const CORE_FEATURES: ItemProps[] = [
         to: "/settings/shop-details"
       },
       {
-        key: FEATURE_KEYS.payments,
-        text: "Payments",
+        key: FEATURE_KEYS.checkout,
+        text: "Checkout",
         icon: <CreditCardOutlinedIcon fontSize="small" />,
-        to: "/settings/payments"
+        to: "/settings/checkout"
       },
       {
         key: FEATURE_KEYS.taxes,

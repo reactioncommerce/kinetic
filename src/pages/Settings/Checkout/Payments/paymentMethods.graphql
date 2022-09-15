@@ -1,0 +1,19 @@
+query getPaymentMethods($shopId: ID!) {
+  paymentMethods(shopId: $shopId) {
+    displayName
+    isEnabled
+    name
+    pluginName
+  }
+}
+
+mutation updatePaymentMethod($input: EnablePaymentMethodForShopInput!) {
+  enablePaymentMethodForShop(input: $input) {
+    paymentMethods {
+      name
+      isEnabled
+      pluginName
+      displayName
+    }
+  }
+}

@@ -8129,6 +8129,20 @@ export type SendResetPasswordEmailMutationVariables = Exact<{
 
 export type SendResetPasswordEmailMutation = { __typename?: 'Mutation', sendResetPasswordEmail?: boolean | null };
 
+export type GetPaymentMethodsQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+}>;
+
+
+export type GetPaymentMethodsQuery = { __typename?: 'Query', paymentMethods: Array<{ __typename?: 'PaymentMethod', displayName: string, isEnabled: boolean, name: string, pluginName: string } | null> };
+
+export type UpdatePaymentMethodMutationVariables = Exact<{
+  input: EnablePaymentMethodForShopInput;
+}>;
+
+
+export type UpdatePaymentMethodMutation = { __typename?: 'Mutation', enablePaymentMethodForShop: { __typename?: 'EnablePaymentMethodForShopPayload', paymentMethods: Array<{ __typename?: 'PaymentMethod', name: string, isEnabled: boolean, pluginName: string, displayName: string } | null> } };
+
 export type GetEmailLogsQueryVariables = Exact<{
   shopIds: Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>;
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -8524,6 +8538,55 @@ export const useSendResetPasswordEmailMutation = <
     useMutation<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>(
       ['sendResetPasswordEmail'],
       (variables?: SendResetPasswordEmailMutationVariables) => fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(client, SendResetPasswordEmailDocument, variables, headers)(),
+      options
+    );
+export const GetPaymentMethodsDocument = `
+    query getPaymentMethods($shopId: ID!) {
+  paymentMethods(shopId: $shopId) {
+    displayName
+    isEnabled
+    name
+    pluginName
+  }
+}
+    `;
+export const useGetPaymentMethodsQuery = <
+      TData = GetPaymentMethodsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetPaymentMethodsQueryVariables,
+      options?: UseQueryOptions<GetPaymentMethodsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetPaymentMethodsQuery, TError, TData>(
+      ['getPaymentMethods', variables],
+      fetcher<GetPaymentMethodsQuery, GetPaymentMethodsQueryVariables>(client, GetPaymentMethodsDocument, variables, headers),
+      options
+    );
+export const UpdatePaymentMethodDocument = `
+    mutation updatePaymentMethod($input: EnablePaymentMethodForShopInput!) {
+  enablePaymentMethodForShop(input: $input) {
+    paymentMethods {
+      name
+      isEnabled
+      pluginName
+      displayName
+    }
+  }
+}
+    `;
+export const useUpdatePaymentMethodMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePaymentMethodMutation, TError, UpdatePaymentMethodMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePaymentMethodMutation, TError, UpdatePaymentMethodMutationVariables, TContext>(
+      ['updatePaymentMethod'],
+      (variables?: UpdatePaymentMethodMutationVariables) => fetcher<UpdatePaymentMethodMutation, UpdatePaymentMethodMutationVariables>(client, UpdatePaymentMethodDocument, variables, headers)(),
       options
     );
 export const GetEmailLogsDocument = `

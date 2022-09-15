@@ -24,6 +24,7 @@ const LocalizationSettings = lazy(() => import("./pages/Settings/ShopDetails/Loc
 const PendingInvitations = lazy(() => import("./pages/Settings/UsersAndPermissions/PendingInvitations"));
 const EmailTemplatesSettings = lazy(() => import("./pages/Settings/Emails/Templates"));
 const EmailLogsSettings = lazy(() => import("./pages/Settings/Emails/EmailLogs"));
+const PaymentSettings = lazy(() => import("./pages/Settings/Checkout/Payments"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -102,6 +103,16 @@ const emailsSettingPageRoutes: SubPageRouteProps = [
   }
 ];
 
+const checkoutSettingPageRoutes: SubPageRouteProps = [
+  {
+    header: "Payments",
+    path: "",
+    key: "payment-settings",
+    element: <PaymentSettings/>,
+    index: true
+  }
+];
+
 export const routes: RouteObject[] = [
   {
     element: <UnauthenticatedRoute/>,
@@ -164,6 +175,11 @@ export const routes: RouteObject[] = [
                     path: "emails",
                     element: <PageLayout headers={emailsSettingPageRoutes}/>,
                     children: emailsSettingPageRoutes
+                  },
+                  {
+                    path: "checkout",
+                    element: <PageLayout headers={checkoutSettingPageRoutes}/>,
+                    children: checkoutSettingPageRoutes
                   }
                 ]
               },
