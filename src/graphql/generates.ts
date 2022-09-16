@@ -8143,6 +8143,27 @@ export type UpdatePaymentMethodMutationVariables = Exact<{
 
 export type UpdatePaymentMethodMutation = { __typename?: 'Mutation', enablePaymentMethodForShop: { __typename?: 'EnablePaymentMethodForShopPayload', paymentMethods: Array<{ __typename?: 'PaymentMethod', name: string, isEnabled: boolean, pluginName: string, displayName: string } | null> } };
 
+export type GetTaxServicesQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+}>;
+
+
+export type GetTaxServicesQuery = { __typename?: 'Query', taxServices: Array<{ __typename?: 'TaxService', displayName: string, name: string, pluginName: string } | null> };
+
+export type UpdateTaxServiceMutationVariables = Exact<{
+  input: UpdateShopSettingsInput;
+}>;
+
+
+export type UpdateTaxServiceMutation = { __typename?: 'Mutation', updateShopSettings: { __typename?: 'UpdateShopSettingsPayload', shopSettings: { __typename?: 'ShopSettings', fallbackTaxServiceName?: string | null, primaryTaxServiceName?: string | null } } };
+
+export type GetShopTaxesSettingQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+}>;
+
+
+export type GetShopTaxesSettingQuery = { __typename?: 'Query', shopSettings: { __typename?: 'ShopSettings', primaryTaxServiceName?: string | null, fallbackTaxServiceName?: string | null, defaultTaxCode?: string | null } };
+
 export type GetEmailLogsQueryVariables = Exact<{
   shopIds: Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>;
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -8587,6 +8608,75 @@ export const useUpdatePaymentMethodMutation = <
     useMutation<UpdatePaymentMethodMutation, TError, UpdatePaymentMethodMutationVariables, TContext>(
       ['updatePaymentMethod'],
       (variables?: UpdatePaymentMethodMutationVariables) => fetcher<UpdatePaymentMethodMutation, UpdatePaymentMethodMutationVariables>(client, UpdatePaymentMethodDocument, variables, headers)(),
+      options
+    );
+export const GetTaxServicesDocument = `
+    query getTaxServices($shopId: ID!) {
+  taxServices(shopId: $shopId) {
+    displayName
+    name
+    pluginName
+  }
+}
+    `;
+export const useGetTaxServicesQuery = <
+      TData = GetTaxServicesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetTaxServicesQueryVariables,
+      options?: UseQueryOptions<GetTaxServicesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetTaxServicesQuery, TError, TData>(
+      ['getTaxServices', variables],
+      fetcher<GetTaxServicesQuery, GetTaxServicesQueryVariables>(client, GetTaxServicesDocument, variables, headers),
+      options
+    );
+export const UpdateTaxServiceDocument = `
+    mutation updateTaxService($input: UpdateShopSettingsInput!) {
+  updateShopSettings(input: $input) {
+    shopSettings {
+      fallbackTaxServiceName
+      primaryTaxServiceName
+    }
+  }
+}
+    `;
+export const useUpdateTaxServiceMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateTaxServiceMutation, TError, UpdateTaxServiceMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateTaxServiceMutation, TError, UpdateTaxServiceMutationVariables, TContext>(
+      ['updateTaxService'],
+      (variables?: UpdateTaxServiceMutationVariables) => fetcher<UpdateTaxServiceMutation, UpdateTaxServiceMutationVariables>(client, UpdateTaxServiceDocument, variables, headers)(),
+      options
+    );
+export const GetShopTaxesSettingDocument = `
+    query getShopTaxesSetting($shopId: ID!) {
+  shopSettings(shopId: $shopId) {
+    primaryTaxServiceName
+    fallbackTaxServiceName
+    defaultTaxCode
+  }
+}
+    `;
+export const useGetShopTaxesSettingQuery = <
+      TData = GetShopTaxesSettingQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetShopTaxesSettingQueryVariables,
+      options?: UseQueryOptions<GetShopTaxesSettingQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetShopTaxesSettingQuery, TError, TData>(
+      ['getShopTaxesSetting', variables],
+      fetcher<GetShopTaxesSettingQuery, GetShopTaxesSettingQueryVariables>(client, GetShopTaxesSettingDocument, variables, headers),
       options
     );
 export const GetEmailLogsDocument = `
