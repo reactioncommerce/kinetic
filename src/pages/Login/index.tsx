@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import { Field, Form, Formik, FormikConfig } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Link from "@mui/material/Link";
-import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import Chip from "@mui/material/Chip";
@@ -33,7 +33,6 @@ const normalizeErrorMessage = (errors: Error[]) => {
 };
 
 type LocationState = {
-  from?: Location
   showResetPasswordSuccessMsg?: boolean
 }
 
@@ -41,10 +40,8 @@ const Login = () => {
   const { mutate } = useAuthenticateMutation(client);
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
   const { setAccessToken } = useAccount();
-  const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state as LocationState | null;
-  const from = locationState?.from?.pathname || "/";
 
   const handleSubmit: FormikConfig<{ email: string; password: string }>["onSubmit"] = (values, { setSubmitting }) => {
     mutate(
@@ -57,7 +54,6 @@ const Login = () => {
         onError: (error) => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
         onSuccess: (data) => {
           data.authenticate?.tokens?.accessToken && setAccessToken(data.authenticate.tokens.accessToken);
-          navigate(from, { replace: true });
         }
       }
     );

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 import { useLocalStorage } from "react-use";
 import { noop } from "lodash-es";
 import { FullPageLoader } from "@components/Loader/FullPageLoader";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
@@ -46,6 +47,9 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
   }
 
   const { setShopId, shopId } = useShop();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const redirectUrl = (new URLSearchParams(location.search)).get("redirectUrl");
 
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
@@ -61,6 +65,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
       }
 
       !shopId && setShopId(response.viewer?.adminUIShops?.find((shop) => shop?.shopType === "primary")?._id);
+      redirectUrl && navigate(redirectUrl);
     }
   });
 
