@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 
 import { useShop } from "@containers/ShopProvider";
 import { useGetShopTaxesSettingQuery, useGetTaxServicesQuery, useUpdateTaxServiceMutation } from "@graphql/generates";
@@ -61,7 +62,7 @@ const Taxes = () => {
   };
 
   return (
-    <Paper variant="outlined" sx={{ padding: 2 }}>
+    <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">
       <Stack
         direction="column"
         divider={<Divider orientation="horizontal" flexItem />}

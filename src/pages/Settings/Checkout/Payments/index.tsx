@@ -5,6 +5,7 @@ import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Switch from "@mui/material/Switch";
 import CheckIcon from "@mui/icons-material/Check";
+import Container from "@mui/material/Container";
 
 import { useShop } from "@containers/ShopProvider";
 import { useGetPaymentMethodsQuery, useUpdatePaymentMethodMutation } from "@graphql/generates";
@@ -23,7 +24,7 @@ const PaymentMethods = () => {
   };
 
   return (
-    <Paper variant="outlined" sx={{ padding: 2 }}>
+    <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">
       <Stack
         direction="column"
         divider={<Divider orientation="horizontal" flexItem />}
