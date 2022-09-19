@@ -17,16 +17,15 @@ import { Group } from "types/group";
 import { MenuActions } from "@components/MenuActions";
 import { useShop } from "@containers/ShopProvider";
 import { UserForm } from "../components/UserForm";
-import { Toast } from "@components/Toast";
+import { useToast } from "@containers/ToastProvider";
 
 const Users = () => {
   const [open, setOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string>();
-
   const { pagination, handlePaginationChange } = useTableState();
   const [activeRow, setActiveRow] = useState<User>();
 
   const { shopId } = useShop();
+  const toast = useToast();
 
   const { data: groupsData, isLoading: isGroupsLoading } = useGetGroupsQuery(client, { shopId: shopId! }, {
     select: (response) => {
@@ -43,10 +42,10 @@ const Users = () => {
 
   const handleSendResetPasswordEmail = useCallback((email: string) => {
     sendResetEmailPassword({ email }, {
-      onSuccess: () => setToastMessage("Reset password email has been sent successfully"),
-      onError: () => setToastMessage("Failed to sent reset password email")
+      onSuccess: () => toast.success("Reset password email has been sent successfully"),
+      onError: () => toast.error("Failed to sent reset password email")
     });
-  }, [sendResetEmailPassword]);
+  }, [sendResetEmailPassword, toast]);
 
   const columns = useMemo((): ColumnDef<User>[] => [
     {
@@ -145,12 +144,6 @@ const Users = () => {
         onClose={() => setOpen(false)}
         data={activeRow}
         onSuccess={refetch}
-      />
-      <Toast
-        open={!!toastMessage}
-        handleClose={() => setToastMessage(undefined)}
-        message={toastMessage}
-        variant="filled"
       />
     </TableContainer>
   );

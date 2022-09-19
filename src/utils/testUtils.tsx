@@ -6,6 +6,7 @@ import { MemoryRouter } from "react-router-dom";
 
 import { ShopProvider } from "@containers/ShopProvider";
 import { AccountProvider } from "@containers/AccountProvider";
+import { ToastProvider } from "@containers/ToastProvider";
 
 afterEach(() => {
   cleanup();
@@ -22,11 +23,14 @@ const renderWithProviders = (ui: React.ReactElement, options = { initialEntries:
 
       return <QueryClientProvider client={client}>
         <MemoryRouter initialEntries={initialEntries}>
-          <ShopProvider>
-            <AccountProvider>
-              {children}
-            </AccountProvider>
-          </ShopProvider>
+          <ToastProvider>
+            <ShopProvider>
+              <AccountProvider>
+                {children}
+              </AccountProvider>
+            </ShopProvider>
+          </ToastProvider>
+
         </MemoryRouter>
       </QueryClientProvider>;
     },
