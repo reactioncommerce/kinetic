@@ -33,3 +33,23 @@ mutation updateEmailTemplate($input: UpdateTemplateInput!) {
     }
   }
 }
+
+query getEmailVariables($id: ID!) {
+  shop(id: $id) {
+    storefrontUrls {
+      storefrontAccountProfileUrl
+      storefrontHomeUrl
+      storefrontLoginUrl
+      storefrontOrderUrl
+      storefrontOrdersUrl
+    }
+  }
+}
+
+mutation updateEmailVariables($input: UpdateShopInput!) {
+  updateShop(input: $input) {
+    shop {
+      _id
+    }
+  }
+}

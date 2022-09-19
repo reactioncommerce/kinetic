@@ -30,16 +30,6 @@ describe("Shipping Surcharges", () => {
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     const user = userEvent.setup();
 
-    await user.click(screen.getByText("Save Changes"));
-    expect(screen.getByText("Add Shipping Surcharge")).toBeInTheDocument();
-
-    expect(screen.getByLabelText("Amount")).toBeInvalid();
-    expect(screen.getByLabelText("Customer Message")).toBeInvalid();
-
-
-    await user.type(screen.getByLabelText("Amount"), "0.5");
-    await user.type(screen.getByLabelText("Customer Message"), "Customer Message");
-
     fireEvent.mouseDown(screen.getByPlaceholderText("Type to enter a country"));
     const listbox = within(screen.getByRole("listbox"));
     fireEvent.click(listbox.getByText("Vietnam"));
@@ -47,6 +37,14 @@ describe("Shipping Surcharges", () => {
     expect(screen.getByText("Vietnam")).toBeInTheDocument();
 
     await user.click(screen.getByText("Save Changes"));
+    expect(screen.getByLabelText("Amount")).toBeInvalid();
+    expect(screen.getByLabelText("Customer Message")).toBeInvalid();
+
+
+    await user.type(screen.getByLabelText("Amount"), "0.5");
+    await user.type(screen.getByLabelText("Customer Message"), "Customer Message");
+    await user.click(screen.getByText("Save Changes"));
+
     await waitFor(() => {
       expect(screen.queryByText("Add Shipping Surcharge")).not.toBeInTheDocument();
     });

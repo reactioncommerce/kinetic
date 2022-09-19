@@ -37,9 +37,11 @@ describe("Pending Invitations", () => {
 
     const user = userEvent.setup();
 
-    await user.click(screen.getByText("Send Invite"));
+    expect(screen.getByText("Send Invite")).toBeDisabled();
     expect(screen.getByText("Invite User")).toBeInTheDocument();
 
+    await user.type(screen.getByLabelText("Email Address"), "user");
+    await user.tab();
     expect(screen.getByLabelText("Email Address")).toBeInvalid();
 
     await user.type(screen.getByLabelText("Email Address"), "user@email.org");

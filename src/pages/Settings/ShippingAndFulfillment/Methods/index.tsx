@@ -217,7 +217,7 @@ const ShippingMethods = () => {
           }
           validationSchema={shippingMethodSchema}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, dirty }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <FormControlLabel
@@ -342,6 +342,7 @@ const ShippingMethods = () => {
                       variant="contained"
                       type="submit"
                       loading={isSubmitting}
+                      disabled={!dirty}
                     >
                       Save Changes
                     </LoadingButton>

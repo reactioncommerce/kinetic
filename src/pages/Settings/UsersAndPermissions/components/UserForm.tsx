@@ -125,7 +125,7 @@ export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
           initialValues={initialValues}
           validationSchema={userSchema}
         >
-          {({ isSubmitting, values }) => (
+          {({ isSubmitting, values, dirty }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 {!data ?
@@ -194,6 +194,7 @@ export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
                       variant="contained"
                       type="submit"
                       loading={isSubmitting}
+                      disabled={!dirty}
                     >
                       {data ? "Save Changes" : "Send Invite"}
                     </LoadingButton>

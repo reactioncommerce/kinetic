@@ -37,8 +37,9 @@ describe("Users", () => {
 
     const user = userEvent.setup();
 
-    await user.click(screen.getByText("Send Invite"));
     expect(screen.getByText("Invite User")).toBeInTheDocument();
+    await user.type(screen.getByLabelText("Name"), "user");
+    await user.click(screen.getByText("Send Invite"));
 
     expect(screen.getByLabelText("Email Address")).toBeInvalid();
     expect(screen.getByLabelText("Allow access to admin UI")).toBeInTheDocument();
