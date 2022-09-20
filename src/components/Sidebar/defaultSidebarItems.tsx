@@ -1,6 +1,5 @@
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
-import ExposureOutlinedIcon from "@mui/icons-material/ExposureOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -27,7 +26,6 @@ export const FEATURE_KEYS = {
   users: "users",
   shopDetails: "shopDetails",
   checkout: "checkout",
-  taxes: "taxes",
   shippingFulfillment: "shippingFulfillment",
   categories: "categories",
   emails: "emails",
@@ -116,12 +114,6 @@ export const CORE_FEATURES: ItemProps[] = [
         text: "Checkout",
         icon: <CreditCardOutlinedIcon fontSize="small" />,
         to: "/settings/checkout"
-      },
-      {
-        key: FEATURE_KEYS.taxes,
-        text: "Taxes",
-        icon: <ExposureOutlinedIcon fontSize="small" />,
-        to: "/settings/taxes"
       },
       {
         key: FEATURE_KEYS.shippingFulfillment,

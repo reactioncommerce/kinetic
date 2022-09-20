@@ -1,0 +1,24 @@
+query getTaxServices($shopId: ID!) {
+  taxServices(shopId: $shopId) {
+    displayName
+    name
+    pluginName
+  }
+}
+
+mutation updateTaxService($input: UpdateShopSettingsInput!) {
+  updateShopSettings(input: $input) {
+    shopSettings {
+      fallbackTaxServiceName
+      primaryTaxServiceName
+    }
+  }
+}
+
+query getShopTaxesSetting($shopId: ID!) {
+  shopSettings(shopId: $shopId) {
+    primaryTaxServiceName
+    fallbackTaxServiceName
+    defaultTaxCode
+  }
+}
