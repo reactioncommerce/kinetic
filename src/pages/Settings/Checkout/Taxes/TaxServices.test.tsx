@@ -29,9 +29,17 @@ describe("Tax Services", () => {
     const user = userEvent.setup();
 
     await user.click(moreBtn);
-    expect(screen.getByText("Set as Primary Method")).toBeInTheDocument();
+    expect(screen.getByText("Remove as Primary Method")).toBeInTheDocument();
     expect(screen.getByText("Set as Fallback Method")).toBeInTheDocument();
-    await user.click(screen.getByText("Set as Primary Method"));
-    expect(screen.getByText(`Set ${taxServices[0].displayName} as Primary Method successfully.`)).toBeInTheDocument();
+    await user.click(screen.getByText("Set as Fallback Method"));
+    expect(screen.getByText(`Set ${taxServices[0].displayName} as Fallback Method successfully.`)).toBeInTheDocument();
+
+    const secondMoreBtn = screen.getAllByRole("button", { name: "more" })[1];
+    await user.click(secondMoreBtn);
+    expect(screen.getByText("Remove as Fallback Method")).toBeInTheDocument();
+    expect(screen.getByText("Set as Primary Method")).toBeInTheDocument();
+
+    await user.click(screen.getByText("Remove as Fallback Method"));
+    expect(screen.getByText("Remove as Fallback Method successfully.")).toBeInTheDocument();
   });
 });

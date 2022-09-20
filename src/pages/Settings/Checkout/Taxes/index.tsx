@@ -45,6 +45,23 @@ const Taxes = () => {
     });
   };
 
+  const handleRemoveSetMethod = (type: TaxServiceMethod) => {
+    mutate({
+      input: {
+        shopId: shopId!,
+        settingsUpdates: {
+          ...(type === TaxServiceMethod.Primary ? { primaryTaxServiceName: "" } : {}),
+          ...(type === TaxServiceMethod.Fallback ? { fallbackTaxServiceName: "" } : {})
+        }
+      }
+    }, {
+      onSuccess: () => {
+        success(`Remove as ${type} Method successfully.`);
+        refetch();
+      }
+    });
+  };
+
   const getMethodTypeText = (name: string) => {
     const isPrimaryMethod = name === shopTaxSettingsData?.shopSettings.primaryTaxServiceName;
     const isFallbackMethod = name === shopTaxSettingsData?.shopSettings.fallbackTaxServiceName;
@@ -59,6 +76,25 @@ const Taxes = () => {
       return "Fallback";
     }
     return null;
+  };
+
+  const getMenuOptions = (taxService: TaxService) => {
+    const isPrimaryMethod = taxService.name === shopTaxSettingsData?.shopSettings.primaryTaxServiceName;
+    const isFallbackMethod = taxService.name === shopTaxSettingsData?.shopSettings.fallbackTaxServiceName;
+
+    if (!isPrimaryMethod && !isFallbackMethod) {
+      return [
+        { label: "Set as Primary Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Primary }) },
+        { label: "Set as Fallback Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Fallback }) }];
+    }
+    if (isPrimaryMethod) {
+      return [
+        { label: "Remove as Primary Method", onClick: () => handleRemoveSetMethod(TaxServiceMethod.Primary) },
+        { label: "Set as Fallback Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Fallback }) }];
+    }
+    return [
+      { label: "Remove as Fallback Method", onClick: () => handleRemoveSetMethod(TaxServiceMethod.Fallback) },
+      { label: "Set as Primary Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Primary }) }];
   };
 
   return (
@@ -81,14 +117,11 @@ const Taxes = () => {
                 {methodType ? <Typography variant="subtitle2" color="grey.600">{methodType}</Typography> : null}
               </Box>
               <MenuActions
-                options={[
-                  { label: "Set as Primary Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Primary }) },
-                  { label: "Set as Fallback Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Fallback }) }]}/>
+                options={getMenuOptions(taxService)}/>
             </Stack>;
           })
         }
       </Stack>
-
     </Paper>
   );
 };
