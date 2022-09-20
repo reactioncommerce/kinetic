@@ -6,6 +6,10 @@ import { FieldProps, getIn } from "formik";
 
 import { SelectOptionType } from "types/common";
 
+export type AutocompleteRenderInputProps = AutocompleteRenderInputParams & {
+  error: boolean
+  helperText?: string
+}
 interface AutocompleteProps<
   T,
   Multiple extends boolean | undefined,
@@ -17,10 +21,7 @@ interface AutocompleteProps<
       "name" | "value" | "defaultValue" | "renderInput"
     > {
   type?: string;
-  renderInput: (props: AutocompleteRenderInputParams & {
-    error: boolean
-    helperText?: string
-  }) => JSX.Element
+  renderInput: (props: AutocompleteRenderInputProps) => JSX.Element
 }
 
 export const isOptionEqualToValue = (option: SelectOptionType, value: SelectOptionType): boolean => option.value === value.value;
