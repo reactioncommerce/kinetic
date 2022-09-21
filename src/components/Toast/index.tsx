@@ -1,16 +1,36 @@
-import Alert, { AlertProps } from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import Alert, { AlertColor } from "@mui/material/Alert";
+import Snackbar, { SnackbarProps } from "@mui/material/Snackbar";
+import { useState } from "react";
 
-type ToastProps = AlertProps & {
-  open: boolean
-  handleClose: () => void
-  message?: string
+export type ToastMessage = {
+  key: number
+  message: string
+  severity: AlertColor
 }
 
-export const Toast = ({ handleClose, open, message, severity = "success", ...rest }: ToastProps) => (
-  <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-    <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }} {...rest}>
-      {message}
-    </Alert>
-  </Snackbar>
-);
+type ToastProps = Omit<SnackbarProps, "message"> & {
+  message: ToastMessage
+  onExited: () => void
+}
+
+export const Toast = ({ message, autoHideDuration, onExited, ...rest }: ToastProps) => {
+  const [open, setOpen] = useState(true);
+
+  const handleClose = (
+    _event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  return (
+    <Snackbar key={message.key} open={open} autoHideDuration={autoHideDuration || 5000} onClose={handleClose} TransitionProps={{ onExited }} {...rest}>
+      <Alert severity={message.severity} sx={{ width: "100%" }} variant="filled">
+        {message.message}
+      </Alert>
+    </Snackbar>
+  );
+};

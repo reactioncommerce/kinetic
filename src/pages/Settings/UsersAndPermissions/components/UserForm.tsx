@@ -18,8 +18,8 @@ import { useGetGroupsQuery, useInviteUserMutation, useUpdateGroupsForAccountsMut
 import { client } from "@graphql/graphql-request-client";
 import { filterNodes } from "@utils/common";
 import { GraphQLErrorResponse } from "types/common";
-import { Toast } from "@components/Toast";
 import { CheckboxWithLabel } from "@components/Checkbox";
+import { useToast } from "@containers/ToastProvider";
 
 type UserFormValues = {
   name: string
@@ -44,8 +44,9 @@ type UserFormProps = {
 export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
   const { account } = useAccount();
   const { shopId } = useShop();
-  const [toastMessage, setToastMessage] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>();
+
+  const toast = useToast();
 
   const { data: groupsData } = useGetGroupsQuery(client, { shopId: shopId! });
   const { mutateAsync: updateUser } = useUpdateUserMutation(client);
@@ -71,7 +72,7 @@ export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
   const _onSuccess = (message: string) => {
     handleClose();
     onSuccess();
-    setToastMessage(message);
+    toast.success(message);
   };
 
   const onError = (error: unknown) => {
@@ -205,12 +206,6 @@ export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
           )}
         </Formik>
       </Drawer>
-      <Toast
-        open={!!toastMessage}
-        handleClose={() => setToastMessage(undefined)}
-        message={toastMessage}
-        variant="filled"
-      />
     </>
   );
 };
