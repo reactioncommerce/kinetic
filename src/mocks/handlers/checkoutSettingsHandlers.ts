@@ -6,8 +6,8 @@ import { PaymentMethod, ShopSettings, TaxService } from "@graphql/types";
 const mockPaymentMethod = (): PaymentMethod => ({
   name: faker.lorem.word(),
   isEnabled: faker.datatype.boolean(),
-  pluginName: faker.lorem.word(),
-  displayName: faker.lorem.word(),
+  pluginName: faker.lorem.words(),
+  displayName: faker.lorem.words(),
   canRefund: false
 });
 
