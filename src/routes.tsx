@@ -114,16 +114,16 @@ const checkoutSettingPageRoutes: SubPageRouteProps = [
     index: true
   },
   {
-    header: "Address Validation",
-    path: "address-validation",
-    key: "address-validation",
-    element: <AddressValidationSettings/>
-  },
-  {
     header: "Taxes",
     path: "taxes",
     key: "taxes-settings",
     element: <TaxesSettings/>
+  },
+  {
+    header: "Address Validation",
+    path: "address-validation",
+    key: "address-validation",
+    element: <AddressValidationSettings/>
   }
 ];
 

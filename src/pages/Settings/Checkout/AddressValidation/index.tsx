@@ -9,7 +9,11 @@ import { Field, Form, Formik, FormikConfig } from "formik";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import { useGetAddressValidationRulesQuery, useGetAddressValidationServiceQuery } from "@graphql/generates";
+import { useCreateAddressValidationRuleMutation,
+  useGetAddressValidationRulesQuery,
+  useGetAddressValidationServiceQuery,
+  useUpdateAddressValidationRuleMutation }
+  from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { Loader } from "@components/Loader";
 import { filterNodes } from "@utils/common";
@@ -22,6 +26,7 @@ import { AutocompleteField, AutocompleteRenderInputProps, isOptionEqualToValue }
 import { AddressValidationService } from "@graphql/types";
 import { SelectOptionType } from "types/common";
 import { AddressValidationRule } from "types/addressValidation";
+import { useToast } from "@containers/ToastProvider";
 
 type ValidationRuleFormValues = {
   serviceName: string
@@ -42,9 +47,12 @@ const getCountryCodes = (validRules: AddressValidationRule[], serviceName: strin
 const AddressValidation = () => {
   const { shopId } = useShop();
   const [activeRule, setActiveRule] = useState<ActiveRule>();
+  const toast = useToast();
 
   const { data, isLoading } = useGetAddressValidationServiceQuery(client);
   const addressValidationRulesData = useGetAddressValidationRulesQuery(client, { shopId: shopId! });
+  const { mutate: createRule } = useCreateAddressValidationRuleMutation(client);
+  const { mutate: updateRule } = useUpdateAddressValidationRuleMutation(client);
 
   const validRules = filterNodes(addressValidationRulesData.data?.addressValidationRules.nodes);
 
@@ -61,11 +69,30 @@ const AddressValidation = () => {
     });
   };
 
+  const handleSuccess = () => {
+    handleClose();
+    addressValidationRulesData.refetch();
+    toast.success("Update Address Validation Service successfully.");
+  };
+
   const handleSubmit: FormikConfig<ValidationRuleFormValues>["onSubmit"] = (
     values,
     { setSubmitting }
   ) => {
-
+    const existingRules = validRules.filter((rule) => rule.serviceName === values.serviceName);
+    const countryCodes = values.countryCodes.map(({ value }) => value);
+    if (!existingRules.length) {
+      createRule(
+        { input: { shopId: shopId!, serviceName: values.serviceName, countryCodes } },
+        { onSettled: () => setSubmitting(false), onSuccess: () => handleSuccess() }
+      );
+    } else {
+      existingRules.map((rule) =>
+        updateRule(
+          { input: { ruleId: rule._id, serviceName: values.serviceName, shopId: shopId!, countryCodes } },
+          { onSettled: () => setSubmitting(false), onSuccess: () => handleSuccess() }
+        ));
+    }
   };
 
   const getAffectingCountries = (serviceName: string) => getCountryCodes(validRules, serviceName).map((code) => locales[code].name);
@@ -80,7 +107,7 @@ const AddressValidation = () => {
   };
 
   return (
-    <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="xs">
+    <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">
       <Stack
         direction="column"
         divider={<Divider orientation="horizontal" flexItem />}
