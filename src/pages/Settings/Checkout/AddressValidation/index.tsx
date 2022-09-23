@@ -17,7 +17,6 @@ import { useCreateAddressValidationRuleMutation,
 import { client } from "@graphql/graphql-request-client";
 import { Loader } from "@components/Loader";
 import { filterNodes } from "@utils/common";
-import { MenuActions } from "@components/MenuActions";
 import { useShop } from "@containers/ShopProvider";
 import { getCountryOptions, locales } from "@utils/countries";
 import { Drawer } from "@components/Drawer";
@@ -41,6 +40,20 @@ type ActiveRule = {
   supportedCountryCodes: string[]
 }
 
+
+const validateCountryCode = (assignedCountryCodes: string[]) => (countryCodes: SelectOptionType[]) => {
+  const invalidCountryCodes = countryCodes.filter((code) => assignedCountryCodes.includes(code.value));
+  let error;
+  if (invalidCountryCodes.length) {
+    error =
+    // eslint-disable-next-line max-len
+    `${invalidCountryCodes.map(({ label }) => label).join(", ")} ${invalidCountryCodes.length === 1 ? "is" : "are"} already assigned to a different Address Validation service. Please remove it from the existing service first to assign it to a new service.`
+    ;
+  }
+  return error;
+};
+
+
 const getCountryCodes = (validRules: AddressValidationRule[], serviceName: string) =>
 [...new Set(validRules.filter((rule) => rule.serviceName === serviceName && !!rule.countryCodes?.length).map((rule) => rule.countryCodes).flat())] as string[];
 
@@ -55,6 +68,9 @@ const AddressValidation = () => {
   const { mutate: updateRule } = useUpdateAddressValidationRuleMutation(client);
 
   const validRules = filterNodes(addressValidationRulesData.data?.addressValidationRules.nodes);
+  const assignedCountries =
+  [...new Set(validRules.filter((rule) => rule.countryCodes?.length && rule.serviceName !== activeRule?.serviceName)
+    .map((rule) => rule.countryCodes).flat())] as string[];
 
   const handleClose = () => {
     setActiveRule(undefined);
@@ -81,15 +97,18 @@ const AddressValidation = () => {
   ) => {
     const existingRules = validRules.filter((rule) => rule.serviceName === values.serviceName);
     const countryCodes = values.countryCodes.map(({ value }) => value);
+
+    const countryCodesToSave = countryCodes.length ? countryCodes : null;
+
     if (!existingRules.length) {
       createRule(
-        { input: { shopId: shopId!, serviceName: values.serviceName, countryCodes } },
+        { input: { shopId: shopId!, serviceName: values.serviceName, countryCodes: countryCodesToSave } },
         { onSettled: () => setSubmitting(false), onSuccess: () => handleSuccess() }
       );
     } else {
       existingRules.map((rule) =>
         updateRule(
-          { input: { ruleId: rule._id, serviceName: values.serviceName, shopId: shopId!, countryCodes } },
+          { input: { ruleId: rule._id, serviceName: values.serviceName, shopId: shopId!, countryCodes: countryCodesToSave } },
           { onSettled: () => setSubmitting(false), onSuccess: () => handleSuccess() }
         ));
     }
@@ -125,10 +144,8 @@ const AddressValidation = () => {
                 <Typography variant="subtitle1">{service.displayName}</Typography>
                 <Typography variant="subtitle2" color="grey.600">{settingCountries.length ? settingCountries.join(", ") : "All Countries"}</Typography>
               </Box>
-              <MenuActions options={[{
-                label: "Edit Country Settings",
-                onClick: () => handleClickEditService(service)
-              }]}/>
+
+              <Button variant="outlined" color="secondary" size="small" onClick={() => handleClickEditService(service)}>Edit</Button>
             </Stack>;
           })
         }
@@ -157,14 +174,15 @@ const AddressValidation = () => {
                   multiple
                   component={AutocompleteField}
                   options={supportedCountryOptions}
+                  validate={validateCountryCode(assignedCountries)}
                   isOptionEqualToValue={isOptionEqualToValue}
                   renderInput={(params: AutocompleteRenderInputProps) => (
                     <InputWithLabel
-                      {...params}
                       name="countryCodes"
                       label="Country"
                       placeholder="Type to enter a country"
                       helperText="Use this service only for addresses in these countries"
+                      {...params}
                     />
                   )}
                 />
