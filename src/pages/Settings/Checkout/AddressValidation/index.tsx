@@ -178,11 +178,11 @@ const AddressValidation = () => {
                   isOptionEqualToValue={isOptionEqualToValue}
                   renderInput={(params: AutocompleteRenderInputProps) => (
                     <InputWithLabel
+                      {...params}
                       name="countryCodes"
                       label="Country"
                       placeholder="Type to enter a country"
-                      helperText="Use this service only for addresses in these countries"
-                      {...params}
+                      helperText={params.helperText || "Use this service only for addresses in these countries"}
                     />
                   )}
                 />
