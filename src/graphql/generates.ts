@@ -8164,6 +8164,46 @@ export type GetShopTaxesSettingQueryVariables = Exact<{
 
 export type GetShopTaxesSettingQuery = { __typename?: 'Query', shopSettings: { __typename?: 'ShopSettings', primaryTaxServiceName?: string | null, fallbackTaxServiceName?: string | null, defaultTaxCode?: string | null } };
 
+export type GetTaxRatesQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetTaxRatesQuery = { __typename?: 'Query', taxRates?: { __typename?: 'TaxRateConnection', totalCount: number, nodes?: Array<{ __typename?: 'TaxRate', _id: string, country?: string | null, postal?: string | null, rate: number, region?: string | null, sourcing: TaxSource, taxCode?: string | null } | null> | null } | null };
+
+export type UpdateTaxRateMutationVariables = Exact<{
+  input: UpdateTaxRateInput;
+}>;
+
+
+export type UpdateTaxRateMutation = { __typename?: 'Mutation', updateTaxRate?: { __typename?: 'UpdateTaxRatePayload', taxRate: { __typename?: 'TaxRate', _id: string } } | null };
+
+export type CreateTaxRateMutationVariables = Exact<{
+  input: CreateTaxRateInput;
+}>;
+
+
+export type CreateTaxRateMutation = { __typename?: 'Mutation', createTaxRate?: { __typename?: 'CreateTaxRatePayload', taxRate: { __typename?: 'TaxRate', _id: string } } | null };
+
+export type DeleteTaxRateMutationVariables = Exact<{
+  input: DeleteTaxRateInput;
+}>;
+
+
+export type DeleteTaxRateMutation = { __typename?: 'Mutation', deleteTaxRate?: { __typename?: 'DeleteTaxRatePayload', taxRate: { __typename?: 'TaxRate', _id: string } } | null };
+
+export type GetTaxCodesQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+}>;
+
+
+export type GetTaxCodesQuery = { __typename?: 'Query', taxCodes: Array<{ __typename?: 'TaxCode', code: string, label: string } | null> };
+
 export type GetEmailLogsQueryVariables = Exact<{
   shopIds: Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>;
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -8691,6 +8731,131 @@ export const useGetShopTaxesSettingQuery = <
     useQuery<GetShopTaxesSettingQuery, TError, TData>(
       ['getShopTaxesSetting', variables],
       fetcher<GetShopTaxesSettingQuery, GetShopTaxesSettingQueryVariables>(client, GetShopTaxesSettingDocument, variables, headers),
+      options
+    );
+export const GetTaxRatesDocument = `
+    query getTaxRates($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int) {
+  taxRates(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+  ) {
+    nodes {
+      _id
+      country
+      postal
+      rate
+      region
+      sourcing
+      taxCode
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetTaxRatesQuery = <
+      TData = GetTaxRatesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetTaxRatesQueryVariables,
+      options?: UseQueryOptions<GetTaxRatesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetTaxRatesQuery, TError, TData>(
+      ['getTaxRates', variables],
+      fetcher<GetTaxRatesQuery, GetTaxRatesQueryVariables>(client, GetTaxRatesDocument, variables, headers),
+      options
+    );
+export const UpdateTaxRateDocument = `
+    mutation updateTaxRate($input: UpdateTaxRateInput!) {
+  updateTaxRate(input: $input) {
+    taxRate {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateTaxRateMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateTaxRateMutation, TError, UpdateTaxRateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateTaxRateMutation, TError, UpdateTaxRateMutationVariables, TContext>(
+      ['updateTaxRate'],
+      (variables?: UpdateTaxRateMutationVariables) => fetcher<UpdateTaxRateMutation, UpdateTaxRateMutationVariables>(client, UpdateTaxRateDocument, variables, headers)(),
+      options
+    );
+export const CreateTaxRateDocument = `
+    mutation createTaxRate($input: CreateTaxRateInput!) {
+  createTaxRate(input: $input) {
+    taxRate {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateTaxRateMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateTaxRateMutation, TError, CreateTaxRateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateTaxRateMutation, TError, CreateTaxRateMutationVariables, TContext>(
+      ['createTaxRate'],
+      (variables?: CreateTaxRateMutationVariables) => fetcher<CreateTaxRateMutation, CreateTaxRateMutationVariables>(client, CreateTaxRateDocument, variables, headers)(),
+      options
+    );
+export const DeleteTaxRateDocument = `
+    mutation deleteTaxRate($input: DeleteTaxRateInput!) {
+  deleteTaxRate(input: $input) {
+    taxRate {
+      _id
+    }
+  }
+}
+    `;
+export const useDeleteTaxRateMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteTaxRateMutation, TError, DeleteTaxRateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DeleteTaxRateMutation, TError, DeleteTaxRateMutationVariables, TContext>(
+      ['deleteTaxRate'],
+      (variables?: DeleteTaxRateMutationVariables) => fetcher<DeleteTaxRateMutation, DeleteTaxRateMutationVariables>(client, DeleteTaxRateDocument, variables, headers)(),
+      options
+    );
+export const GetTaxCodesDocument = `
+    query getTaxCodes($shopId: ID!) {
+  taxCodes(shopId: $shopId) {
+    code
+    label
+  }
+}
+    `;
+export const useGetTaxCodesQuery = <
+      TData = GetTaxCodesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetTaxCodesQueryVariables,
+      options?: UseQueryOptions<GetTaxCodesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetTaxCodesQuery, TError, TData>(
+      ['getTaxCodes', variables],
+      fetcher<GetTaxCodesQuery, GetTaxCodesQueryVariables>(client, GetTaxCodesDocument, variables, headers),
       options
     );
 export const GetEmailLogsDocument = `

@@ -1,32 +1,12 @@
-import { InputBaseComponentProps } from "@mui/material";
-import { ForwardedRef, forwardRef, RefCallback } from "react";
-import { IMaskInput } from "react-imask";
-
+import { useRenderMaskedInput } from "./MaskedInput";
 import { TextField, TextFieldProps } from "./TextField";
 
 type PhoneNumberFieldProps = TextFieldProps
 
-type TextMaskCustomProps = {
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
-}
+export const PhoneNumberField = ({ field, ...props }: PhoneNumberFieldProps) => {
+  const numberInput = useRenderMaskedInput("000-000-0000", false);
 
-const TextMaskCustom = forwardRef<
-HTMLInputElement,
-Omit<InputBaseComponentProps, "onChange"> & TextMaskCustomProps
->((props: TextMaskCustomProps, ref: ForwardedRef<HTMLInputElement>) => {
-  const { onChange, ...other } = props;
   return (
-    <IMaskInput
-      {...other}
-      mask="000-000-0000"
-      inputRef={ref as RefCallback<HTMLTextAreaElement | HTMLInputElement>}
-      onAccept={(value) => onChange({ target: { name: props.name, value: String(value) } })}
-      overwrite
-    />
+    <TextField field={field} {...props} inputComponent={numberInput}/>
   );
-});
-
-export const PhoneNumberField = ({ field, ...props }: PhoneNumberFieldProps) => (
-  <TextField field={field} {...props} inputComponent={TextMaskCustom}/>
-);
+};
