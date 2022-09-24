@@ -93,11 +93,10 @@ export const CustomTaxRates = () => {
       sourcing: sourcing.value as TaxSource,
       taxCode: taxCode?.value
     };
+
     if (!activeTaxRate) {
       create(
-        {
-          input
-        },
+        { input },
         { onSettled: () => setSubmitting(false), onSuccess: () => handleSuccess() }
       );
     } else {
