@@ -63,7 +63,7 @@ export const CustomTaxRates = () => {
         num: {
           mask: Number,
           scale: 3,
-          min: 2,
+          min: 0,
           max: 100,
           radix: ".",
           mapToRadix: [","]
@@ -161,7 +161,7 @@ export const CustomTaxRates = () => {
             const metadata = getTaxRateMetadata(taxRate);
             return <Stack direction="row" justifyContent="space-between" alignItems="center" key={taxRate._id}>
               <Box>
-                <Typography variant="subtitle1">{`${parseFloat(String(taxRate.rate)).toFixed(1)}%`}</Typography>
+                <Typography variant="subtitle1">{`${parseFloat(String(taxRate.rate))}%`}</Typography>
                 <Stack direction="row" gap={1} flexWrap="wrap" alignItems="center">
                   <Typography variant="subtitle2" color="grey.600">
                     {`${sourcingOptions.find((source) => source.value === taxRate.sourcing)?.label} ${metadata.length ? "conditions" : ""}`}
