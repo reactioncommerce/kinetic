@@ -25,6 +25,7 @@ const PendingInvitations = lazy(() => import("./pages/Settings/UsersAndPermissio
 const EmailTemplatesSettings = lazy(() => import("./pages/Settings/Emails/Templates"));
 const EmailLogsSettings = lazy(() => import("./pages/Settings/Emails/EmailLogs"));
 const PaymentSettings = lazy(() => import("./pages/Settings/Checkout/Payments"));
+const AddressValidationSettings = lazy(() => import("./pages/Settings/Checkout/AddressValidation"));
 const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
@@ -117,6 +118,12 @@ const checkoutSettingPageRoutes: SubPageRouteProps = [
     path: "taxes",
     key: "taxes-settings",
     element: <TaxesSettings/>
+  },
+  {
+    header: "Address Validation",
+    path: "address-validation",
+    key: "address-validation",
+    element: <AddressValidationSettings/>
   }
 ];
 

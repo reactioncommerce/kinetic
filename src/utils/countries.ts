@@ -2582,3 +2582,5 @@ export const getRegion = ({ countryCode, regionCode }: {countryCode?: string | n
   const states = countryCode ? locales[countryCode]?.states : null;
   return states ? { label: states[regionCode].name, value: regionCode } : { label: regionCode, value: regionCode };
 };
+
+export const getCountryOptions = (countryCodes: string[]) => sortBy(countryCodes.map((key) => ({ value: key, label: locales[key].name })), "label");
