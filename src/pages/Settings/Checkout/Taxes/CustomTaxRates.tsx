@@ -25,6 +25,7 @@ import { getRegion, locales } from "@utils/countries";
 import { InputWithLabel, TextField, useRenderMaskedInput } from "@components/TextField";
 import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { AddressField } from "@components/AddressField";
+import { useToast } from "@containers/ToastProvider";
 
 type CustomTaxRateFormValues = {
   rate: string
@@ -39,12 +40,33 @@ const taxRateSchema = Yup.object().shape({
   rate: Yup.string().required("This field is required")
 });
 
+const maskInputOptions = [
+  {
+    mask: ""
+  },
+  {
+    mask: "num%",
+    lazy: false,
+    blocks: {
+      num: {
+        mask: Number,
+        scale: 3,
+        min: 0,
+        max: 100,
+        radix: ".",
+        mapToRadix: [","]
+      }
+    }
+  }
+];
+
 const getCountry = (value?: string | null) => (value ? { label: locales[value].name, value } : null);
 
 export const CustomTaxRates = () => {
   const { shopId } = useShop();
   const [open, setOpen] = useState(false);
   const [activeTaxRate, setActiveTaxRate] = useState<Omit<TaxRate, "shop">>();
+  const toast = useToast();
 
   const { data, isLoading, refetch } = useGetTaxRatesQuery(client, { shopId: shopId! });
   const taxCodesData = useGetTaxCodesQuery(client, { shopId: shopId! });
@@ -52,34 +74,17 @@ export const CustomTaxRates = () => {
   const { mutate: update } = useUpdateTaxRateMutation(client);
   const { mutate: deleteTaxRate, isLoading: isDeleting } = useDeleteTaxRateMutation(client);
 
-  const taxRateInput = useRenderMaskedInput([
-    {
-      mask: ""
-    },
-    {
-      mask: "num%",
-      lazy: false,
-      blocks: {
-        num: {
-          mask: Number,
-          scale: 3,
-          min: 0,
-          max: 100,
-          radix: ".",
-          mapToRadix: [","]
-        }
-      }
-    }
-  ], true);
+  const taxRateInput = useRenderMaskedInput(maskInputOptions, true);
 
   const handleClose = () => {
     setOpen(false);
     setActiveTaxRate(undefined);
   };
 
-  const handleSuccess = () => {
+  const handleSuccess = (message: string) => {
     handleClose();
     refetch();
+    toast.success(message);
   };
 
   const handleSubmit: FormikConfig<CustomTaxRateFormValues>["onSubmit"] = (values, { setSubmitting }) => {
@@ -97,16 +102,19 @@ export const CustomTaxRates = () => {
     if (!activeTaxRate) {
       create(
         { input },
-        { onSettled: () => setSubmitting(false), onSuccess: () => handleSuccess() }
+        { onSettled: () => setSubmitting(false), onSuccess: () => handleSuccess("Create custom tax rate successfully.") }
       );
     } else {
-      update({ input: { ...input, taxRateId: activeTaxRate._id } }, { onSettled: () => setSubmitting(false), onSuccess: () => handleSuccess() });
+      update({ input: { ...input, taxRateId: activeTaxRate._id } }, {
+        onSettled: () => setSubmitting(false),
+        onSuccess: () => handleSuccess("Update custom tax rate successfully.")
+      });
     }
   };
 
   const handleDelete = () => {
     if (activeTaxRate) {
-      deleteTaxRate({ input: { shopId: shopId!, taxRateId: activeTaxRate._id } }, { onSuccess: () => handleSuccess() });
+      deleteTaxRate({ input: { shopId: shopId!, taxRateId: activeTaxRate._id } }, { onSuccess: () => handleSuccess("Delete custom tax rate successfully.") });
     }
   };
 
