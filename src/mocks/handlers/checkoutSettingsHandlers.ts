@@ -1,7 +1,15 @@
 import { graphql } from "msw";
 import { faker } from "@faker-js/faker";
 
-import { AddressValidationRule, AddressValidationService, PaymentMethod, ShopSettings, TaxCode, TaxRate, TaxService, TaxSource } from "@graphql/types";
+import { AddressValidationRule,
+  AddressValidationService,
+  PaymentMethod,
+  ShopSettings,
+  TaxCode,
+  TaxRate,
+  TaxService,
+  TaxSource }
+  from "@graphql/types";
 
 const mockPaymentMethod = (): PaymentMethod => ({
   name: faker.lorem.word(),
