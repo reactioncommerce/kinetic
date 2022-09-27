@@ -119,6 +119,7 @@ const theme = createTheme(baseTheme, {
         },
         sizeSmall: {
           padding: "4px 8px",
+          lineHeight: 1.5,
           borderRadius: baseTheme.shape.borderRadius
         },
         outlinedSecondary: {
@@ -172,26 +173,35 @@ const theme = createTheme(baseTheme, {
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
           height: baseTheme.spacing(3),
-          fontWeight: 600,
-          fontSize: 14
+          fontSize: 14,
+          color: color.grey[600],
+          fontWeight: 400,
+          borderRadius: 4
         },
         colorSuccess: {
           color: color.darkGreen,
-          backgroundColor: color.lightGreen
+          backgroundColor: color.lightGreen,
+          fontWeight: 600
         },
         colorWarning: {
           backgroundColor: color.lightYellow,
-          color: color.darkYellow
+          color: color.darkYellow,
+          fontWeight: 600
         },
         colorError: {
           backgroundColor: color.red[100],
-          color: color.red[900]
+          color: color.red[900],
+          fontWeight: 600
+        },
+        colorPrimary: {
+          color: baseTheme.palette.common.white,
+          fontWeight: 600
         },
         sizeSmall: {
           fontSize: "11px",
-          borderRadius: baseTheme.shape.borderRadius
+          borderRadius: baseTheme.shape.borderRadius,
+          fontWeight: 600
         }
       }
     },

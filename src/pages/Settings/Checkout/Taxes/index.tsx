@@ -14,6 +14,8 @@ import { MenuActions } from "@components/MenuActions";
 import { TaxService } from "@graphql/types";
 import { useToast } from "@containers/ToastProvider";
 
+import { CustomTaxRates } from "./CustomTaxRates";
+
 enum TaxServiceMethod {
   Primary = "Primary",
   Fallback = "Fallback"
@@ -98,31 +100,34 @@ const Taxes = () => {
   };
 
   return (
-    <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">
-      <Stack
-        direction="column"
-        divider={<Divider orientation="horizontal" flexItem />}
-        spacing={2}
-      >
-        <Box>
-          <Typography variant="h6" gutterBottom>Tax Methods</Typography>
-          <Typography variant="body2" color="grey.600">Manage your available tax plugins below</Typography>
-        </Box>
-        {isLoading ? <Loader/> :
-          filterNodes(data?.taxServices).map((taxService) => {
-            const methodType = getMethodTypeText(taxService.name);
-            return <Stack direction="row" justifyContent="space-between" alignItems="center" key={taxService.pluginName}>
-              <Box>
-                <Typography variant="subtitle1">{taxService.displayName}</Typography>
-                {methodType ? <Typography variant="subtitle2" color="grey.600">{methodType}</Typography> : null}
-              </Box>
-              <MenuActions
-                options={getMenuOptions(taxService)}/>
-            </Stack>;
-          })
-        }
-      </Stack>
-    </Paper>
+    <>
+      <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="md">
+        <Stack
+          direction="column"
+          divider={<Divider orientation="horizontal" flexItem />}
+          spacing={2}
+        >
+          <Box>
+            <Typography variant="h6" gutterBottom>Tax Methods</Typography>
+            <Typography variant="body2" color="grey.600">Manage your available tax plugins below</Typography>
+          </Box>
+          {isLoading ? <Loader/> :
+            filterNodes(data?.taxServices).map((taxService) => {
+              const methodType = getMethodTypeText(taxService.name);
+              return <Stack direction="row" justifyContent="space-between" alignItems="center" key={taxService.pluginName}>
+                <Box>
+                  <Typography variant="subtitle1">{taxService.displayName}</Typography>
+                  {methodType ? <Typography variant="subtitle2" color="grey.600">{methodType}</Typography> : null}
+                </Box>
+                <MenuActions
+                  options={getMenuOptions(taxService)}/>
+              </Stack>;
+            })
+          }
+        </Stack>
+      </Paper>
+      <CustomTaxRates/>
+    </>
   );
 };
 

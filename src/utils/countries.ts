@@ -2577,7 +2577,7 @@ export const countriesWithoutState = ["AO", "AG", "AW", "BS", "BZ", "BJ", "BW",
 
 export const countries: Array<SelectOptionType> = sortBy(Object.keys(locales).map((key) => ({ value: key, label: locales[key].name })), "label");
 
-export const getRegion = ({ countryCode, regionCode }: {countryCode?: string, regionCode?: string}) => {
+export const getRegion = ({ countryCode, regionCode }: {countryCode?: string | null, regionCode?: string | null}) => {
   if (!regionCode) return null;
   const states = countryCode ? locales[countryCode]?.states : null;
   return states ? { label: states[regionCode].name, value: regionCode } : { label: regionCode, value: regionCode };

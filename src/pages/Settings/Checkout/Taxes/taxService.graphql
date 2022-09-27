@@ -22,3 +22,56 @@ query getShopTaxesSetting($shopId: ID!) {
     defaultTaxCode
   }
 }
+
+query getTaxRates(
+  $shopId: ID!
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+) {
+  taxRates(shopId: $shopId, after: $after, before: $before, first: $first, last: $last, offset: $offset) {
+    nodes {
+      _id
+      country
+      postal
+      rate
+      region
+      sourcing
+      taxCode
+    }
+    totalCount
+  }
+}
+
+mutation updateTaxRate($input: UpdateTaxRateInput!) {
+  updateTaxRate(input: $input) {
+    taxRate {
+       _id
+    }
+  }
+}
+
+mutation createTaxRate($input: CreateTaxRateInput!) {
+  createTaxRate(input: $input) {
+    taxRate {
+       _id
+    }
+  }
+}
+
+mutation deleteTaxRate($input: DeleteTaxRateInput!) {
+  deleteTaxRate(input: $input) {
+    taxRate {
+       _id
+    }
+  }
+}
+
+query getTaxCodes($shopId: ID!) {
+  taxCodes(shopId: $shopId) {
+    code
+    label
+  }
+}

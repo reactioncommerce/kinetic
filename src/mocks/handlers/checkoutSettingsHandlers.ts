@@ -1,7 +1,15 @@
 import { graphql } from "msw";
 import { faker } from "@faker-js/faker";
 
-import { AddressValidationRule, AddressValidationService, PaymentMethod, ShopSettings, TaxService } from "@graphql/types";
+import { AddressValidationRule,
+  AddressValidationService,
+  PaymentMethod,
+  ShopSettings,
+  TaxCode,
+  TaxRate,
+  TaxService,
+  TaxSource }
+  from "@graphql/types";
 
 const mockPaymentMethod = (): PaymentMethod => ({
   name: faker.lorem.word(),
@@ -16,6 +24,25 @@ const mockTaxService = (): TaxService => ({
   pluginName: faker.lorem.word(),
   displayName: faker.lorem.word()
 });
+
+const mockTaxCode = (): TaxCode => ({
+  label: faker.datatype.string(),
+  code: faker.datatype.string()
+});
+
+const mockTaxRate = (sourceType: TaxSource, taxCode?: TaxCode): Omit<TaxRate, "shop"> => ({
+  _id: faker.datatype.uuid(),
+  rate: faker.datatype.float({ max: 100 }),
+  sourcing: sourceType,
+  taxCode: taxCode?.code
+});
+
+export const taxCodes = [mockTaxCode(), mockTaxCode()];
+
+export const taxRates = [
+  mockTaxRate(TaxSource.Destination, taxCodes[0]),
+  mockTaxRate(TaxSource.Origin, taxCodes[1]),
+  { ...mockTaxRate(TaxSource.Origin), country: "US", postal: "1234" }];
 
 const mockAddressValidationService = (): AddressValidationService => ({
   name: faker.lorem.word(),
@@ -46,7 +73,6 @@ export const shopTaxesSetting: Partial<ShopSettings> = {
   fallbackTaxServiceName: taxServices[1].name
 };
 
-
 const getPaymentMethodsHandler = graphql.query("getPaymentMethods", (req, res, ctx) =>
   res(ctx.data({ paymentMethods })));
 
@@ -63,6 +89,29 @@ const updateTaxServiceHandler = graphql.mutation(
     return res(ctx.data({ input }));
   }
 );
+
+const getTaxRatesHandler = graphql.query("getTaxRates", (req, res, ctx) =>
+  res(ctx.data({ taxRates: { nodes: taxRates, totalCount: taxRates.length } })));
+
+const getTaxCodesHandler = graphql.query("getTaxCodes", (req, res, ctx) =>
+  res(ctx.data({ taxCodes })));
+
+
+const updateTaxRateHandler = graphql.mutation(
+  "updateTaxRate",
+  (req, res, ctx) => res(ctx.data({ input: req.variables.input }))
+);
+
+const createTaxRateHandler = graphql.mutation(
+  "createTaxRate",
+  (req, res, ctx) => res(ctx.data({ input: req.variables.input }))
+);
+
+const deleteTaxRateHandler = graphql.mutation(
+  "deleteTaxRate",
+  (req, res, ctx) => res(ctx.data({ input: req.variables.input }))
+);
+
 
 const getAddressValidationServicesHandler = graphql.query("getAddressValidationService", (req, res, ctx) =>
   res(ctx.data({ addressValidationServices })));
@@ -91,6 +140,11 @@ export const handlers = [
   getTaxServicesHandler,
   getShopTaxesSettingHandler,
   updateTaxServiceHandler,
+  getTaxRatesHandler,
+  getTaxCodesHandler,
+  updateTaxRateHandler,
+  createTaxRateHandler,
+  deleteTaxRateHandler,
   getAddressValidationServicesHandler,
   getAddressValidationRulesHandler,
   updateValidationRuleHandler,

@@ -10,7 +10,7 @@ describe("Tax Services", () => {
   it("should render list of tax services", async () => {
     renderWithProviders(<TaxServices/>);
     await screen.findByText("Tax Methods");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryAllByRole("progressbar"));
 
     taxServices.forEach((tax) => {
       expect(screen.getByText(tax.displayName)).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Tax Services", () => {
   it("should be able to update tax method", async () => {
     renderWithProviders(<TaxServices/>);
     await screen.findByText("Tax Methods");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryAllByRole("progressbar"));
 
     const moreBtn = screen.getAllByRole("button", { name: "more" })[0];
     const user = userEvent.setup();
