@@ -1,0 +1,44 @@
+query getAddressValidationService {
+  addressValidationServices {
+    displayName
+    name
+    supportedCountryCodes
+  }
+}
+
+query getAddressValidationRules(
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+  $serviceNames: [String]
+  $shopId: ID!
+  $sortOrder: SortOrder = asc
+  $sortBy: AddressValidationRuleSortByField = createdAt
+) {
+  addressValidationRules(after: $after, before: $before, first: $first, last: $last, offset: $offset, serviceNames: $serviceNames, shopId: $shopId, sortOrder: $sortOrder, sortBy: $sortBy) {
+    nodes {
+      _id
+      countryCodes
+      serviceName
+    }
+    totalCount
+  }
+}
+
+mutation createAddressValidationRule($input: CreateAddressValidationRuleInput!) {
+  createAddressValidationRule(input: $input) {
+    addressValidationRule {
+      _id
+    }
+  }
+}
+
+mutation updateAddressValidationRule($input: UpdateAddressValidationRuleInput!) {
+  updateAddressValidationRule(input: $input) {
+    addressValidationRule {
+      _id
+    }
+  }
+}

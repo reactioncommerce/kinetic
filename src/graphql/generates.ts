@@ -8129,6 +8129,40 @@ export type SendResetPasswordEmailMutationVariables = Exact<{
 
 export type SendResetPasswordEmailMutation = { __typename?: 'Mutation', sendResetPasswordEmail?: boolean | null };
 
+export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAddressValidationServiceQuery = { __typename?: 'Query', addressValidationServices: Array<{ __typename?: 'AddressValidationService', displayName: string, name: string, supportedCountryCodes?: Array<string | null> | null } | null> };
+
+export type GetAddressValidationRulesQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  serviceNames?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  shopId: Scalars['ID'];
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<AddressValidationRuleSortByField>;
+}>;
+
+
+export type GetAddressValidationRulesQuery = { __typename?: 'Query', addressValidationRules: { __typename?: 'AddressValidationRuleConnection', totalCount: number, nodes?: Array<{ __typename?: 'AddressValidationRule', _id: string, countryCodes?: Array<string | null> | null, serviceName: string } | null> | null } };
+
+export type CreateAddressValidationRuleMutationVariables = Exact<{
+  input: CreateAddressValidationRuleInput;
+}>;
+
+
+export type CreateAddressValidationRuleMutation = { __typename?: 'Mutation', createAddressValidationRule: { __typename?: 'CreateAddressValidationRulePayload', addressValidationRule: { __typename?: 'AddressValidationRule', _id: string } } };
+
+export type UpdateAddressValidationRuleMutationVariables = Exact<{
+  input: UpdateAddressValidationRuleInput;
+}>;
+
+
+export type UpdateAddressValidationRuleMutation = { __typename?: 'Mutation', updateAddressValidationRule: { __typename?: 'UpdateAddressValidationRulePayload', addressValidationRule: { __typename?: 'AddressValidationRule', _id: string } } };
+
 export type GetPaymentMethodsQueryVariables = Exact<{
   shopId: Scalars['ID'];
 }>;
@@ -8573,6 +8607,109 @@ export const useSendResetPasswordEmailMutation = <
     useMutation<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>(
       ['sendResetPasswordEmail'],
       (variables?: SendResetPasswordEmailMutationVariables) => fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(client, SendResetPasswordEmailDocument, variables, headers)(),
+      options
+    );
+export const GetAddressValidationServiceDocument = `
+    query getAddressValidationService {
+  addressValidationServices {
+    displayName
+    name
+    supportedCountryCodes
+  }
+}
+    `;
+export const useGetAddressValidationServiceQuery = <
+      TData = GetAddressValidationServiceQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetAddressValidationServiceQueryVariables,
+      options?: UseQueryOptions<GetAddressValidationServiceQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetAddressValidationServiceQuery, TError, TData>(
+      variables === undefined ? ['getAddressValidationService'] : ['getAddressValidationService', variables],
+      fetcher<GetAddressValidationServiceQuery, GetAddressValidationServiceQueryVariables>(client, GetAddressValidationServiceDocument, variables, headers),
+      options
+    );
+export const GetAddressValidationRulesDocument = `
+    query getAddressValidationRules($after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $serviceNames: [String], $shopId: ID!, $sortOrder: SortOrder = asc, $sortBy: AddressValidationRuleSortByField = createdAt) {
+  addressValidationRules(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    serviceNames: $serviceNames
+    shopId: $shopId
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      countryCodes
+      serviceName
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetAddressValidationRulesQuery = <
+      TData = GetAddressValidationRulesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetAddressValidationRulesQueryVariables,
+      options?: UseQueryOptions<GetAddressValidationRulesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetAddressValidationRulesQuery, TError, TData>(
+      ['getAddressValidationRules', variables],
+      fetcher<GetAddressValidationRulesQuery, GetAddressValidationRulesQueryVariables>(client, GetAddressValidationRulesDocument, variables, headers),
+      options
+    );
+export const CreateAddressValidationRuleDocument = `
+    mutation createAddressValidationRule($input: CreateAddressValidationRuleInput!) {
+  createAddressValidationRule(input: $input) {
+    addressValidationRule {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateAddressValidationRuleMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateAddressValidationRuleMutation, TError, CreateAddressValidationRuleMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateAddressValidationRuleMutation, TError, CreateAddressValidationRuleMutationVariables, TContext>(
+      ['createAddressValidationRule'],
+      (variables?: CreateAddressValidationRuleMutationVariables) => fetcher<CreateAddressValidationRuleMutation, CreateAddressValidationRuleMutationVariables>(client, CreateAddressValidationRuleDocument, variables, headers)(),
+      options
+    );
+export const UpdateAddressValidationRuleDocument = `
+    mutation updateAddressValidationRule($input: UpdateAddressValidationRuleInput!) {
+  updateAddressValidationRule(input: $input) {
+    addressValidationRule {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateAddressValidationRuleMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateAddressValidationRuleMutation, TError, UpdateAddressValidationRuleMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateAddressValidationRuleMutation, TError, UpdateAddressValidationRuleMutationVariables, TContext>(
+      ['updateAddressValidationRule'],
+      (variables?: UpdateAddressValidationRuleMutationVariables) => fetcher<UpdateAddressValidationRuleMutation, UpdateAddressValidationRuleMutationVariables>(client, UpdateAddressValidationRuleDocument, variables, headers)(),
       options
     );
 export const GetPaymentMethodsDocument = `
