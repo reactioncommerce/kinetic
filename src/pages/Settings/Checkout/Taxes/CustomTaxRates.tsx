@@ -228,7 +228,9 @@ export const CustomTaxRates = () => {
                  to apply this rate to every product and every address.
                 </Typography>
                 <Stack direction="row" gap={2}>
-                  <AddressField countryFieldProps={{ name: "country", label: "Country" }} regionFieldProps={{ name: "region", label: "Region" }}/>
+                  <AddressField
+                    countryFieldProps={{ name: "country", label: "Country" }}
+                    regionFieldProps={{ name: "region", label: "Region", required: false }}/>
                 </Stack>
                 <Stack direction="row" gap={2}>
                   <Field name="postal" component={TextField} label="Postal"/>
