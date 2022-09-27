@@ -8418,6 +8418,20 @@ export type UpdateGroupMutationVariables = Exact<{
 
 export type UpdateGroupMutation = { __typename?: 'Mutation', updateAccountGroup?: { __typename?: 'UpdateAccountGroupPayload', group?: { __typename?: 'Group', _id: string } | null } | null };
 
+export type GetRolesQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<RoleSortByField>;
+}>;
+
+
+export type GetRolesQuery = { __typename?: 'Query', roles?: { __typename?: 'RoleConnection', nodes?: Array<{ __typename?: 'Role', name: string } | null> | null } | null };
+
 export type GetPendingInvitationsQueryVariables = Exact<{
   shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -9640,6 +9654,38 @@ export const useUpdateGroupMutation = <
     useMutation<UpdateGroupMutation, TError, UpdateGroupMutationVariables, TContext>(
       ['updateGroup'],
       (variables?: UpdateGroupMutationVariables) => fetcher<UpdateGroupMutation, UpdateGroupMutationVariables>(client, UpdateGroupDocument, variables, headers)(),
+      options
+    );
+export const GetRolesDocument = `
+    query getRoles($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder = asc, $sortBy: RoleSortByField = name) {
+  roles(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      name
+    }
+  }
+}
+    `;
+export const useGetRolesQuery = <
+      TData = GetRolesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetRolesQueryVariables,
+      options?: UseQueryOptions<GetRolesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetRolesQuery, TError, TData>(
+      ['getRoles', variables],
+      fetcher<GetRolesQuery, GetRolesQueryVariables>(client, GetRolesDocument, variables, headers),
       options
     );
 export const GetPendingInvitationsDocument = `

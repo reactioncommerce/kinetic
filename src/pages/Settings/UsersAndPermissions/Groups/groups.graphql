@@ -38,3 +38,20 @@ mutation updateGroup($input: UpdateAccountGroupInput!) {
     }
   }
 }
+
+query getRoles(
+  $shopId: ID!
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+  $sortOrder: SortOrder = asc
+  $sortBy: RoleSortByField = name
+) {
+  roles(shopId: $shopId, after: $after, before: $before, first: $first, last: $last, offset: $offset, sortOrder: $sortOrder, sortBy: $sortBy) {
+    nodes {
+      name
+    }
+  }
+}
