@@ -1,12 +1,14 @@
 import { faker } from "@faker-js/faker";
 import { graphql } from "msw";
 
+import { Role } from "@graphql/types";
 import { Group } from "types/group";
 
-const mockGroup = (): Group => ({
+const mockGroup = (permissions: string[]): Group => ({
   _id: faker.datatype.uuid(),
   name: faker.random.word(),
-  description: faker.random.words()
+  description: faker.random.words(),
+  permissions
 });
 
 const mockUser = (group: Group) => ({
@@ -23,12 +25,26 @@ const mockPendingInvitation = (group: Group) => ({
   invitedBy: mockUser(group)
 });
 
+const mockRole = (name: string) => ({
+  name,
+  _id: faker.datatype.uuid()
+});
 
-export const groups: Group[] = [mockGroup(), mockGroup()];
+export const groups: Group[] = [
+  mockGroup(["reaction:legacy:accounts/add:address-books", "reaction:legacy:addressValidationRules/read"]),
+  mockGroup(["reaction:legacy:emails/read", "reaction:legacy:inventory/read"])
+];
 
 export const users = [mockUser(groups[0]), mockUser(groups[1])];
 
 export const pendingInvitations = [mockPendingInvitation(groups[0]), mockPendingInvitation(groups[1])];
+
+export const roles: Role[] = [
+  mockRole("reaction:legacy:accounts/add:address-books"),
+  mockRole("reaction:legacy:accounts/invite:group"),
+  mockRole("reaction:legacy:addressValidationRules/create"),
+  mockRole("reaction:legacy:emails/read")];
+
 
 const getUsersHandler = graphql.query("getUsers", (req, res, ctx) =>
   res(ctx.data({ accounts: { nodes: users } })));
@@ -60,6 +76,7 @@ const sendResetPasswordEmailHandler = graphql.mutation("sendResetPasswordEmail",
 const getPendingInvitationsHandler = graphql.query("getPendingInvitations", (req, res, ctx) =>
   res(ctx.data({ invitations: { nodes: pendingInvitations, totalCount: pendingInvitations.length } })));
 
+const getRolesHandler = graphql.query("getRoles", (req, res, ctx) => res(ctx.data({ roles: { nodes: roles } })));
 
 export const handlers = [
   getUsersHandler,
@@ -68,5 +85,6 @@ export const handlers = [
   updateUserGroupHandler,
   updateGroupHandler,
   sendResetPasswordEmailHandler,
-  getPendingInvitationsHandler
+  getPendingInvitationsHandler,
+  getRolesHandler
 ];

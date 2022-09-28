@@ -42,15 +42,26 @@ type RoleSelectFieldProps = FieldProps<Record<string, string[]>> & {
 
 export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName }, form: { setFieldValue }, predefinedRoles }: RoleSelectFieldProps) => {
   const { shopId } = useShop();
-  const { data } = useGetRolesQuery(client, { shopId: shopId! });
-  const roleNames = [...new Set(filterNodes(data?.roles?.nodes).map(({ name }) => name).concat(predefinedRoles))];
 
   const [allRolesByResource, setRolesByResource] =
-  useState(normalizeRoles(roleNames));
+  useState(normalizeRoles(predefinedRoles));
+
+
+  const { data } = useGetRolesQuery(client, { shopId: shopId! }, {
+    select: (response) => {
+      const roleNames = [...new Set(filterNodes(response.roles?.nodes).map(({ name }) => name).concat(predefinedRoles))];
+      const allRoles = normalizeRoles(roleNames);
+      return { roleNames, allRoles };
+    },
+    onSuccess: (response) => {
+      setRolesByResource(response.allRoles);
+    }
+  });
+
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const search = event.target.value;
-    const filteredRoles = roleNames.filter((roleName) => roleName.includes(search.toLowerCase()));
+    const filteredRoles = (data?.roleNames || []).filter((roleName) => roleName.includes(search.toLowerCase()));
     setRolesByResource(normalizeRoles(filteredRoles));
   };
 
@@ -89,7 +100,14 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
                 sx={{ "minHeight": "auto", "& .MuiAccordionSummary-content": { margin: 0 } }}
               >
                 <FormControlLabel
-                  label={<Typography variant="subtitle1">{getResourceLabel(resource)}</Typography>}
+                  label={
+                    <Stack direction="row" alignItems="center" gap={1}>
+                      <Typography variant="subtitle1">{`${getResourceLabel(resource)}`}</Typography>
+                      <Typography variant="caption">
+                        {`(${selectedRoles[resource] ? selectedRoles[resource].length : 0} of ${data?.allRoles[resource]?.length} selected)`}
+                      </Typography>
+                    </Stack>
+                  }
                   control={<Checkbox checked={checked(resource)} indeterminate={indeterminate(resource)} onChange={handleSelectResource(resource)} />}/>
               </AccordionSummary>
               <AccordionDetails sx={{ padding: 0, pl: 2 }}>
@@ -108,6 +126,7 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
                 </Stack>
               </AccordionDetails>
             </Accordion>)}
+
         </Box>
       </Paper>
     </Stack>
