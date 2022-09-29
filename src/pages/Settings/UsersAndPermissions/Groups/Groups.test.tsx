@@ -31,7 +31,8 @@ describe("Groups", () => {
 
     expect(within(drawer).getByRole("textbox", { name: "Name" })).toHaveValue(groups[0].name);
 
-    expect(within(drawer).getByLabelText("Add Address Books")).toBeChecked();
+    const addAddressBook = await within(drawer).findByLabelText("Add Address Books");
+    expect(addAddressBook).toBeChecked();
     const inviteGroupCheckbox = await within(drawer).findByText("Invite Group");
     expect(inviteGroupCheckbox).not.toBeChecked();
 

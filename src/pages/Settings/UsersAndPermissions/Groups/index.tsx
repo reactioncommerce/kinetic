@@ -5,7 +5,7 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import Typography from "@mui/material/Typography";
 import { startCase } from "lodash-es";
 import * as Yup from "yup";
-import { Field, Form, Formik, FormikConfig } from "formik";
+import { FastField, Field, Form, Formik, FormikConfig } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
 
@@ -19,23 +19,17 @@ import { Drawer } from "@components/Drawer";
 import { TextField } from "@components/TextField";
 import { useToast } from "@containers/ToastProvider";
 
-import { RoleSelectField } from "./RoleSelectField";
+import { normalizeRoles, RoleItem, RoleSelectField } from "./RoleSelectField";
 
 type GroupFormValues = {
   name: string
   description?: string
-  permissions: Record<string, string[]>
+  permissions: Record<string, RoleItem[]>
 };
 
 const groupSchema = Yup.object().shape({
   name: Yup.string().required("This field is required")
 });
-
-const getInitialSelectedRoles = (selected: string[]) => selected.reduce((roleByResource, roleName) => {
-  const [resource] = roleName.split("/");
-  (roleByResource[resource] || (roleByResource[resource] = [])).push(roleName);
-  return roleByResource;
-}, {} as Record<string, string[]>);
 
 const Groups = () => {
   const [activeRow, setActiveRow] = useState<Group>();
@@ -69,7 +63,7 @@ const Groups = () => {
     { setSubmitting }
   ) => {
     if (activeRow) {
-      const permissions = Object.values(values.permissions).flat();
+      const permissions = Object.values(values.permissions).flat().map(({ name }) => name);
 
       updateGroup({ input: { groupId: activeRow._id || "", group: { ...values, permissions }, shopId } }, {
         onSettled: () => setSubmitting(false),
@@ -114,7 +108,7 @@ const Groups = () => {
           initialValues={{
             name: activeRow?.name || "",
             description: activeRow?.description || "",
-            permissions: getInitialSelectedRoles(filterNodes(activeRow?.permissions))
+            permissions: normalizeRoles(filterNodes(activeRow?.permissions))
           }}
           validationSchema={groupSchema}
         >
@@ -143,7 +137,7 @@ const Groups = () => {
                   rows={2}
                   multiline
                 />
-                <Field name="permissions" component={RoleSelectField} predefinedRoles={activeRow?.permissions || []}/>
+                <FastField name="permissions" component={RoleSelectField}/>
               </Drawer.Content>
               <Drawer.Actions
                 right={

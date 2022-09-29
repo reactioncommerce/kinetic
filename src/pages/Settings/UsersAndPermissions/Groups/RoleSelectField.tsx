@@ -19,12 +19,14 @@ import { client } from "@graphql/graphql-request-client";
 import { InputWithLabel } from "@components/TextField";
 import { filterNodes } from "@utils/common";
 
-type RoleItem = {
+const NUMBER_OF_ROLES = 200;
+
+export type RoleItem = {
   name: string
   label: string
 }
 
-const normalizeRoles = (roleNames: string[]) => {
+export const normalizeRoles = (roleNames: string[]) => {
   const groupedRoleByResource = roleNames.reduce((roleByResource, roleName) => {
     const [resource, action] = roleName.split("/");
     (roleByResource[resource] || (roleByResource[resource] = [])).push({ name: roleName, label: startCase(action) });
@@ -36,28 +38,24 @@ const normalizeRoles = (roleNames: string[]) => {
 
 const getResourceLabel = (name: string) => startCase(name.split(":")[2] || "Unknown");
 
-type RoleSelectFieldProps = FieldProps<Record<string, string[]>> & {
-  predefinedRoles: string[]
-}
+type RoleSelectFieldProps = FieldProps<Record<string, RoleItem[]>>
 
-export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName }, form: { setFieldValue }, predefinedRoles }: RoleSelectFieldProps) => {
+export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName }, form: { setFieldValue } }: RoleSelectFieldProps) => {
   const { shopId } = useShop();
 
   const [allRolesByResource, setRolesByResource] =
-  useState(normalizeRoles(predefinedRoles));
+  useState<Record<string, RoleItem[]>>();
 
-
-  const { data } = useGetRolesQuery(client, { shopId: shopId! }, {
+  const { data } = useGetRolesQuery(client, { shopId: shopId!, first: NUMBER_OF_ROLES }, {
     select: (response) => {
-      const roleNames = [...new Set(filterNodes(response.roles?.nodes).map(({ name }) => name).concat(predefinedRoles))];
+      const roleNames = filterNodes(response.roles?.nodes).map(({ name }) => name);
       const allRoles = normalizeRoles(roleNames);
       return { roleNames, allRoles };
     },
     onSuccess: (response) => {
-      setRolesByResource(response.allRoles);
+      if (!allRolesByResource) { setRolesByResource(response.allRoles); }
     }
   });
-
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const search = event.target.value;
@@ -65,9 +63,9 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
     setRolesByResource(normalizeRoles(filteredRoles));
   };
 
-  const handleChange = (resource: string, roleName: string) => (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (resource: string, role: RoleItem) => (event: ChangeEvent<HTMLInputElement>) => {
     const actions = selectedRoles[resource] || [];
-    const newActions = event.target.checked ? [...actions, roleName] : actions.filter((action) => action !== roleName);
+    const newActions = event.target.checked ? [...actions, role] : actions.filter((action) => action.name !== role.name);
     setFieldValue(fieldName, { ...selectedRoles, [resource]: newActions });
   };
 
@@ -75,12 +73,12 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
   const handleSelectResource = (resource: string) => (event: ChangeEvent<HTMLInputElement>) => {
     setFieldValue(
       fieldName,
-      { ...selectedRoles, [resource]: event.target.checked ? allRolesByResource[resource].map(({ name }) => name) : [] }
+      { ...selectedRoles, [resource]: event.target.checked && allRolesByResource ? allRolesByResource[resource] : [] }
     );
   };
 
-  const checked = (resource: string) => !!selectedRoles[resource]?.length && selectedRoles[resource].length === allRolesByResource[resource].length;
-  const indeterminate = (resource: string) => !!selectedRoles[resource]?.length && selectedRoles[resource].length !== allRolesByResource[resource].length;
+  const checked = (resource: string) => !!selectedRoles[resource]?.length && selectedRoles[resource].length === data?.allRoles[resource].length;
+  const indeterminate = (resource: string) => !!selectedRoles[resource]?.length && selectedRoles[resource].length !== data?.allRoles[resource].length;
 
   return (
     <Stack mt={1} direction="column">
@@ -92,7 +90,7 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
           </Stack>
         </Box>
         <Box maxHeight={500} overflow="auto" sx={{ borderTop: "1px solid", borderTopColor: "grey.300", py: 1 }}>
-          {Object.keys(allRolesByResource).map((resource) =>
+          {allRolesByResource && Object.keys(allRolesByResource).length ? Object.keys(allRolesByResource).map((resource) =>
             <Accordion key={resource} disableGutters sx={{ "padding": 0, "&:before": { display: "none" } }}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -120,13 +118,12 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
                       control={
                         <Checkbox
                           checked={
-                            selectedRoles[resource] ? selectedRoles[resource].includes(role.name) : false}
-                          onChange={handleChange(resource, role.name)}/>}
+                            selectedRoles[resource] ? selectedRoles[resource].some(({ name }) => name === role.name) : false}
+                          onChange={handleChange(resource, role)}/>}
                     />)}
                 </Stack>
               </AccordionDetails>
-            </Accordion>)}
-
+            </Accordion>) : <Stack justifyContent="center" direction="row">No Roles found</Stack>}
         </Box>
       </Paper>
     </Stack>

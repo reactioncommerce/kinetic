@@ -43,7 +43,10 @@ export const roles: Role[] = [
   mockRole("reaction:legacy:accounts/add:address-books"),
   mockRole("reaction:legacy:accounts/invite:group"),
   mockRole("reaction:legacy:addressValidationRules/create"),
-  mockRole("reaction:legacy:emails/read")];
+  mockRole("reaction:legacy:emails/read"),
+  mockRole("reaction:legacy:addressValidationRules/read"),
+  mockRole("reaction:legacy:inventory/read")
+];
 
 
 const getUsersHandler = graphql.query("getUsers", (req, res, ctx) =>
