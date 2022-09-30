@@ -31,7 +31,18 @@ describe("Groups", () => {
 
     expect(within(drawer).getByRole("textbox", { name: "Name" })).toHaveValue(groups[0].name);
 
+    const addAddressBook = await within(drawer).findByLabelText("Add Address Books");
+    expect(addAddressBook).toBeChecked();
+    const inviteGroupCheckbox = await within(drawer).findByText("Invite Group");
+    expect(inviteGroupCheckbox).not.toBeChecked();
+
     const user = userEvent.setup();
+
+    await user.type(screen.getByPlaceholderText("Search for resources"), "Emails");
+    expect(screen.getByText("Emails")).not.toBeChecked();
+    await user.click(screen.getByText("Emails"));
+    expect(screen.getByText("(1 of 1 selected)")).toBeInTheDocument();
+    expect(screen.queryByText("Accounts")).not.toBeInTheDocument();
 
     await user.clear(screen.getByLabelText("Name"));
 
