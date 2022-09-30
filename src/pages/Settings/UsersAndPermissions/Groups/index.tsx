@@ -120,8 +120,8 @@ const Groups = () => {
                   sx={{ color: "grey.700" }}
                   gutterBottom
                 >
-                  Control the tasks that are available to
-                  a specific group. Users then get assigned to groups and have access to these tasks via their inclusion in one or more groups.
+                  Control the permissions that are assigned to
+                  a specific group. Users then get assigned to groups and have access to the resources via those groups.
                 </Typography>
                 <Field
                   component={TextField}
