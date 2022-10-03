@@ -1,10 +1,11 @@
 import { RouteObject } from "react-router-dom";
 import { lazy } from "react";
-
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 
 import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
 import { AppLayout, PageLayout } from "@containers/Layouts";
 import { SubHeaderItemProps } from "@components/AppHeader";
+import { CORE_FEATURES, FEATURE_KEYS, ItemProps } from "@components/Sidebar";
 
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
@@ -27,6 +28,7 @@ const EmailLogsSettings = lazy(() => import("./pages/Settings/Emails/EmailLogs")
 const PaymentSettings = lazy(() => import("./pages/Settings/Checkout/Payments"));
 const AddressValidationSettings = lazy(() => import("./pages/Settings/Checkout/AddressValidation"));
 const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
+const Customers = lazy(() => import("./examples/Customers"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -127,6 +129,19 @@ const checkoutSettingPageRoutes: SubPageRouteProps = [
   }
 ];
 
+const plugins: ItemProps[] = [{
+  text: "Plugins",
+  key: "custom-plugins",
+  subItems: [
+    {
+      key: "customers",
+      icon: <SupportAgentIcon fontSize="small"/>,
+      text: "Customers",
+      to: "plugins/customers"
+    }
+  ]
+}];
+
 export const routes: RouteObject[] = [
   {
     element: <UnauthenticatedRoute/>,
@@ -161,11 +176,15 @@ export const routes: RouteObject[] = [
         children: [
           {
             path: "/",
-            element: <AppLayout/>,
+            element: <AppLayout sidebar={{ plugins, coreFeatures: CORE_FEATURES.filter(({ key }) => key !== FEATURE_KEYS.customers) }}/>,
             children: [
               {
                 index: true,
                 element: <Dashboard/>
+              },
+              {
+                path: "plugins/customers",
+                element: <Customers />
               },
               {
                 path: "settings",
