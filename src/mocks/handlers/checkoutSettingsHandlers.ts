@@ -11,9 +11,9 @@ import { AddressValidationRule,
   TaxSource }
   from "@graphql/types";
 
-const mockPaymentMethod = (): PaymentMethod => ({
+const mockPaymentMethod = (isEnabled: boolean): PaymentMethod => ({
   name: faker.lorem.word(),
-  isEnabled: faker.datatype.boolean(),
+  isEnabled,
   pluginName: faker.lorem.words(),
   displayName: faker.lorem.words(),
   canRefund: false
@@ -59,7 +59,7 @@ const mockAddressValidationRules = (serviceName: string, countryCodes?: string[]
   countryCodes
 });
 
-export const paymentMethods = [mockPaymentMethod(), mockPaymentMethod(), mockPaymentMethod()];
+export const paymentMethods = [mockPaymentMethod(true), mockPaymentMethod(true), mockPaymentMethod(false)];
 
 export const taxServices = [mockTaxService(), mockTaxService()];
 
