@@ -81,6 +81,15 @@ const getPendingInvitationsHandler = graphql.query("getPendingInvitations", (req
 
 const getRolesHandler = graphql.query("getRoles", (req, res, ctx) => res(ctx.data({ roles: { nodes: roles } })));
 
+
+const createGroupHandler = graphql.mutation(
+  "createGroup",
+  (req, res, ctx) => {
+    const { input } = req.variables;
+    return res(ctx.data({ input }));
+  }
+);
+
 export const handlers = [
   getUsersHandler,
   getGroupsHandler,
@@ -89,5 +98,6 @@ export const handlers = [
   updateGroupHandler,
   sendResetPasswordEmailHandler,
   getPendingInvitationsHandler,
-  getRolesHandler
+  getRolesHandler,
+  createGroupHandler
 ];

@@ -135,6 +135,7 @@ const createValidationRuleHandler = graphql.mutation(
   }
 );
 
+
 export const handlers = [
   getPaymentMethodsHandler,
   getTaxServicesHandler,

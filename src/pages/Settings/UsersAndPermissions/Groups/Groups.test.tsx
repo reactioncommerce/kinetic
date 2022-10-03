@@ -55,4 +55,38 @@ describe("Groups", () => {
       expect(screen.queryByText("Edit Group")).not.toBeInTheDocument();
     });
   });
+
+  it("should successfully create a group", async () => {
+    renderWithProviders(<Groups/>);
+    await screen.findByText("Groups");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+
+    fireEvent.click(screen.getByText("Add"));
+    expect(screen.getByText("Add Group")).toBeInTheDocument();
+
+    const drawer = screen.getByRole("presentation");
+
+    const addAddressBook = await within(drawer).findByLabelText("Add Address Books");
+    expect(addAddressBook).not.toBeChecked();
+    const inviteGroupCheckbox = await within(drawer).findByText("Invite Group");
+    expect(inviteGroupCheckbox).not.toBeChecked();
+    const emailCheckbox = await within(drawer).findByText("Emails");
+    expect(emailCheckbox).not.toBeChecked();
+
+    const user = userEvent.setup();
+
+    await user.type(screen.getByPlaceholderText("Search for resources"), "Emails");
+    await user.click(screen.getByText("Emails"));
+    expect(screen.getByText("(1 of 1 selected)")).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText("Name"), "New Group");
+
+    await user.click(screen.getByText("Save Changes"));
+
+    await waitFor(() => {
+      expect(screen.queryByText("Add Group")).not.toBeInTheDocument();
+    });
+
+    await screen.findByText("Create group successfully.");
+  });
 });

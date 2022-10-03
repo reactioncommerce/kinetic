@@ -55,3 +55,11 @@ query getRoles(
     }
   }
 }
+
+mutation createGroup($input: CreateAccountGroupInput!) {
+  createAccountGroup(input: $input) {
+    group {
+      _id
+    }
+  }
+}
