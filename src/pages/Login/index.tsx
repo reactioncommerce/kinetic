@@ -13,23 +13,22 @@ import { TextField } from "@components/TextField";
 import { hashPassword } from "@utils/hashPassword";
 import { useAccount } from "@containers/AccountProvider";
 import { client } from "@graphql/graphql-request-client";
-import type { Error, GraphQLErrorResponse } from "types/common";
 import { UserSchema } from "@utils/validate";
 import { PasswordField } from "@components/PasswordField";
 import { useAuthenticateMutation } from "@graphql/generates";
 import { AppLogo } from "@components/AppLogo";
+import { formatErrorResponse } from "@utils/errorHandlers";
 
-const normalizeErrorMessage = (errors: Error[]) => {
-  const error = errors.length ? errors[0] : null;
-
-  if (error?.extensions.exception.code === "UserNotFound") {
+const normalizeErrorMessage = (error: unknown) => {
+  const { code, message } = formatErrorResponse(error);
+  if (code === "UserNotFound") {
     return 'User not found. Try again or click "Sign Up" to register new account';
   }
-  if (error?.extensions.exception.code === "IncorrectPassword") {
+  if (code === "IncorrectPassword") {
     return 'Wrong password. Try again or click "Forgot password" to reset it';
   }
 
-  return error?.message;
+  return message;
 };
 
 type LocationState = {
@@ -51,7 +50,7 @@ const Login = () => {
       },
       {
         onSettled: () => setSubmitting(false),
-        onError: (error) => setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors)),
+        onError: (error) => setSubmitErrorMessage(normalizeErrorMessage(error)),
         onSuccess: (data) => {
           data.authenticate?.tokens?.accessToken && setAccessToken(data.authenticate.tokens.accessToken);
         }
