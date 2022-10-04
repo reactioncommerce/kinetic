@@ -11,6 +11,8 @@ import NotFound from "./pages/NotFound";
 
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
+const AccessDenied = lazy(() => import("./pages/AccessDenied"));
+
 const PasswordReset = lazy(() => import("./pages/PasswordReset"));
 const NewPassword = lazy(() => import("./pages/NewPassword"));
 const CreateShop = lazy(() => import("./pages/CreateShop"));
@@ -146,6 +148,10 @@ export const routes: RouteObject[] = [
       {
         path: "/password-reset",
         element: <NewPassword/>
+      },
+      {
+        path: "/access-denied",
+        element: <AccessDenied/>
       }
     ]
   },

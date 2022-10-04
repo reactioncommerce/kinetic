@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
-import type { APIErrorResponse } from "types/common";
+import { formatErrorResponse } from "@utils/errorHandlers";
 
 type AccountContextValue = {
   account: GetViewerQuery["viewer"] | null
@@ -54,9 +54,10 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
     onError: (error) => {
-      const unauthorized = (error as APIErrorResponse).response.status === 401;
+      const { code, status } = formatErrorResponse(error);
 
-      if (unauthorized) removeAccessToken();
+      if (status === 401) removeAccessToken();
+      if (code === "FORBIDDEN") navigate("/access-denied");
     },
     onSuccess: (response) => {
       if (response.viewer === null) {
