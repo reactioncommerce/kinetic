@@ -32,6 +32,7 @@ export function fieldToCheckbox({
       function (error) {
         fieldOnBlur(error ?? field.name);
       },
+    indeterminate: !Array.isArray(field.value) && field.value === null,
     ...field,
     ...props
   };

@@ -20,5 +20,12 @@ query getViewer {
         primaryShopLogoUrl
       }
     }
+    groups {
+      nodes {
+        _id
+        name
+        permissions
+      }
+    }
   }
 }

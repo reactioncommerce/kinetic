@@ -96,7 +96,8 @@ const Users = () => {
             // The accounts API returns all groups of an account, we need to filter valid group that exists in current active shop
             group: filterNodes(user.groups?.nodes)
               .find((group) => (group._id ? groupsData?.groupIds.includes(group._id) : false))
-              ?? groupsData?.groups[0]
+              ?? groupsData?.groups[0],
+            adminUIShops: filterNodes(user.adminUIShops)
           }));
         return { users: validUsers, totalCount: response.accounts.totalCount };
       }

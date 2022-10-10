@@ -16,15 +16,15 @@ import { useAccount } from "@containers/AccountProvider";
 import { useCreateShopMutation } from "@graphql/generates";
 import { FullHeightLayout } from "@containers/Layouts";
 import { AppLogo } from "@components/AppLogo";
-import type { GraphQLErrorResponse, Error } from "types/common";
+import { GraphQLErrorResponse, GraphQLError, ErrorCode } from "types/common";
 
 const ShopSchema = Yup.object().shape({
   name: Yup.string().required("This field is required").trim()
 });
 
-const normalizeErrorMessage = (errors: Error[]) => {
+const normalizeErrorMessage = (errors: GraphQLError[]) => {
   const error = errors.length ? errors[0] : null;
-  if (error?.extensions.code === "FORBIDDEN") {
+  if (error?.extensions.code === ErrorCode.Forbidden) {
     return "You don't have permission to create a shop. Please contact the administrator to invite you to a shop.";
   }
   if (error?.extensions.code === "INTERNAL_SERVER_ERROR") {
