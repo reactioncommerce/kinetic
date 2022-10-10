@@ -1,4 +1,4 @@
-export type Error = {
+export type GraphQLError = {
   extensions: {
     code: string
     exception: {
@@ -10,7 +10,7 @@ export type Error = {
 
 export type GraphQLErrorResponse = {
   response: {
-    errors: Error[]
+    errors: GraphQLError[]
   }
 }
 
@@ -25,4 +25,8 @@ export type APIErrorResponse = {
 export type SelectOptionType<T = string> = {
   label: string
   value: T
+}
+
+export enum ErrorCode {
+  Forbidden = "FORBIDDEN"
 }

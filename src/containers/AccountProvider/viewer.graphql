@@ -30,5 +30,12 @@ query getViewer {
       },
       language
     }
+    groups {
+      nodes {
+        _id
+        name
+        permissions
+      }
+    }
   }
 }

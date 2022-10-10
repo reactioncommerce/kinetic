@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import { Sidebar, SidebarFeaturesProps } from "@components/Sidebar";
 import { AppHeader } from "@components/AppHeader";
 import { SIDEBAR_WIDTH } from "../../constants";
+import { ErrorBoundary } from "@components/ErrorBoundary";
 
 type AppLayoutProps = {
   sidebar?: SidebarFeaturesProps
@@ -22,7 +23,9 @@ export const AppLayout = ({ sidebar }: AppLayoutProps) => {
       <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} sidebar={sidebar} />
       <Box component="main" sx={{ flexGrow: 1, width: { xs: "100%", sm: `calc(100% - ${SIDEBAR_WIDTH}px)` } }}>
         <Toolbar />
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </Box>
     </Box>
   );

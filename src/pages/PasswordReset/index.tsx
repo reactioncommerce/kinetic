@@ -11,7 +11,7 @@ import * as Yup from "yup";
 
 import { TextField } from "@components/TextField";
 import { client } from "@graphql/graphql-request-client";
-import type { Error, GraphQLErrorResponse } from "types/common";
+import type { GraphQLError, GraphQLErrorResponse } from "types/common";
 import { useSendResetPasswordEmailMutation } from "@graphql/generates";
 import { FullHeightLayout } from "@containers/Layouts";
 import { AppLogo } from "@components/AppLogo";
@@ -20,7 +20,7 @@ const PasswordResetSchema = Yup.object().shape({
   email: Yup.string().email("Please enter a valid email address").required("This field is required")
 });
 
-const normalizeErrorMessage = (errors: Error[]) => {
+const normalizeErrorMessage = (errors: GraphQLError[]) => {
   const error = errors.length ? errors[0] : null;
 
   if (error?.extensions.exception.code === "UserNotFound") {

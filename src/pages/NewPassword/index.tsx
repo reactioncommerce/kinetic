@@ -10,7 +10,7 @@ import Alert from "@mui/material/Alert";
 import * as Yup from "yup";
 
 import { client } from "@graphql/graphql-request-client";
-import type { Error, GraphQLErrorResponse } from "types/common";
+import type { GraphQLError, GraphQLErrorResponse } from "types/common";
 import { useResetPasswordMutation } from "@graphql/generates";
 import { hashPassword } from "@utils/hashPassword";
 import { FullHeightLayout } from "@containers/Layouts";
@@ -25,7 +25,7 @@ const PasswordResetSchema = Yup.object().shape({
   )
 });
 
-const normalizeErrorMessage = (errors: Error[]) => {
+const normalizeErrorMessage = (errors: GraphQLError[]) => {
   const error = errors.length ? errors[0] : null;
   if (error?.extensions.exception.code === "InvalidToken") {
     return "Reset token has expired.";

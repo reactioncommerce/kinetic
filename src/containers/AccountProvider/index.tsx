@@ -8,6 +8,7 @@ import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
 import { formatErrorResponse } from "@utils/errorHandlers";
+import { ErrorCode } from "types/common";
 
 type AccountContextValue = {
   account: GetViewerQuery["viewer"] | null
@@ -57,7 +58,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
       const { code, status } = formatErrorResponse(error);
 
       if (status === 401) removeAccessToken();
-      if (code === "FORBIDDEN") navigate("/access-denied");
+      if (code === ErrorCode.Forbidden) navigate("/access-denied");
     },
     onSuccess: (response) => {
       if (response.viewer === null) {

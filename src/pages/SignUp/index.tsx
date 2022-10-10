@@ -12,14 +12,14 @@ import { TextField } from "@components/TextField";
 import { UserSchema } from "@utils/validate";
 import { client } from "@graphql/graphql-request-client";
 import { hashPassword } from "@utils/hashPassword";
-import type { GraphQLErrorResponse, Error } from "types/common";
+import type { GraphQLErrorResponse, GraphQLError } from "types/common";
 import { useAccount } from "@containers/AccountProvider";
 import { useCreateUserMutation } from "@graphql/generates";
 import { AppLogo } from "@components/AppLogo";
 import { PasswordField } from "@components/PasswordField";
 import { FullHeightLayout } from "@containers/Layouts";
 
-const normalizeErrorMessage = (errors: Error[]) => {
+const normalizeErrorMessage = (errors: GraphQLError[]) => {
   const error = errors.length ? errors[0] : null;
 
   if (error?.extensions.exception.code === "EmailAlreadyExists") {
