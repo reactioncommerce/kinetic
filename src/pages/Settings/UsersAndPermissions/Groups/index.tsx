@@ -18,6 +18,7 @@ import { Group } from "types/group";
 import { Drawer } from "@components/Drawer";
 import { TextField } from "@components/TextField";
 import { useToast } from "@containers/ToastProvider";
+import { usePermission } from "@components/PermissionGuard";
 
 import { normalizeRoles, RoleItem, RoleSelectField } from "./RoleSelectField";
 
@@ -98,6 +99,7 @@ const Groups = () => {
     setActiveRow(row);
     setOpen(true);
   };
+  const canUpdateGroup = usePermission(["groups/update"]);
 
   return (
     <TableContainer>
@@ -136,7 +138,7 @@ const Groups = () => {
           }}
           validationSchema={groupSchema}
         >
-          {({ isSubmitting, dirty }) => (
+          {({ isSubmitting, dirty, submitForm }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Typography
@@ -175,15 +177,17 @@ const Groups = () => {
                     >
                       Cancel
                     </Button>
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      type="submit"
-                      loading={isSubmitting}
-                      disabled={!dirty}
-                    >
+                    {canUpdateGroup ?
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        loading={isSubmitting}
+                        disabled={!dirty}
+                        onClick={submitForm}
+                      >
                       Save Changes
-                    </LoadingButton>
+                      </LoadingButton> : null}
+
                   </Stack>
                 }
               />

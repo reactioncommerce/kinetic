@@ -7,9 +7,10 @@ import { ErrorBoundary as ReactErrorBoundary } from "./ErrorBoundary";
 
 type ErrorBoundaryProps = {
   children: JSX.Element
+  fallback?: JSX.Element
 }
 
-export const ErrorBoundary = ({ children }: ErrorBoundaryProps) => {
+export const ErrorBoundary = ({ children, fallback }: ErrorBoundaryProps) => {
   const [hasError, setHasError] = useState(false);
   const location = useLocation();
   useEffect(() => {
@@ -17,6 +18,8 @@ export const ErrorBoundary = ({ children }: ErrorBoundaryProps) => {
   }, [location.key]);
 
   return (
-    <ReactErrorBoundary hasError={hasError} setHasError={setHasError}>{children}</ReactErrorBoundary>
+    <ReactErrorBoundary hasError={hasError} setHasError={setHasError} fallback={fallback}>{children}</ReactErrorBoundary>
   );
 };
+
+export { AccessDenied } from "./AccessDenied";

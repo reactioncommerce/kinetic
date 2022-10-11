@@ -9,19 +9,22 @@ import { useShop } from "@containers/ShopProvider";
 import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
 import { formatErrorResponse } from "@utils/errorHandlers";
 import { ErrorCode } from "types/common";
+import { filterNodes } from "@utils/common";
 
 type AccountContextValue = {
   account: GetViewerQuery["viewer"] | null
   setAccessToken: (token: string) => void
   removeAccessToken: () => void
   refetchAccount: () => void
+  availableRoles: string[]
 }
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
   setAccessToken: noop,
   removeAccessToken: noop,
-  refetchAccount: noop
+  refetchAccount: noop,
+  availableRoles: []
 });
 
 export const useAccount = () => {
@@ -54,11 +57,15 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
+    useErrorBoundary: false,
     onError: (error) => {
       const { code, status } = formatErrorResponse(error);
 
       if (status === 401) removeAccessToken();
-      if (code === ErrorCode.Forbidden) navigate("/access-denied");
+      if (code === ErrorCode.Forbidden) {
+        removeAccessToken();
+        navigate("/access-denied");
+      }
     },
     onSuccess: (response) => {
       if (response.viewer === null) {
@@ -81,13 +88,16 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     );
   }
 
+  const availableRoles = [...new Set(filterNodes(data?.viewer?.groups?.nodes?.map((group) => filterNodes(group?.permissions)).flat()))];
+
   return (
     <AccountContext.Provider
       value={{
         account: data?.viewer ?? null,
         setAccessToken,
         removeAccessToken,
-        refetchAccount: refetch
+        refetchAccount: refetch,
+        availableRoles
       }}
     >
       {children}

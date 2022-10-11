@@ -14,6 +14,7 @@ import { filterNodes } from "@utils/common";
 import { Group } from "types/group";
 import { useShop } from "@containers/ShopProvider";
 import { UserForm } from "../components/UserForm";
+import { usePermission } from "@components/PermissionGuard";
 
 
 const PendingInvitations = () => {
@@ -59,11 +60,14 @@ const PendingInvitations = () => {
     }
   );
 
+  const canInviteUser = usePermission(["accounts/invite:group"]);
+
   return (
     <TableContainer>
       <TableContainer.Header
         title="Pending Invitations"
-        action={<TableAction onClick={() => setOpen(true)}>Invite</TableAction>}
+        action={
+          canInviteUser ? <TableAction onClick={() => setOpen(true)}>Invite</TableAction> : undefined}
       />
       <Table
         columns={columns}
@@ -79,9 +83,10 @@ const PendingInvitations = () => {
               <Typography variant="h6" gutterBottom>No Pending Invitations</Typography>
               <Typography variant="body2" color="grey.600">Invite the first user.</Typography>
             </div>
-            <Button variant="contained" size="small" sx={{ width: "120px" }} onClick={() => setOpen(true)}>
+            {canInviteUser ?
+              <Button variant="contained" size="small" sx={{ width: "120px" }} onClick={() => setOpen(true)}>
               Invite
-            </Button>
+              </Button> : null}
           </Stack>}
       />
       <UserForm

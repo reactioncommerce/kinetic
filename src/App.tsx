@@ -20,8 +20,8 @@ function App() {
           </AccountProvider>
         </ShopProvider>
       </ToastProvider>
-
     </Suspense>
+
   );
 }
 
