@@ -12,6 +12,7 @@ import { useGetPaymentMethodsQuery, useUpdatePaymentMethodMutation } from "@grap
 import { client } from "@graphql/graphql-request-client";
 import { Loader } from "@components/Loader";
 import { filterNodes } from "@utils/common";
+import { usePermission } from "@components/PermissionGuard";
 
 const PaymentMethods = () => {
   const { shopId } = useShop();
@@ -22,6 +23,7 @@ const PaymentMethods = () => {
   const handleToggleStatus = (name: string, isEnabled: boolean) => {
     mutate({ input: { isEnabled, shopId: shopId!, paymentMethodName: name } }, { onSuccess: () => refetch() });
   };
+  const canEditShop = usePermission(["shops/update"]);
 
   return (
     <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">
@@ -41,10 +43,11 @@ const PaymentMethods = () => {
                 <Typography variant="subtitle1">{displayName}</Typography>
                 <Typography variant="subtitle2" color="grey.600">{isEnabled ? "Enabled" : "Disabled"}</Typography>
               </Box>
-              <Switch
-                checked={isEnabled}
-                onChange={(_, checked) => handleToggleStatus(name, checked)} checkedIcon={<CheckIcon sx={{ width: "18px", height: "18px" }} />}
-                inputProps={{ "aria-label": "Toggle payment method" }}/>
+              {canEditShop ?
+                <Switch
+                  checked={isEnabled}
+                  onChange={(_, checked) => handleToggleStatus(name, checked)} checkedIcon={<CheckIcon sx={{ width: "18px", height: "18px" }} />}
+                  inputProps={{ "aria-label": "Toggle payment method" }}/> : null}
             </Stack>)
         }
       </Stack>

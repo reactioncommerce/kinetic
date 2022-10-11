@@ -43,6 +43,7 @@ import { MethodCell } from "../components/MethodCell";
 import { OperatorsField } from "../components/OperatorsField";
 import { DestinationField, getInitialDestinationValue } from "../components/DestinationField";
 import { ShippingMethodsField } from "../components/ShippingMethodsField";
+import { usePermission } from "@components/PermissionGuard";
 
 
 type ShippingSurchargeFormValues = {
@@ -213,11 +214,15 @@ const Surcharges = () => {
     });
   };
 
+  const canAdd = usePermission(["surcharges/create"]);
+  const canEdit = usePermission(["surcharges/update"]);
+  const canDelete = usePermission(["surcharges/delete"]);
+
   return (
     <TableContainer>
       <TableContainer.Header
         title="Shipping Surcharges"
-        action={<TableAction onClick={() => setOpen(true)}>Add</TableAction>}
+        action={canAdd ? <TableAction onClick={() => setOpen(true)}>Add</TableAction> : undefined}
       />
       <Table
         columns={columns}
@@ -240,14 +245,16 @@ const Surcharges = () => {
                 Get started by adding your first shipping surcharge.
               </Typography>
             </div>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ width: "120px" }}
-              onClick={() => setOpen(true)}
-            >
+            {canAdd ?
+              <Button
+                variant="contained"
+                size="small"
+                sx={{ width: "120px" }}
+                onClick={() => setOpen(true)}
+              >
               Add
-            </Button>
+              </Button> : null}
+
           </Stack>
         }
       />
@@ -310,7 +317,7 @@ const Surcharges = () => {
               </Drawer.Content>
               <Drawer.Actions
                 left={
-                  activeRow ? (
+                  activeRow && canDelete ? (
                     <LoadingButton
                       variant="outlined"
                       color="error"
@@ -334,15 +341,17 @@ const Surcharges = () => {
                     >
                       Cancel
                     </Button>
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      loading={isSubmitting}
-                      onClick={submitForm}
-                      disabled={!dirty}
-                    >
-                      Save Changes
-                    </LoadingButton>
+                    {canEdit || canAdd ?
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        loading={isSubmitting}
+                        onClick={submitForm}
+                        disabled={!dirty}
+                      >
+                    Save Changes
+                      </LoadingButton> : null}
+
                   </Stack>
                 }
               />

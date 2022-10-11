@@ -26,6 +26,7 @@ import { InputWithLabel, TextField, useRenderMaskedInput } from "@components/Tex
 import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { AddressField } from "@components/AddressField";
 import { useToast } from "@containers/ToastProvider";
+import { usePermission } from "@components/PermissionGuard";
 
 type CustomTaxRateFormValues = {
   rate: string
@@ -148,9 +149,12 @@ export const CustomTaxRates = () => {
     taxRate.postal
   ].filter(Boolean);
 
+  const canAdd = usePermission(["taxRates/create"]);
+  const canEdit = usePermission(["taxRates/update"]);
+  const canDelete = usePermission(["taxRates/delete"]);
 
   return (
-    <Paper variant="outlined" sx={{ padding: 2, mt: 2 }} component={Container} maxWidth="md">
+    <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="md">
       <Stack
         direction="column"
         divider={<Divider orientation="horizontal" flexItem />}
@@ -161,7 +165,8 @@ export const CustomTaxRates = () => {
             <Typography variant="h6" gutterBottom>Custom Tax Rates</Typography>
             <Typography variant="body2" color="grey.600">Add and remove custom tax rates for your custom tax rates plugin</Typography>
           </Box>
-          <Button variant="text" onClick={() => setOpen(true)}>Add</Button>
+          {canAdd ? <Button variant="text" onClick={() => setOpen(true)}>Add</Button> : null}
+
         </Stack>
 
         {isLoading ? <Loader/> :
@@ -179,9 +184,11 @@ export const CustomTaxRates = () => {
                   }
                 </Stack>
               </Box>
-              <Button variant="outlined" size="small" color="secondary" onClick={() => handleClickEdit(taxRate)}>
+              {canEdit || canDelete ?
+                <Button variant="outlined" size="small" color="secondary" onClick={() => handleClickEdit(taxRate)}>
               Edit
-              </Button>
+                </Button> : null}
+
             </Stack>;
           })
         }
@@ -196,7 +203,7 @@ export const CustomTaxRates = () => {
           initialValues={initialValues}
           validationSchema={taxRateSchema}
         >
-          {({ isSubmitting, dirty }) => (
+          {({ isSubmitting, dirty, submitForm }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Stack direction="column" width="50%" mb={2}>
@@ -250,7 +257,7 @@ export const CustomTaxRates = () => {
               </Drawer.Content>
               <Drawer.Actions
                 left={
-                  activeTaxRate ? (
+                  activeTaxRate && canDelete ? (
                     <LoadingButton
                       variant="outlined"
                       color="error"
@@ -274,15 +281,17 @@ export const CustomTaxRates = () => {
                     >
                       Cancel
                     </Button>
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      type="submit"
-                      loading={isSubmitting}
-                      disabled={!dirty}
-                    >
+                    {canEdit || canAdd ?
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        loading={isSubmitting}
+                        disabled={!dirty}
+                        onClick={submitForm}
+                      >
                       Save Changes
-                    </LoadingButton>
+                      </LoadingButton> : null}
+
                   </Stack>
                 }
               />
