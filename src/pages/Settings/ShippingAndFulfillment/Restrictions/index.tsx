@@ -33,6 +33,7 @@ import { OperatorsField } from "../components/OperatorsField";
 import { DestinationField, getInitialDestinationValue } from "../components/DestinationField";
 import { ShippingMethodsField } from "../components/ShippingMethodsField";
 import { SelectOptionType } from "types/common";
+import { usePermission } from "@components/PermissionGuard";
 
 type ShippingRestrictionFormValues = {
   type: RestrictionTypeEnum;
@@ -210,12 +211,15 @@ const Restrictions = () => {
     });
   };
 
+  const canAdd = usePermission(["shippingRestrictions/create"]);
+  const canEdit = usePermission(["shippingRestrictions/update"]);
+  const canDelete = usePermission(["shippingRestrictions/delete"]);
 
   return (
     <TableContainer>
       <TableContainer.Header
         title="Shipping Restrictions"
-        action={<TableAction onClick={() => setOpen(true)}>Add</TableAction>}
+        action={canAdd ? <TableAction onClick={() => setOpen(true)}>Add</TableAction> : undefined}
       />
       <Table
         columns={columns}
@@ -238,14 +242,16 @@ const Restrictions = () => {
                 Get started by adding your first shipping restriction.
               </Typography>
             </div>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ width: "120px" }}
-              onClick={() => setOpen(true)}
-            >
-              Add
-            </Button>
+            {canAdd ?
+              <Button
+                variant="contained"
+                size="small"
+                sx={{ width: "120px" }}
+                onClick={() => setOpen(true)}
+              >
+            Add
+              </Button>
+              : null}
           </Stack>
         }
       />
@@ -299,7 +305,7 @@ const Restrictions = () => {
               </Drawer.Content>
               <Drawer.Actions
                 left={
-                  activeRow ? (
+                  activeRow && canDelete ? (
                     <LoadingButton
                       variant="outlined"
                       color="error"
@@ -323,15 +329,18 @@ const Restrictions = () => {
                     >
                       Cancel
                     </Button>
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      loading={isSubmitting}
-                      onClick={submitForm}
-                      disabled={!dirty}
-                    >
-                      Save Changes
-                    </LoadingButton>
+                    {canEdit || canAdd ?
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        loading={isSubmitting}
+                        onClick={submitForm}
+                        disabled={!dirty}
+                      >
+                     Save Changes
+                      </LoadingButton>
+                      : null}
+
                   </Stack>
                 }
               />

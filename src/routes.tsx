@@ -37,13 +37,19 @@ const shippingPageRoutes: SubPageRouteProps = [
     path: "",
     key: "methods",
     index: true,
-    element: <ShippingMethods/>
+    element:
+    <PermissionGuard permissions={["shippingMethods/read"]}>
+      <ShippingMethods/>
+    </PermissionGuard>
   },
   {
     header: "Restrictions",
     path: "restrictions",
     key: "restrictions",
-    element: <ShippingRestrictions/>
+    element:
+    <PermissionGuard permissions={["shippingRestrictions/read"]}>
+      <ShippingRestrictions/>
+    </PermissionGuard>
   },
   {
     header: "Surcharges",
@@ -103,14 +109,20 @@ const emailsSettingPageRoutes: SubPageRouteProps = [
     header: "Templates",
     path: "",
     key: "email-templates-settings",
-    element: <EmailTemplatesSettings/>,
+    element:
+    <PermissionGuard permissions={["email-templates/read"]}>
+      <EmailTemplatesSettings/>
+    </PermissionGuard>,
     index: true
   },
   {
     header: "Logs",
     path: "logs",
     key: "email-logs-settings",
-    element: <EmailLogsSettings/>
+    element:
+    <PermissionGuard permissions={["emails/read"]}>
+      <EmailLogsSettings/>
+    </PermissionGuard>
   }
 ];
 
@@ -126,13 +138,19 @@ const checkoutSettingPageRoutes: SubPageRouteProps = [
     header: "Taxes",
     path: "taxes",
     key: "taxes-settings",
-    element: <TaxesSettings/>
+    element:
+    <PermissionGuard permissions={["taxes/read"]}>
+      <TaxesSettings/>
+    </PermissionGuard>
   },
   {
     header: "Address Validation",
     path: "address-validation",
     key: "address-validation",
-    element: <AddressValidationSettings/>
+    element:
+    <PermissionGuard permissions={["addressValidationRules/read"]}>
+      <AddressValidationSettings/>
+    </PermissionGuard>
   }
 ];
 

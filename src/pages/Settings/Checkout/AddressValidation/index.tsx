@@ -26,6 +26,7 @@ import { AddressValidationService } from "@graphql/types";
 import { SelectOptionType } from "types/common";
 import { AddressValidationRule } from "types/addressValidation";
 import { useToast } from "@containers/ToastProvider";
+import { usePermission } from "@components/PermissionGuard";
 
 type ValidationRuleFormValues = {
   serviceName: string
@@ -125,6 +126,8 @@ const AddressValidation = () => {
       ({ value: countryCode, label: supportedCountryOptions.find(({ value }) => value === countryCode)?.label ?? "Unknown" })) : []
   };
 
+  const canEdit = usePermission(["addressValidationRules/update"]);
+
   return (
     <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">
       <Stack
@@ -144,8 +147,9 @@ const AddressValidation = () => {
                 <Typography variant="subtitle1">{service.displayName}</Typography>
                 <Typography variant="subtitle2" color="grey.600">{settingCountries.length ? settingCountries.join(", ") : "All Countries"}</Typography>
               </Box>
-
-              <Button variant="outlined" color="secondary" size="small" onClick={() => handleClickEditService(service)}>Edit</Button>
+              {canEdit ?
+                <Button variant="outlined" color="secondary" size="small" onClick={() => handleClickEditService(service)}>Edit</Button>
+                : null}
             </Stack>;
           })
         }
