@@ -6,7 +6,12 @@ import { ErrorCode } from "types/common";
 
 import { AccessDenied } from "./AccessDenied";
 
-type Props = {children: JSX.Element, hasError: boolean, setHasError: (hasError: boolean) => void}
+type Props = {
+   children: JSX.Element,
+   hasError: boolean,
+   setHasError: (hasError: boolean) => void
+   fallback?: JSX.Element
+  }
 
 const errorCodeMap: Record<string, JSX.Element> = {
   [ErrorCode.Forbidden]: <AccessDenied/>
@@ -27,6 +32,12 @@ export class ErrorBoundary extends Component<Props, {hasError: boolean, errorEle
     const { code } = formatErrorResponse(error);
 
     this.props.setHasError(true);
+
+    if (this.props.fallback) {
+      this.setState({ errorElement: this.props.fallback });
+      return;
+    }
+
     this.setState({ errorElement: code ? errorCodeMap[code] : undefined });
   }
 

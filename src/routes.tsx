@@ -1,17 +1,17 @@
 import { RouteObject } from "react-router-dom";
 import { lazy } from "react";
 
-
+import { PermissionGuard } from "@components/PermissionGuard";
 import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
 import { AppLayout, PageLayout } from "@containers/Layouts";
 import { SubHeaderItemProps } from "@components/AppHeader";
 
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import AccessDenied from "./pages/AccessDenied";
 
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
-const AccessDenied = lazy(() => import("./pages/AccessDenied"));
 
 const PasswordReset = lazy(() => import("./pages/PasswordReset"));
 const NewPassword = lazy(() => import("./pages/NewPassword"));
@@ -58,20 +58,27 @@ const userPageRoutes: SubPageRouteProps = [
     header: "Users",
     path: "",
     key: "users",
-    element: <Users/>,
+    element:
+    <PermissionGuard permissions={["accounts/read", "groups/read"]}>
+      <Users/>
+    </PermissionGuard>,
     index: true
   },
   {
     header: "Invitations",
     path: "invitations",
     key: "invitations",
-    element: <PendingInvitations/>
+    element:
+    <PermissionGuard permissions={["invitations/read", "groups/read", "groups/manage:accounts"]}>
+      <PendingInvitations/>
+    </PermissionGuard>
   },
   {
     header: "Groups",
     path: "groups",
     key: "groups",
-    element: <Groups/>
+    element:
+    <PermissionGuard permissions={["groups/read"]}><Groups/></PermissionGuard>
   }
 ];
 
@@ -131,6 +138,10 @@ const checkoutSettingPageRoutes: SubPageRouteProps = [
 
 export const routes: RouteObject[] = [
   {
+    path: "/access-denied",
+    element: <AccessDenied/>
+  },
+  {
     element: <UnauthenticatedRoute/>,
     children: [
       {
@@ -148,10 +159,6 @@ export const routes: RouteObject[] = [
       {
         path: "/password-reset",
         element: <NewPassword/>
-      },
-      {
-        path: "/access-denied",
-        element: <AccessDenied/>
       }
     ]
   },

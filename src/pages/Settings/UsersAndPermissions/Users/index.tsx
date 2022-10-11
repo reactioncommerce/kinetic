@@ -18,6 +18,7 @@ import { MenuActions } from "@components/MenuActions";
 import { useShop } from "@containers/ShopProvider";
 import { UserForm } from "../components/UserForm";
 import { useToast } from "@containers/ToastProvider";
+import { usePermission } from "@components/PermissionGuard";
 
 const Users = () => {
   const [open, setOpen] = useState(false);
@@ -114,11 +115,13 @@ const Users = () => {
     setActiveRow(undefined);
   };
 
+  const canInviteUser = usePermission(["accounts/invite:group"]);
+
   return (
     <TableContainer>
       <TableContainer.Header
         title="Users"
-        action={<TableAction onClick={handleOpen}>Invite</TableAction>}
+        action={canInviteUser ? <TableAction onClick={handleOpen}>Invite</TableAction> : undefined}
       />
       <Table
         columns={columns}
