@@ -5,12 +5,16 @@ import SupportOutlinedIcon from "@mui/icons-material/SupportOutlined";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import Link from "@mui/material/Link";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
 
 import { SystemInformation } from "@components/SystemInformation";
+import { useAccount } from "@containers/AccountProvider";
+import { useShop } from "@containers/ShopProvider";
 
 import { SidebarItem } from "./SidebarItem";
 import { ProfileToolbar } from "./ProfileToolbar";
-import { CORE_FEATURES, FEATURE_KEYS, SidebarFeaturesProps, SIDEBAR_ITEMS, STOREFRONT_FEATURES } from "./defaultSidebarItems";
+import { CORE_FEATURES, FEATURE_KEYS, SidebarFeaturesProps, SIDEBAR_ITEMS } from "./defaultSidebarItems";
 import { SidebarItems } from "./SidebarItems";
 
 
@@ -20,6 +24,9 @@ type SidebarItemsProps = {
 
 export const SidebarContent = ({ sidebar = SIDEBAR_ITEMS }: SidebarItemsProps) => {
   const { coreFeatures = CORE_FEATURES, plugins = [] } = sidebar;
+  const { account } = useAccount();
+  const { shopId } = useShop();
+  const activeShop = account?.adminUIShops?.find((shop) => shop?._id === shopId);
 
   return (
     <>
@@ -34,9 +41,12 @@ export const SidebarContent = ({ sidebar = SIDEBAR_ITEMS }: SidebarItemsProps) =
       >
         <Box>
           <List>
-            {STOREFRONT_FEATURES.map(({ text, icon, to }) => (
-              <SidebarItem key={text} icon={icon} to={to} text={text} />
-            ))}
+            <SidebarItem key="dashboard" icon={<HomeOutlinedIcon fontSize="small" />} to="/" text="Dashboard" />
+            <SidebarItem
+              key="storefront"
+              icon={<OpenInNewOutlinedIcon fontSize="small" />}
+              text="View Storefront"
+              onClick={() => window.open(`${activeShop?.storefrontUrls?.storefrontHomeUrl || "/"}`, "_blank")} />
           </List>
           <Divider sx={{ mx: 2, borderColor: "background.darkGrey" }} />
           {coreFeatures.length ? <SidebarItems items={[{ text: "Stores", key: FEATURE_KEYS.stores, subItems: coreFeatures }]}/> : null}

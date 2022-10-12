@@ -13,6 +13,9 @@ query getViewer {
           large
         }
       }
+      storefrontUrls {
+        storefrontHomeUrl
+      }
       name
       slug
       shopType
