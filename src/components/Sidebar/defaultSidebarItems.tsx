@@ -2,10 +2,8 @@ import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
 import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
@@ -16,8 +14,6 @@ import { SidebarItemProps } from "./SidebarItem";
 
 
 export const FEATURE_KEYS = {
-  dashboard: "dashboard",
-  storefront: "storefront",
   products: "products",
   orders: "orders",
   customers: "customers",
@@ -43,22 +39,6 @@ export type SidebarFeaturesProps = {
   coreFeatures?: ItemProps[]
   plugins?: ItemProps[]
 }
-
-
-export const STOREFRONT_FEATURES: ItemProps[] = [
-  {
-    key: FEATURE_KEYS.dashboard,
-    text: "Dashboard",
-    to: "/",
-    icon: <HomeOutlinedIcon fontSize="small" />
-  },
-  {
-    key: FEATURE_KEYS.storefront,
-    text: "View Storefront",
-    to: "/storefront",
-    icon: <OpenInNewOutlinedIcon fontSize="small" />
-  }
-];
 
 export const CORE_FEATURES: ItemProps[] = [
   {
