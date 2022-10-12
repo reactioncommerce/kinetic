@@ -135,6 +135,7 @@ Import the plugin from examples folder, then define the route object and sidebar
 // routes.tsx
 
 // ... import statements
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { CORE_FEATURES, FEATURE_KEYS, ItemProps } from "@components/Sidebar";
 
 const Customers = lazy(() => import("./examples/Customers"));
