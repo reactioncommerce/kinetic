@@ -8432,6 +8432,13 @@ export type GetRolesQueryVariables = Exact<{
 
 export type GetRolesQuery = { __typename?: 'Query', roles?: { __typename?: 'RoleConnection', nodes?: Array<{ __typename?: 'Role', name: string } | null> | null } | null };
 
+export type CreateGroupMutationVariables = Exact<{
+  input: CreateAccountGroupInput;
+}>;
+
+
+export type CreateGroupMutation = { __typename?: 'Mutation', createAccountGroup?: { __typename?: 'CreateAccountGroupPayload', group?: { __typename?: 'Group', _id: string } | null } | null };
+
 export type GetPendingInvitationsQueryVariables = Exact<{
   shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -9686,6 +9693,28 @@ export const useGetRolesQuery = <
     useQuery<GetRolesQuery, TError, TData>(
       ['getRoles', variables],
       fetcher<GetRolesQuery, GetRolesQueryVariables>(client, GetRolesDocument, variables, headers),
+      options
+    );
+export const CreateGroupDocument = `
+    mutation createGroup($input: CreateAccountGroupInput!) {
+  createAccountGroup(input: $input) {
+    group {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateGroupMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateGroupMutation, TError, CreateGroupMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateGroupMutation, TError, CreateGroupMutationVariables, TContext>(
+      ['createGroup'],
+      (variables?: CreateGroupMutationVariables) => fetcher<CreateGroupMutation, CreateGroupMutationVariables>(client, CreateGroupDocument, variables, headers)(),
       options
     );
 export const GetPendingInvitationsDocument = `

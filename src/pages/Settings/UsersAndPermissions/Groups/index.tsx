@@ -9,9 +9,9 @@ import { FastField, Field, Form, Formik, FormikConfig } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
 
-import { Table, TableContainer, useTableState } from "@components/Table";
+import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
 import { useShop } from "@containers/ShopProvider";
-import { useGetGroupsQuery, useUpdateGroupMutation } from "@graphql/generates";
+import { useCreateGroupMutation, useGetGroupsQuery, useUpdateGroupMutation } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { filterNodes } from "@utils/common";
 import { Group } from "types/group";
@@ -32,6 +32,7 @@ const groupSchema = Yup.object().shape({
 });
 
 const Groups = () => {
+  const [open, setOpen] = useState(false);
   const [activeRow, setActiveRow] = useState<Group>();
 
   const { pagination, handlePaginationChange } = useTableState();
@@ -49,6 +50,7 @@ const Groups = () => {
   });
 
   const { mutate: updateGroup } = useUpdateGroupMutation(client);
+  const { mutate: createGroup } = useCreateGroupMutation(client);
 
   const columns = useMemo((): ColumnDef<Group>[] => [
     {
@@ -58,28 +60,50 @@ const Groups = () => {
     }
   ], []);
 
+  const handleClose = () => {
+    setOpen(false);
+    setActiveRow(undefined);
+  };
+
+  const handleSuccess = () => {
+    handleClose();
+    refetch();
+  };
+
   const handleSubmit: FormikConfig<GroupFormValues>["onSubmit"] = async (
     values,
     { setSubmitting }
   ) => {
-    if (activeRow) {
-      const permissions = Object.values(values.permissions).flat().map(({ name }) => name);
+    const permissions = Object.values(values.permissions).flat().map(({ name }) => name);
 
+    if (activeRow) {
       updateGroup({ input: { groupId: activeRow._id || "", group: { ...values, permissions }, shopId } }, {
         onSettled: () => setSubmitting(false),
         onSuccess: () => {
-          setActiveRow(undefined);
-          refetch();
+          handleSuccess();
           toast.success("Update group successfully.");
         }
       });
+    } else {
+      createGroup({ input: { shopId: shopId!, group: { ...values, permissions } } }, {
+        onSuccess: () => {
+          handleSuccess();
+          toast.success("Create group successfully.");
+        }
+      });
     }
+  };
+
+  const handleRowClick = (row: Group) => {
+    setActiveRow(row);
+    setOpen(true);
   };
 
   return (
     <TableContainer>
       <TableContainer.Header
         title="Groups"
+        action={<TableAction onClick={() => setOpen(true)}>Add</TableAction>}
       />
       <Table
         columns={columns}
@@ -88,7 +112,7 @@ const Groups = () => {
         tableState={{ pagination }}
         onPaginationChange={handlePaginationChange}
         totalCount={data?.totalCount}
-        onRowClick={setActiveRow}
+        onRowClick={handleRowClick}
         emptyPlaceholder={
           <Stack alignItems="center" gap={2}>
             <AdminPanelSettingsOutlinedIcon sx={{ color: "grey.500", fontSize: "42px" }} />
@@ -99,9 +123,9 @@ const Groups = () => {
           </Stack>}
       />
       <Drawer
-        open={!!activeRow}
-        onClose={() => setActiveRow(undefined)}
-        title="Edit Group"
+        open={open}
+        onClose={handleClose}
+        title={activeRow ? "Edit Group" : "Add Group"}
       >
         <Formik<GroupFormValues>
           onSubmit={handleSubmit}
@@ -147,7 +171,7 @@ const Groups = () => {
                       variant="outlined"
                       color="secondary"
                       disabled={isSubmitting}
-                      onClick={() => setActiveRow(undefined)}
+                      onClick={handleClose}
                     >
                       Cancel
                     </Button>
