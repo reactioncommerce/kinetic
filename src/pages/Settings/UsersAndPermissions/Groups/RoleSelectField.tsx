@@ -18,6 +18,7 @@ import { useGetRolesQuery } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { InputWithLabel } from "@components/TextField";
 import { filterNodes } from "@utils/common";
+import { Loader } from "@components/Loader";
 
 const NUMBER_OF_ROLES = 200;
 
@@ -46,7 +47,7 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
   const [allRolesByResource, setRolesByResource] =
   useState<Record<string, RoleItem[]>>();
 
-  const { data } = useGetRolesQuery(client, { shopId: shopId!, first: NUMBER_OF_ROLES }, {
+  const { data, isLoading } = useGetRolesQuery(client, { shopId: shopId!, first: NUMBER_OF_ROLES }, {
     select: (response) => {
       const roleNames = filterNodes(response.roles?.nodes).map(({ name }) => name);
       const allRoles = normalizeRoles(roleNames);
@@ -90,40 +91,45 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
           </Stack>
         </Box>
         <Box maxHeight={500} overflow="auto" sx={{ borderTop: "1px solid", borderTopColor: "grey.300", py: 1 }}>
-          {allRolesByResource && Object.keys(allRolesByResource).length ? Object.keys(allRolesByResource).map((resource) =>
-            <Accordion key={resource} disableGutters sx={{ "padding": 0, "&:before": { display: "none" } }}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                id={resource}
-                sx={{ "minHeight": "auto", "& .MuiAccordionSummary-content": { margin: 0 } }}
-              >
-                <FormControlLabel
-                  label={
-                    <Stack direction="row" alignItems="center" gap={1}>
-                      <Typography variant="subtitle1">{`${getResourceLabel(resource)}`}</Typography>
-                      <Typography variant="caption">
-                        {`(${selectedRoles[resource] ? selectedRoles[resource].length : 0} of ${data?.allRoles[resource]?.length} selected)`}
-                      </Typography>
-                    </Stack>
-                  }
-                  control={<Checkbox checked={checked(resource)} indeterminate={indeterminate(resource)} onChange={handleSelectResource(resource)} />}/>
-              </AccordionSummary>
-              <AccordionDetails sx={{ padding: 0, pl: 2 }}>
-                <Stack direction="column">
-                  {allRolesByResource[resource].map((role) =>
+          {isLoading || !allRolesByResource ? <Loader/> :
+            <>
+              {Object.keys(allRolesByResource).length ? Object.keys(allRolesByResource).map((resource) =>
+                <Accordion key={resource} disableGutters sx={{ "padding": 0, "&:before": { display: "none" } }}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id={resource}
+                    sx={{ "minHeight": "auto", "& .MuiAccordionSummary-content": { margin: 0 } }}
+                  >
                     <FormControlLabel
-                      sx={{ ml: 3 }}
-                      key={role.name}
-                      label={role.label}
-                      control={
-                        <Checkbox
-                          checked={
-                            selectedRoles[resource] ? selectedRoles[resource].some(({ name }) => name === role.name) : false}
-                          onChange={handleChange(resource, role)}/>}
-                    />)}
-                </Stack>
-              </AccordionDetails>
-            </Accordion>) : <Stack justifyContent="center" direction="row">No Roles found</Stack>}
+                      label={
+                        <Stack direction="row" alignItems="center" gap={1}>
+                          <Typography variant="subtitle1">{`${getResourceLabel(resource)}`}</Typography>
+                          <Typography variant="caption">
+                            {`(${selectedRoles[resource] ? selectedRoles[resource].length : 0} of ${data?.allRoles[resource]?.length} selected)`}
+                          </Typography>
+                        </Stack>
+                      }
+                      control={<Checkbox checked={checked(resource)} indeterminate={indeterminate(resource)} onChange={handleSelectResource(resource)} />}/>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ padding: 0, pl: 2 }}>
+                    <Stack direction="column">
+                      {allRolesByResource[resource].map((role) =>
+                        <FormControlLabel
+                          sx={{ ml: 3 }}
+                          key={role.name}
+                          label={role.label}
+                          control={
+                            <Checkbox
+                              checked={
+                                selectedRoles[resource] ? selectedRoles[resource].some(({ name }) => name === role.name) : false}
+                              onChange={handleChange(resource, role)}/>}
+                        />)}
+                    </Stack>
+                  </AccordionDetails>
+                </Accordion>) :
+                <Stack justifyContent="center" direction="row">No Roles found</Stack>}
+            </>
+          }
         </Box>
       </Paper>
     </Stack>
