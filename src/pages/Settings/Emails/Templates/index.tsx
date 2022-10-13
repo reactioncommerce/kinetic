@@ -136,7 +136,7 @@ const EmailTemplates = () => {
   };
 
   const canEdit = usePermission(["email-templates/update"]);
-  const canConfigureEmailVariables = usePermission(["shop/update"]);
+  const canConfigureEmailVariables = usePermission(["shops/update"]);
 
   return (
     <TableContainer>
