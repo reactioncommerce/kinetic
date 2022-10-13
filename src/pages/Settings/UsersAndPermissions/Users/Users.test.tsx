@@ -81,7 +81,7 @@ describe("Users", () => {
       .toBeChecked();
     expect(screen.getByLabelText("Email Address")).toBeDisabled();
     expect(screen.getByLabelText("Name")).toBeDisabled();
-    expect(screen.queryByLabelText("Allow access to admin UI")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Allow access to admin UI")).toBeDisabled();
 
     await user.click(screen.getByText("Save Changes"));
     await waitFor(() => {
