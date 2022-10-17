@@ -68,7 +68,7 @@ const CreateShop = () => {
     <FullHeightLayout maxWidth="xs">
       <AppLogo theme="dark" sx={{ mb: "50px" }} />
       <Typography component="h1" variant="h4" gutterBottom>
-        Set up you shop
+        Set up your shop
       </Typography>
       <Typography variant="body1" gutterBottom color="grey.700">
         Don't worry, you can always change this later.
