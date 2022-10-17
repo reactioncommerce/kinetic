@@ -46,7 +46,8 @@ export const SidebarContent = ({ sidebar = SIDEBAR_ITEMS }: SidebarItemsProps) =
               key="storefront"
               icon={<OpenInNewOutlinedIcon fontSize="small" />}
               text="View Storefront"
-              onClick={() => window.open(`${activeShop?.storefrontUrls?.storefrontHomeUrl || "/"}`, "_blank")} />
+              onClick={activeShop?.storefrontUrls?.storefrontHomeUrl ?
+                () => window.open(`${activeShop?.storefrontUrls?.storefrontHomeUrl}`, "_blank") : undefined} />
           </List>
           <Divider sx={{ mx: 2, borderColor: "background.darkGrey" }} />
           {coreFeatures.length ? <SidebarItems items={[{ text: "Stores", key: FEATURE_KEYS.stores, subItems: coreFeatures }]}/> : null}
