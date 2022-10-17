@@ -130,49 +130,57 @@ import { CORE_FEATURES, FEATURE_KEYS } from "@components/Sidebar";
 ### Add a custom plugin
 There is an example Customer plugin inside [examples](./src/examples/Customers/) folder. We're going to disable the default customer feature and replace with this custom plugin.
 
-Import the plugin from examples folder, then define the route object and sidebar in [routes](./src/routes.tsx).
-```javascript
-// routes.tsx
+All the features entry points are declared inside the [routes](./src/routes.tsx) file.
 
-// ... import statements
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import { CORE_FEATURES, FEATURE_KEYS, ItemProps } from "@components/Sidebar";
+1. To include our custom plugin into the app, we need to declare our plugin's entry point in the routes file. Import the plugin from examples folder, then define the route object and sidebar in [routes](./src/routes.tsx).
 
-const Customers = lazy(() => import("./examples/Customers"));
+```diff
+// in routes.tsx
+
+// ... other import statements
+
++ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
++ import { CORE_FEATURES, FEATURE_KEYS, ItemProps } from "@components/Sidebar";
+
+// import our feature as a lazy imported components for code splitting
++ const Customers = lazy(() => import("./examples/Customers"));
 
 export const routes: RouteObject[] = [
   {
     // ... routes object
     path: "/",
-    element:
-      // define custom plugin sidebar item and turn off default feature
-      <AppLayout
-          sidebar={{
-            plugins: [{
-              text: "Plugins",
-              key: "custom-plugins",
-              subItems: [
-                {
-                  key: "customers",
-                  icon: <SupportAgentIcon fontSize="small"/>,
-                  text: "Customers",
-                  to: "plugins/customers"
-                }
-              ]
-            }],
-            coreFeatures: CORE_FEATURES.filter((sidebarItem) => sidebarItem.key !== FEATURE_KEYS.customers)
-          }}
-      />,
+-    element: <AppLayout/>,
+// define custom plugin sidebar item and turn off default customer feature in the sidebar
++    element:
++      <AppLayout
++          sidebar={{
++            plugins: [{
++              text: "Plugins",
++              key: "custom-plugins",
++              subItems: [
++                {
++                  key: "customers",
++                  icon: <SupportAgentIcon fontSize="small"/>,
++                  text: "Customers",
++                  to: "plugins/customers"
++                }
++              ]
++            }],
++            coreFeatures: CORE_FEATURES.filter((sidebarItem) => sidebarItem.key !== FEATURE_KEYS.customers)
++          }}
++      />,
     children: [
++      {
++        path: "plugins/customers",
++        element: <Customers />
++      },
       // ... other routes,
-      {
-        path: "plugins/customers",
-        element: <Customers />
-      },
     ]
   }
 ]
+
 ```
+
 Now, start the application and you will see the Customer option under the Plugins sidebar item. Click on that option and you should see the example custom plugin.
 
 ## Developer Certificate of Origin
