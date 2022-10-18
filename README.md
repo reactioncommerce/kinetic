@@ -132,7 +132,7 @@ There is an example Customer plugin inside [examples](./src/examples/Customers/)
 
 All the features entry points are declared inside the [routes](./src/routes.tsx) file.
 
-1. To include our custom plugin into the app, we need to declare our plugin's entry point in the routes file. Import the plugin from examples folder, then define the route object and sidebar in [routes](./src/routes.tsx).
+To include our custom plugin into the app, we need to declare the entry point in the routes file. Please modify the routes file:
 
 ```diff
 // in routes.tsx
