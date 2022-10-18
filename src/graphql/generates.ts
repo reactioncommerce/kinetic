@@ -689,6 +689,35 @@ export type AuthenticateParamsInput = {
   user?: InputMaybe<UserInput>;
 };
 
+/** Represents a single user partial account */
+export type BasicAccount = Node & {
+  __typename?: 'BasicAccount';
+  /** The account ID */
+  _id: Scalars['ID'];
+  /** Flag to indicate if the account accepts marketing emails */
+  acceptsMarketing?: Maybe<Scalars['Boolean']>;
+  /** List of shop Ids */
+  adminUIShopIds?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** The date and time at which this account was created */
+  createdAt?: Maybe<Scalars['DateTime']>;
+  /** Email record associated with the account */
+  emails?: Maybe<Array<Maybe<EmailRecord>>>;
+  /** List of group Ids to which the account belongs */
+  groups?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** The full name of the person this account represents, if known */
+  name?: Maybe<Scalars['String']>;
+  /** List of shipping/billing addresses */
+  profile?: Maybe<Array<Maybe<Profile>>>;
+  /** ID of shop */
+  shopId?: Maybe<Scalars['String']>;
+  /** Account creation state */
+  state?: Maybe<Scalars['String']>;
+  /** The date and time at which this account was last updated */
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  /** ID of user */
+  userId?: Maybe<Scalars['String']>;
+};
+
 /** A single calculated tax for a cart, order group, cart item, or order item */
 export type CalculatedTax = {
   __typename?: 'CalculatedTax';
@@ -1462,6 +1491,8 @@ export type CreateAccountGroupPayload = {
 export type CreateAccountInput = {
   /** Bio to display on profile */
   bio?: InputMaybe<Scalars['String']>;
+  /** An optional string identifying the mutation call, which will be returned in the response payload */
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Email record to create account with */
   emails: Array<InputMaybe<EmailRecordInput>>;
   /** Name to display on profile */
@@ -1480,7 +1511,7 @@ export type CreateAccountInput = {
 export type CreateAccountPayload = {
   __typename?: 'CreateAccountPayload';
   /** The added account */
-  account?: Maybe<Account>;
+  account?: Maybe<BasicAccount>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
   clientMutationId?: Maybe<Scalars['String']>;
 };
@@ -2318,12 +2349,16 @@ export type EmailJob = {
   __typename?: 'EmailJob';
   /** The ID of the e-mail job */
   _id: Scalars['ID'];
+  /** The date and time of the creation of the e-mail job */
+  createdAt: Scalars['DateTime'];
   /** The data of the e-mail */
   data: EmailJobData;
   /** The status of the e-mail job */
   status: Scalars['String'];
-  /** The date and time of the last update to the e-mail job */
+  /** To be deprecated. Use updatedAt instead. The date and time of the last update to the e-mail job. */
   updated: Scalars['DateTime'];
+  /** The date and time of the last update to the e-mail job */
+  updatedAt: Scalars['DateTime'];
 };
 
 /**
@@ -5303,6 +5338,11 @@ export type ProductVariantPricesInput = {
   price?: InputMaybe<Scalars['Float']>;
 };
 
+export type Profile = {
+  __typename?: 'Profile';
+  addressBook?: Maybe<Array<Maybe<Address>>>;
+};
+
 /** Input for the `publishNavigationChanges` mutation */
 export type PublishNavigationChangesInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -5741,6 +5781,7 @@ export type QueryProductsArgs = {
   before?: InputMaybe<Scalars['ConnectionCursor']>;
   first?: InputMaybe<Scalars['ConnectionLimitInt']>;
   isArchived?: InputMaybe<Scalars['Boolean']>;
+  isExactMatch?: InputMaybe<Scalars['Boolean']>;
   isVisible?: InputMaybe<Scalars['Boolean']>;
   last?: InputMaybe<Scalars['ConnectionLimitInt']>;
   metafieldKey?: InputMaybe<Scalars['String']>;
@@ -8388,7 +8429,7 @@ export type GetShopQueryVariables = Exact<{
 }>;
 
 
-export type GetShopQuery = { __typename?: 'Query', shop?: { __typename?: 'Shop', _id: string, description?: string | null, language: string, name: string, shopType?: string | null, slug?: string | null, timezone?: string | null, baseUOM?: string | null, baseUOL?: string | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string }, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, provides?: string | null } | null> | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, unitsOfLength?: Array<{ __typename?: 'UnitOfLength', default?: boolean | null, label?: string | null, uol?: string | null } | null> | null, unitsOfMeasure?: Array<{ __typename?: 'UnitOfMeasure', default?: boolean | null, label?: string | null, uom?: string | null } | null> | null, addressBook?: Array<{ __typename?: 'Address', _id?: string | null, address1: string, address2?: string | null, city: string, company?: string | null, country: string, fullName: string, phone: string, postal: string, region: string } | null> | null } | null };
+export type GetShopQuery = { __typename?: 'Query', shop?: { __typename?: 'Shop', _id: string, allowGuestCheckout?: boolean | null, description?: string | null, language: string, name: string, shopType?: string | null, slug?: string | null, timezone?: string | null, baseUOM?: string | null, baseUOL?: string | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string }, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, provides?: string | null } | null> | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, unitsOfLength?: Array<{ __typename?: 'UnitOfLength', default?: boolean | null, label?: string | null, uol?: string | null } | null> | null, unitsOfMeasure?: Array<{ __typename?: 'UnitOfMeasure', default?: boolean | null, label?: string | null, uom?: string | null } | null> | null, addressBook?: Array<{ __typename?: 'Address', _id?: string | null, address1: string, address2?: string | null, city: string, company?: string | null, country: string, fullName: string, phone: string, postal: string, region: string } | null> | null } | null };
 
 export type UpdateShopMutationVariables = Exact<{
   input: UpdateShopInput;
@@ -9523,6 +9564,7 @@ export const GetShopDocument = `
       format
       symbol
     }
+    allowGuestCheckout
     description
     emails {
       address

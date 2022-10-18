@@ -45,7 +45,8 @@ const mockShop = (): Shop => ({
     isCommercial: false,
     phone: faker.phone.number(),
     region: "CT"
-  }]
+  }],
+  allowGuestCheckout: true
 });
 
 
