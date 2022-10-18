@@ -9,6 +9,15 @@ type OperatorsFieldProps = {
   index: number
 }
 
+const operatorLabelsMap = {
+  [Operator.eq]: "equals",
+  [Operator.gt]: "greater than",
+  [Operator.lt]: "less than",
+  [Operator.ne]: "not equal to",
+  [Operator.match]: "matches",
+  [Operator.includes]: "includes"
+};
+
 export const OperatorsField = ({ index }: OperatorsFieldProps) => (
   <Stack direction="row" gap={3}>
     <Field
@@ -21,7 +30,7 @@ export const OperatorsField = ({ index }: OperatorsFieldProps) => (
     <Field
       component={SelectField}
       name={`attributes[${index}].operator`}
-      options={Object.values(Operator).map((value) => ({ value, label: value }))}
+      options={Object.values(Operator).map((value) => ({ value, label: operatorLabelsMap[value] }))}
       ariaLabel="Operator"
       hiddenLabel
     />
