@@ -126,7 +126,7 @@ const AddressValidation = () => {
       ({ value: countryCode, label: supportedCountryOptions.find(({ value }) => value === countryCode)?.label ?? "Unknown" })) : []
   };
 
-  const canEdit = usePermission(["addressValidationRules/update"]);
+  const canCreateAndEdit = usePermission(["addressValidationRules/create", "addressValidationRules/update"]);
 
   return (
     <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">
@@ -147,7 +147,7 @@ const AddressValidation = () => {
                 <Typography variant="subtitle1">{service.displayName}</Typography>
                 <Typography variant="subtitle2" color="grey.600">{settingCountries.length ? settingCountries.join(", ") : "All Countries"}</Typography>
               </Box>
-              {canEdit ?
+              {canCreateAndEdit ?
                 <Button variant="outlined" color="secondary" size="small" onClick={() => handleClickEditService(service)}>Edit</Button>
                 : null}
             </Stack>;

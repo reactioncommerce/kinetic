@@ -65,7 +65,7 @@ export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
     email: data?.primaryEmailAddress || "",
     groupId: (data?.group?._id || groups[0]?._id) ?? "",
     shopId: shopId!,
-    shouldGetAdminUIAccess: data?.adminUIShops?.some(({ _id }) => _id === shopId) ?? true
+    shouldGetAdminUIAccess: true
   };
 
   const handleClose = () => {

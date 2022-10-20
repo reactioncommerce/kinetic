@@ -185,7 +185,10 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: "/new-shop",
-        element: <CreateShop/>
+        element:
+        <PermissionGuard permissions={["shops/create"]} fallback={<AccessDenied/>}>
+          <CreateShop/>
+        </PermissionGuard>
       },
       {
         element: <RequireShopRoute/>,

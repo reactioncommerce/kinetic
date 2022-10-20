@@ -135,7 +135,7 @@ const EmailTemplates = () => {
     storefrontOrderUrl: ""
   };
 
-  const canEdit = usePermission(["email-templates/update"]);
+  const canEditEmailTemplates = usePermission(["email-templates/update"]);
   const canConfigureEmailVariables = usePermission(["shops/update"]);
 
   return (
@@ -210,7 +210,7 @@ const EmailTemplates = () => {
                     >
                       Cancel
                     </Button>
-                    {canEdit ?
+                    {canEditEmailTemplates ?
                       <LoadingButton
                         size="small"
                         variant="contained"
