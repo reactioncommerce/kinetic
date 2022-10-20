@@ -152,6 +152,7 @@ export const CustomTaxRates = () => {
   const canAdd = usePermission(["taxRates/create"]);
   const canEdit = usePermission(["taxRates/update"]);
   const canDelete = usePermission(["taxRates/delete"]);
+  const showSubmitBtn = activeTaxRate ? canEdit : canAdd;
 
   return (
     <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="md">
@@ -281,7 +282,7 @@ export const CustomTaxRates = () => {
                     >
                       Cancel
                     </Button>
-                    {canEdit || canAdd ?
+                    {showSubmitBtn ?
                       <LoadingButton
                         size="small"
                         variant="contained"

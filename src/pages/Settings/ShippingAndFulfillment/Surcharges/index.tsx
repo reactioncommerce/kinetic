@@ -217,6 +217,7 @@ const Surcharges = () => {
   const canAdd = usePermission(["surcharges/create"]);
   const canEdit = usePermission(["surcharges/update"]);
   const canDelete = usePermission(["surcharges/delete"]);
+  const showSubmitBtn = activeRow ? canEdit : canAdd;
 
   return (
     <TableContainer>
@@ -341,7 +342,7 @@ const Surcharges = () => {
                     >
                       Cancel
                     </Button>
-                    {canEdit || canAdd ?
+                    {showSubmitBtn ?
                       <LoadingButton
                         size="small"
                         variant="contained"

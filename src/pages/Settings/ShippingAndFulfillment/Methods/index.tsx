@@ -184,6 +184,7 @@ const ShippingMethods = () => {
   const canAdd = usePermission(["shippingMethods/create"]);
   const canEdit = usePermission(["shippingMethods/update"]);
   const canDelete = usePermission(["shippingMethods/delete"]);
+  const showSubmitBtn = activeRow ? canEdit : canAdd;
 
   return (
     <TableContainer>
@@ -345,7 +346,7 @@ const ShippingMethods = () => {
                     >
                       Cancel
                     </Button>
-                    {canEdit || canAdd ?
+                    {showSubmitBtn ?
                       <LoadingButton
                         size="small"
                         variant="contained"

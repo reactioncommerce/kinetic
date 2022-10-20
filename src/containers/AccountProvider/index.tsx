@@ -72,9 +72,13 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
         setShopId();
         return;
       }
-
-      !shopId && setShopId(response.viewer?.adminUIShops?.find((shop) => shop?.shopType === "primary")?._id);
-      redirectUrl && navigate(redirectUrl);
+      const activeShopId = response.viewer?.adminUIShops?.find((shop) => shop?.shopType === "primary")?._id || response.viewer?.adminUIShops?.[0]?._id;
+      if (activeShopId && !shopId) {
+        setShopId(activeShopId);
+        redirectUrl && navigate(redirectUrl);
+        return;
+      }
+      if (!activeShopId) navigate("/new-shop");
     }
   });
 
