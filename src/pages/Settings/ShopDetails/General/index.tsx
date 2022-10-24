@@ -4,6 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import { Field } from "formik";
 import * as Yup from "yup";
 import Stack from "@mui/material/Stack";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 import { EditableCard, EditableCardProps } from "@components/Card";
 import { DisplayField } from "@components/DisplayField";
@@ -16,6 +17,7 @@ import { countries, getRegion, locales } from "@utils/countries";
 import { SelectOptionType } from "types/common";
 import { AddressField } from "@components/AddressField";
 import { decodeOpaqueId } from "@utils/decodedOpaqueId";
+import { Switch } from "@components/Switch";
 
 type ShopFormValues = {
   name: string
@@ -30,6 +32,7 @@ type ShopFormValues = {
   region?: SelectOptionType | null,
   postal: string,
   country?: SelectOptionType | null
+  allowGuestCheckout: boolean
 }
 
 const shopGeneralSchema = Yup.object().shape({
@@ -58,15 +61,15 @@ const GeneralSettings = () => {
   const { mutate } = useUpdateShopMutation(client);
 
   const handleSubmitGeneralSettings: EditableCardProps<ShopFormValues>["onSubmit"] = ({ values, setSubmitting, setDrawerOpen }) => {
-    const { name, description, email, shopLogoUrls } = values;
+    const { name, description, email, shopLogoUrls, allowGuestCheckout } = values;
     mutate({
       input: {
         name,
         description,
         shopLogoUrls,
         emails: [{ address: email }],
-        shopId: shopId!
-
+        shopId: shopId!,
+        allowGuestCheckout
       }
     }, {
       onSettled: () => setSubmitting(false),
@@ -121,7 +124,8 @@ const GeneralSettings = () => {
     city: data?.shop?.addressBook?.[0]?.city || "",
     region,
     postal: data?.shop?.addressBook?.[0]?.postal || "",
-    country
+    country,
+    allowGuestCheckout: !!data?.shop?.allowGuestCheckout
   };
 
 
@@ -141,6 +145,7 @@ const GeneralSettings = () => {
               <DisplayField label="Description" value={data?.shop?.description}/>
               <DisplayField label="Storefront URL" value={data?.shop?.storefrontUrls?.storefrontHomeUrl} editable={false}/>
               <DisplayField label="ID" value={decodeOpaqueId(data?.shop?._id)?.id} editable={false}/>
+              <DisplayField label="Guest checkout" value={data?.shop?.allowGuestCheckout ? "Enabled" : "Disabled"} />
             </Grid>
           </Grid>}
         formTitle="Edit Shop Details"
@@ -155,6 +160,17 @@ const GeneralSettings = () => {
             <Field name="email" component={TextField} placeholder="Enter Shop Email" label="Email" />
             <Field name="description" component={TextField} placeholder="Enter Shop Description" label="Description" />
             <Field name="shopLogoUrls.primaryShopLogoUrl" component={TextField} placeholder="Enter Shop Logo URL" label="Shop Logo URL" />
+            <FormControlLabel
+              sx={{ mt: 2 }}
+              control={
+                <Field
+                  component={Switch}
+                  label="Enable guest checkout"
+                  name="allowGuestCheckout"
+                />
+              }
+              label="Enable guest checkout"
+            />
           </>
         }
       />

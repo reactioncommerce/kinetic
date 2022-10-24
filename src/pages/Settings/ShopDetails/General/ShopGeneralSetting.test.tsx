@@ -30,7 +30,7 @@ describe("Shop General Settings", () => {
     expect(screen.getByText(shop.storefrontUrls?.storefrontHomeUrl ?? "Not provided")).toBeInTheDocument();
     expect(screen.getByText(decodeOpaqueId(shop._id)?.id || "Not provided")).toBeInTheDocument();
     expect(screen.getByLabelText("Shop Logo URL")).toHaveDisplayValue(shop.shopLogoUrls?.primaryShopLogoUrl ?? "");
-
+    expect(screen.getByLabelText("Enable guest checkout")).toBeChecked();
     const user = userEvent.setup();
     await user.clear(screen.getByLabelText("Name"));
     await user.click(screen.getByText("Save Changes"));
