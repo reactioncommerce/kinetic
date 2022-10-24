@@ -126,6 +126,62 @@ import { CORE_FEATURES, FEATURE_KEYS } from "@components/Sidebar";
     />
 }
 ```
+## Example:
+### Add a custom plugin
+There is an example Customer plugin inside [examples](./src/examples/Customers/) folder. We're going to disable the default customer feature and replace with this custom plugin.
+
+All the features entry points are declared inside the [routes](./src/routes.tsx) file.
+
+To include our custom plugin into the app, we need to declare the entry point in the routes file. Please modify the routes file:
+
+```diff
+// in routes.tsx
+
+// ... other import statements
+
++ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
++ import { CORE_FEATURES, FEATURE_KEYS, ItemProps } from "@components/Sidebar";
+
+// import our feature as a lazy imported components for code splitting
++ const Customers = lazy(() => import("./examples/Customers"));
+
+export const routes: RouteObject[] = [
+  {
+    // ... routes object
+    path: "/",
+-    element: <AppLayout/>,
+// define custom plugin sidebar item and turn off default customer feature in the sidebar
++    element:
++      <AppLayout
++          sidebar={{
++            plugins: [{
++              text: "Plugins",
++              key: "custom-plugins",
++              subItems: [
++                {
++                  key: "customers",
++                  icon: <SupportAgentIcon fontSize="small"/>,
++                  text: "Customers",
++                  to: "plugins/customers"
++                }
++              ]
++            }],
++            coreFeatures: CORE_FEATURES.filter((sidebarItem) => sidebarItem.key !== FEATURE_KEYS.customers)
++          }}
++      />,
+    children: [
++      {
++        path: "plugins/customers",
++        element: <Customers />
++      },
+      // ... other routes,
+    ]
+  }
+]
+
+```
+
+Now, start the application and you will see the Customer option under the Plugins sidebar item. Click on that option and you should see the example custom plugin.
 
 ## Developer Certificate of Origin
 We use the [Developer Certificate of Origin (DCO)](https://developercertificate.org/) in lieu of a Contributor License Agreement for all contributions to Reaction Commerce open source projects. We request that contributors agree to the terms of the DCO and indicate that agreement by signing all commits made to Reaction Commerce projects by adding a line with your name and email address to every Git commit message contributed:
