@@ -2,6 +2,14 @@ mutation createShop($input: CreateShopInput!) {
   createShop(input: $input) {
     shop {
       _id
+      currency {
+        _id
+        code
+        format
+        symbol
+      }
+      language
+      name
     }
   }
 }

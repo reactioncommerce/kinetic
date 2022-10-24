@@ -1,12 +1,15 @@
 import { createContext, useContext, useState } from "react";
 import { noop } from "lodash-es";
 
+import { Shop } from "types/shop";
+
 type ShopContextProps = {
   shopId?: string
-  setShopId: (shopId?: string) => void
+  setShop: (shop?: Shop | null) => void
+  shop?: Shop | null
 }
 
-const ShopContext = createContext<ShopContextProps>({ shopId: undefined, setShopId: noop });
+const ShopContext = createContext<ShopContextProps>({ shopId: undefined, setShop: noop });
 
 export const useShop = () => {
   const shopContext = useContext(ShopContext);
@@ -22,7 +25,7 @@ type ShopProviderProps = {
 }
 
 export const ShopProvider = ({ children }: ShopProviderProps) => {
-  const [shopId, setShopId] = useState<string>();
+  const [shop, setShop] = useState<Shop | null>();
 
-  return <ShopContext.Provider value={{ shopId, setShopId }}>{children}</ShopContext.Provider>;
+  return <ShopContext.Provider value={{ shopId: shop?._id, setShop, shop }}>{children}</ShopContext.Provider>;
 };

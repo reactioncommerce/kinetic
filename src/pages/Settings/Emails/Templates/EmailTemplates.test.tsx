@@ -57,7 +57,7 @@ describe("Email Templates", () => {
 
     const drawer = screen.getByRole("presentation");
 
-    expect(within(drawer).getByLabelText("Homepage URL")).toHaveValue(emailVariables.storefrontHomeUrl);
+    expect(within(drawer).getByLabelText("Storefront URL")).toHaveValue(emailVariables.storefrontHomeUrl);
     expect(within(drawer).getByLabelText("Login URL")).toHaveValue(emailVariables.storefrontLoginUrl);
     expect(within(drawer).getByLabelText("Single Order Page URL")).toHaveValue(emailVariables.storefrontOrderUrl);
     expect(within(drawer).getByLabelText("Orders Page URL")).toHaveValue(emailVariables.storefrontOrdersUrl);
@@ -72,12 +72,12 @@ describe("Email Templates", () => {
     expect(within(drawer).getByLabelText("Account Profile Page URL")).toBeInvalid();
     await user.clear(within(drawer).getByLabelText("Account Profile Page URL"));
 
-    await user.clear(within(drawer).getByLabelText("Homepage URL"));
-    await user.type(within(drawer).getByLabelText("Homepage URL"), "ftp://fake.com");
+    await user.clear(within(drawer).getByLabelText("Storefront URL"));
+    await user.type(within(drawer).getByLabelText("Storefront URL"), "ftp://fake.com");
     await user.tab();
-    expect(within(drawer).getByLabelText("Homepage URL")).toBeInvalid();
-    await user.clear(within(drawer).getByLabelText("Homepage URL"));
-    await user.type(within(drawer).getByLabelText("Homepage URL"), "https://slingshotstore.com/");
+    expect(within(drawer).getByLabelText("Storefront URL")).toBeInvalid();
+    await user.clear(within(drawer).getByLabelText("Storefront URL"));
+    await user.type(within(drawer).getByLabelText("Storefront URL"), "https://slingshotstore.com/");
 
     await user.click(screen.getByText("Save Changes"));
 

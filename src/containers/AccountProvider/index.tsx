@@ -46,7 +46,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     client.setHeaders({});
   }
 
-  const { setShopId, shopId } = useShop();
+  const { setShop, shopId } = useShop();
   const location = useLocation();
   const navigate = useNavigate();
   const redirectUrl = (new URLSearchParams(location.search)).get("redirectUrl");
@@ -60,11 +60,14 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     },
     onSuccess: (response) => {
       if (response.viewer === null) {
-        setShopId();
+        setShop();
         return;
       }
 
-      !shopId && setShopId(response.viewer?.adminUIShops?.find((shop) => shop?.shopType === "primary")?._id);
+      if (!shopId) {
+        const primaryShop = response.viewer?.adminUIShops?.find((shop) => shop?.shopType === "primary");
+        setShop(primaryShop);
+      }
       redirectUrl && navigate(redirectUrl);
     }
   });

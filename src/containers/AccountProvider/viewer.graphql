@@ -22,6 +22,13 @@ query getViewer {
       shopLogoUrls {
         primaryShopLogoUrl
       }
+      currency {
+        _id
+        code
+        format
+        symbol
+      },
+      language
     }
   }
 }

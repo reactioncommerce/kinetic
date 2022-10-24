@@ -9,7 +9,6 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
 
 import { SystemInformation } from "@components/SystemInformation";
-import { useAccount } from "@containers/AccountProvider";
 import { useShop } from "@containers/ShopProvider";
 
 import { SidebarItem } from "./SidebarItem";
@@ -24,9 +23,7 @@ type SidebarItemsProps = {
 
 export const SidebarContent = ({ sidebar = SIDEBAR_ITEMS }: SidebarItemsProps) => {
   const { coreFeatures = CORE_FEATURES, plugins = [] } = sidebar;
-  const { account } = useAccount();
-  const { shopId } = useShop();
-  const activeShop = account?.adminUIShops?.find((shop) => shop?._id === shopId);
+  const { shop: activeShop } = useShop();
 
   return (
     <>

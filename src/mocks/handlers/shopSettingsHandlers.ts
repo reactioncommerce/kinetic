@@ -56,7 +56,7 @@ const getShopHandler = graphql.query("getShop", (req, res, ctx) => res(ctx.data(
 
 const updateShopHandler = graphql.mutation("updateShop", (req, res, ctx) => {
   const { input } = req.variables;
-  return res(ctx.data({ input }));
+  return res(ctx.data({ updateShop: { shop: input } }));
 });
 
 export const handlers = [
