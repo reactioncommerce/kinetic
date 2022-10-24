@@ -30,7 +30,7 @@ type UserFormValues = {
   email: string
   groupId: string
   shopId: string
-  shouldGetAdminUIAccess?: boolean
+  shouldGetAdminUIAccess: boolean
 };
 
 const userSchema = Yup.object().shape({
