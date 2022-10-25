@@ -173,12 +173,14 @@ const Login = () => {
               </LoadingButton>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link component={RouterLink} to="/signup" variant="body2" underline="none">
-                  Don't have an account? Sign Up
-                  </Link>
+                  <Typography variant="body1" color="grey.700">
+                    Don't have an account?{" "}
+                    <Link component={RouterLink} to="/signup" fontWeight={600} variant="subtitle2" underline="none">
+                   Sign Up
+                    </Link>
+                  </Typography>
                 </Grid>
               </Grid>
-
             </Box>
           )}
         </Formik>
