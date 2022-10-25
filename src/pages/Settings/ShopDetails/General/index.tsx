@@ -18,11 +18,13 @@ import { SelectOptionType } from "types/common";
 import { AddressField } from "@components/AddressField";
 import { decodeOpaqueId } from "@utils/decodedOpaqueId";
 import { Switch } from "@components/Switch";
+import { urlSchema } from "@utils/validate";
 
 type ShopFormValues = {
   name: string
   description?: string
   shopLogoUrls: Shop["shopLogoUrls"]
+  storefrontUrls: Shop["storefrontUrls"]
   email?: string,
   legalName:string,
   phone: string,
@@ -40,6 +42,9 @@ const shopGeneralSchema = Yup.object().shape({
   email: Yup.string().email("This email is invalid").required("This field is required"),
   shopLogoUrls: Yup.object().shape({
     primaryShopLogoUrl: Yup.string().url("Please enter a valid logo URL")
+  }),
+  storefrontUrls: Yup.object().shape({
+    storefrontHomeUrl: urlSchema
   })
 });
 
@@ -56,12 +61,13 @@ const shopPrimarySchema = Yup.object().shape({
 });
 
 const GeneralSettings = () => {
-  const { shopId } = useShop();
+  const { shopId, setShop } = useShop();
   const { data, refetch, isLoading } = useGetShopQuery(client, { id: shopId! });
   const { mutate } = useUpdateShopMutation(client);
 
+
   const handleSubmitGeneralSettings: EditableCardProps<ShopFormValues>["onSubmit"] = ({ values, setSubmitting, setDrawerOpen }) => {
-    const { name, description, email, shopLogoUrls, allowGuestCheckout } = values;
+    const { name, description, email, shopLogoUrls, allowGuestCheckout, storefrontUrls } = values;
     mutate({
       input: {
         name,
@@ -69,11 +75,13 @@ const GeneralSettings = () => {
         shopLogoUrls,
         emails: [{ address: email }],
         shopId: shopId!,
-        allowGuestCheckout
+        allowGuestCheckout,
+        storefrontUrls
       }
     }, {
       onSettled: () => setSubmitting(false),
-      onSuccess: () => {
+      onSuccess: (updateResponse) => {
+        setShop(updateResponse.updateShop.shop);
         setDrawerOpen(false);
         refetch();
       }
@@ -116,6 +124,7 @@ const GeneralSettings = () => {
     name: data?.shop?.name || "",
     description: data?.shop?.description || "",
     shopLogoUrls: data?.shop?.shopLogoUrls || { primaryShopLogoUrl: "" },
+    storefrontUrls: data?.shop?.storefrontUrls || { storefrontHomeUrl: "" },
     email: data?.shop?.emails?.[0]?.address || "",
     legalName: data?.shop?.addressBook?.[0]?.company || data?.shop?.addressBook?.[0]?.fullName || "",
     phone: data?.shop?.addressBook?.[0]?.phone || "",
@@ -143,7 +152,7 @@ const GeneralSettings = () => {
               <DisplayField label="Name" value={data?.shop?.name}/>
               <DisplayField label="Email" value={data?.shop?.emails?.[0]?.address}/>
               <DisplayField label="Description" value={data?.shop?.description}/>
-              <DisplayField label="Storefront URL" value={data?.shop?.storefrontUrls?.storefrontHomeUrl} editable={false}/>
+              <DisplayField label="Storefront URL" value={data?.shop?.storefrontUrls?.storefrontHomeUrl}/>
               <DisplayField label="ID" value={decodeOpaqueId(data?.shop?._id)?.id} editable={false}/>
               <DisplayField label="Guest checkout" value={data?.shop?.allowGuestCheckout ? "Enabled" : "Disabled"} />
             </Grid>
@@ -159,6 +168,12 @@ const GeneralSettings = () => {
             <Field name="name" component={TextField} placeholder="Enter Shop Name" label="Name" />
             <Field name="email" component={TextField} placeholder="Enter Shop Email" label="Email" />
             <Field name="description" component={TextField} placeholder="Enter Shop Description" label="Description" />
+            <Field
+              component={TextField}
+              name="storefrontUrls.storefrontHomeUrl"
+              label="Storefront URL"
+              placeholder="Enter you shop homepage URL"
+            />
             <Field name="shopLogoUrls.primaryShopLogoUrl" component={TextField} placeholder="Enter Shop Logo URL" label="Shop Logo URL" />
             <FormControlLabel
               sx={{ mt: 2 }}

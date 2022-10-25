@@ -37,7 +37,7 @@ const CreateShop = () => {
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
   const { mutate } = useCreateShopMutation(client);
   const navigate = useNavigate();
-  const { setShopId, shopId } = useShop();
+  const { setShop, shopId } = useShop();
   const { refetchAccount, removeAccessToken } = useAccount();
 
   const handleClickSignIn = () => {
@@ -56,7 +56,7 @@ const CreateShop = () => {
           setSubmitErrorMessage(normalizeErrorMessage((error as GraphQLErrorResponse).response.errors));
         },
         onSuccess: (data) => {
-          setShopId(data.createShop.shop._id);
+          setShop(data.createShop.shop);
           refetchAccount();
           navigate("/", { replace: true });
         }

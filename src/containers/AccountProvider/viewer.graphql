@@ -13,12 +13,22 @@ query getViewer {
           large
         }
       }
+      storefrontUrls {
+        storefrontHomeUrl
+      }
       name
       slug
       shopType
       shopLogoUrls {
         primaryShopLogoUrl
       }
+      currency {
+        _id
+        code
+        format
+        symbol
+      },
+      language
     }
   }
 }

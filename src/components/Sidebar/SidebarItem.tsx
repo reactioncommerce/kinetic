@@ -60,6 +60,7 @@ export const SidebarItem = ({ to, onClick, ...props }: SidebarItemProps) => (
         dense
         sx={sharedStyles}
         onClick={onClick}
+        disabled={!onClick}
       >
         {props.icon ? <ListItemIcon>{props.icon}</ListItemIcon> : null}
         <ListItemText primary={props.text} />

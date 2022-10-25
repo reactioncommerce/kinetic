@@ -239,12 +239,14 @@ const EmailTemplates = () => {
                 <Field
                   component={TextField}
                   name="storefrontHomeUrl"
-                  label="Homepage URL"
+                  label="Storefront URL"
+                  placeholder="Enter you shop homepage URL"
                 />
                 <Field
                   component={TextField}
                   name="storefrontLoginUrl"
                   label="Login URL"
+                  placeholder="Enter you shop login form URL"
                 />
                 <Field
                   component={TextField}
@@ -256,11 +258,13 @@ const EmailTemplates = () => {
                   component={TextField}
                   name="storefrontOrdersUrl"
                   label="Orders Page URL"
+                  placeholder="Enter you shop orders page URL"
                 />
                 <Field
                   component={TextField}
                   name="storefrontAccountProfileUrl"
                   label="Account Profile Page URL"
+                  placeholder="Enter you shop account profile homepage URL"
                 />
               </Drawer.Content>
               <Drawer.Actions

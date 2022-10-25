@@ -8138,14 +8138,14 @@ export type SystemInformationQuery = { __typename?: 'Query', systemInformation: 
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, slug?: string | null, shopType?: string | null, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null } | null> | null } | null };
+export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, slug?: string | null, shopType?: string | null, language: string, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null } | null };
 
 export type CreateShopMutationVariables = Exact<{
   input: CreateShopInput;
 }>;
 
 
-export type CreateShopMutation = { __typename?: 'Mutation', createShop: { __typename?: 'CreateShopPayload', shop: { __typename?: 'Shop', _id: string } } };
+export type CreateShopMutation = { __typename?: 'Mutation', createShop: { __typename?: 'CreateShopPayload', shop: { __typename?: 'Shop', _id: string, language: string, name: string, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } } };
 
 export type AuthenticateMutationVariables = Exact<{
   serviceName: Scalars['String'];
@@ -8436,7 +8436,7 @@ export type UpdateShopMutationVariables = Exact<{
 }>;
 
 
-export type UpdateShopMutation = { __typename?: 'Mutation', updateShop: { __typename?: 'UpdateShopPayload', shop: { __typename?: 'Shop', _id: string } } };
+export type UpdateShopMutation = { __typename?: 'Mutation', updateShop: { __typename?: 'UpdateShopPayload', shop: { __typename?: 'Shop', _id: string, language: string, name: string, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string }, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null } } };
 
 export type GetGroupsQueryVariables = Exact<{
   shopId: Scalars['ID'];
@@ -8593,12 +8593,22 @@ export const GetViewerDocument = `
           large
         }
       }
+      storefrontUrls {
+        storefrontHomeUrl
+      }
       name
       slug
       shopType
       shopLogoUrls {
         primaryShopLogoUrl
       }
+      currency {
+        _id
+        code
+        format
+        symbol
+      }
+      language
     }
   }
 }
@@ -8622,6 +8632,14 @@ export const CreateShopDocument = `
   createShop(input: $input) {
     shop {
       _id
+      currency {
+        _id
+        code
+        format
+        symbol
+      }
+      language
+      name
     }
   }
 }
@@ -9627,6 +9645,17 @@ export const UpdateShopDocument = `
   updateShop(input: $input) {
     shop {
       _id
+      currency {
+        _id
+        code
+        format
+        symbol
+      }
+      language
+      name
+      storefrontUrls {
+        storefrontHomeUrl
+      }
     }
   }
 }

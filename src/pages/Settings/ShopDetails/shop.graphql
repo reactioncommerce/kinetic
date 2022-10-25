@@ -55,6 +55,17 @@ mutation updateShop($input: UpdateShopInput!) {
   updateShop(input: $input) {
     shop {
       _id
+      currency {
+        _id
+        code
+        format
+        symbol
+      }
+      language
+      name
+      storefrontUrls {
+        storefrontHomeUrl
+      }
     }
   }
 }
