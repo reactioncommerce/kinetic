@@ -28,5 +28,5 @@ export type SelectOptionType<T = string> = {
 }
 
 export enum ErrorCode {
-  Forbidden = "FORBIDDEN"
+  Forbidden = "FORBIDDEN",
 }

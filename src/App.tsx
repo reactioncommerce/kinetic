@@ -4,7 +4,6 @@ import { FullPageLoader } from "@components/Loader/FullPageLoader";
 
 import { AccountProvider } from "@containers/AccountProvider";
 import { ShopProvider } from "@containers/ShopProvider";
-import { ToastProvider } from "@containers/ToastProvider";
 
 import { routes } from "./routes";
 
@@ -13,15 +12,12 @@ function App() {
 
   return (
     <Suspense fallback={<FullPageLoader />}>
-      <ToastProvider>
-        <ShopProvider>
-          <AccountProvider>
-            {routeElement}
-          </AccountProvider>
-        </ShopProvider>
-      </ToastProvider>
+      <ShopProvider>
+        <AccountProvider>
+          {routeElement}
+        </AccountProvider>
+      </ShopProvider>
     </Suspense>
-
   );
 }
 

@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter } from "react-router-dom";
 
+import { ToastProvider } from "@containers/ToastProvider";
+import { ErrorBoundary } from "@components/ErrorBoundary";
+
 import theme from "./theme";
 import App from "./App";
 
@@ -26,10 +29,14 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById("root")!).render(<React.StrictMode>
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </QueryClientProvider>
+    <ToastProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ToastProvider>
   </ThemeProvider>
 </React.StrictMode>);

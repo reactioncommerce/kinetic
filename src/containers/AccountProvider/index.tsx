@@ -57,9 +57,18 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
-    useErrorBoundary: false,
+    useErrorBoundary: (error) => {
+      if (!formatErrorResponse(error)) {
+        return true;
+      }
+      return false;
+    },
     onError: (error) => {
-      const { code, status } = formatErrorResponse(error);
+      const formattedError = formatErrorResponse(error);
+      if (!formattedError) {
+        return;
+      }
+      const { code, status } = formattedError;
 
       if (status === 401) removeAccessToken();
       if (code === ErrorCode.Forbidden) {
