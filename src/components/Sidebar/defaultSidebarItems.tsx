@@ -2,13 +2,13 @@ import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import FaceIcon from "@mui/icons-material/Face";
 
 import { SidebarItemProps } from "./SidebarItem";
 
@@ -57,7 +57,7 @@ export const CORE_FEATURES: ItemProps[] = [
     key: "customers",
     text: "Customers",
     to: "/customers",
-    icon: <GroupOutlinedIcon fontSize="small" />
+    icon: <FaceIcon fontSize="small" />
   },
   {
     key: FEATURE_KEYS.promotions,
