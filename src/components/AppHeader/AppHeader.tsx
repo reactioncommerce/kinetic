@@ -2,14 +2,16 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Breadcrumbs } from "@components/Breadcrumb/Breadcrumbs";
 
 import { SIDEBAR_WIDTH } from "../../constants";
 
 type AppHeaderProps = {
   handleDrawerToggle: () => void
+  breadcrumbs?: Record<string, string>
 }
 
-export const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => (
+export const AppHeader = ({ handleDrawerToggle, breadcrumbs }: AppHeaderProps) => (
   <AppBar
     position="fixed"
     sx={{
@@ -30,6 +32,7 @@ export const AppHeader = ({ handleDrawerToggle }: AppHeaderProps) => (
       >
         <MenuIcon />
       </IconButton>
+      <Breadcrumbs items={breadcrumbs} sx={{ display: { xs: "none", md: "block" } }}/>
     </Toolbar>
   </AppBar>
 );
