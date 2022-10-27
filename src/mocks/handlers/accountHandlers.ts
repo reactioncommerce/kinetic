@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 
 import { Account } from "@graphql/types";
 
-const account: Partial<Account> = {
+export const account: Partial<Account> = {
   _id: faker.datatype.uuid(),
   primaryEmailAddress: faker.internet.email(),
   adminUIShops: [
