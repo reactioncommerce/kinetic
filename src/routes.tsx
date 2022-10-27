@@ -1,4 +1,4 @@
-import { RouteObject } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router-dom";
 import { lazy } from "react";
 
 import { PermissionGuard } from "@components/PermissionGuard";
@@ -203,33 +203,32 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "settings",
-                children: [
-                  {
-                    path: "shipping-fulfillment",
-                    element: <PageLayout headers={shippingPageRoutes}/>,
-                    children: shippingPageRoutes
-                  },
-                  {
-                    path: "users",
-                    element: <PageLayout headers={userPageRoutes}/>,
-                    children: userPageRoutes
-                  },
-                  {
-                    path: "shop-details",
-                    element: <PageLayout headers={shopSettingPageRoutes}/>,
-                    children: shopSettingPageRoutes
-                  },
-                  {
-                    path: "emails",
-                    element: <PageLayout headers={emailsSettingPageRoutes}/>,
-                    children: emailsSettingPageRoutes
-                  },
-                  {
-                    path: "checkout",
-                    element: <PageLayout headers={checkoutSettingPageRoutes}/>,
-                    children: checkoutSettingPageRoutes
-                  }
-                ]
+                element: <Navigate to="/settings/users" replace />
+              },
+              {
+                path: "settings/shipping-fulfillment",
+                element: <PageLayout headers={shippingPageRoutes}/>,
+                children: shippingPageRoutes
+              },
+              {
+                path: "settings/users",
+                element: <PageLayout headers={userPageRoutes}/>,
+                children: userPageRoutes
+              },
+              {
+                path: "settings/shop-details",
+                element: <PageLayout headers={shopSettingPageRoutes}/>,
+                children: shopSettingPageRoutes
+              },
+              {
+                path: "settings/emails",
+                element: <PageLayout headers={emailsSettingPageRoutes}/>,
+                children: emailsSettingPageRoutes
+              },
+              {
+                path: "settings/checkout",
+                element: <PageLayout headers={checkoutSettingPageRoutes}/>,
+                children: checkoutSettingPageRoutes
               },
               {
                 path: "*",
