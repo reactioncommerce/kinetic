@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import { GetViewerQuery } from "@graphql/generates";
 import { currencyDefinition } from "@utils/currency";
 
-const account: GetViewerQuery["viewer"] = {
+export const account: Partial<Account> = {
   _id: faker.datatype.uuid(),
   primaryEmailAddress: faker.internet.email(),
   adminUIShops: [
