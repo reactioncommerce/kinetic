@@ -1,0 +1,21 @@
+export const BREADCRUMB_ITEMS = {
+  "/products": "Products",
+  "/orders": "Orders",
+  "/customers": "Customers",
+  "/promotions": "Promotions",
+  "/categories": "Categories",
+  "/settings": "Settings",
+  "/settings/users": "Users",
+  "/settings/users/invitations": "Invitations",
+  "/settings/users/groups": "Groups",
+  "/settings/shop-details": "Shop Details",
+  "/settings/shop-details/localization": "Localization",
+  "/settings/checkout": "Checkout",
+  "/settings/checkout/taxes": "Taxes",
+  "/settings/checkout/address-validation": "Address Validation",
+  "/settings/shipping-fulfillment": "Shipping & Fulfillment",
+  "/settings/shipping-fulfillment/restrictions": "Restrictions",
+  "/settings/shipping-fulfillment/surcharges": "Surcharges",
+  "/settings/emails": "Transactional Emails",
+  "/settings/emails/logs": "Logs"
+};
