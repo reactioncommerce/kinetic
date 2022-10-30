@@ -203,16 +203,11 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "settings",
-                element: <Navigate to="/settings/users" replace />
+                element: <Navigate to="users-and-permissions" replace />
               },
               {
-                path: "settings/shipping-fulfillment",
-                element: <PageLayout headers={shippingPageRoutes}/>,
-                children: shippingPageRoutes
-              },
-              {
-                path: "settings/users",
-                element: <PageLayout headers={userPageRoutes}/>,
+                path: "settings/users-and-permissions",
+                element: <PageLayout headers={userPageRoutes} />,
                 children: userPageRoutes
               },
               {
@@ -221,14 +216,19 @@ export const routes: RouteObject[] = [
                 children: shopSettingPageRoutes
               },
               {
-                path: "settings/emails",
-                element: <PageLayout headers={emailsSettingPageRoutes}/>,
-                children: emailsSettingPageRoutes
-              },
-              {
                 path: "settings/checkout",
                 element: <PageLayout headers={checkoutSettingPageRoutes}/>,
                 children: checkoutSettingPageRoutes
+              },
+              {
+                path: "settings/shipping-fulfillment",
+                element: <PageLayout headers={shippingPageRoutes}/>,
+                children: shippingPageRoutes
+              },
+              {
+                path: "settings/emails",
+                element: <PageLayout headers={emailsSettingPageRoutes}/>,
+                children: emailsSettingPageRoutes
               },
               {
                 path: "*",

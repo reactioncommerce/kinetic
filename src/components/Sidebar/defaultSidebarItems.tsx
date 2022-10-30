@@ -81,7 +81,7 @@ export const CORE_FEATURES: ItemProps[] = [
         key: FEATURE_KEYS.settings,
         text: "Users & Permissions",
         icon: <AdminPanelSettingsOutlinedIcon fontSize="small" />,
-        to: "/settings/users"
+        to: "/settings/users-and-permissions"
       },
       {
         key: FEATURE_KEYS.shopDetails,
