@@ -197,7 +197,8 @@ const theme = createTheme(baseTheme, {
         },
         colorPrimary: {
           color: baseTheme.palette.common.white,
-          fontWeight: 600
+          fontWeight: 600,
+          backgroundColor: baseTheme.palette.primary.main
         },
         sizeSmall: {
           fontSize: "11px",
