@@ -8147,6 +8147,19 @@ export type CreateShopMutationVariables = Exact<{
 
 export type CreateShopMutation = { __typename?: 'Mutation', createShop: { __typename?: 'CreateShopPayload', shop: { __typename?: 'Shop', _id: string, language: string, name: string, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } } };
 
+export type GetCustomersQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<AccountSortByField>;
+}>;
+
+
+export type GetCustomersQuery = { __typename?: 'Query', customers: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, userId: string, createdAt: any, primaryEmailAddress: any, name?: string | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null } | null> | null } };
+
 export type AuthenticateMutationVariables = Exact<{
   serviceName: Scalars['String'];
   params: AuthenticateParamsInput;
@@ -8662,6 +8675,45 @@ export const useCreateShopMutation = <
     useMutation<CreateShopMutation, TError, CreateShopMutationVariables, TContext>(
       ['createShop'],
       (variables?: CreateShopMutationVariables) => fetcher<CreateShopMutation, CreateShopMutationVariables>(client, CreateShopDocument, variables, headers)(),
+      options
+    );
+export const GetCustomersDocument = `
+    query getCustomers($after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder = asc, $sortBy: AccountSortByField = createdAt) {
+  customers(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      _id
+      userId
+      createdAt
+      emailRecords {
+        address
+      }
+      primaryEmailAddress
+      name
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetCustomersQuery = <
+      TData = GetCustomersQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetCustomersQueryVariables,
+      options?: UseQueryOptions<GetCustomersQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetCustomersQuery, TError, TData>(
+      variables === undefined ? ['getCustomers'] : ['getCustomers', variables],
+      fetcher<GetCustomersQuery, GetCustomersQueryVariables>(client, GetCustomersDocument, variables, headers),
       options
     );
 export const AuthenticateDocument = `

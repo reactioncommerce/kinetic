@@ -10,7 +10,8 @@ import {
   useReactTable,
   flexRender,
   PaginationState,
-  TableState
+  TableState,
+  SortingState
 } from "@tanstack/react-table";
 import CircularProgress from "@mui/material/CircularProgress";
 import Paper from "@mui/material/Paper";
@@ -18,6 +19,7 @@ import { Dispatch, SetStateAction } from "react";
 import { ceil } from "lodash-es";
 
 import { TablePagination } from "./TablePagination";
+import { SortableTableCell } from "./SortableTableCell";
 
 declare module "@tanstack/react-table" {
   interface ColumnMeta {
@@ -33,6 +35,7 @@ type TableProps<T> = MuiTableProps & {
   totalCount?: number;
   tableState: Partial<TableState>;
   onPaginationChange: Dispatch<SetStateAction<PaginationState>>;
+  onSortingChange?: Dispatch<SetStateAction<SortingState>>;
   emptyPlaceholder?: JSX.Element
   maxHeight?: number
 };
@@ -47,7 +50,8 @@ export function Table<T>({
   tableState,
   onPaginationChange,
   emptyPlaceholder,
-  maxHeight
+  maxHeight,
+  onSortingChange
 }: TableProps<T>) {
   const table = useReactTable({
     data,
@@ -56,7 +60,8 @@ export function Table<T>({
     manualPagination: true,
     state: tableState,
     pageCount: tableState.pagination?.pageSize ? ceil(totalCount / tableState.pagination.pageSize) : -1,
-    onPaginationChange
+    onPaginationChange,
+    onSortingChange
   });
 
   const tableBodyContent = table.getRowModel().rows.length === 0 ? (
@@ -93,14 +98,16 @@ export function Table<T>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableCell key={header.id} sx={{ whiteSpace: "nowrap" }} {...header.column.columnDef?.meta}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </TableCell>
+                  header.column.getCanSort() ?
+                    <SortableTableCell header={header}/> :
+                    <TableCell key={header.id} sx={{ whiteSpace: "nowrap" }} {...header.column.columnDef?.meta}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableCell>
                 ))}
               </TableRow>
             ))}
