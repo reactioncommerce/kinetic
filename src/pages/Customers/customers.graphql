@@ -1,0 +1,23 @@
+query getCustomers(
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+  $sortOrder: SortOrder = asc
+  $sortBy: AccountSortByField = createdAt
+) {
+  customers(after: $after, before: $before, first: $first, last: $last, offset: $offset, sortOrder: $sortOrder, sortBy: $sortBy) {
+    nodes {
+      _id
+      userId
+      createdAt
+      emailRecords {
+        address
+      }
+      primaryEmailAddress
+      name
+    }
+    totalCount
+  }
+}
