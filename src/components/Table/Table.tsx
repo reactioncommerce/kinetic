@@ -98,8 +98,8 @@ export function Table<T>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  header.column.getCanSort() ?
-                    <SortableTableCell header={header}/> :
+                  tableState.sorting && header.column.getCanSort() ?
+                    <SortableTableCell key={header.id} header={header}/> :
                     <TableCell key={header.id} sx={{ whiteSpace: "nowrap" }} {...header.column.columnDef?.meta}>
                       {header.isPlaceholder
                         ? null
