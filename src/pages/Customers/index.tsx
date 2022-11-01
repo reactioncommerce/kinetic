@@ -47,7 +47,10 @@ const Customers = () => {
       accessorKey: "createdAt",
       header: "Registered",
       cell: (info) => formatDate(new Date(info.getValue())),
-      enableSorting: true
+      enableSorting: true,
+      meta: {
+        align: "right"
+      }
     }
   ], []);
 
