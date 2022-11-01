@@ -10,7 +10,7 @@ export const SortableTableCell = <T, >({ header }: SortableTableCellProps<T>) =>
   const sortDirection = header.column.getIsSorted();
   return (
     <TableCell
-      key={header.id} sx={{ whiteSpace: "nowrap" }} {...header.column.columnDef?.meta}
+      sx={{ whiteSpace: "nowrap" }} {...header.column.columnDef?.meta}
       sortDirection={sortDirection ?? false}
     >
       <TableSortLabel
