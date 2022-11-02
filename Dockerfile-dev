@@ -1,5 +1,5 @@
 
-FROM node:14.18.1-slim as development
+FROM node:14-slim as development
 
 WORKDIR /tmp
 RUN npm i -g pnpm@7
