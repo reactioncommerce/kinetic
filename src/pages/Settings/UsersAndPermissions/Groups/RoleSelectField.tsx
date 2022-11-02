@@ -21,6 +21,7 @@ import { filterNodes } from "@utils/common";
 import { Loader } from "@components/Loader";
 
 const NUMBER_OF_ROLES = 200;
+const READ_ACTION = "read";
 
 export type RoleItem = {
   name: string
@@ -38,6 +39,16 @@ export const normalizeRoles = (roleNames: string[]) => {
 };
 
 const getResourceLabel = (name: string) => startCase(name.split(":")[2] || "Unknown");
+
+const splitActionAndEntity = (actionWithEntity: string) => {
+  const [, actionAndEntity] = actionWithEntity.split("/");
+  return actionAndEntity.split(":");
+};
+
+const findReadActions = (roles: RoleItem[], entity?: string) => roles.filter(({ name }) => {
+  const [_action, _entity] = splitActionAndEntity(name);
+  return _action === READ_ACTION && (_entity ? entity === _entity : true);
+});
 
 type RoleSelectFieldProps = FieldProps<Record<string, RoleItem[]>>
 
@@ -65,8 +76,24 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
   };
 
   const handleChange = (resource: string, role: RoleItem) => (event: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
     const actions = selectedRoles[resource] || [];
-    const newActions = event.target.checked ? [...actions, role] : actions.filter((action) => action.name !== role.name);
+    const [action, entity] = splitActionAndEntity(role.name);
+
+    // if user enable an action that requires read permission, we automatically enable the read permission
+    if (action !== READ_ACTION && checked) {
+      const readActions = findReadActions(allRolesByResource?.[resource] || [], entity);
+      setFieldValue(fieldName, { ...selectedRoles, [resource]: [...new Set([...actions, role, ...readActions])] });
+      return;
+    }
+
+    // if user disable the read permission of the resource, we automatically disable all the actions that require read permission (which is now everything else)
+    if (action === READ_ACTION && !entity && !checked) {
+      setFieldValue(fieldName, { ...selectedRoles, [resource]: [] });
+      return;
+    }
+
+    const newActions = checked ? [...new Set([...actions, role])] : actions.filter(({ name }) => name !== role.name);
     setFieldValue(fieldName, { ...selectedRoles, [resource]: newActions });
   };
 
