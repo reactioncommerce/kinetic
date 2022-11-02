@@ -27,7 +27,7 @@ query getViewer {
         code
         format
         symbol
-      },
+      }
       language
     }
     groups {

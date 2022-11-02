@@ -24,6 +24,15 @@ query getUsers(
       _id
       adminUIShops {
         _id
+        name
+        shopType
+        currency {
+          _id
+          code
+          format
+          symbol
+        }
+        language
       }
       createdAt
       emailRecords {

@@ -90,6 +90,7 @@ const Surcharges = () => {
   const { shopId } = useShop();
   const [open, setOpen] = useState(false);
   const [activeRow, setActiveRow] = useState<Surcharge>();
+  const canReadShippingMethods = usePermission(["shippingMethods/read"]);
 
   const columns: ColumnDef<Surcharge>[] = useMemo(
     () => [
@@ -135,7 +136,7 @@ const Surcharges = () => {
     client,
     { shopId: shopId! },
     {
-      enabled: !!shopId,
+      enabled: !!shopId && canReadShippingMethods,
       select: (response) =>
         filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ _id, name }) => ({ label: name, value: _id }))
     }
@@ -229,7 +230,7 @@ const Surcharges = () => {
         columns={columns}
         data={filterNodes(data?.surcharges.nodes)}
         loading={isLoading}
-        tableState={{ pagination }}
+        tableState={{ pagination, columnVisibility: { methodIds: canReadShippingMethods } }}
         onPaginationChange={handlePaginationChange}
         totalCount={data?.surcharges.totalCount ?? 0}
         onRowClick={handleRowClick}
@@ -299,13 +300,16 @@ const Surcharges = () => {
 
                 <Divider sx={{ my: 2 }} />
                 <DestinationField isInvalid={touched.destination && !!errors.destination} errors={touched.destination ? errors.destination : undefined} />
-                <Divider sx={{ my: 2 }} />
-                <ShippingMethodsField
-                  shippingMethodOptions={shippingMethods.data}
-                  isLoading={shippingMethods.isLoading}
-                  isInvalid={touched.methods && !!errors.methods}
-                  errors={touched.methods ? errors.methods : undefined}
-                />
+                {canReadShippingMethods ?
+                  <>
+                    <Divider sx={{ my: 2 }} />
+                    <ShippingMethodsField
+                      shippingMethodOptions={shippingMethods.data}
+                      isLoading={shippingMethods.isLoading}
+                      isInvalid={touched.methods && !!errors.methods}
+                      errors={touched.methods ? errors.methods : undefined}
+                    />
+                  </> : null}
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="h6" gutterBottom>
                   Storefront

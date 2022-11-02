@@ -71,6 +71,8 @@ const Restrictions = () => {
   const [open, setOpen] = useState(false);
   const [activeRow, setActiveRow] = useState<ShippingRestriction>();
 
+  const canReadShippingMethods = usePermission(["shippingMethods/read"]);
+
   const columns: ColumnDef<ShippingRestriction>[] = useMemo(
     () => [
       {
@@ -133,7 +135,7 @@ const Restrictions = () => {
     client,
     { shopId: shopId! },
     {
-      enabled: !!shopId,
+      enabled: !!shopId && canReadShippingMethods,
       select: (response) =>
         filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ _id, name }) => ({ label: name, value: _id }))
     }
@@ -226,7 +228,7 @@ const Restrictions = () => {
         columns={columns}
         data={filterNodes(data?.getFlatRateFulfillmentRestrictions.nodes)}
         loading={isLoading}
-        tableState={{ pagination }}
+        tableState={{ pagination, columnVisibility: { methodIds: canReadShippingMethods } }}
         onPaginationChange={handlePaginationChange}
         totalCount={data?.getFlatRateFulfillmentRestrictions.totalCount ?? 0}
         onRowClick={handleRowClick}
@@ -296,13 +298,18 @@ const Restrictions = () => {
                   isInvalid={touched.destination && !!errors.destination}
                   errors={touched.destination ? errors.destination : undefined}
                 />
-                <Divider sx={{ my: 2 }} />
-                <ShippingMethodsField
-                  shippingMethodOptions={shippingMethods.data}
-                  isLoading={shippingMethods.isLoading}
-                  isInvalid={touched.methods && !!errors.methods}
-                  errors={touched.methods ? errors.methods : ""}
-                />
+                {canReadShippingMethods ?
+                  <>
+                    <Divider sx={{ my: 2 }} />
+                    <ShippingMethodsField
+                      shippingMethodOptions={shippingMethods.data}
+                      isLoading={shippingMethods.isLoading}
+                      isInvalid={touched.methods && !!errors.methods}
+                      errors={touched.methods ? errors.methods : ""}
+                    />
+                  </>
+                  : null}
+
               </Drawer.Content>
               <Drawer.Actions
                 left={

@@ -8140,20 +8140,6 @@ export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, slug?: string | null, shopType?: string | null, language: string, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, name: string, permissions?: Array<string | null> | null } | null> | null } | null } | null };
 
-export type GetRolesQueryVariables = Exact<{
-  shopId: Scalars['ID'];
-  after?: InputMaybe<Scalars['ConnectionCursor']>;
-  before?: InputMaybe<Scalars['ConnectionCursor']>;
-  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
-  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  sortOrder?: InputMaybe<SortOrder>;
-  sortBy?: InputMaybe<RoleSortByField>;
-}>;
-
-
-export type GetRolesQuery = { __typename?: 'Query', roles?: { __typename?: 'RoleConnection', nodes?: Array<{ __typename?: 'Role', name: string } | null> | null } | null };
-
 export type CreateShopMutationVariables = Exact<{
   input: CreateShopInput;
 }>;
@@ -8473,6 +8459,20 @@ export type UpdateGroupMutationVariables = Exact<{
 
 export type UpdateGroupMutation = { __typename?: 'Mutation', updateAccountGroup?: { __typename?: 'UpdateAccountGroupPayload', group?: { __typename?: 'Group', _id: string } | null } | null };
 
+export type GetRolesQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<RoleSortByField>;
+}>;
+
+
+export type GetRolesQuery = { __typename?: 'Query', roles?: { __typename?: 'RoleConnection', nodes?: Array<{ __typename?: 'Role', name: string } | null> | null } | null };
+
 export type CreateGroupMutationVariables = Exact<{
   input: CreateAccountGroupInput;
 }>;
@@ -8507,7 +8507,7 @@ export type GetUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', accounts: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, createdAt: any, primaryEmailAddress: any, userId: string, name?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, adminUIShops?: Array<{ __typename?: 'Shop', _id: string } | null> | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any } | null> | null } | null } | null> | null } };
+export type GetUsersQuery = { __typename?: 'Query', accounts: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, createdAt: any, primaryEmailAddress: any, userId: string, name?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, shopType?: string | null, language: string, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any } | null> | null } | null } | null> | null } };
 
 export type InviteUserMutationVariables = Exact<{
   input: InviteShopMemberInput;
@@ -8609,14 +8609,14 @@ export const GetViewerDocument = `
         symbol
       }
       language
+    }
     groups {
       nodes {
         _id
         name
         permissions
-        }
       }
-}
+    }
   }
 }
     `;
@@ -8632,38 +8632,6 @@ export const useGetViewerQuery = <
     useQuery<GetViewerQuery, TError, TData>(
       variables === undefined ? ['getViewer'] : ['getViewer', variables],
       fetcher<GetViewerQuery, GetViewerQueryVariables>(client, GetViewerDocument, variables, headers),
-      options
-    );
-export const GetRolesDocument = `
-    query getRoles($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder = asc, $sortBy: RoleSortByField = name) {
-  roles(
-    shopId: $shopId
-    after: $after
-    before: $before
-    first: $first
-    last: $last
-    offset: $offset
-    sortOrder: $sortOrder
-    sortBy: $sortBy
-  ) {
-    nodes {
-      name
-    }
-  }
-}
-    `;
-export const useGetRolesQuery = <
-      TData = GetRolesQuery,
-      TError = unknown
-    >(
-      client: GraphQLClient,
-      variables: GetRolesQueryVariables,
-      options?: UseQueryOptions<GetRolesQuery, TError, TData>,
-      headers?: RequestInit['headers']
-    ) =>
-    useQuery<GetRolesQuery, TError, TData>(
-      ['getRoles', variables],
-      fetcher<GetRolesQuery, GetRolesQueryVariables>(client, GetRolesDocument, variables, headers),
       options
     );
 export const CreateShopDocument = `
@@ -9773,6 +9741,38 @@ export const useUpdateGroupMutation = <
       (variables?: UpdateGroupMutationVariables) => fetcher<UpdateGroupMutation, UpdateGroupMutationVariables>(client, UpdateGroupDocument, variables, headers)(),
       options
     );
+export const GetRolesDocument = `
+    query getRoles($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $sortOrder: SortOrder = asc, $sortBy: RoleSortByField = name) {
+  roles(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    sortOrder: $sortOrder
+    sortBy: $sortBy
+  ) {
+    nodes {
+      name
+    }
+  }
+}
+    `;
+export const useGetRolesQuery = <
+      TData = GetRolesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetRolesQueryVariables,
+      options?: UseQueryOptions<GetRolesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetRolesQuery, TError, TData>(
+      ['getRoles', variables],
+      fetcher<GetRolesQuery, GetRolesQueryVariables>(client, GetRolesDocument, variables, headers),
+      options
+    );
 export const CreateGroupDocument = `
     mutation createGroup($input: CreateAccountGroupInput!) {
   createAccountGroup(input: $input) {
@@ -9854,6 +9854,15 @@ export const GetUsersDocument = `
       _id
       adminUIShops {
         _id
+        name
+        shopType
+        currency {
+          _id
+          code
+          format
+          symbol
+        }
+        language
       }
       createdAt
       emailRecords {

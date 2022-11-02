@@ -2,6 +2,7 @@ import { graphql } from "msw";
 import { faker } from "@faker-js/faker";
 
 import { GetViewerQuery } from "@graphql/generates";
+import { currencyDefinition } from "@utils/currency";
 
 const account: GetViewerQuery["viewer"] = {
   _id: faker.datatype.uuid(),
@@ -10,7 +11,13 @@ const account: GetViewerQuery["viewer"] = {
     {
       _id: faker.datatype.uuid(),
       name: faker.company.companyName(),
-      shopType: "primary"
+      shopType: "primary",
+      currency: {
+        _id: faker.datatype.uuid(),
+        code: "USD",
+        ...currencyDefinition.USD
+      },
+      language: "en"
     }
   ],
   groups: {
@@ -25,6 +32,7 @@ const account: GetViewerQuery["viewer"] = {
         "reaction:legacy:shops/update",
         "reaction:legacy:taxes/update",
         "reaction:legacy:email-templates/update",
+        "reaction:legacy:shippingMethods/read",
         "reaction:legacy:shippingMethods/update",
         "reaction:legacy:shippingMethods/create",
         "reaction:legacy:shippingMethods/delete",
