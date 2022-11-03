@@ -28,6 +28,11 @@ export type RoleItem = {
   label: string
 }
 
+const splitActionAndEntity = (actionWithEntity: string) => {
+  const [, actionAndEntity] = actionWithEntity.split("/");
+  return actionAndEntity.split(":");
+};
+
 export const normalizeRoles = (roleNames: string[]) => {
   const groupedRoleByResource = roleNames.reduce((roleByResource, roleName) => {
     const [resource, action] = roleName.split("/");
@@ -40,14 +45,9 @@ export const normalizeRoles = (roleNames: string[]) => {
 
 const getResourceLabel = (name: string) => startCase(name.split(":")[2] || "Unknown");
 
-const splitActionAndEntity = (actionWithEntity: string) => {
-  const [, actionAndEntity] = actionWithEntity.split("/");
-  return actionAndEntity.split(":");
-};
-
-const findReadActions = (roles: RoleItem[], entity?: string) => roles.filter(({ name }) => {
+const findReadActions = (roles: RoleItem[], entity?: string, selectedRoleNames: string[] = []) => roles.filter(({ name }) => {
   const [_action, _entity] = splitActionAndEntity(name);
-  return _action === READ_ACTION && (_entity ? entity === _entity : true);
+  return _action === READ_ACTION && !selectedRoleNames.includes(name) && (_entity ? entity === _entity : true);
 });
 
 type RoleSelectFieldProps = FieldProps<Record<string, RoleItem[]>>
@@ -77,13 +77,16 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
 
   const handleChange = (resource: string, role: RoleItem) => (event: ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
-    const actions = selectedRoles[resource] || [];
+    const selectedActions = selectedRoles[resource] || [];
     const [action, entity] = splitActionAndEntity(role.name);
 
     // if user enable an action that requires read permission, we automatically enable the read permission
     if (action !== READ_ACTION && checked) {
-      const readActions = findReadActions(allRolesByResource?.[resource] || [], entity);
-      setFieldValue(fieldName, { ...selectedRoles, [resource]: [...new Set([...actions, role, ...readActions])] });
+      const readActions = findReadActions(allRolesByResource?.[resource] || [], entity, selectedActions.map(({ name }) => name));
+      setFieldValue(fieldName, {
+        ...selectedRoles,
+        [resource]: [...selectedActions, role, ...readActions]
+      });
       return;
     }
 
@@ -93,7 +96,7 @@ export const RoleSelectField = ({ field: { value: selectedRoles, name: fieldName
       return;
     }
 
-    const newActions = checked ? [...new Set([...actions, role])] : actions.filter(({ name }) => name !== role.name);
+    const newActions = checked ? [...selectedActions, role] : selectedActions.filter(({ name }) => name !== role.name);
     setFieldValue(fieldName, { ...selectedRoles, [resource]: newActions });
   };
 

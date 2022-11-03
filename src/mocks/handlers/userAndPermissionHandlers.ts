@@ -42,8 +42,10 @@ export const pendingInvitations = [mockPendingInvitation(groups[0]), mockPending
 export const roles: Role[] = [
   mockRole("reaction:legacy:accounts/add:address-books"),
   mockRole("reaction:legacy:accounts/invite:group"),
+  mockRole("reaction:legacy:accounts/read"),
+  mockRole("reaction:legacy:accounts/update:currency"),
   mockRole("reaction:legacy:addressValidationRules/create"),
-  mockRole("reaction:legacy:emails/read"),
+  mockRole("reaction:legacy:emails/update"),
   mockRole("reaction:legacy:addressValidationRules/read"),
   mockRole("reaction:legacy:inventory/read")
 ];
