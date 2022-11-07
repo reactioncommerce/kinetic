@@ -1,4 +1,4 @@
-import { PaginationState, SortingState } from "@tanstack/react-table";
+import { PaginationState, RowSelectionState, SortingState } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
 export const useTableState = (defaultSortingState?: SortingState) => {
@@ -11,6 +11,8 @@ export const useTableState = (defaultSortingState?: SortingState) => {
   const [sorting, setSorting] =
   useState<SortingState>(defaultSortingState || []);
 
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
   const pagination = useMemo(
     () => ({
       pageIndex,
@@ -19,5 +21,12 @@ export const useTableState = (defaultSortingState?: SortingState) => {
     [pageIndex, pageSize]
   );
 
-  return { pagination, handlePaginationChange: setPagination, onSortingChange: setSorting, sorting };
+  return {
+    pagination,
+    sorting,
+    rowSelection,
+    onRowSelectionChange: setRowSelection,
+    handlePaginationChange: setPagination,
+    onSortingChange: setSorting
+  };
 };

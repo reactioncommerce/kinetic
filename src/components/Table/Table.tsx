@@ -11,7 +11,8 @@ import {
   flexRender,
   PaginationState,
   TableState,
-  SortingState
+  SortingState,
+  RowSelectionState
 } from "@tanstack/react-table";
 import CircularProgress from "@mui/material/CircularProgress";
 import Paper from "@mui/material/Paper";
@@ -24,6 +25,7 @@ import { SortableTableCell } from "./SortableTableCell";
 declare module "@tanstack/react-table" {
   interface ColumnMeta {
     align?: TableCellProps["align"];
+    padding?: TableCellProps["padding"];
   }
 }
 
@@ -36,6 +38,7 @@ type TableProps<T> = MuiTableProps & {
   tableState: Partial<TableState>;
   onPaginationChange: Dispatch<SetStateAction<PaginationState>>;
   onSortingChange?: Dispatch<SetStateAction<SortingState>>;
+  onRowSelectionChange?: Dispatch<SetStateAction<RowSelectionState>>;
   emptyPlaceholder?: JSX.Element
   maxHeight?: number
 };
@@ -51,7 +54,8 @@ export function Table<T>({
   onPaginationChange,
   emptyPlaceholder,
   maxHeight,
-  onSortingChange
+  onSortingChange,
+  onRowSelectionChange
 }: TableProps<T>) {
   const table = useReactTable({
     data,
@@ -61,7 +65,8 @@ export function Table<T>({
     state: tableState,
     pageCount: tableState.pagination?.pageSize ? ceil(totalCount / tableState.pagination.pageSize) : -1,
     onPaginationChange,
-    onSortingChange
+    onSortingChange,
+    onRowSelectionChange
   });
 
   const showPagination = totalCount > 0;

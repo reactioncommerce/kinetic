@@ -3,18 +3,28 @@ import { useMemo } from "react";
 import Stack from "@mui/material/Stack";
 import FaceIcon from "@mui/icons-material/Face";
 import Typography from "@mui/material/Typography";
+import Checkbox from "@mui/material/Checkbox";
+import { CSVLink } from "react-csv";
 
 import { useGetCustomersQuery } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
-import { Table, TableContainer, useTableState } from "@components/Table";
+import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
 import { filterNodes, formatDate } from "@utils/common";
 import { Customer } from "types/customers";
 import { AccountSortByField, SortOrder } from "@graphql/types";
 
+const exportHeaders = [
+  { label: "Customer Name", key: "name" },
+  { label: "User ID", key: "userId" },
+  { label: "Email", key: "primaryEmailAddress" },
+  { label: "Registered", key: "createdAt" }
+];
+
+
 const Customers = () => {
   const defaultSortingState: SortingState = [{ id: AccountSortByField.CreatedAt, desc: false }];
 
-  const { pagination, handlePaginationChange, sorting, onSortingChange } = useTableState(defaultSortingState);
+  const { pagination, handlePaginationChange, sorting, onSortingChange, rowSelection, onRowSelectionChange } = useTableState(defaultSortingState);
 
   const { data, isLoading } = useGetCustomersQuery(
     client,
@@ -27,6 +37,34 @@ const Customers = () => {
   );
 
   const columns = useMemo((): ColumnDef<Customer>[] => [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          inputProps={{ "aria-label": "select all customers" }}
+          disableRipple
+          {...{
+            checked: table.getIsAllRowsSelected(),
+            indeterminate: table.getIsSomeRowsSelected(),
+            onChange: table.getToggleAllRowsSelectedHandler()
+          }}
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          disableRipple
+          inputProps={{ "aria-label": "select customer" }}
+          {...{
+            checked: row.getIsSelected(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler()
+          }}
+        />
+      ),
+      meta: {
+        padding: "checkbox"
+      }
+    },
     {
       accessorKey: "name",
       header: "Customer Name",
@@ -55,19 +93,28 @@ const Customers = () => {
   ], []);
 
   const customers = filterNodes(data?.customers.nodes);
+  const getExportData = Object.keys(rowSelection).length ?
+    Object.keys(rowSelection)
+      .map((index) => customers[Number(index)]).map((customer) => ({ ...customer, createdAt: formatDate(new Date(customer.createdAt)) })) : [];
 
   return (
     <TableContainer>
       <TableContainer.Header
         title="Customers"
+        action={
+          <TableAction disabled={!Object.keys(rowSelection).length} sx={{ "& a": { color: "inherit", textDecoration: "none" } }}>
+            <CSVLink data={getExportData} headers={exportHeaders} filename="customers.csv">Export</CSVLink>
+          </TableAction>
+        }
       />
       <Table
         columns={columns}
         data={customers}
         loading={isLoading}
-        tableState={{ pagination, sorting }}
+        tableState={{ pagination, sorting, rowSelection }}
         onPaginationChange={handlePaginationChange}
         onSortingChange={onSortingChange}
+        onRowSelectionChange={onRowSelectionChange}
         totalCount={data?.customers.totalCount}
         emptyPlaceholder={
           <Stack alignItems="center" gap={2}>
