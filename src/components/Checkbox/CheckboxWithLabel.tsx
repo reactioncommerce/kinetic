@@ -9,5 +9,5 @@ export interface CheckboxWithLabelProps extends FieldProps, CheckboxProps {
 }
 
 export const CheckboxWithLabel = ({ labelProps, ...props }: CheckboxWithLabelProps) => (
-  <FormControlLabel control={<MuiCheckbox {...fieldToCheckbox(props)} />} {...labelProps} />
+  <FormControlLabel control={<MuiCheckbox {...fieldToCheckbox(props)}/>} {...labelProps} />
 );

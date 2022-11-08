@@ -17,10 +17,20 @@ export type EditableCardProps<T> = {
   formTitle: string
   formConfig: Omit<FormikConfig<T>, "onSubmit">
   onSubmit: (props: {values: T, setDrawerOpen: (value: boolean) => void, setSubmitting: (value: boolean) => void}) => void
+  canEdit?: boolean
 }
 
 
-export const EditableCard = <T, >({ isLoading = false, cardTitle, cardContent, formContent, formTitle, formConfig, onSubmit }: EditableCardProps<T>) => {
+export const EditableCard = <T, >({
+  isLoading = false,
+  cardTitle,
+  cardContent,
+  formContent,
+  formTitle,
+  formConfig,
+  onSubmit,
+  canEdit = true
+}: EditableCardProps<T>) => {
   const [open, setOpen] = useState(false);
 
   const handleSubmit: FormikConfig<T>["onSubmit"] = (values, { setSubmitting }) => {
@@ -28,7 +38,7 @@ export const EditableCard = <T, >({ isLoading = false, cardTitle, cardContent, f
   };
   return (
     <>
-      <Card title={cardTitle} action={<Button variant="text" onClick={() => setOpen(true)}>Edit</Button>}>
+      <Card title={cardTitle} action={canEdit ? <Button variant="text" onClick={() => setOpen(true)}>Edit</Button> : undefined}>
         {isLoading ? <Loader/> : cardContent}
       </Card>
       <Drawer

@@ -15,6 +15,7 @@ import { filterNodes } from "@utils/common";
 import { SelectOptionType } from "types/common";
 import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { InputWithLabel } from "@components/TextField";
+import { usePermission } from "@components/PermissionGuard";
 
 const localizationSettingSchema = Yup.object().shape({
   timezone: Yup.object().nullable().required("This field is required"),
@@ -74,10 +75,13 @@ const Localization = () => {
     uom
   };
 
+  const canEditShop = usePermission(["reaction:legacy:shops/update"]);
+
   return (
     <Container disableGutters>
       <EditableCard<ShopLocalizationFormValues>
         isLoading={isLoading}
+        canEdit={canEditShop}
         cardTitle="Shop Defaults"
         cardContent={
           <>

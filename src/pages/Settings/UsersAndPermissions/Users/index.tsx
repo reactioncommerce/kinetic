@@ -18,6 +18,7 @@ import { MenuActions } from "@components/MenuActions";
 import { useShop } from "@containers/ShopProvider";
 import { UserForm } from "../components/UserForm";
 import { useToast } from "@containers/ToastProvider";
+import { usePermission } from "@components/PermissionGuard";
 
 const Users = () => {
   const [open, setOpen] = useState(false);
@@ -96,7 +97,8 @@ const Users = () => {
             // The accounts API returns all groups of an account, we need to filter valid group that exists in current active shop
             group: filterNodes(user.groups?.nodes)
               .find((group) => (group._id ? groupsData?.groupIds.includes(group._id) : false))
-              ?? groupsData?.groups[0]
+              ?? groupsData?.groups[0],
+            adminUIShops: filterNodes(user.adminUIShops)
           }));
         return { users: validUsers, totalCount: response.accounts.totalCount };
       }
@@ -113,11 +115,13 @@ const Users = () => {
     setActiveRow(undefined);
   };
 
+  const canInviteUser = usePermission(["reaction:legacy:accounts/invite:group"]);
+
   return (
     <TableContainer>
       <TableContainer.Header
         title="Users"
-        action={<TableAction onClick={handleOpen}>Invite</TableAction>}
+        action={canInviteUser ? <TableAction onClick={handleOpen}>Invite</TableAction> : undefined}
       />
       <Table
         columns={columns}

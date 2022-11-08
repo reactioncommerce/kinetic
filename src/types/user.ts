@@ -4,6 +4,9 @@ import { Group } from "./group";
 
 export type User = Pick<Account, "_id"| "name" | "primaryEmailAddress"> & {
   group?: Group
+  adminUIShops?: {
+    _id: string
+  }[]
 }
 
 export type PendingInvitation = Pick<Invitation, "_id" | "email"> & {

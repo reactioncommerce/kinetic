@@ -43,6 +43,7 @@ import { MethodCell } from "../components/MethodCell";
 import { OperatorsField } from "../components/OperatorsField";
 import { DestinationField, getInitialDestinationValue } from "../components/DestinationField";
 import { ShippingMethodsField } from "../components/ShippingMethodsField";
+import { usePermission } from "@components/PermissionGuard";
 
 
 type ShippingSurchargeFormValues = {
@@ -89,6 +90,7 @@ const Surcharges = () => {
   const { shopId } = useShop();
   const [open, setOpen] = useState(false);
   const [activeRow, setActiveRow] = useState<Surcharge>();
+  const canReadShippingMethods = usePermission(["reaction:legacy:shippingMethods/read"]);
 
   const columns: ColumnDef<Surcharge>[] = useMemo(
     () => [
@@ -134,7 +136,7 @@ const Surcharges = () => {
     client,
     { shopId: shopId! },
     {
-      enabled: !!shopId,
+      enabled: !!shopId && canReadShippingMethods,
       select: (response) =>
         filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ _id, name }) => ({ label: name, value: _id }))
     }
@@ -213,17 +215,22 @@ const Surcharges = () => {
     });
   };
 
+  const canAdd = usePermission(["reaction:legacy:surcharges/create"]);
+  const canEdit = usePermission(["reaction:legacy:surcharges/update"]);
+  const canDelete = usePermission(["reaction:legacy:surcharges/delete"]);
+  const showSubmitBtn = activeRow ? canEdit : canAdd;
+
   return (
     <TableContainer>
       <TableContainer.Header
         title="Shipping Surcharges"
-        action={<TableAction onClick={() => setOpen(true)}>Add</TableAction>}
+        action={canAdd ? <TableAction onClick={() => setOpen(true)}>Add</TableAction> : undefined}
       />
       <Table
         columns={columns}
         data={filterNodes(data?.surcharges.nodes)}
         loading={isLoading}
-        tableState={{ pagination }}
+        tableState={{ pagination, columnVisibility: { methodIds: canReadShippingMethods } }}
         onPaginationChange={handlePaginationChange}
         totalCount={data?.surcharges.totalCount ?? 0}
         onRowClick={handleRowClick}
@@ -240,14 +247,16 @@ const Surcharges = () => {
                 Get started by adding your first shipping surcharge.
               </Typography>
             </div>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ width: "120px" }}
-              onClick={() => setOpen(true)}
-            >
+            {canAdd ?
+              <Button
+                variant="contained"
+                size="small"
+                sx={{ width: "120px" }}
+                onClick={() => setOpen(true)}
+              >
               Add
-            </Button>
+              </Button> : null}
+
           </Stack>
         }
       />
@@ -291,13 +300,16 @@ const Surcharges = () => {
 
                 <Divider sx={{ my: 2 }} />
                 <DestinationField isInvalid={touched.destination && !!errors.destination} errors={touched.destination ? errors.destination : undefined} />
-                <Divider sx={{ my: 2 }} />
-                <ShippingMethodsField
-                  shippingMethodOptions={shippingMethods.data}
-                  isLoading={shippingMethods.isLoading}
-                  isInvalid={touched.methods && !!errors.methods}
-                  errors={touched.methods ? errors.methods : undefined}
-                />
+                {canReadShippingMethods ?
+                  <>
+                    <Divider sx={{ my: 2 }} />
+                    <ShippingMethodsField
+                      shippingMethodOptions={shippingMethods.data}
+                      isLoading={shippingMethods.isLoading}
+                      isInvalid={touched.methods && !!errors.methods}
+                      errors={touched.methods ? errors.methods : undefined}
+                    />
+                  </> : null}
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="h6" gutterBottom>
                   Storefront
@@ -310,7 +322,7 @@ const Surcharges = () => {
               </Drawer.Content>
               <Drawer.Actions
                 left={
-                  activeRow ? (
+                  activeRow && canDelete ? (
                     <LoadingButton
                       variant="outlined"
                       color="error"
@@ -334,15 +346,17 @@ const Surcharges = () => {
                     >
                       Cancel
                     </Button>
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      loading={isSubmitting}
-                      onClick={submitForm}
-                      disabled={!dirty}
-                    >
-                      Save Changes
-                    </LoadingButton>
+                    {showSubmitBtn ?
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        loading={isSubmitting}
+                        onClick={submitForm}
+                        disabled={!dirty}
+                      >
+                    Save Changes
+                      </LoadingButton> : null}
+
                   </Stack>
                 }
               />

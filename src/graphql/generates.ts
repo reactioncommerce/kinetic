@@ -8138,7 +8138,7 @@ export type SystemInformationQuery = { __typename?: 'Query', systemInformation: 
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, slug?: string | null, shopType?: string | null, language: string, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null } | null };
+export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, slug?: string | null, shopType?: string | null, language: string, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, name: string, permissions?: Array<string | null> | null } | null> | null } | null } | null };
 
 export type CreateShopMutationVariables = Exact<{
   input: CreateShopInput;
@@ -8507,7 +8507,7 @@ export type GetUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', accounts: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, createdAt: any, primaryEmailAddress: any, userId: string, name?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, adminUIShops?: Array<{ __typename?: 'Shop', _id: string } | null> | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any } | null> | null } | null } | null> | null } };
+export type GetUsersQuery = { __typename?: 'Query', accounts: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, createdAt: any, primaryEmailAddress: any, userId: string, name?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, shopType?: string | null, language: string, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any } | null> | null } | null } | null> | null } };
 
 export type InviteUserMutationVariables = Exact<{
   input: InviteShopMemberInput;
@@ -8609,6 +8609,13 @@ export const GetViewerDocument = `
         symbol
       }
       language
+    }
+    groups {
+      nodes {
+        _id
+        name
+        permissions
+      }
     }
   }
 }
@@ -9847,6 +9854,15 @@ export const GetUsersDocument = `
       _id
       adminUIShops {
         _id
+        name
+        shopType
+        currency {
+          _id
+          code
+          format
+          symbol
+        }
+        language
       }
       createdAt
       emailRecords {

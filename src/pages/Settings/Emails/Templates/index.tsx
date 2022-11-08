@@ -15,6 +15,7 @@ import { filterNodes } from "@utils/common";
 import { Drawer } from "@components/Drawer";
 import { TextField } from "@components/TextField";
 import { urlSchema } from "@utils/validate";
+import { usePermission } from "@components/PermissionGuard";
 
 const emailTemplateSchema = Yup.object({
   title: Yup.string().required("This field is required."),
@@ -134,11 +135,14 @@ const EmailTemplates = () => {
     storefrontOrderUrl: ""
   };
 
+  const canEditEmailTemplates = usePermission(["reaction:legacy:email-templates/update"]);
+  const canConfigureEmailVariables = usePermission(["reaction:legacy:shops/update"]);
+
   return (
     <TableContainer>
       <TableContainer.Header
         title="Email Templates"
-        action={<TableAction onClick={() => setOpenConfigurePanel(true)}>Configure</TableAction>}
+        action={canConfigureEmailVariables ? <TableAction onClick={() => setOpenConfigurePanel(true)}>Configure</TableAction> : undefined}
       />
       <Table
         columns={columns}
@@ -160,7 +164,7 @@ const EmailTemplates = () => {
           initialValues={initialTemplatesValues}
           validationSchema={emailTemplateSchema}
         >
-          {({ isSubmitting, dirty }) => (
+          {({ isSubmitting, dirty, submitForm }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Field
@@ -206,15 +210,16 @@ const EmailTemplates = () => {
                     >
                       Cancel
                     </Button>
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      type="submit"
-                      loading={isSubmitting}
-                      disabled={!dirty}
-                    >
+                    {canEditEmailTemplates ?
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        loading={isSubmitting}
+                        disabled={!dirty}
+                        onClick={submitForm}
+                      >
                       Save Changes
-                    </LoadingButton>
+                      </LoadingButton> : null}
                   </Stack>
                 }
               />
@@ -233,7 +238,7 @@ const EmailTemplates = () => {
           initialValues={initialEmailVariablesValues}
           validationSchema={emailVariablesSchema}
         >
-          {({ isSubmitting, dirty }) => (
+          {({ isSubmitting, dirty, submitForm }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <Field
@@ -279,15 +284,17 @@ const EmailTemplates = () => {
                     >
                       Cancel
                     </Button>
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      type="submit"
-                      loading={isSubmitting}
-                      disabled={!dirty}
-                    >
+                    {canConfigureEmailVariables ?
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        loading={isSubmitting}
+                        disabled={!dirty}
+                        onClick={submitForm}
+                      >
                       Save Changes
-                    </LoadingButton>
+                      </LoadingButton> : null}
+
                   </Stack>
                 }
               />

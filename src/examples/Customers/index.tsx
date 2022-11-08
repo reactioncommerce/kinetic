@@ -9,13 +9,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { Table, TableAction, TableContainer, TableHeader, useTableState } from "@components/Table";
+import { usePermission } from "@components/PermissionGuard";
 
 import { Customer, customers } from "./data";
 
 
 const Customers = () => {
   const { pagination, handlePaginationChange } = useTableState();
-
+  const canAddCustomer = usePermission(["reaction:legacy:accounts/create"]);
   const columns = useMemo((): ColumnDef<Customer>[] => [
     {
       id: "name",
@@ -52,7 +53,7 @@ const Customers = () => {
   return (
     <Container maxWidth={false} sx={{ padding: "20px 30px" }}>
       <TableContainer>
-        <TableHeader title="Customers" action={<TableAction>Add</TableAction>}/>
+        <TableHeader title="Customers" action={canAddCustomer ? <TableAction>Add</TableAction> : undefined}/>
         <Box sx={{ maxWidth: 300, pl: 2.5, mt: 1 }}>
           <TextField
             size="small"

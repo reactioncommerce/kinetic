@@ -33,10 +33,15 @@ describe("Groups", () => {
 
     const addAddressBook = await within(drawer).findByLabelText("Add Address Books");
     expect(addAddressBook).toBeChecked();
+    const user = userEvent.setup();
+
+    await user.click(within(drawer).getByLabelText("Update Currency"));
+
+    expect(within(drawer).getByLabelText("Update Currency")).toBeChecked();
+    expect(within(drawer).getByText("(3 of 4 selected)")).toBeInTheDocument();
+
     const inviteGroupCheckbox = await within(drawer).findByText("Invite Group");
     expect(inviteGroupCheckbox).not.toBeChecked();
-
-    const user = userEvent.setup();
 
     await user.type(screen.getByPlaceholderText("Search for resources"), "Emails");
     expect(screen.getByText("Emails")).not.toBeChecked();

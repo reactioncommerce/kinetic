@@ -19,6 +19,7 @@ import { AddressField } from "@components/AddressField";
 import { decodeOpaqueId } from "@utils/decodedOpaqueId";
 import { Switch } from "@components/Switch";
 import { urlSchema } from "@utils/validate";
+import { usePermission } from "@components/PermissionGuard";
 
 type ShopFormValues = {
   name: string
@@ -137,10 +138,12 @@ const GeneralSettings = () => {
     allowGuestCheckout: !!data?.shop?.allowGuestCheckout
   };
 
+  const canEditShop = usePermission(["reaction:legacy:shops/update"]);
 
   return (
     <Stack gap={3} component={Container}>
       <EditableCard<ShopFormValues>
+        canEdit={canEditShop}
         isLoading={isLoading}
         cardTitle="Details"
         cardContent={
@@ -192,6 +195,7 @@ const GeneralSettings = () => {
 
       <EditableCard<ShopFormValues>
         cardTitle="Primary Address"
+        canEdit={canEditShop}
         cardContent={
           <Stack gap={3} direction="column">
             <Stack>

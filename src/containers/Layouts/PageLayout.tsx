@@ -4,6 +4,7 @@ import { Suspense } from "react";
 
 import { SubHeader, SubHeaderItemProps } from "@components/AppHeader";
 import { Loader } from "@components/Loader";
+import { ErrorBoundary } from "@components/ErrorBoundary";
 
 type PageLayoutProps = {
   headers?: SubHeaderItemProps[]
@@ -14,7 +15,9 @@ export const PageLayout = ({ headers, noPadding = false }: PageLayoutProps) => (
   <Suspense fallback={<Loader/>}>
     {headers ? <SubHeader items={headers} /> : null}
     <Container sx={{ ...(!noPadding && { padding: "20px 30px" }) }} maxWidth={false}>
-      <Outlet/>
+      <ErrorBoundary>
+        <Outlet/>
+      </ErrorBoundary>
     </Container>
   </Suspense>
 );

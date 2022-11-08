@@ -13,6 +13,8 @@ import { filterNodes } from "@utils/common";
 import { MenuActions } from "@components/MenuActions";
 import { TaxService } from "@graphql/types";
 import { useToast } from "@containers/ToastProvider";
+import { PermissionGuard, usePermission } from "@components/PermissionGuard";
+import { AccessDenied } from "@components/ErrorBoundary";
 
 import { CustomTaxRates } from "./CustomTaxRates";
 
@@ -99,9 +101,10 @@ const Taxes = () => {
       { label: "Set as Primary Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Primary }) }];
   };
 
+  const canEditTax = usePermission(["reaction:legacy:taxes/update"]);
   return (
     <>
-      <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="md">
+      <Paper variant="outlined" sx={{ padding: 2, mb: 2 }} component={Container} maxWidth="md">
         <Stack
           direction="column"
           divider={<Divider orientation="horizontal" flexItem />}
@@ -119,14 +122,25 @@ const Taxes = () => {
                   <Typography variant="subtitle1">{taxService.displayName}</Typography>
                   {methodType ? <Typography variant="subtitle2" color="grey.600">{methodType}</Typography> : null}
                 </Box>
-                <MenuActions
-                  options={getMenuOptions(taxService)}/>
+                {canEditTax ?
+                  <MenuActions
+                    options={getMenuOptions(taxService)}/>
+                  : null}
               </Stack>;
             })
           }
         </Stack>
       </Paper>
-      <CustomTaxRates/>
+
+      <PermissionGuard
+        permissions={["reaction:legacy:taxRates/read"]}
+        fallback={
+          <Container maxWidth="md" disableGutters>
+            <AccessDenied title="You need permission to view the custom tax rates"/>
+          </Container>}>
+
+        <CustomTaxRates/>
+      </PermissionGuard>
     </>
   );
 };

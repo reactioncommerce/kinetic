@@ -27,8 +27,15 @@ query getViewer {
         code
         format
         symbol
-      },
+      }
       language
+    }
+    groups {
+      nodes {
+        _id
+        name
+        permissions
+      }
     }
   }
 }

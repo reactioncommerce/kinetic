@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import { useLocalStorage } from "react-use";
 import { noop } from "lodash-es";
 import { FullPageLoader } from "@components/Loader/FullPageLoader";
@@ -7,20 +7,24 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
-import type { APIErrorResponse } from "types/common";
+import { formatErrorResponse } from "@utils/errorHandlers";
+import { ErrorCode } from "types/common";
+import { filterNodes } from "@utils/common";
 
 type AccountContextValue = {
   account: GetViewerQuery["viewer"] | null
   setAccessToken: (token: string) => void
   removeAccessToken: () => void
   refetchAccount: () => void
+  availableRoles: Record<string, boolean>
 }
 
 const AccountContext = createContext<AccountContextValue>({
   account: null,
   setAccessToken: noop,
   removeAccessToken: noop,
-  refetchAccount: noop
+  refetchAccount: noop,
+  availableRoles: {}
 });
 
 export const useAccount = () => {
@@ -53,10 +57,15 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
 
   const { data, isLoading, refetch } = useGetViewerQuery(client, undefined, {
     retry: false,
+    useErrorBoundary: false,
     onError: (error) => {
-      const unauthorized = (error as APIErrorResponse).response.status === 401;
+      const { code, status } = formatErrorResponse(error);
 
-      if (unauthorized) removeAccessToken();
+      if (status === 401) removeAccessToken();
+      if (code === ErrorCode.Forbidden) {
+        removeAccessToken();
+        navigate("/access-denied");
+      }
     },
     onSuccess: (response) => {
       if (response.viewer === null) {
@@ -71,6 +80,13 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
       redirectUrl && navigate(redirectUrl);
     }
   });
+
+  const availableRoles = useMemo(() => {
+    const roles = filterNodes(data?.viewer?.groups?.nodes?.map((group) => filterNodes(group?.permissions)).flat());
+    const allowedRoles: Record<string, boolean> = {};
+    roles.forEach((role) => { allowedRoles[role] = true; });
+    return allowedRoles;
+  }, [data?.viewer?.groups]);
 
   useEffect(() => {
     refetch();
@@ -88,7 +104,8 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
         account: data?.viewer ?? null,
         setAccessToken,
         removeAccessToken,
-        refetchAccount: refetch
+        refetchAccount: refetch,
+        availableRoles
       }}
     >
       {children}

@@ -27,6 +27,7 @@ import { Drawer } from "@components/Drawer";
 import { Switch } from "@components/Switch";
 import { SelectField } from "@components/SelectField";
 import { TextField } from "@components/TextField";
+import { usePermission } from "@components/PermissionGuard";
 
 type ShippingMethodFormValues = Omit<
   FlatRateFulfillmentMethodInput,
@@ -135,7 +136,7 @@ const ShippingMethods = () => {
   };
 
 
-  const handleSubmit: FormikConfig<ShippingMethodFormValues>["onSubmit"] = (
+  const handleSubmitMethod: FormikConfig<ShippingMethodFormValues>["onSubmit"] = (
     values,
     { setSubmitting }
   ) => {
@@ -180,11 +181,16 @@ const ShippingMethods = () => {
     });
   };
 
+  const canAdd = usePermission(["reaction:legacy:shippingMethods/create"]);
+  const canEdit = usePermission(["reaction:legacy:shippingMethods/update"]);
+  const canDelete = usePermission(["reaction:legacy:shippingMethods/delete"]);
+  const showSubmitBtn = activeRow ? canEdit : canAdd;
+
   return (
     <TableContainer>
       <TableContainer.Header
         title="Shipping Methods"
-        action={<TableAction onClick={() => setOpen(true)}>Add</TableAction>}
+        action={canAdd ? <TableAction onClick={() => setOpen(true)}>Add</TableAction> : undefined}
       />
       <Table
         columns={columns}
@@ -200,9 +206,12 @@ const ShippingMethods = () => {
               <Typography variant="h6" gutterBottom>No Shipping Methods</Typography>
               <Typography variant="body2" color="grey.600">Get started by adding your first shipping method.</Typography>
             </div>
-            <Button variant="contained" size="small" sx={{ width: "120px" }} onClick={() => setOpen(true)}>
-              Add
-            </Button>
+            {canAdd ?
+              <Button variant="contained" size="small" sx={{ width: "120px" }} onClick={() => setOpen(true)}>
+             Add
+              </Button>
+              : null}
+
           </Stack>}
       />
       <Drawer
@@ -211,13 +220,13 @@ const ShippingMethods = () => {
         title={activeRow ? "Edit Shipping Method" : "Add Shipping Method"}
       >
         <Formik<ShippingMethodFormValues>
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitMethod}
           initialValues={
             getFormInitialValues(activeRow)
           }
           validationSchema={shippingMethodSchema}
         >
-          {({ isSubmitting, dirty }) => (
+          {({ isSubmitting, dirty, handleSubmit }) => (
             <Stack component={Form} flex={1}>
               <Drawer.Content>
                 <FormControlLabel
@@ -313,7 +322,7 @@ const ShippingMethods = () => {
               </Drawer.Content>
               <Drawer.Actions
                 left={
-                  activeRow ? (
+                  activeRow && canDelete ? (
                     <LoadingButton
                       variant="outlined"
                       color="error"
@@ -337,15 +346,19 @@ const ShippingMethods = () => {
                     >
                       Cancel
                     </Button>
-                    <LoadingButton
-                      size="small"
-                      variant="contained"
-                      type="submit"
-                      loading={isSubmitting}
-                      disabled={!dirty}
-                    >
-                      Save Changes
-                    </LoadingButton>
+                    {showSubmitBtn ?
+                      <LoadingButton
+                        size="small"
+                        variant="contained"
+                        type="submit"
+                        loading={isSubmitting}
+                        disabled={!dirty}
+                        onClick={() => handleSubmit()}
+                      >
+                     Save Changes
+                      </LoadingButton>
+                      :
+                      null}
                   </Stack>
                 }
               />

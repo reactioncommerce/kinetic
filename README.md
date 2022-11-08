@@ -183,6 +183,89 @@ export const routes: RouteObject[] = [
 
 Now, start the application and you will see the Customer option under the Plugins sidebar item. Click on that option and you should see the example custom plugin.
 
+### Permissions for Custom Plugins
+
+Every registered user belongs to a dedicated group with configured permissions (except the admin who is the first user of the system, this user is automatically assigned to multiple groups with special permissions). We can change the permissions of a group on the group setting page.
+
+When you add custom pages, they are accessible to the users by default. To make them only accessible to users with proper permissions, you can use the `PermissionGuard` component.
+
+For example, only users with reading accounts permission can access the Customers page, add the permission check at the route level.
+
+```diff
+// in routes.tsx
+
+// ... other import statements
+
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import { CORE_FEATURES, FEATURE_KEYS, ItemProps } from "@components/Sidebar";
++ import { PermissionGuard } from "@components/PermissionGuard";
+
+const Customers = lazy(() => import("./examples/Customers"));
+
+export const routes: RouteObject[] = [
+  {
+    // ... routes object
+    path: "/",
+    element:
+      <AppLayout
+          sidebar={{
+            plugins: [{
+              text: "Plugins",
+              key: "custom-plugins",
+              subItems: [
+                {
+                  key: "customers",
+                  icon: <SupportAgentIcon fontSize="small"/>,
+                  text: "Customers",
+                  to: "plugins/customers"
+                }
+              ]
+            }],
+            coreFeatures: CORE_FEATURES.filter((sidebarItem) => sidebarItem.key !== FEATURE_KEYS.customers)
+          }}
+      />,
+    children: [
+      {
+        path: "plugins/customers",
+-       element: <Customers />
++       element: <PermissionGuard permissions={["accounts/read"]}><Customers /></PermissionGuard>
+      },
+      // ... other routes,
+    ]
+  }
+]
+
+```
+*Please note that, we can use `PermissionGuard` at any level of the app to guard the UI components. Normally, we would want to add at the entry point in the route definition.*
+
+Alternatively, if you would prefer modifying the component itself, you can call the hook `usePermission` in the custom page. For example, we want to enforce only users with adding accounts permission can see the `Add` button in the customers page.
+
+```diff
+// in src/examples/Customers/index.tsx
+
+// ... other import statements
++ import { usePermission } from "@components/PermissionGuard";
+
+
+const Customers = () => {
+  const { pagination, handlePaginationChange } = useTableState();
++  const canAddCustomer = usePermission(["accounts/create"]);
+
+  ...
+
+  return (
+    <Container maxWidth={false} sx={{ padding: "20px 30px" }}>
+      <TableContainer>
+-        <TableHeader title="Customers" action={<TableAction>Add</TableAction>}/>
++        <TableHeader title="Customers" action={canAddCustomer ? <TableAction>Add</TableAction> : undefined}/>
+        ...
+      </TableContainer>
+    </Container>
+  );
+};
+
+```
+
 ## Developer Certificate of Origin
 We use the [Developer Certificate of Origin (DCO)](https://developercertificate.org/) in lieu of a Contributor License Agreement for all contributions to Reaction Commerce open source projects. We request that contributors agree to the terms of the DCO and indicate that agreement by signing all commits made to Reaction Commerce projects by adding a line with your name and email address to every Git commit message contributed:
 ```

@@ -7,6 +7,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import { startCase } from "lodash-es";
+import Box from "@mui/material/Box";
 
 import { Drawer } from "@components/Drawer";
 import { User } from "types/user";
@@ -14,7 +15,10 @@ import { TextField } from "@components/TextField";
 import { useAccount } from "@containers/AccountProvider";
 import { useShop } from "@containers/ShopProvider";
 import { CardRadio, RadioGroup } from "@components/RadioField";
-import { useGetGroupsQuery, useInviteUserMutation, useUpdateGroupsForAccountsMutation, useUpdateUserMutation } from "@graphql/generates";
+import { useGetGroupsQuery,
+  useInviteUserMutation,
+  useUpdateGroupsForAccountsMutation,
+  useUpdateUserMutation } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { filterNodes } from "@utils/common";
 import { GraphQLErrorResponse } from "types/common";
@@ -26,7 +30,7 @@ type UserFormValues = {
   email: string
   groupId: string
   shopId: string
-  shouldGetAdminUIAccess?: boolean
+  shouldGetAdminUIAccess: boolean
 };
 
 const userSchema = Yup.object().shape({
@@ -56,14 +60,14 @@ export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
   const groups = filterNodes(groupsData?.groups?.nodes);
 
   const isLoggedInUser = account?._id === data?._id;
-
   const initialValues: UserFormValues = {
     name: data?.name || "",
     email: data?.primaryEmailAddress || "",
     groupId: (data?.group?._id || groups[0]?._id) ?? "",
     shopId: shopId!,
-    shouldGetAdminUIAccess: false
+    shouldGetAdminUIAccess: true
   };
+
   const handleClose = () => {
     onClose();
     setErrorMessage(undefined);
@@ -95,8 +99,8 @@ export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
                 groupIds: [values.groupId],
                 accountIds: [data._id]
               }
-            })] : [])]);
-
+            })] : [])
+        ]);
 
         _onSuccess("Update user successfully");
       } catch (error) {
@@ -151,12 +155,17 @@ export const UserForm = ({ onClose, open, data, onSuccess }: UserFormProps) => {
                   placeholder="Enter email address"
                   disabled={!!data}
                 />
-                {!data ?
+                <Box ml={-1.5}>
+                  {/* Should always allow admin access when inviting a new user to a shop. Otherwise, they can not access the admin interface. */}
                   <Field
                     name="shouldGetAdminUIAccess"
                     component={CheckboxWithLabel}
+                    type="checkbox"
                     labelProps={{ label: "Allow access to admin UI" }}
-                  /> : null}
+                    disabled
+                  />
+                </Box>
+
                 {groupsData?.groups?.totalCount ?
                   <Stack mt={2}>
                     <Field name="groupId" label="Groups" component={RadioGroup}>

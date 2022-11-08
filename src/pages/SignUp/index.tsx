@@ -5,21 +5,21 @@ import Alert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 
 import { TextField } from "@components/TextField";
 import { UserSchema } from "@utils/validate";
 import { client } from "@graphql/graphql-request-client";
 import { hashPassword } from "@utils/hashPassword";
-import type { GraphQLErrorResponse, Error } from "types/common";
+import type { GraphQLErrorResponse, GraphQLError } from "types/common";
 import { useAccount } from "@containers/AccountProvider";
 import { useCreateUserMutation } from "@graphql/generates";
 import { AppLogo } from "@components/AppLogo";
 import { PasswordField } from "@components/PasswordField";
 import { FullHeightLayout } from "@containers/Layouts";
 
-const normalizeErrorMessage = (errors: Error[]) => {
+const normalizeErrorMessage = (errors: GraphQLError[]) => {
   const error = errors.length ? errors[0] : null;
 
   if (error?.extensions.exception.code === "EmailAlreadyExists") {
@@ -33,7 +33,7 @@ const SignUp = () => {
   const [submitErrorMessage, setSubmitErrorMessage] = useState<string>();
   const { mutate } = useCreateUserMutation(client);
   const { setAccessToken } = useAccount();
-  const navigate = useNavigate();
+
 
   const handleSubmit: FormikConfig<{ email: string; password: string }>["onSubmit"] = (values, { setSubmitting }) => {
     mutate(
@@ -51,7 +51,6 @@ const SignUp = () => {
         onSuccess: (data) => {
           const accessToken = data.createUser?.loginResult?.tokens?.accessToken;
           accessToken && setAccessToken(accessToken);
-          navigate("/new-shop");
         }
       }
     );
