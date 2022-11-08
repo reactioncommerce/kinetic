@@ -1,8 +1,8 @@
 import { graphql } from "msw";
 import { faker } from "@faker-js/faker";
 
-import { GetViewerQuery } from "@graphql/generates";
 import { currencyDefinition } from "@utils/currency";
+import { Account } from "@graphql/types";
 
 export const account: Partial<Account> = {
   _id: faker.datatype.uuid(),
@@ -24,6 +24,9 @@ export const account: Partial<Account> = {
     nodes: [{
       _id: faker.datatype.uuid(),
       name: "system manager",
+      slug: "system-manager",
+      createdAt: faker.date.recent(),
+      updatedAt: faker.date.recent(),
       permissions: [
         "reaction:legacy:addressValidationRules/create",
         "reaction:legacy:taxRates/create",
@@ -45,7 +48,9 @@ export const account: Partial<Account> = {
         "reaction:legacy:groups/update",
         "reaction:legacy:accounts/invite:group"
       ]
-    }]
+    }],
+    totalCount: 1,
+    pageInfo: { hasNextPage: false, hasPreviousPage: false }
   }
 };
 

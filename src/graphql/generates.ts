@@ -5047,6 +5047,26 @@ export type ProductConnection = {
   totalCount: Scalars['Int'];
 };
 
+/** Operators for filtering on a DateTime field */
+export type ProductDateOperators = {
+  /** The value must be greater than or equal to the given value */
+  after?: InputMaybe<Scalars['DateTime']>;
+  /** The value must be greater than the given value */
+  before?: InputMaybe<Scalars['DateTime']>;
+  /** The value must be between the given values */
+  between?: InputMaybe<ProductDateRange>;
+  /** The value must be equal to the given value */
+  eq?: InputMaybe<Scalars['DateTime']>;
+};
+
+/** Range operator for DateTime fields */
+export type ProductDateRange = {
+  /** The end of the date range */
+  end: Scalars['DateTime'];
+  /** The start of the date range */
+  start: Scalars['DateTime'];
+};
+
 /** A connection edge in which each node is a `Product` object */
 export type ProductEdge = {
   __typename?: 'ProductEdge';
@@ -5779,6 +5799,7 @@ export type QueryProductArgs = {
 export type QueryProductsArgs = {
   after?: InputMaybe<Scalars['ConnectionCursor']>;
   before?: InputMaybe<Scalars['ConnectionCursor']>;
+  createdAt?: InputMaybe<ProductDateOperators>;
   first?: InputMaybe<Scalars['ConnectionLimitInt']>;
   isArchived?: InputMaybe<Scalars['Boolean']>;
   isExactMatch?: InputMaybe<Scalars['Boolean']>;
@@ -5795,6 +5816,7 @@ export type QueryProductsArgs = {
   sortBy?: InputMaybe<ProductSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
   tagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  updatedAt?: InputMaybe<ProductDateOperators>;
 };
 
 
@@ -5924,6 +5946,7 @@ export type QueryTagArgs = {
 export type QueryTagsArgs = {
   after?: InputMaybe<Scalars['ConnectionCursor']>;
   before?: InputMaybe<Scalars['ConnectionCursor']>;
+  createdAt?: InputMaybe<TagDateOperators>;
   excludedTagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   filter?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['ConnectionLimitInt']>;
@@ -5935,6 +5958,7 @@ export type QueryTagsArgs = {
   shouldIncludeInvisible?: InputMaybe<Scalars['Boolean']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<TagDateOperators>;
 };
 
 
@@ -7100,6 +7124,26 @@ export type TagConnection = {
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
   totalCount: Scalars['Int'];
+};
+
+/** Operators for filtering on a DateTime field */
+export type TagDateOperators = {
+  /** The value must be greater than or equal to the given value */
+  after?: InputMaybe<Scalars['DateTime']>;
+  /** The value must be greater than the given value */
+  before?: InputMaybe<Scalars['DateTime']>;
+  /** The value must be between the given values */
+  between?: InputMaybe<ProductDateRange>;
+  /** The value must be equal to the given value */
+  eq?: InputMaybe<Scalars['DateTime']>;
+};
+
+/** Range operator for DateTime fields */
+export type TagDateRange = {
+  /** The end of the date range */
+  end: Scalars['DateTime'];
+  /** The start of the date range */
+  start: Scalars['DateTime'];
 };
 
 /** A connection edge in which each node is a `Tag` object */
