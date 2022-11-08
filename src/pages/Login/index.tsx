@@ -8,6 +8,7 @@ import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import Chip from "@mui/material/Chip";
+import Grid from "@mui/material/Grid";
 
 import { TextField } from "@components/TextField";
 import { hashPassword } from "@utils/hashPassword";
@@ -166,9 +167,19 @@ const Login = () => {
                 type="submit"
                 loading={isSubmitting}
                 size="large"
-                sx={{ mt: 3 }}>
+                sx={{ mt: 3, mb: 1 }}>
                   Sign In
               </LoadingButton>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Typography variant="body1" color="grey.700">
+                    Don't have an account?{" "}
+                    <Link component={RouterLink} to="/signup" fontWeight={600} variant="subtitle2" underline="none">
+                   Sign Up
+                    </Link>
+                  </Typography>
+                </Grid>
+              </Grid>
             </Box>
           )}
         </Formik>
