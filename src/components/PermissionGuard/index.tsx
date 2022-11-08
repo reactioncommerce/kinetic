@@ -7,11 +7,9 @@ type PermissionGuardProps = {
   fallback?: JSX.Element
 }
 
-const ROLE_PREFIX = "reaction:legacy";
-
 export const PermissionGuard = ({ children, permissions, fallback = <AccessDenied/> }: PermissionGuardProps) => {
   const { availableRoles } = useAccount();
-  const allowed = availableRoles.length && permissions.every((permission) => availableRoles.includes(`${ROLE_PREFIX}:${permission}`));
+  const allowed = permissions.every((permission) => availableRoles[permission]);
 
   return (
     allowed ? children : fallback
@@ -20,5 +18,5 @@ export const PermissionGuard = ({ children, permissions, fallback = <AccessDenie
 
 export const usePermission = (permissions: string[]): boolean => {
   const { availableRoles } = useAccount();
-  return !!availableRoles.length && permissions.every((permission) => availableRoles.includes(`${ROLE_PREFIX}:${permission}`));
+  return permissions.every((permission) => availableRoles[permission]);
 };

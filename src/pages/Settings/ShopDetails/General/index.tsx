@@ -138,7 +138,7 @@ const GeneralSettings = () => {
     allowGuestCheckout: !!data?.shop?.allowGuestCheckout
   };
 
-  const canEditShop = usePermission(["shops/update"]);
+  const canEditShop = usePermission(["reaction:legacy:shops/update"]);
 
   return (
     <Stack gap={3} component={Container}>

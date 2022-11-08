@@ -90,7 +90,7 @@ const Surcharges = () => {
   const { shopId } = useShop();
   const [open, setOpen] = useState(false);
   const [activeRow, setActiveRow] = useState<Surcharge>();
-  const canReadShippingMethods = usePermission(["shippingMethods/read"]);
+  const canReadShippingMethods = usePermission(["reaction:legacy:shippingMethods/read"]);
 
   const columns: ColumnDef<Surcharge>[] = useMemo(
     () => [
@@ -215,9 +215,9 @@ const Surcharges = () => {
     });
   };
 
-  const canAdd = usePermission(["surcharges/create"]);
-  const canEdit = usePermission(["surcharges/update"]);
-  const canDelete = usePermission(["surcharges/delete"]);
+  const canAdd = usePermission(["reaction:legacy:surcharges/create"]);
+  const canEdit = usePermission(["reaction:legacy:surcharges/update"]);
+  const canDelete = usePermission(["reaction:legacy:surcharges/delete"]);
   const showSubmitBtn = activeRow ? canEdit : canAdd;
 
   return (

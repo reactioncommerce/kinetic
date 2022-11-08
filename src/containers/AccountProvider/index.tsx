@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import { useLocalStorage } from "react-use";
 import { noop } from "lodash-es";
 import { FullPageLoader } from "@components/Loader/FullPageLoader";
@@ -16,7 +16,7 @@ type AccountContextValue = {
   setAccessToken: (token: string) => void
   removeAccessToken: () => void
   refetchAccount: () => void
-  availableRoles: string[]
+  availableRoles: Record<string, boolean>
 }
 
 const AccountContext = createContext<AccountContextValue>({
@@ -24,7 +24,7 @@ const AccountContext = createContext<AccountContextValue>({
   setAccessToken: noop,
   removeAccessToken: noop,
   refetchAccount: noop,
-  availableRoles: []
+  availableRoles: {}
 });
 
 export const useAccount = () => {
@@ -81,6 +81,13 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     }
   });
 
+  const availableRoles = useMemo(() => {
+    const roles = filterNodes(data?.viewer?.groups?.nodes?.map((group) => filterNodes(group?.permissions)).flat());
+    const allowedRoles: Record<string, boolean> = {};
+    roles.forEach((role) => { allowedRoles[role] = true; });
+    return allowedRoles;
+  }, [data?.viewer?.groups]);
+
   useEffect(() => {
     refetch();
   }, [accessToken, refetch]);
@@ -90,8 +97,6 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
       <FullPageLoader />
     );
   }
-
-  const availableRoles = [...new Set(filterNodes(data?.viewer?.groups?.nodes?.map((group) => filterNodes(group?.permissions)).flat()))];
 
   return (
     <AccountContext.Provider

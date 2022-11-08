@@ -21,7 +21,6 @@ function App() {
         </ShopProvider>
       </ToastProvider>
     </Suspense>
-
   );
 }
 

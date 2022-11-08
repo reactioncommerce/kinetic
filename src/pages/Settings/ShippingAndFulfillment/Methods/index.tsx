@@ -181,9 +181,9 @@ const ShippingMethods = () => {
     });
   };
 
-  const canAdd = usePermission(["shippingMethods/create"]);
-  const canEdit = usePermission(["shippingMethods/update"]);
-  const canDelete = usePermission(["shippingMethods/delete"]);
+  const canAdd = usePermission(["reaction:legacy:shippingMethods/create"]);
+  const canEdit = usePermission(["reaction:legacy:shippingMethods/update"]);
+  const canDelete = usePermission(["reaction:legacy:shippingMethods/delete"]);
   const showSubmitBtn = activeRow ? canEdit : canAdd;
 
   return (

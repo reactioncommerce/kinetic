@@ -101,7 +101,7 @@ const Taxes = () => {
       { label: "Set as Primary Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Primary }) }];
   };
 
-  const canEditTax = usePermission(["taxes/update"]);
+  const canEditTax = usePermission(["reaction:legacy:taxes/update"]);
   return (
     <>
       <Paper variant="outlined" sx={{ padding: 2, mb: 2 }} component={Container} maxWidth="md">
@@ -133,7 +133,7 @@ const Taxes = () => {
       </Paper>
 
       <PermissionGuard
-        permissions={["taxRates/read"]}
+        permissions={["reaction:legacy:taxRates/read"]}
         fallback={
           <Container maxWidth="md" disableGutters>
             <AccessDenied title="You need permission to view the custom tax rates"/>

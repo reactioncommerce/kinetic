@@ -4,7 +4,7 @@ import { PermissionGuard } from ".";
 
 describe("PermissionGuard", () => {
   it("should display AccessDenied component if current account is not allowed to access resource", async () => {
-    renderWithProviders(<PermissionGuard permissions={["shops/create"]}>
+    renderWithProviders(<PermissionGuard permissions={["reaction:legacy:shops/create"]}>
       <div>Shop</div>
     </PermissionGuard>);
     const accessDeniedComponent = await screen.findByText("You need permission to view this page.");
@@ -12,7 +12,7 @@ describe("PermissionGuard", () => {
   });
 
   it("should display children component if current account is allowed to access resource", async () => {
-    renderWithProviders(<PermissionGuard permissions={["accounts/invite:group"]}>
+    renderWithProviders(<PermissionGuard permissions={["reaction:legacy:accounts/invite:group"]}>
       <div>Shop</div>
     </PermissionGuard>);
     expect(screen.queryByText("You need permission to view this page.")).not.toBeInTheDocument();
@@ -21,7 +21,7 @@ describe("PermissionGuard", () => {
   });
 
   it("should check all provided permissions", async () => {
-    renderWithProviders(<PermissionGuard permissions={["accounts/invite:group", "accounts/read"]}>
+    renderWithProviders(<PermissionGuard permissions={["reaction:legacy:accounts/invite:group", "accounts/read"]}>
       <div>Shop</div>
     </PermissionGuard>);
     const accessDeniedComponent = await screen.findByText("You need permission to view this page.");

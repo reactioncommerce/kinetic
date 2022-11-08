@@ -126,7 +126,7 @@ const AddressValidation = () => {
       ({ value: countryCode, label: supportedCountryOptions.find(({ value }) => value === countryCode)?.label ?? "Unknown" })) : []
   };
 
-  const canCreateAndEdit = usePermission(["addressValidationRules/create", "addressValidationRules/update"]);
+  const canCreateAndEdit = usePermission(["reaction:legacy:addressValidationRules/create", "reaction:legacy:addressValidationRules/update"]);
 
   return (
     <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">

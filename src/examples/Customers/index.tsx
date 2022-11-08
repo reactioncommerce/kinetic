@@ -16,7 +16,7 @@ import { Customer, customers } from "./data";
 
 const Customers = () => {
   const { pagination, handlePaginationChange } = useTableState();
-  const canAddCustomer = usePermission(["accounts/create"]);
+  const canAddCustomer = usePermission(["reaction:legacy:accounts/create"]);
   const columns = useMemo((): ColumnDef<Customer>[] => [
     {
       id: "name",

@@ -135,8 +135,8 @@ const EmailTemplates = () => {
     storefrontOrderUrl: ""
   };
 
-  const canEditEmailTemplates = usePermission(["email-templates/update"]);
-  const canConfigureEmailVariables = usePermission(["shops/update"]);
+  const canEditEmailTemplates = usePermission(["reaction:legacy:email-templates/update"]);
+  const canConfigureEmailVariables = usePermission(["reaction:legacy:shops/update"]);
 
   return (
     <TableContainer>

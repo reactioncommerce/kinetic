@@ -99,7 +99,7 @@ const Groups = () => {
     setActiveRow(row);
     setOpen(true);
   };
-  const canUpdateGroup = usePermission(["groups/update"]);
+  const canUpdateGroup = usePermission(["reaction:legacy:groups/update"]);
 
   return (
     <TableContainer>

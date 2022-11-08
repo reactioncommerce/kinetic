@@ -149,9 +149,9 @@ export const CustomTaxRates = () => {
     taxRate.postal
   ].filter(Boolean);
 
-  const canAdd = usePermission(["taxRates/create"]);
-  const canEdit = usePermission(["taxRates/update"]);
-  const canDelete = usePermission(["taxRates/delete"]);
+  const canAdd = usePermission(["reaction:legacy:taxRates/create"]);
+  const canEdit = usePermission(["reaction:legacy:taxRates/update"]);
+  const canDelete = usePermission(["reaction:legacy:taxRates/delete"]);
   const showSubmitBtn = activeTaxRate ? canEdit : canAdd;
 
   return (

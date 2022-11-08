@@ -75,7 +75,7 @@ const Localization = () => {
     uom
   };
 
-  const canEditShop = usePermission(["shops/update"]);
+  const canEditShop = usePermission(["reaction:legacy:shops/update"]);
 
   return (
     <Container disableGutters>

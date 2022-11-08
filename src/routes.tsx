@@ -38,7 +38,7 @@ const shippingPageRoutes: SubPageRouteProps = [
     key: "methods",
     index: true,
     element:
-    <PermissionGuard permissions={["shippingMethods/read"]}>
+    <PermissionGuard permissions={["reaction:legacy:shippingMethods/read"]}>
       <ShippingMethods/>
     </PermissionGuard>
   },
@@ -47,7 +47,7 @@ const shippingPageRoutes: SubPageRouteProps = [
     path: "restrictions",
     key: "restrictions",
     element:
-    <PermissionGuard permissions={["shippingRestrictions/read"]}>
+    <PermissionGuard permissions={["reaction:legacy:shippingRestrictions/read"]}>
       <ShippingRestrictions/>
     </PermissionGuard>
   },
@@ -65,7 +65,7 @@ const userPageRoutes: SubPageRouteProps = [
     path: "",
     key: "users",
     element:
-    <PermissionGuard permissions={["accounts/read", "groups/read"]}>
+    <PermissionGuard permissions={["reaction:legacy:accounts/read", "reaction:legacy:groups/read"]}>
       <Users/>
     </PermissionGuard>,
     index: true
@@ -75,7 +75,7 @@ const userPageRoutes: SubPageRouteProps = [
     path: "invitations",
     key: "invitations",
     element:
-    <PermissionGuard permissions={["invitations/read", "groups/read", "groups/manage:accounts"]}>
+    <PermissionGuard permissions={["reaction:legacy:invitations/read", "reaction:legacy:groups/read", "reaction:legacy:groups/manage:accounts"]}>
       <PendingInvitations/>
     </PermissionGuard>
   },
@@ -84,7 +84,7 @@ const userPageRoutes: SubPageRouteProps = [
     path: "groups",
     key: "groups",
     element:
-    <PermissionGuard permissions={["groups/read"]}><Groups/></PermissionGuard>
+    <PermissionGuard permissions={["reaction:legacy:groups/read"]}><Groups/></PermissionGuard>
   }
 ];
 
@@ -110,7 +110,7 @@ const emailsSettingPageRoutes: SubPageRouteProps = [
     path: "",
     key: "email-templates-settings",
     element:
-    <PermissionGuard permissions={["email-templates/read"]}>
+    <PermissionGuard permissions={["reaction:legacy:email-templates/read"]}>
       <EmailTemplatesSettings/>
     </PermissionGuard>,
     index: true
@@ -120,7 +120,7 @@ const emailsSettingPageRoutes: SubPageRouteProps = [
     path: "logs",
     key: "email-logs-settings",
     element:
-    <PermissionGuard permissions={["emails/read"]}>
+    <PermissionGuard permissions={["reaction:legacy:emails/read"]}>
       <EmailLogsSettings/>
     </PermissionGuard>
   }
@@ -139,7 +139,7 @@ const checkoutSettingPageRoutes: SubPageRouteProps = [
     path: "taxes",
     key: "taxes-settings",
     element:
-    <PermissionGuard permissions={["taxes/read"]}>
+    <PermissionGuard permissions={["reaction:legacy:taxes/read"]}>
       <TaxesSettings/>
     </PermissionGuard>
   },
@@ -148,7 +148,7 @@ const checkoutSettingPageRoutes: SubPageRouteProps = [
     path: "address-validation",
     key: "address-validation",
     element:
-    <PermissionGuard permissions={["addressValidationRules/read"]}>
+    <PermissionGuard permissions={["reaction:legacy:addressValidationRules/read"]}>
       <AddressValidationSettings/>
     </PermissionGuard>
   }
@@ -186,7 +186,7 @@ export const routes: RouteObject[] = [
       {
         path: "/new-shop",
         element:
-        <PermissionGuard permissions={["shops/create"]} fallback={<AccessDenied/>}>
+        <PermissionGuard permissions={["reaction:legacy:shops/create"]} fallback={<AccessDenied/>}>
           <CreateShop/>
         </PermissionGuard>
       },

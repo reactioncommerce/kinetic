@@ -71,7 +71,7 @@ const Restrictions = () => {
   const [open, setOpen] = useState(false);
   const [activeRow, setActiveRow] = useState<ShippingRestriction>();
 
-  const canReadShippingMethods = usePermission(["shippingMethods/read"]);
+  const canReadShippingMethods = usePermission(["reaction:legacy:shippingMethods/read"]);
 
   const columns: ColumnDef<ShippingRestriction>[] = useMemo(
     () => [
@@ -213,9 +213,9 @@ const Restrictions = () => {
     });
   };
 
-  const canAdd = usePermission(["shippingRestrictions/create"]);
-  const canEdit = usePermission(["shippingRestrictions/update"]);
-  const canDelete = usePermission(["shippingRestrictions/delete"]);
+  const canAdd = usePermission(["reaction:legacy:shippingRestrictions/create"]);
+  const canEdit = usePermission(["reaction:legacy:shippingRestrictions/update"]);
+  const canDelete = usePermission(["reaction:legacy:shippingRestrictions/delete"]);
   const showSubmitBtn = activeRow ? canEdit : canAdd;
 
   return (

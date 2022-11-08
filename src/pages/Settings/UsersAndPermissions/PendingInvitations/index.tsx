@@ -60,7 +60,7 @@ const PendingInvitations = () => {
     }
   );
 
-  const canInviteUser = usePermission(["accounts/invite:group"]);
+  const canInviteUser = usePermission(["reaction:legacy:accounts/invite:group"]);
 
   return (
     <TableContainer>

@@ -23,7 +23,7 @@ const PaymentMethods = () => {
   const handleToggleStatus = (name: string, isEnabled: boolean) => {
     mutate({ input: { isEnabled, shopId: shopId!, paymentMethodName: name } }, { onSuccess: () => refetch() });
   };
-  const canEditShop = usePermission(["shops/update"]);
+  const canEditShop = usePermission(["reaction:legacy:shops/update"]);
 
   return (
     <Paper variant="outlined" sx={{ padding: 2 }} component={Container} maxWidth="sm">
