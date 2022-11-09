@@ -93,9 +93,12 @@ const Customers = () => {
   ], []);
 
   const customers = filterNodes(data?.customers.nodes);
-  const getExportData = Object.keys(rowSelection).length ?
+
+  const getExportData = useMemo(() => (Object.keys(rowSelection).length ?
     Object.keys(rowSelection)
-      .map((index) => customers[Number(index)]).map((customer) => ({ ...customer, createdAt: formatDate(new Date(customer.createdAt)) })) : [];
+      .map((index) => customers[Number(index)])
+      .filter(Boolean)
+      .map((customer) => ({ ...customer, createdAt: formatDate(new Date(customer.createdAt)) })) : []), [customers, rowSelection]);
 
   return (
     <TableContainer>
@@ -116,6 +119,7 @@ const Customers = () => {
         onSortingChange={onSortingChange}
         onRowSelectionChange={onRowSelectionChange}
         totalCount={data?.customers.totalCount}
+        getRowId={(row) => row._id}
         emptyPlaceholder={
           <Stack alignItems="center" gap={2}>
             <FaceIcon sx={{ color: "grey.500", fontSize: "42px" }} />
