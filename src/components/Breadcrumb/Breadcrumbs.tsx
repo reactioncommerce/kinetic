@@ -24,7 +24,11 @@ export const Breadcrumbs = ({ items = BREADCRUMB_ITEMS, sx }: BreadcrumbsProps) 
   const pathnames = location.pathname.split("/").filter(Boolean);
   const { shop } = useShop();
   return (
-    <MuiBreadcrumbs maxItems={2} aria-label="breadcrumb" separator={<NavigateNextIcon fontSize="small" />} sx={{ lineHeight: 1, color: "grey.600", ...sx }}>
+    <MuiBreadcrumbs
+      maxItems={2}
+      itemsAfterCollapse={2}
+      aria-label="breadcrumb"
+      separator={<NavigateNextIcon fontSize="small" />} sx={{ lineHeight: 1, color: "grey.600", ...sx }}>
       <LinkRouter key="home" underline="none" color="inherit" to="/">
         <Stack direction="row" alignItems="center" gap={1}>
           <HomeOutlinedIcon />
