@@ -27,7 +27,7 @@ const color = {
   grey: {
     50: "#F7FAFC",
     100: "#EDF2F7",
-    200: "#E2E8F0",
+    200: "#EAECF0",
     300: "#CBD5E0",
     400: "#A0AEC0",
     500: "#718096",
@@ -251,7 +251,7 @@ const theme = createTheme(baseTheme, {
           }
         },
         h5: {
-          fontWeight: 700,
+          fontWeight: 600,
           fontSize: "1.875rem",
           lineHeight: 1.2,
           [baseTheme.breakpoints.down("md")]: {
@@ -385,6 +385,14 @@ const theme = createTheme(baseTheme, {
           }
         }
 
+      }
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          padding: "0 15px",
+          minWidth: "unset"
+        }
       }
     }
   }

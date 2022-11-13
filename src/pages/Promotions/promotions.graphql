@@ -1,0 +1,37 @@
+query getPromotions(
+  $shopId: ID!
+  $after: ConnectionCursor
+  $before: ConnectionCursor
+  $first: ConnectionLimitInt
+  $last: ConnectionLimitInt
+  $offset: Int
+  $filter: PromotionFilter
+  $sortBy: String
+  $sortOrder: String
+) {
+    promotions(shopId: $shopId, after: $after, before: $before, first: $first, last: $last, offset: $offset, filter: $filter, sortBy: $sortBy, sortOrder: $sortOrder) {
+      nodes {
+        _id
+        triggerType
+        promotionType
+        label
+        description
+        enabled
+        triggers {
+          triggerKey
+          triggerParameters
+        }
+        actions {
+          actionKey
+          actionParameters
+        }
+        shopId
+        startDate
+        endDate
+        stackAbility
+        createdAt
+        updatedAt
+      }
+      totalCount
+    }
+}

@@ -30,6 +30,7 @@ const PaymentSettings = lazy(() => import("./pages/Settings/Checkout/Payments"))
 const AddressValidationSettings = lazy(() => import("./pages/Settings/Checkout/AddressValidation"));
 const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
 const Customers = lazy(() => import("./pages/Customers"));
+const Promotions = lazy(() => import("./pages/Promotions"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -201,6 +202,10 @@ export const routes: RouteObject[] = [
               {
                 index: true,
                 element: <Dashboard/>
+              },
+              {
+                path: "promotions",
+                element: <Promotions/>
               },
               {
                 path: "settings",

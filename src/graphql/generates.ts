@@ -150,6 +150,23 @@ export enum AccountSortByField {
   UpdatedAt = 'updatedAt'
 }
 
+/** The action to be taken when a promotion is triggered */
+export type Action = {
+  __typename?: 'Action';
+  /** The key that defines this action */
+  actionKey: Scalars['String'];
+  /** Parameters to be passed to the action */
+  actionParameters?: Maybe<Scalars['JSONObject']>;
+};
+
+/** The action to be taken when a promotion is triggered */
+export type ActionInput = {
+  /** The key that defines this action */
+  actionKey: Scalars['String'];
+  /** Parameters to be passed to the action */
+  actionParameters?: InputMaybe<Scalars['JSONObject']>;
+};
+
 /** Defines a new Address and the account to which it should be added */
 export type AddAccountAddressBookEntryInput = {
   /** The account ID */
@@ -557,6 +574,23 @@ export type AppliedSurcharge = Node & {
 /** Defines a surcharge that has been applied to a Cart or Order */
 export type AppliedSurchargeMessageArgs = {
   language: Scalars['String'];
+};
+
+/** Input for the applyCouponToCart mutation */
+export type ApplyCouponToCartInput = {
+  /** The ID of the Cart */
+  cartId: Scalars['ID'];
+  /** The coupon code to apply */
+  couponCode: Scalars['String'];
+  shopId: Scalars['ID'];
+  /** Cart token, if anonymous */
+  token?: InputMaybe<Scalars['String']>;
+};
+
+/** The response for the applyCouponToCart mutation */
+export type ApplyCouponToCartPayload = {
+  __typename?: 'ApplyCouponToCartPayload';
+  cart?: Maybe<Cart>;
 };
 
 /** Input for an `ApplyDiscountCodeToCartInput` */
@@ -3167,6 +3201,8 @@ export type Mutation = {
   addTag: AddTagPayload;
   /** Bulk operation for adding an array of tags to an array of products */
   addTagsToProducts: ProductTagsOperationPayload;
+  /** Apply a coupon to a cart */
+  applyCouponToCart?: Maybe<ApplyCouponToCartPayload>;
   /** Apply a discount code to a cart */
   applyDiscountCodeToCart: ApplyDiscountCodeToCartPayload;
   /** Approve one or more payments for an order */
@@ -3219,6 +3255,7 @@ export type Mutation = {
   createProduct: CreateProductPayload;
   /** Create a new product variant */
   createProductVariant: CreateProductVariantPayload;
+  createPromotion?: Maybe<PromotionUpdateCreatePayload>;
   /** Use this mutation to create a refund on a payment method used to make the order */
   createRefund: CreateRefundPayload;
   /** Create a new shop */
@@ -3372,6 +3409,7 @@ export type Mutation = {
   updateProductVariantPrices: UpdateProductVariantPricesPayload;
   /** Update the isVisible property of an array of products */
   updateProductsVisibility: UpdateProductsVisibilityPayload;
+  updatePromotion?: Maybe<PromotionUpdateCreatePayload>;
   /** Given shop data, update the Shops collection with this data */
   updateShop: UpdateShopPayload;
   /**
@@ -3441,6 +3479,12 @@ export type MutationAddTagArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationAddTagsToProductsArgs = {
   input: ProductTagsOperationInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationApplyCouponToCartArgs = {
+  input?: InputMaybe<ApplyCouponToCartInput>;
 };
 
 
@@ -3581,6 +3625,12 @@ export type MutationCreateProductArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationCreateProductVariantArgs = {
   input: CreateProductVariantInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationCreatePromotionArgs = {
+  input?: InputMaybe<PromotionCreateInput>;
 };
 
 
@@ -4005,6 +4055,12 @@ export type MutationUpdateProductVariantPricesArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationUpdateProductsVisibilityArgs = {
   input: UpdateProductsVisibilityInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationUpdatePromotionArgs = {
+  input?: InputMaybe<PromotionUpdateInput>;
 };
 
 
@@ -5047,6 +5103,26 @@ export type ProductConnection = {
   totalCount: Scalars['Int'];
 };
 
+/** Operators for filtering on a DateTime field */
+export type ProductDateOperators = {
+  /** The value must be greater than or equal to the given value */
+  after?: InputMaybe<Scalars['DateTime']>;
+  /** The value must be greater than the given value */
+  before?: InputMaybe<Scalars['DateTime']>;
+  /** The value must be between the given values */
+  between?: InputMaybe<ProductDateRange>;
+  /** The value must be equal to the given value */
+  eq?: InputMaybe<Scalars['DateTime']>;
+};
+
+/** Range operator for DateTime fields */
+export type ProductDateRange = {
+  /** The end of the date range */
+  end: Scalars['DateTime'];
+  /** The start of the date range */
+  start: Scalars['DateTime'];
+};
+
 /** A connection edge in which each node is a `Product` object */
 export type ProductEdge = {
   __typename?: 'ProductEdge';
@@ -5343,6 +5419,136 @@ export type Profile = {
   addressBook?: Maybe<Array<Maybe<Address>>>;
 };
 
+/** A record representing a particular promotion */
+export type Promotion = {
+  __typename?: 'Promotion';
+  /** The unique ID of the promotion */
+  _id: Scalars['String'];
+  /** The actions to be taken when the promotion is triggered */
+  actions?: Maybe<Array<Action>>;
+  /** When was this record created */
+  createdAt: Scalars['Date'];
+  /** A longer detailed description of the promotion */
+  description: Scalars['String'];
+  /** Whether the promotion is current active */
+  enabled: Scalars['Boolean'];
+  /** The date that the promotion end (empty means it never ends) */
+  endDate?: Maybe<Scalars['Date']>;
+  /** The short description of the promotion */
+  label: Scalars['String'];
+  /** What type of promotion is this */
+  promotionType: Scalars['String'];
+  /** The id of the shop that this promotion resides */
+  shopId: Scalars['String'];
+  /** Definition of how this promotion can be combined (none, per-type, or all) */
+  stackAbility?: Maybe<Stackability>;
+  /** The date that the promotion begins */
+  startDate: Scalars['Date'];
+  /** What type of trigger this promotion uses */
+  triggerType: TriggerType;
+  /** The triggers for this Promotion */
+  triggers?: Maybe<Array<Trigger>>;
+  /** When was this record last updated */
+  updatedAt: Scalars['Date'];
+};
+
+export type PromotionConnection = {
+  __typename?: 'PromotionConnection';
+  /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
+  edges?: Maybe<Array<Maybe<PromotionEdge>>>;
+  /**
+   * You can request the `nodes` directly to avoid the extra wrapping that `NodeEdge` has,
+   * if you know you will not need to paginate the results.
+   */
+  nodes?: Maybe<Array<Maybe<Promotion>>>;
+  /** Information to help a client request the next or previous page */
+  pageInfo: PageInfo;
+  /** The total number of nodes that match your query */
+  totalCount: Scalars['Int'];
+};
+
+export type PromotionCreateInput = {
+  /** The actions to be taken when the promotion is triggered */
+  actions?: InputMaybe<Array<ActionInput>>;
+  /** A longer detailed description of the promotion */
+  description: Scalars['String'];
+  /** Whether the promotion is current active */
+  enabled: Scalars['Boolean'];
+  /** The date that the promotion end (empty means it never ends) */
+  endDate?: InputMaybe<Scalars['Date']>;
+  /** The short description of the promotion */
+  label: Scalars['String'];
+  /** What type of promotion this is for stackability purposes */
+  promotionType: Scalars['String'];
+  /** The id of the shop that this promotion resides */
+  shopId: Scalars['String'];
+  /** Definition of how this promotion can be combined (none, per-type, or all) */
+  stackAbility?: InputMaybe<Stackability>;
+  /** The date that the promotion begins */
+  startDate: Scalars['Date'];
+  /** The triggers for this Promotion */
+  triggers?: InputMaybe<Array<TriggerInput>>;
+};
+
+/** A connection edge in which each node is a `Promotion` object */
+export type PromotionEdge = {
+  __typename?: 'PromotionEdge';
+  /** The cursor that represents this node in the paginated results */
+  cursor: Scalars['ConnectionCursor'];
+  /** The product */
+  node?: Maybe<Promotion>;
+};
+
+export type PromotionFilter = {
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  endDate?: InputMaybe<Scalars['Date']>;
+  shopId: Scalars['String'];
+  startDate?: InputMaybe<Scalars['Date']>;
+};
+
+export type PromotionQueryInput = {
+  /** The unique ID of the promotion */
+  _id: Scalars['String'];
+  /** The unique ID of the shop */
+  shopId: Scalars['String'];
+};
+
+export type PromotionUpdateCreatePayload = {
+  __typename?: 'PromotionUpdateCreatePayload';
+  /** The updated or created promotion */
+  promotion?: Maybe<Promotion>;
+  /** Was the operation a success */
+  success: Scalars['Boolean'];
+};
+
+/** This is identical to the PromotionCreate except it includes the _id */
+export type PromotionUpdateInput = {
+  /** The unique ID of the promotion */
+  _id: Scalars['String'];
+  /** The actions to be taken when the promotion is triggered */
+  actions?: InputMaybe<Array<ActionInput>>;
+  /** A longer detailed description of the promotion */
+  description: Scalars['String'];
+  /** Whether the promotion is current active */
+  enabled: Scalars['Boolean'];
+  /** The date that the promotion end (empty means it never ends) */
+  endDate?: InputMaybe<Scalars['Date']>;
+  /** The short description of the promotion */
+  label: Scalars['String'];
+  /** What type of promotion this is for stackability purposes */
+  promotionType: Scalars['String'];
+  /** The id of the shop that this promotion resides */
+  shopId: Scalars['String'];
+  /** Definition of how this promotion can be combined (none, per-type, or all) */
+  stackAbility?: InputMaybe<Stackability>;
+  /** The date that the promotion begins */
+  startDate: Scalars['Date'];
+  /** What type of trigger this uses */
+  triggerType: TriggerType;
+  /** The triggers for this Promotion */
+  triggers?: InputMaybe<Array<TriggerInput>>;
+};
+
 /** Input for the `publishNavigationChanges` mutation */
 export type PublishNavigationChangesInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -5447,6 +5653,8 @@ export type Query = {
   products?: Maybe<ProductConnection>;
   /** Returns a list of product in a tag */
   productsByTagId: TagProductConnection;
+  promotion?: Maybe<Promotion>;
+  promotions: PromotionConnection;
   /** Get refunds applied to an order by order ID */
   refunds?: Maybe<Array<Maybe<Refund>>>;
   /** Get refunds applied to a specific payment by payment ID */
@@ -5779,6 +5987,7 @@ export type QueryProductArgs = {
 export type QueryProductsArgs = {
   after?: InputMaybe<Scalars['ConnectionCursor']>;
   before?: InputMaybe<Scalars['ConnectionCursor']>;
+  createdAt?: InputMaybe<ProductDateOperators>;
   first?: InputMaybe<Scalars['ConnectionLimitInt']>;
   isArchived?: InputMaybe<Scalars['Boolean']>;
   isExactMatch?: InputMaybe<Scalars['Boolean']>;
@@ -5795,6 +6004,7 @@ export type QueryProductsArgs = {
   sortBy?: InputMaybe<ProductSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
   tagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  updatedAt?: InputMaybe<ProductDateOperators>;
 };
 
 
@@ -5808,6 +6018,26 @@ export type QueryProductsByTagIdArgs = {
   query?: InputMaybe<Scalars['String']>;
   shopId: Scalars['ID'];
   tagId: Scalars['ID'];
+};
+
+
+/** Queries return all requested data, without any side effects */
+export type QueryPromotionArgs = {
+  input?: InputMaybe<PromotionQueryInput>;
+};
+
+
+/** Queries return all requested data, without any side effects */
+export type QueryPromotionsArgs = {
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  filter?: InputMaybe<PromotionFilter>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
+  sortBy?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -5924,6 +6154,7 @@ export type QueryTagArgs = {
 export type QueryTagsArgs = {
   after?: InputMaybe<Scalars['ConnectionCursor']>;
   before?: InputMaybe<Scalars['ConnectionCursor']>;
+  createdAt?: InputMaybe<TagDateOperators>;
   excludedTagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   filter?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['ConnectionLimitInt']>;
@@ -5935,6 +6166,7 @@ export type QueryTagsArgs = {
   shouldIncludeInvisible?: InputMaybe<Scalars['Boolean']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<TagDateOperators>;
 };
 
 
@@ -6791,6 +7023,12 @@ export type SplitOrderItemPayload = {
   order: Order;
 };
 
+export enum Stackability {
+  All = 'all',
+  None = 'none',
+  Type = 'type'
+}
+
 /** Storefront route URLs */
 export type StorefrontUrls = {
   __typename?: 'StorefrontUrls';
@@ -7102,6 +7340,26 @@ export type TagConnection = {
   totalCount: Scalars['Int'];
 };
 
+/** Operators for filtering on a DateTime field */
+export type TagDateOperators = {
+  /** The value must be greater than or equal to the given value */
+  after?: InputMaybe<Scalars['DateTime']>;
+  /** The value must be greater than the given value */
+  before?: InputMaybe<Scalars['DateTime']>;
+  /** The value must be between the given values */
+  between?: InputMaybe<ProductDateRange>;
+  /** The value must be equal to the given value */
+  eq?: InputMaybe<Scalars['DateTime']>;
+};
+
+/** Range operator for DateTime fields */
+export type TagDateRange = {
+  /** The end of the date range */
+  end: Scalars['DateTime'];
+  /** The start of the date range */
+  start: Scalars['DateTime'];
+};
+
 /** A connection edge in which each node is a `Tag` object */
 export type TagEdge = NodeEdge & {
   __typename?: 'TagEdge';
@@ -7324,6 +7582,28 @@ export type Tokens = {
   accessToken?: Maybe<Scalars['String']>;
   refreshToken?: Maybe<Scalars['String']>;
 };
+
+/** The trigger that will set a promotion into motion */
+export type Trigger = {
+  __typename?: 'Trigger';
+  /** The key that defines this action */
+  triggerKey: Scalars['String'];
+  /** Parameters that define the trigger */
+  triggerParameters?: Maybe<Scalars['JSONObject']>;
+};
+
+/** The trigger that will set a promotion into motion */
+export type TriggerInput = {
+  /** The key that defines this action */
+  triggerKey: Scalars['String'];
+  /** Parameters that define the trigger */
+  triggerParameters?: InputMaybe<Scalars['JSONObject']>;
+};
+
+export enum TriggerType {
+  Explicit = 'explicit',
+  Implicit = 'implicit'
+}
 
 export type TwoFactorSecretKey = {
   __typename?: 'TwoFactorSecretKey';
@@ -8183,6 +8463,21 @@ export type SendResetPasswordEmailMutationVariables = Exact<{
 
 export type SendResetPasswordEmailMutation = { __typename?: 'Mutation', sendResetPasswordEmail?: boolean | null };
 
+export type GetPromotionsQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<PromotionFilter>;
+  sortBy?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null> | null } };
+
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -8786,6 +9081,59 @@ export const useSendResetPasswordEmailMutation = <
     useMutation<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>(
       ['sendResetPasswordEmail'],
       (variables?: SendResetPasswordEmailMutationVariables) => fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(client, SendResetPasswordEmailDocument, variables, headers)(),
+      options
+    );
+export const GetPromotionsDocument = `
+    query getPromotions($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $filter: PromotionFilter, $sortBy: String, $sortOrder: String) {
+  promotions(
+    shopId: $shopId
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    offset: $offset
+    filter: $filter
+    sortBy: $sortBy
+    sortOrder: $sortOrder
+  ) {
+    nodes {
+      _id
+      triggerType
+      promotionType
+      label
+      description
+      enabled
+      triggers {
+        triggerKey
+        triggerParameters
+      }
+      actions {
+        actionKey
+        actionParameters
+      }
+      shopId
+      startDate
+      endDate
+      stackAbility
+      createdAt
+      updatedAt
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetPromotionsQuery = <
+      TData = GetPromotionsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetPromotionsQueryVariables,
+      options?: UseQueryOptions<GetPromotionsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetPromotionsQuery, TError, TData>(
+      ['getPromotions', variables],
+      fetcher<GetPromotionsQuery, GetPromotionsQueryVariables>(client, GetPromotionsDocument, variables, headers),
       options
     );
 export const GetAddressValidationServiceDocument = `
