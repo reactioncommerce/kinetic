@@ -13,7 +13,7 @@ RUN pnpm install
 RUN pnpm build
 
 
-FROM nginx:1.21.0-alpine
+FROM nginx:mainline-alpine
 ENV NODE_ENV production
 
 COPY --from=build /app/dist /usr/share/nginx/html
