@@ -95,9 +95,7 @@ const Customers = () => {
   const customers = filterNodes(data?.customers.nodes);
 
   const getExportData = useMemo(() => (Object.keys(rowSelection).length ?
-    Object.keys(rowSelection)
-      .map((index) => customers[Number(index)])
-      .filter(Boolean)
+    customers.filter(({ _id }) => !!rowSelection[_id])
       .map((customer) => ({ ...customer, createdAt: formatDate(new Date(customer.createdAt)) })) : []), [customers, rowSelection]);
 
   return (
