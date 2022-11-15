@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { noop } from "lodash-es";
 
 import { Shop } from "types/shop";
+import { decodeOpaqueId } from "@utils/decodedOpaqueId";
 
 type ShopContextProps = {
   shopId?: string
@@ -27,5 +28,12 @@ type ShopProviderProps = {
 export const ShopProvider = ({ children }: ShopProviderProps) => {
   const [shop, setShop] = useState<Shop | null>();
 
-  return <ShopContext.Provider value={{ shopId: shop?._id, setShop, shop }}>{children}</ShopContext.Provider>;
+  return <ShopContext.Provider
+    value={{
+      shopId: decodeOpaqueId(shop?._id)?.id,
+      setShop,
+      shop
+    }}>
+    {children}
+  </ShopContext.Provider>;
 };

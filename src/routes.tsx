@@ -205,7 +205,10 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "promotions",
-                element: <Promotions/>
+                element:
+                <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
+                  <Promotions/>
+                </PermissionGuard>
               },
               {
                 path: "settings",

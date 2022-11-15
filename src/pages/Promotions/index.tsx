@@ -14,26 +14,41 @@ import { useShop } from "@containers/ShopProvider";
 import { client } from "@graphql/graphql-request-client";
 import { Table, TableContainer, useTableState } from "@components/Table";
 import { filterNodes, formatDate } from "@utils/common";
-import { CalculationType, Promotion, PromotionType } from "types/promotions";
+import { CalculationType, Promotion, PromotionStatus, PromotionType } from "types/promotions";
 import { SortOrder } from "@graphql/types";
 
 import { CALCULATION_OPTIONS, PROMOTION_TYPE_OPTIONS } from "./constants";
 
-type PromotionFilterKey = "active" | "upcoming" | "disabled" | "viewAll"
+type PromotionFilterKey = PromotionStatus | "viewAll"
 const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
   active: { label: "Active" },
-  upcoming: { label: "Upcoming" },
+  enabled: { label: "Upcoming" },
   disabled: { label: "Disabled" },
+  past: { label: "Past" },
   viewAll: { label: "View All" }
 };
 
 const TODAY = new Date();
 
+const getPromotionStatus = (promotion: Promotion): PromotionStatus => {
+  if (promotion.enabled &&
+    isBefore(new Date(promotion.startDate), TODAY)
+  && (
+    !promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY))
+  ) return "active";
+
+  if (promotion.enabled && isAfter(new Date(promotion.startDate), TODAY)) return "enabled";
+  if (!promotion.enabled) return "disabled";
+  if (promotion.endDate && isBefore(new Date(promotion.endDate), TODAY)) return "past";
+
+  return "disabled";
+};
+
 const Promotions = () => {
   const [searchParams, setSearchParams] = useSearchParams({ type: "active" });
   const { shopId } = useShop();
 
-  const activeTab = searchParams.get("type") || "active";
+  const activeTab = (searchParams.get("type") || "active") as PromotionFilterKey;
   const defaultSortingState: SortingState = [{ id: "label", desc: false }];
 
   const { pagination, handlePaginationChange, sorting, onSortingChange } = useTableState(defaultSortingState);
@@ -52,22 +67,14 @@ const Promotions = () => {
   }, {
     keepPreviousData: true,
     select: (response) => {
-      let promotions = filterNodes(response.promotions.nodes).map((promotion) => ({
+      const promotions = filterNodes(response.promotions.nodes).map((promotion) => ({
         ...promotion,
         actions: filterNodes(promotion.actions)
       }));
 
-      if (activeTab === "active") {
-        promotions = promotions.filter((promotion) =>
-          isBefore(new Date(promotion.startDate), TODAY)
-          && (!promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY)));
-      }
-      if (activeTab === "upcoming") {
-        promotions = promotions.filter((promotion) => isAfter(new Date(promotion.startDate), TODAY));
-      }
       return {
         totalCount: response.promotions.totalCount,
-        promotions
+        promotions: activeTab !== "viewAll" ? promotions.filter((promotion) => getPromotionStatus(promotion) === activeTab) : promotions
       };
     }
   });
@@ -87,6 +94,7 @@ const Promotions = () => {
       accessorFn: (row) => row.actions?.[0].actionParameters?.discountCalculationType,
       header: "Action",
       id: "actionType",
+      enableSorting: false,
       cell: (row) =>
         <Typography variant="body2">{CALCULATION_OPTIONS[row.getValue<CalculationType>()]?.label || "Unknown"}</Typography>
     },
@@ -102,18 +110,18 @@ const Promotions = () => {
         <Typography variant="body2">{getValue() ? formatDate(new Date(getValue())) : "--"}</Typography>
     },
     {
-      accessorKey: "enabled",
+      id: "status",
       header: "Status",
-      cell: ({ getValue }) => {
-        const type = getValue<boolean>();
-        return (
-          <Chip
-            color={type ? "success" : "default"}
-            size="small"
-            label={type ? "ENABLED" : "DISABLED"}
-          />
-        );
+      cell: ({ row }) => {
+        const promotion = row.original;
+        const status = getPromotionStatus(promotion);
+        return <Chip
+          color={status === "active" ? "success" : "default"}
+          size="small"
+          label={status.toUpperCase()}
+        />;
       },
+      enableSorting: false,
       meta: {
         align: "right"
       }
