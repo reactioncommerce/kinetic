@@ -12,5 +12,5 @@ export type Promotion = Omit<APIPromotion, "__typename" | "actions"> & {
   }[]
 }
 
-export type PromotionStatus = "active" | "enabled" | "disabled" | "past"
+export type PromotionStatus = "active" | "upcoming" | "disabled" | "past"
 export type PromotionType = "order-discount" | "item-discount" | "shipping-discount"

@@ -9,7 +9,8 @@ import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { isBefore, isAfter, isSameDay } from "date-fns";
 import Chip from "@mui/material/Chip";
 import Checkbox from "@mui/material/Checkbox";
-import { noop } from "lodash-es";
+import { noop, startCase } from "lodash-es";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
 import { useGetPromotionsQuery } from "@graphql/generates";
@@ -25,7 +26,7 @@ import { CALCULATION_OPTIONS, PROMOTION_TYPE_OPTIONS } from "./constants";
 type PromotionFilterKey = PromotionStatus | "viewAll"
 const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
   active: { label: "Active" },
-  enabled: { label: "Upcoming" },
+  upcoming: { label: "Upcoming" },
   disabled: { label: "Disabled" },
   past: { label: "Past" },
   viewAll: { label: "View All" }
@@ -40,11 +41,18 @@ const getPromotionStatus = (promotion: Promotion): PromotionStatus => {
     !promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY))
   ) return "active";
 
-  if (promotion.enabled && isAfter(new Date(promotion.startDate), TODAY)) return "enabled";
+  if (isAfter(new Date(promotion.startDate), TODAY)) return "upcoming";
   if (!promotion.enabled) return "disabled";
   if (promotion.endDate && isBefore(new Date(promotion.endDate), TODAY)) return "past";
 
   return "disabled";
+};
+
+const getStatusText = (status: PromotionStatus, enabled: boolean) => {
+  if (status === "upcoming") {
+    return enabled ? "enabled" : "disabled";
+  }
+  return status;
 };
 
 const Promotions = () => {
@@ -146,10 +154,12 @@ const Promotions = () => {
       cell: ({ row }) => {
         const promotion = row.original;
         const status = getPromotionStatus(promotion);
+        const statusText = getStatusText(status, promotion.enabled);
         return <Chip
+          icon={<FiberManualRecordIcon sx={{ height: "8px", width: "8px" }} />}
           color={status === "active" ? "success" : "default"}
           size="small"
-          label={status.toUpperCase()}
+          label={startCase(statusText)}
         />;
       },
       enableSorting: false,
