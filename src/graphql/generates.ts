@@ -5438,6 +5438,8 @@ export type Promotion = {
   label: Scalars['String'];
   /** What type of promotion is this */
   promotionType: Scalars['String'];
+  /** An integer ID for user reference */
+  referenceId: Scalars['Int'];
   /** The id of the shop that this promotion resides */
   shopId: Scalars['String'];
   /** Definition of how this promotion can be combined (none, per-type, or all) */
@@ -8476,7 +8478,7 @@ export type GetPromotionsQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null> | null } };
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null> | null } };
 
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -9111,6 +9113,7 @@ export const GetPromotionsDocument = `
         actionKey
         actionParameters
       }
+      referenceId
       shopId
       startDate
       endDate

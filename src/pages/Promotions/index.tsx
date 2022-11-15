@@ -34,25 +34,21 @@ const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
 
 const TODAY = new Date();
 
-const getPromotionStatus = (promotion: Promotion): PromotionStatus => {
-  if (promotion.enabled &&
-    isBefore(new Date(promotion.startDate), TODAY)
-  && (
-    !promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY))
-  ) return "active";
-
-  if (isAfter(new Date(promotion.startDate), TODAY)) return "upcoming";
-  if (!promotion.enabled) return "disabled";
-  if (promotion.endDate && isBefore(new Date(promotion.endDate), TODAY)) return "past";
-
-  return "disabled";
+const checkStatus: Record<PromotionFilterKey, (promotion: Promotion) => boolean> = {
+  active: (promotion) => promotion.enabled && isBefore(new Date(promotion.startDate), TODAY) && (
+    !promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY)),
+  upcoming: (promotion) => isAfter(new Date(promotion.startDate), TODAY),
+  disabled: (promotion) => !promotion.enabled,
+  past: (promotion) => promotion.endDate && isBefore(new Date(promotion.endDate), TODAY),
+  viewAll: () => true
 };
 
-const getStatusText = (status: PromotionStatus, enabled: boolean) => {
-  if (status === "upcoming") {
-    return enabled ? "enabled" : "disabled";
-  }
-  return status;
+const getStatusText = (promotion: Promotion) => {
+  if (checkStatus.active(promotion)) return "active";
+  if (checkStatus.disabled(promotion)) return "disabled";
+  if (checkStatus.past(promotion)) return "past";
+  if (promotion.enabled) return "enabled";
+  return "disabled";
 };
 
 const Promotions = () => {
@@ -82,10 +78,9 @@ const Promotions = () => {
         ...promotion,
         actions: filterNodes(promotion.actions)
       }));
-
       return {
         totalCount: response.promotions.totalCount,
-        promotions: activeTab !== "viewAll" ? promotions.filter((promotion) => getPromotionStatus(promotion) === activeTab) : promotions
+        promotions: ["active", "upcoming", "past"].includes(activeTab) ? promotions.filter((promotion) => checkStatus[activeTab](promotion)) : promotions
       };
     }
   });
@@ -124,6 +119,10 @@ const Promotions = () => {
       header: "Name"
     },
     {
+      accessorKey: "referenceId",
+      header: "ID"
+    },
+    {
       accessorKey: "promotionType",
       header: "Promotion Type",
       cell: (row) =>
@@ -153,11 +152,10 @@ const Promotions = () => {
       header: "Status",
       cell: ({ row }) => {
         const promotion = row.original;
-        const status = getPromotionStatus(promotion);
-        const statusText = getStatusText(status, promotion.enabled);
+        const statusText = getStatusText(promotion);
         return <Chip
           icon={<FiberManualRecordIcon sx={{ height: "8px", width: "8px" }} />}
-          color={status === "active" ? "success" : "default"}
+          color={statusText === "active" ? "success" : "default"}
           size="small"
           label={startCase(statusText)}
         />;

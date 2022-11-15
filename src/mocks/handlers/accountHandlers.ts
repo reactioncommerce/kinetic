@@ -33,7 +33,7 @@ export const account: Partial<Account> = {
         "reaction:legacy:taxRates/update",
         "reaction:legacy:addressValidationRules/update",
         "reaction:legacy:shops/update",
-        "reaction:legacy:taxes/update",
+        "reaction:legacy:taxes/update:settings",
         "reaction:legacy:email-templates/update",
         "reaction:legacy:shippingMethods/read",
         "reaction:legacy:shippingMethods/update",
