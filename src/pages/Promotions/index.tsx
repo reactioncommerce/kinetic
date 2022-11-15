@@ -174,6 +174,7 @@ const Promotions = () => {
     onRowSelectionChange({});
   };
 
+  const disabledActionItem = Object.keys(rowSelection).length === 0;
   return (
     <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
       <Typography variant="h5" gutterBottom>Promotions</Typography>
@@ -189,9 +190,9 @@ const Promotions = () => {
             options={
               [
                 { label: "Create New", onClick: noop },
-                { label: "Duplicate", onClick: noop, disabled: true },
-                { label: "Enable", onClick: noop, disabled: true },
-                { label: "Disable", onClick: noop, disabled: true }
+                { label: "Duplicate", onClick: noop, disabled: disabledActionItem },
+                { label: "Enable", onClick: noop, disabled: disabledActionItem },
+                { label: "Disable", onClick: noop, disabled: disabledActionItem }
               ]
             }
             renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}
