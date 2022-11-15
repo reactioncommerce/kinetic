@@ -8,7 +8,10 @@ import { useMemo } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { isBefore, isAfter, isSameDay } from "date-fns";
 import Chip from "@mui/material/Chip";
+import Checkbox from "@mui/material/Checkbox";
+import { noop } from "lodash-es";
 
+import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
 import { useGetPromotionsQuery } from "@graphql/generates";
 import { useShop } from "@containers/ShopProvider";
 import { client } from "@graphql/graphql-request-client";
@@ -51,7 +54,7 @@ const Promotions = () => {
   const activeTab = (searchParams.get("type") || "active") as PromotionFilterKey;
   const defaultSortingState: SortingState = [{ id: "label", desc: false }];
 
-  const { pagination, handlePaginationChange, sorting, onSortingChange } = useTableState(defaultSortingState);
+  const { pagination, handlePaginationChange, sorting, onSortingChange, rowSelection, onRowSelectionChange } = useTableState(defaultSortingState);
 
   const { data, isLoading } = useGetPromotionsQuery(client, {
     shopId: shopId!,
@@ -80,6 +83,34 @@ const Promotions = () => {
   });
 
   const columns = useMemo((): ColumnDef<Promotion>[] => [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          inputProps={{ "aria-label": "select all promotions" }}
+          disableRipple
+          {...{
+            checked: table.getIsAllRowsSelected(),
+            indeterminate: table.getIsSomeRowsSelected(),
+            onChange: table.getToggleAllRowsSelectedHandler()
+          }}
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          disableRipple
+          inputProps={{ "aria-label": "select promotion" }}
+          {...{
+            checked: row.getIsSelected(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler()
+          }}
+        />
+      ),
+      meta: {
+        padding: "checkbox"
+      }
+    },
     {
       accessorKey: "label",
       header: "Name"
@@ -128,26 +159,42 @@ const Promotions = () => {
     }
   ], []);
 
+  const handleChangeTab = (value: string) => {
+    setSearchParams({ type: value });
+    onRowSelectionChange({});
+  };
+
   return (
     <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
       <Typography variant="h5" gutterBottom>Promotions</Typography>
       <Box sx={{ borderBottom: 1, borderColor: "grey.200", marginBottom: 3 }}>
-        <Tabs value={activeTab} onChange={(_, value) => setSearchParams({ type: value })}>
+        <Tabs value={activeTab} onChange={(_, value) => handleChangeTab(value)}>
           {Object.keys(TAB_VALUES).map((key) => <Tab disableRipple key={key} value={key} label={TAB_VALUES[key as PromotionFilterKey].label}/>)}
         </Tabs>
       </Box>
       <TableContainer>
         <TableContainer.Header
           title="Promotions"
+          action={<MenuActions
+            options={
+              [
+                { label: "Create New", onClick: noop },
+                { label: "Duplicate", onClick: noop, disabled: true },
+                { label: "Enable", onClick: noop, disabled: true },
+                { label: "Disable", onClick: noop, disabled: true }
+              ]
+            }
+            renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}
+          />}
         />
         <Table
           columns={columns}
           data={data?.promotions || []}
           loading={isLoading}
-          tableState={{ pagination, sorting }}
+          tableState={{ pagination, sorting, rowSelection }}
           onPaginationChange={handlePaginationChange}
+          onRowSelectionChange={onRowSelectionChange}
           onSortingChange={onSortingChange}
-          totalCount={data?.totalCount}
           maxHeight={600}
         />
       </TableContainer>

@@ -101,7 +101,7 @@ const Taxes = () => {
       { label: "Set as Primary Method", onClick: () => handleUpdateTaxService({ taxService, type: TaxServiceMethod.Primary }) }];
   };
 
-  const canEditTax = usePermission(["reaction:legacy:taxes/update"]);
+  const canEditTax = usePermission(["reaction:legacy:taxes/update:settings"]);
   return (
     <>
       <Paper variant="outlined" sx={{ padding: 2, mb: 2 }} component={Container} maxWidth="md">
