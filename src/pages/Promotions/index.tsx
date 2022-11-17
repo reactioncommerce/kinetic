@@ -207,6 +207,7 @@ const Promotions = () => {
           onRowSelectionChange={onRowSelectionChange}
           onSortingChange={onSortingChange}
           maxHeight={600}
+          getRowId={(promotion) => promotion._id}
         />
       </TableContainer>
     </Container>
