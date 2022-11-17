@@ -31,6 +31,7 @@ const AddressValidationSettings = lazy(() => import("./pages/Settings/Checkout/A
 const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
 const Customers = lazy(() => import("./pages/Customers"));
 const Promotions = lazy(() => import("./pages/Promotions"));
+const PromotionDetails = lazy(() => import("./pages/Promotions/Details"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -205,10 +206,29 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "promotions",
-                element:
-                <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
-                  <Promotions/>
-                </PermissionGuard>
+                children: [
+                  {
+                    index: true,
+                    element:
+                    <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
+                      <Promotions/>
+                    </PermissionGuard>
+                  },
+                  {
+                    path: "create",
+                    element:
+                  <PermissionGuard permissions={["reaction:legacy:promotions/create"]}>
+                    <PromotionDetails/>
+                  </PermissionGuard>
+                  },
+                  {
+                    path: ":promotionId",
+                    element:
+                    <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
+                      <PromotionDetails/>
+                    </PermissionGuard>
+                  }
+                ]
               },
               {
                 path: "settings",
