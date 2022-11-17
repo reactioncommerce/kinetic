@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { useSearchParams } from "react-router-dom";
 import { useMemo } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { isBefore, isAfter, isSameDay } from "date-fns";
+import { isBefore, isAfter, isSameDay, format } from "date-fns";
 import Chip from "@mui/material/Chip";
 import Checkbox from "@mui/material/Checkbox";
 import { noop, startCase } from "lodash-es";
@@ -21,7 +21,7 @@ import { filterNodes, formatDate } from "@utils/common";
 import { CalculationType, Promotion, PromotionStatus, PromotionType } from "types/promotions";
 import { SortOrder } from "@graphql/types";
 
-import { CALCULATION_OPTIONS, PROMOTION_TYPE_OPTIONS } from "./constants";
+import { CALCULATION_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS } from "./constants";
 
 type PromotionFilterKey = PromotionStatus | "viewAll"
 const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
@@ -67,20 +67,22 @@ const Promotions = () => {
     sortBy: sorting[0]?.id,
     sortOrder: sorting[0]?.desc ? SortOrder.Desc : SortOrder.Asc,
     filter: {
-      shopId: shopId!,
-      ...(activeTab === "active" ? { enabled: true } : {}),
-      ...(activeTab === "disabled" ? { enabled: false } : {})
+      ...(activeTab === "active" ? { enabled: true, startDate: { before: format(TODAY, DATE_FORMAT) }, endDate: { after: format(TODAY, DATE_FORMAT) } } : {}),
+      ...(activeTab === "upcoming" ? { startDate: { after: format(TODAY, DATE_FORMAT) } } : {}),
+      ...(activeTab === "disabled" ? { enabled: false } : {}),
+      ...(activeTab === "past" ? { endDate: { before: format(TODAY, DATE_FORMAT) } } : {})
     }
   }, {
     keepPreviousData: true,
     select: (response) => {
       const promotions = filterNodes(response.promotions.nodes).map((promotion) => ({
         ...promotion,
+        promotionType: promotion.promotionType as PromotionType,
         actions: filterNodes(promotion.actions)
       }));
       return {
         totalCount: response.promotions.totalCount,
-        promotions: ["active", "upcoming", "past"].includes(activeTab) ? promotions.filter((promotion) => checkStatus[activeTab](promotion)) : promotions
+        promotions
       };
     }
   });
@@ -151,8 +153,7 @@ const Promotions = () => {
       id: "status",
       header: "Status",
       cell: ({ row }) => {
-        const promotion = row.original;
-        const statusText = getStatusText(promotion);
+        const statusText = getStatusText(row.original);
         return <Chip
           icon={<FiberManualRecordIcon sx={{ height: "8px", width: "8px" }} />}
           color={statusText === "active" ? "success" : "default"}
@@ -199,6 +200,7 @@ const Promotions = () => {
         <Table
           columns={columns}
           data={data?.promotions || []}
+          totalCount={data?.totalCount}
           loading={isLoading}
           tableState={{ pagination, sorting, rowSelection }}
           onPaginationChange={handlePaginationChange}

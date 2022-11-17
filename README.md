@@ -228,7 +228,7 @@ export const routes: RouteObject[] = [
       {
         path: "plugins/customers",
 -       element: <Customers />
-+       element: <PermissionGuard permissions={["accounts/read"]}><Customers /></PermissionGuard>
++       element: <PermissionGuard permissions={["reaction:legacy:accounts/read"]}><Customers /></PermissionGuard>
       },
       // ... other routes,
     ]
@@ -249,7 +249,7 @@ Alternatively, if you would prefer modifying the component itself, you can call 
 
 const Customers = () => {
   const { pagination, handlePaginationChange } = useTableState();
-+  const canAddCustomer = usePermission(["accounts/create"]);
++  const canAddCustomer = usePermission(["reaction:legacy:accounts/create"]);
 
   ...
 

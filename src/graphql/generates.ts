@@ -3283,6 +3283,7 @@ export type Mutation = {
   deleteSurcharge: DeleteSurchargePayload;
   /** Delete a tax rate */
   deleteTaxRate?: Maybe<DeleteTaxRatePayload>;
+  duplicatePromotion?: Maybe<PromotionUpdateCreatePayload>;
   /** A test mutation that returns whatever string you send it */
   echo?: Maybe<Scalars['String']>;
   /** Enable a payment method for a shop */
@@ -3715,6 +3716,12 @@ export type MutationDeleteSurchargeArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationDeleteTaxRateArgs = {
   input: DeleteTaxRateInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationDuplicatePromotionArgs = {
+  input?: InputMaybe<PromotionDuplicateInput>;
 };
 
 
@@ -5478,11 +5485,13 @@ export type PromotionCreateInput = {
   enabled: Scalars['Boolean'];
   /** The date that the promotion end (empty means it never ends) */
   endDate?: InputMaybe<Scalars['Date']>;
-  /** The short description of the promotion */
+  /** The short description of the promotion visible to the customer */
   label: Scalars['String'];
+  /** The short description of the promotion */
+  name: Scalars['String'];
   /** What type of promotion this is for stackability purposes */
   promotionType: Scalars['String'];
-  /** The id of the shop that this promotion resides */
+  /** The id of the shop that this promotion resides in */
   shopId: Scalars['String'];
   /** Definition of how this promotion can be combined (none, per-type, or all) */
   stackAbility?: InputMaybe<Stackability>;
@@ -5490,6 +5499,20 @@ export type PromotionCreateInput = {
   startDate: Scalars['Date'];
   /** The triggers for this Promotion */
   triggers?: InputMaybe<Array<TriggerInput>>;
+};
+
+export type PromotionDateOperators = {
+  /** The value must be greater than or equal to the given value */
+  after?: InputMaybe<Scalars['Date']>;
+  /** The value must be greater than the given value */
+  before?: InputMaybe<Scalars['Date']>;
+  /** The value must be equal to the given value */
+  eq?: InputMaybe<Scalars['Date']>;
+};
+
+export type PromotionDuplicateInput = {
+  /** The id of the promotion to duplicate */
+  promotionId: Scalars['String'];
 };
 
 /** A connection edge in which each node is a `Promotion` object */
@@ -5503,9 +5526,8 @@ export type PromotionEdge = {
 
 export type PromotionFilter = {
   enabled?: InputMaybe<Scalars['Boolean']>;
-  endDate?: InputMaybe<Scalars['Date']>;
-  shopId: Scalars['String'];
-  startDate?: InputMaybe<Scalars['Date']>;
+  endDate?: InputMaybe<PromotionDateOperators>;
+  startDate?: InputMaybe<PromotionDateOperators>;
 };
 
 export type PromotionQueryInput = {
@@ -5535,8 +5557,10 @@ export type PromotionUpdateInput = {
   enabled: Scalars['Boolean'];
   /** The date that the promotion end (empty means it never ends) */
   endDate?: InputMaybe<Scalars['Date']>;
-  /** The short description of the promotion */
+  /** The short description of the promotion visible to the customer */
   label: Scalars['String'];
+  /** The short description of the promotion */
+  name: Scalars['String'];
   /** What type of promotion this is for stackability purposes */
   promotionType: Scalars['String'];
   /** The id of the shop that this promotion resides */

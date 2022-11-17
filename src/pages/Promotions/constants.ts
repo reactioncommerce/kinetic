@@ -11,3 +11,5 @@ export const PROMOTION_TYPE_OPTIONS: Record<PromotionType, SelectOptionType<Prom
   "item-discount": { label: "Item Discount", value: "item-discount" },
   "shipping-discount": { label: "Shipping Discount", value: "shipping-discount" }
 };
+
+export const DATE_FORMAT = "yyyy-MM-dd";
