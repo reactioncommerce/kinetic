@@ -5504,7 +5504,7 @@ export type PromotionCreateInput = {
 export type PromotionDateOperators = {
   /** The value must be greater than or equal to the given value */
   after?: InputMaybe<Scalars['Date']>;
-  /** The value must be greater than the given value */
+  /** The value must be less than the given value */
   before?: InputMaybe<Scalars['Date']>;
   /** The value must be equal to the given value */
   eq?: InputMaybe<Scalars['Date']>;
@@ -8504,6 +8504,13 @@ export type GetPromotionsQueryVariables = Exact<{
 
 export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null> | null } };
 
+export type GetPromotionQueryVariables = Exact<{
+  input?: InputMaybe<PromotionQueryInput>;
+}>;
+
+
+export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null };
+
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -9161,6 +9168,47 @@ export const useGetPromotionsQuery = <
     useQuery<GetPromotionsQuery, TError, TData>(
       ['getPromotions', variables],
       fetcher<GetPromotionsQuery, GetPromotionsQueryVariables>(client, GetPromotionsDocument, variables, headers),
+      options
+    );
+export const GetPromotionDocument = `
+    query getPromotion($input: PromotionQueryInput) {
+  promotion(input: $input) {
+    _id
+    triggerType
+    promotionType
+    label
+    description
+    enabled
+    triggers {
+      triggerKey
+      triggerParameters
+    }
+    actions {
+      actionKey
+      actionParameters
+    }
+    referenceId
+    shopId
+    startDate
+    endDate
+    stackAbility
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useGetPromotionQuery = <
+      TData = GetPromotionQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetPromotionQueryVariables,
+      options?: UseQueryOptions<GetPromotionQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetPromotionQuery, TError, TData>(
+      variables === undefined ? ['getPromotion'] : ['getPromotion', variables],
+      fetcher<GetPromotionQuery, GetPromotionQueryVariables>(client, GetPromotionDocument, variables, headers),
       options
     );
 export const GetAddressValidationServiceDocument = `
