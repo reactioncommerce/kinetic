@@ -17,6 +17,7 @@ query getPromotions(
         label
         description
         enabled
+        name
         triggers {
           triggerKey
           triggerParameters
@@ -45,6 +46,7 @@ query getPromotion($input: PromotionQueryInput) {
       label
       description
       enabled
+      name
       triggers {
         triggerKey
         triggerParameters
@@ -60,5 +62,23 @@ query getPromotion($input: PromotionQueryInput) {
       stackAbility
       createdAt
       updatedAt
+  }
+}
+
+mutation updatePromotion($input: PromotionUpdateInput) {
+  updatePromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}
+
+mutation createPromotion($input: PromotionCreateInput) {
+  createPromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
   }
 }

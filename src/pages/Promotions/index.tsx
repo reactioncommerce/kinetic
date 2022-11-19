@@ -23,6 +23,7 @@ import { SortOrder } from "@graphql/types";
 
 import { CALCULATION_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS } from "./constants";
 
+
 type PromotionFilterKey = PromotionStatus | "viewAll"
 const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
   active: { label: "Active" },
@@ -118,7 +119,7 @@ const Promotions = () => {
       }
     },
     {
-      accessorKey: "label",
+      accessorKey: "name",
       header: "Name"
     },
     {
@@ -137,7 +138,7 @@ const Promotions = () => {
       id: "actionType",
       enableSorting: false,
       cell: (row) =>
-        <Typography variant="body2">{CALCULATION_OPTIONS[row.getValue<CalculationType>()]?.label || "Unknown"}</Typography>
+        <Typography variant="body2">{CALCULATION_OPTIONS[row.getValue<CalculationType>()]?.label || "Noop"}</Typography>
     },
     {
       accessorKey: "startDate",
