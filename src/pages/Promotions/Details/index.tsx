@@ -4,16 +4,16 @@ import { Field, Form, Formik, FormikConfig } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import * as Yup from "yup";
+import Box from "@mui/material/Box";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { Stackability, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
-import { PROMOTION_TYPE_OPTIONS } from "../constants";
-import { PromotionType } from "types/promotions";
+import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
+import { Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
@@ -22,6 +22,7 @@ import { Loader } from "@components/Loader";
 
 import { ActionButtons } from "./ActionButtons";
 import { PromotionSection } from "./PromotionSection";
+import { PromotionActions } from "./PromotionActions";
 
 const promotionSchema = Yup.object().shape({
   name: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
@@ -33,6 +34,10 @@ type PromotionFormValue = {
   name: string
   description: string
   promotionType: string
+  actions: Promotion["actions"]
+  triggers: Promotion["triggers"]
+  stackAbility: Promotion["stackAbility"]
+  label: string
 }
 
 const PromotionDetails = () => {
@@ -85,35 +90,7 @@ const PromotionDetails = () => {
           ...values,
           shopId: shopId!,
           startDate: "2022-12-30",
-          enabled: false,
-          label: "The North Face $5 Special",
-          description: "description",
-          triggers: [{
-            triggerKey: "offers",
-            triggerParameters: {
-              name: "5 percent off your entire order when you spend more then $200",
-              conditions: {
-                all: [
-                  {
-                    fact: "totalItemAmount",
-                    operator: "greaterThanInclusive",
-                    value: 200
-                  }
-                ]
-              }
-            }
-          }],
-          actions: [
-            {
-              actionKey: "noop",
-              actionParameters: {
-                discountType: "order",
-                discountCalculationType: "percentage",
-                discountValue: 50
-              }
-            }
-          ],
-          stackAbility: Stackability.All
+          enabled: false
         }
       }, {
         onSettled: () => setSubmitting(false),
@@ -128,7 +105,11 @@ const PromotionDetails = () => {
   const initialValues: PromotionFormValue = {
     name: data?.promotion?.name || "",
     description: data?.promotion?.description || "",
-    promotionType: data?.promotion?.promotionType || "order-discount"
+    promotionType: data?.promotion?.promotionType || "order-discount",
+    actions: data?.promotion?.actions || [],
+    triggers: data?.promotion?.triggers || [],
+    stackAbility: data?.promotion?.stackAbility || Stackability.None,
+    label: data?.promotion?.label || ""
   };
 
   const showActionButtons = promotionId ? canUpdate : canCreate;
@@ -140,8 +121,8 @@ const PromotionDetails = () => {
         initialValues={initialValues}
         validationSchema={promotionSchema}
       >
-        {({ values, dirty, resetForm, isSubmitting, submitForm }) => <Stack component={Form} direction="column" gap={3}>
-          <Paper variant="outlined" square sx={{ padding: 3, pb: 0 }}>
+        {({ values, dirty, resetForm, isSubmitting, submitForm }) => <Stack component={Form} direction="column" gap={3} pb={3}>
+          <Paper variant="outlined" square sx={{ padding: 3, pb: 0, position: "sticky", top: { xs: 56, sm: 64 }, zIndex: 1 }}>
             <Stack direction="row" alignItems="center" justifyContent="space-between" pb={1}>
               <Stack direction="column" maxWidth="80%" flexWrap="wrap">
                 <Typography variant="h6" gutterBottom>{values.name || "New Promotion"}</Typography>
@@ -159,7 +140,9 @@ const PromotionDetails = () => {
 
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "grey.600" }}>
+                    sx={{ color: "grey.600" }}
+                    noWrap
+                  >
                     {PROMOTION_TYPE_OPTIONS[values.promotionType as PromotionType]?.label || "Unknown"}
                   </Typography>
                 </Stack>
@@ -179,7 +162,7 @@ const PromotionDetails = () => {
             </Tabs>
           </Paper>
           <PromotionSection title="Promotion Basics">
-            <Stack direction="row" alignItems="center" px={2} pt={1} pb={0} gap={6}>
+            <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 6 } }} alignItems="center" pt={1} pb={0}>
               <Field name="name" component={TextField} label="Promotion Name"/>
               <Field
                 component={SelectField}
@@ -188,8 +171,27 @@ const PromotionDetails = () => {
                 options={Object.values(PROMOTION_TYPE_OPTIONS)}
               />
             </Stack>
-            <Box px={2}>
-              <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3}/>
+            <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3}/>
+          </PromotionSection>
+          <PromotionSection title="Promotion Builder">
+            <PromotionActions actions={values.actions}/>
+          </PromotionSection>
+          <PromotionSection title="Promotion Stackability">
+            <Box mt={1} width="50%">
+              <Field
+                name="stackAbility"
+                component={SelectField}
+                label="Select Stackability"
+                options={PROMOTION_STACKABILITY_OPTIONS}/>
+            </Box>
+          </PromotionSection>
+          <PromotionSection title="Promotion Message">
+            <Box mt={1} width="50%">
+              <Field
+                name="label"
+                component={TextField}
+                label="Checkout Label"
+              />
             </Box>
           </PromotionSection>
         </Stack>
