@@ -1,31 +1,37 @@
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, FormikConfig } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { noop } from "lodash-es";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
+import * as Yup from "yup";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
-import { useGetPromotionQuery } from "@graphql/generates";
+import { Stackability, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
 import { PROMOTION_TYPE_OPTIONS } from "../constants";
 import { PromotionType } from "types/promotions";
-import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
+import { SelectField } from "@components/SelectField";
+import { usePermission } from "@components/PermissionGuard";
+import { Loader } from "@components/Loader";
+
+import { ActionButtons } from "./ActionButtons";
+import { PromotionSection } from "./PromotionSection";
+
+const promotionSchema = Yup.object().shape({
+  name: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
+  description: Yup.string().max(5000, "This field must be at most 5000 characters")
+});
+
 
 type PromotionFormValue = {
-  label: string
+  name: string
   description: string
-  referenceId: number
   promotionType: string
 }
 
@@ -33,112 +39,162 @@ const PromotionDetails = () => {
   const { promotionId } = useParams();
   const { shopId } = useShop();
   const navigate = useNavigate();
-  const [_, setBreadcrumbs] = useGlobalBreadcrumbs();
+  const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
+  const canCreate = usePermission(["reaction:legacy:promotions/create"]);
 
-  const { data } = useGetPromotionQuery(client, { input: { _id: promotionId || "id", shopId: shopId! } }, {
+  const [, setBreadcrumbs] = useGlobalBreadcrumbs();
+
+  const { data, isLoading } = useGetPromotionQuery(client, { input: { _id: promotionId || "id", shopId: shopId! } }, {
     enabled: !!promotionId,
     select: (responseData) => ({ promotion: responseData.promotion }),
     onSuccess: (responseData) => {
       const { promotion } = responseData;
       if (promotion) {
         setBreadcrumbs((currentBreadcrumbs) =>
-          ({ ...currentBreadcrumbs, [`/promotions/${promotion._id}`]: promotion.label }));
+          ({ ...currentBreadcrumbs, [`/promotions/${promotion._id}`]: promotion.name }));
+        return;
       }
+      navigate("/promotions", { replace: true });
     }
   });
 
-  const onSubmit = () => {};
+  const { mutate: createPromotion } = useCreatePromotionMutation(client);
+  const { mutate: updatePromotion } = useUpdatePromotionMutation(client);
 
-  const initialValues: PromotionFormValue = data?.promotion || {
-    label: "",
-    description: "",
-    referenceId: 0,
-    promotionType: "order-discount"
+  const onSubmit: FormikConfig<PromotionFormValue>["onSubmit"] = (
+    values,
+    { setSubmitting, resetForm }
+  ) => {
+    if (promotionId && data?.promotion) {
+      const { referenceId, createdAt, updatedAt, ...rest } = data.promotion;
+      const updatedPromotion = { ...rest, ...values };
+      updatePromotion(
+        { input: updatedPromotion },
+        {
+          onSettled: () => setSubmitting(false),
+          onSuccess: () => {
+            resetForm({ values: updatedPromotion });
+            setBreadcrumbs((currentBreadcrumbs) =>
+              ({ ...currentBreadcrumbs, [`/promotions/${promotionId}`]: updatedPromotion.name }));
+          }
+        }
+      );
+    } else {
+      createPromotion({
+        input: {
+          ...values,
+          shopId: shopId!,
+          startDate: "2022-12-30",
+          enabled: false,
+          label: "The North Face $5 Special",
+          description: "description",
+          triggers: [{
+            triggerKey: "offers",
+            triggerParameters: {
+              name: "5 percent off your entire order when you spend more then $200",
+              conditions: {
+                all: [
+                  {
+                    fact: "totalItemAmount",
+                    operator: "greaterThanInclusive",
+                    value: 200
+                  }
+                ]
+              }
+            }
+          }],
+          actions: [
+            {
+              actionKey: "noop",
+              actionParameters: {
+                discountType: "order",
+                discountCalculationType: "percentage",
+                discountValue: 50
+              }
+            }
+          ],
+          stackAbility: Stackability.All
+        }
+      }, {
+        onSettled: () => setSubmitting(false),
+        onSuccess: (responseData) => {
+          const newPromotionId = responseData.createPromotion?.promotion?._id;
+          newPromotionId ? navigate(`/promotions/${newPromotionId}`) : navigate("/promotions");
+        }
+      });
+    }
   };
 
-  return (
-    <Formik<PromotionFormValue>
-      onSubmit={onSubmit}
-      initialValues={initialValues}
-      enableReinitialize
-    >
-      {({ values, dirty }) => <Stack component={Form} direction="column" gap={3}>
-        <Paper variant="outlined" square sx={{ padding: 3, pb: 0 }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" pb={1}>
-            <Box>
-              <Typography variant="h6" gutterBottom>{values.label || "New Promotion"}</Typography>
-              <Stack direction="row" gap={0.5} alignItems="center">
-                {values.referenceId ?
-                  <>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ color: "grey.600" }}>
-                      {values.referenceId}
-                    </Typography>
-                    <FiberManualRecordIcon sx={{ height: "5px", width: "5px", color: "grey.600" }} />
-                  </>
-                  : null}
+  const initialValues: PromotionFormValue = {
+    name: data?.promotion?.name || "",
+    description: data?.promotion?.description || "",
+    promotionType: data?.promotion?.promotionType || "order-discount"
+  };
 
-                <Typography
-                  variant="subtitle2"
-                  sx={{ color: "grey.600" }}>
-                  {PROMOTION_TYPE_OPTIONS[values.promotionType as PromotionType]?.label || "Unknown"}
-                </Typography>
+  const showActionButtons = promotionId ? canUpdate : canCreate;
+
+  return (
+    isLoading ? <Loader/> :
+      <Formik<PromotionFormValue>
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+        validationSchema={promotionSchema}
+      >
+        {({ values, dirty, resetForm, isSubmitting, submitForm }) => <Stack component={Form} direction="column" gap={3}>
+          <Paper variant="outlined" square sx={{ padding: 3, pb: 0 }}>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" pb={1}>
+              <Stack direction="column" maxWidth="80%" flexWrap="wrap">
+                <Typography variant="h6" gutterBottom>{values.name || "New Promotion"}</Typography>
+                <Stack direction="row" gap={0.5} alignItems="center">
+                  {data?.promotion?.referenceId ?
+                    <>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ color: "grey.600" }}>
+                        {data?.promotion.referenceId}
+                      </Typography>
+                      <FiberManualRecordIcon sx={{ height: "5px", width: "5px", color: "grey.600" }} />
+                    </>
+                    : null}
+
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "grey.600" }}>
+                    {PROMOTION_TYPE_OPTIONS[values.promotionType as PromotionType]?.label || "Unknown"}
+                  </Typography>
+                </Stack>
               </Stack>
-            </Box>
-            {!promotionId || dirty ?
-              <Stack direction="row" gap={1}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => navigate("/promotions")}
-                >
-                  Cancel
-                </Button>
-                <LoadingButton
-                  size="small"
-                  variant="contained"
+              {showActionButtons ?
+                <ActionButtons
+                  loading={isSubmitting}
                   disabled={!dirty}
-                >
-                Save Changes
-                </LoadingButton>
-              </Stack>
-              :
-              <MenuActions
-                options={
-                  [
-                    { label: "Edit", onClick: noop },
-                    { label: "Enable", onClick: noop },
-                    { label: "Duplicate", onClick: noop },
-                    { label: "Delete", onClick: noop }
-                  ]
-                }
-                renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}
-              />
-            }
-          </Stack>
-          <Tabs value="details">
-            <Tab disableRipple value="details" label="Details"/>
-          </Tabs>
-        </Paper>
-        <Container maxWidth={false}>
-          <Paper variant="outlined" sx={{ py: 1 }}>
-            <Typography variant="subtitle1" gutterBottom sx={{ pl: 2 }}>Promotion Basics</Typography>
-            <Divider/>
+                  submitForm={submitForm}
+                  onCancel={() => (promotionId ? resetForm() : navigate("/promotions"))}
+                  promotionId={promotionId}
+                />
+                : null}
+            </Stack>
+            <Tabs value="details">
+              <Tab disableRipple value="details" label="Details"/>
+            </Tabs>
+          </Paper>
+          <PromotionSection title="Promotion Basics">
             <Stack direction="row" alignItems="center" px={2} pt={1} pb={0} gap={6}>
-              <Field name="label" component={TextField} label="Promotion Name"/>
-              <Field name="promotionType" component={TextField} label="Promotion Type"/>
+              <Field name="name" component={TextField} label="Promotion Name"/>
+              <Field
+                component={SelectField}
+                name="promotionType"
+                label="Promotion Type"
+                options={Object.values(PROMOTION_TYPE_OPTIONS)}
+              />
             </Stack>
             <Box px={2}>
               <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3}/>
             </Box>
-          </Paper>
-        </Container>
-
-      </Stack>
-      }
-    </Formik>
+          </PromotionSection>
+        </Stack>
+        }
+      </Formik>
 
 
   );
