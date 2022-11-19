@@ -16,8 +16,7 @@ export const ActionButtons = ({ loading, submitForm, promotionId, disabled, onCa
   !promotionId || !disabled ?
     <Stack direction="row" gap={1}>
       <Button
-        size="small"
-        variant="outlined"
+        variant="text"
         color="secondary"
         onClick={onCancel}
         disabled={loading}
@@ -25,7 +24,6 @@ export const ActionButtons = ({ loading, submitForm, promotionId, disabled, onCa
           Cancel
       </Button>
       <LoadingButton
-        size="small"
         variant="contained"
         disabled={disabled}
         loading={loading}
