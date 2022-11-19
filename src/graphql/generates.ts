@@ -5443,6 +5443,8 @@ export type Promotion = {
   endDate?: Maybe<Scalars['Date']>;
   /** The short description of the promotion */
   label: Scalars['String'];
+  /** The short description of the promotion */
+  name: Scalars['String'];
   /** What type of promotion is this */
   promotionType: Scalars['String'];
   /** An integer ID for user reference */
@@ -8502,14 +8504,28 @@ export type GetPromotionsQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null> | null } };
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null> | null } };
 
 export type GetPromotionQueryVariables = Exact<{
   input?: InputMaybe<PromotionQueryInput>;
 }>;
 
 
-export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null };
+export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null };
+
+export type UpdatePromotionMutationVariables = Exact<{
+  input?: InputMaybe<PromotionUpdateInput>;
+}>;
+
+
+export type UpdatePromotionMutation = { __typename?: 'Mutation', updatePromotion?: { __typename?: 'PromotionUpdateCreatePayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
+
+export type CreatePromotionMutationVariables = Exact<{
+  input?: InputMaybe<PromotionCreateInput>;
+}>;
+
+
+export type CreatePromotionMutation = { __typename?: 'Mutation', createPromotion?: { __typename?: 'PromotionUpdateCreatePayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
 
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -9136,6 +9152,7 @@ export const GetPromotionsDocument = `
       label
       description
       enabled
+      name
       triggers {
         triggerKey
         triggerParameters
@@ -9179,6 +9196,7 @@ export const GetPromotionDocument = `
     label
     description
     enabled
+    name
     triggers {
       triggerKey
       triggerParameters
@@ -9209,6 +9227,52 @@ export const useGetPromotionQuery = <
     useQuery<GetPromotionQuery, TError, TData>(
       variables === undefined ? ['getPromotion'] : ['getPromotion', variables],
       fetcher<GetPromotionQuery, GetPromotionQueryVariables>(client, GetPromotionDocument, variables, headers),
+      options
+    );
+export const UpdatePromotionDocument = `
+    mutation updatePromotion($input: PromotionUpdateInput) {
+  updatePromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdatePromotionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePromotionMutation, TError, UpdatePromotionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdatePromotionMutation, TError, UpdatePromotionMutationVariables, TContext>(
+      ['updatePromotion'],
+      (variables?: UpdatePromotionMutationVariables) => fetcher<UpdatePromotionMutation, UpdatePromotionMutationVariables>(client, UpdatePromotionDocument, variables, headers)(),
+      options
+    );
+export const CreatePromotionDocument = `
+    mutation createPromotion($input: PromotionCreateInput) {
+  createPromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}
+    `;
+export const useCreatePromotionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreatePromotionMutation, TError, CreatePromotionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreatePromotionMutation, TError, CreatePromotionMutationVariables, TContext>(
+      ['createPromotion'],
+      (variables?: CreatePromotionMutationVariables) => fetcher<CreatePromotionMutation, CreatePromotionMutationVariables>(client, CreatePromotionDocument, variables, headers)(),
       options
     );
 export const GetAddressValidationServiceDocument = `
