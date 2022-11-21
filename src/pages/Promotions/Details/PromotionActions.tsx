@@ -4,10 +4,11 @@ import { Field, FieldArray } from "formik";
 
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
-import { Promotion } from "types/promotions";
-import { CALCULATION_OPTIONS } from "../constants";
+import { Promotion, PromotionType } from "types/promotions";
+import { CALCULATION_OPTIONS, DISCOUNT_TYPES_MAP } from "../constants";
 
 import { PromotionFieldArray } from "./PromotionFieldArray";
+import { EligibleItems } from "./EligibleItems";
 
 
 const getSymbolBasedOnType = (action: Promotion["actions"][0]) => {
@@ -17,29 +18,29 @@ const getSymbolBasedOnType = (action: Promotion["actions"][0]) => {
 
 type PromotionActionsProps = {
   actions: Promotion["actions"]
+  promotionType: PromotionType
 }
 
-export const PromotionActions = ({ actions }: PromotionActionsProps) => (
+export const PromotionActions = ({ actions, promotionType }: PromotionActionsProps) => (
   <Stack direction="column" mt={2} gap={2}>
     <FieldArray
       name="actions"
       render={(props) =>
         <PromotionFieldArray
           {...props}
-          renderFieldItem={() => <div></div>}
+          renderFieldItem={() => <EligibleItems/>}
           label="Select an action for your promotion"
           addButtonLabel="Add Action"
           removeButtonLabel="Remove Action"
           hideAddButton={!!actions.length}
           renderHeaderField={(index) =>
-            <Stack direction="row" alignItems="center" gap={1} justifyContent="flex-start">
+            <Stack direction="row" alignItems="flex-start" gap={1} justifyContent="flex-start">
               <Field
                 name={`actions[${index}].actionParameters.discountCalculationType`}
                 component={SelectField}
                 hiddenLabel
                 label="Select Action Calculate Type"
                 options={Object.values(CALCULATION_OPTIONS)}
-                sx={{ width: "100px" }}
               />
               <Field
                 component={TextField}
@@ -50,7 +51,6 @@ export const PromotionActions = ({ actions }: PromotionActionsProps) => (
                 startAdornment={
                   <InputAdornment position="start">{getSymbolBasedOnType(actions[index])}</InputAdornment>
                 }
-                sx={{ width: "100px" }}
               />
             </Stack>
           }
@@ -58,7 +58,8 @@ export const PromotionActions = ({ actions }: PromotionActionsProps) => (
             actionKey: "noop",
             actionParameters: {
               discountValue: 0,
-              discountCalculationType: "percentage"
+              discountCalculationType: "percentage",
+              discountType: DISCOUNT_TYPES_MAP[promotionType]
             }
           }}
         />}
