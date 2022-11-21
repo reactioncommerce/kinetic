@@ -23,17 +23,32 @@ import { Loader } from "@components/Loader";
 import { ActionButtons } from "./ActionButtons";
 import { PromotionSection } from "./PromotionSection";
 import { PromotionActions } from "./PromotionActions";
+import { PromotionTriggers } from "./PromotionTriggers";
 
 const promotionSchema = Yup.object().shape({
   name: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
-  description: Yup.string().max(5000, "This field must be at most 5000 characters")
+  description: Yup.string().max(5000, "This field must be at most 5000 characters"),
+  actions: Yup.array().of(Yup.object({
+    actionKey: Yup.string(),
+    actionParameters: Yup.object({
+      discountValue: Yup.number().min(0, "Discount value must be greater than 0").required("This field is required")
+    })
+  }))
 });
 
+const getTriggerType = (triggerConditionAll: {fact: string, operator: string, value: number}[]) => triggerConditionAll
+  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` }));
+
+const formatTriggers = (triggers: Promotion["triggers"]) =>
+  (triggers ? triggers.map((trigger) => ({
+    ...trigger,
+    triggerParameters: { ...trigger.triggerParameters, conditions: { all: getTriggerType(trigger.triggerParameters.conditions.all) } }
+  })) : null);
 
 type PromotionFormValue = {
   name: string
   description: string
-  promotionType: string
+  promotionType: PromotionType
   actions: Promotion["actions"]
   triggers: Promotion["triggers"]
   stackAbility: Promotion["stackAbility"]
@@ -105,9 +120,9 @@ const PromotionDetails = () => {
   const initialValues: PromotionFormValue = {
     name: data?.promotion?.name || "",
     description: data?.promotion?.description || "",
-    promotionType: data?.promotion?.promotionType || "order-discount",
+    promotionType: (data?.promotion?.promotionType || "order-discount") as PromotionType,
     actions: data?.promotion?.actions || [],
-    triggers: data?.promotion?.triggers || [],
+    triggers: formatTriggers(data?.promotion?.triggers) || [],
     stackAbility: data?.promotion?.stackAbility || Stackability.None,
     label: data?.promotion?.label || ""
   };
@@ -162,7 +177,7 @@ const PromotionDetails = () => {
             </Tabs>
           </Paper>
           <PromotionSection title="Promotion Basics">
-            <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 6 } }} alignItems="center" pt={1} pb={0}>
+            <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 6 } }} alignItems="flex-start" pt={1} pb={0}>
               <Field name="name" component={TextField} label="Promotion Name"/>
               <Field
                 component={SelectField}
@@ -174,7 +189,8 @@ const PromotionDetails = () => {
             <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3}/>
           </PromotionSection>
           <PromotionSection title="Promotion Builder">
-            <PromotionActions actions={values.actions}/>
+            <PromotionActions actions={values.actions} promotionType={values.promotionType}/>
+            <PromotionTriggers triggers={values.triggers} promotionType={values.promotionType}/>
           </PromotionSection>
           <PromotionSection title="Promotion Stackability">
             <Box mt={1} width="50%">
