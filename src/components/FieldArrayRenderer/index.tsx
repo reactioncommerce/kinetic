@@ -1,26 +1,33 @@
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { FieldArrayRenderProps } from "formik";
-import Button from "@mui/material/Button";
+import Button, { ButtonProps } from "@mui/material/Button";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+// eslint-disable-next-line you-dont-need-lodash-underscore/get
+import { get } from "lodash-es";
 
 type FieldArrayRendererProps<T> = FieldArrayRenderProps & {
   renderFieldItem: (index: number) => JSX.Element;
   initialValue: T
+  addButtonProps?: ButtonProps
 };
 
 export const FieldArrayRenderer = <T, >({
   renderFieldItem,
-  form: { values },
+  form: { values: formValues },
   name,
   initialValue,
   push,
-  remove
-}: FieldArrayRendererProps<T>) => (
+  remove,
+  addButtonProps
+}: FieldArrayRendererProps<T>) => {
+  const values = get(formValues, name, []);
+
+  return (
     <Box>
-      {values[name].map((_: T, index: number) => (
+      {values.map((_: T, index: number) => (
         <Grid container alignItems="baseline" spacing={1} key={index}>
           <Grid item xs={11}>
             {renderFieldItem(index)}
@@ -42,9 +49,11 @@ export const FieldArrayRenderer = <T, >({
         variant="outlined"
         color="secondary"
         onClick={() => push(initialValue)}
-        sx={{ mt: 1, color: "grey.600" }}
+        {...addButtonProps}
+        sx={{ ...addButtonProps?.sx, mt: 1, color: "grey.600" }}
       >
-        <AddCircleOutlineRoundedIcon sx={{ pr: 1 }}/> Add
+        {addButtonProps?.children ?? <><AddCircleOutlineRoundedIcon sx={{ pr: 1 }}/> Add</>}
       </Button>
     </Box>
   );
+};

@@ -1,5 +1,5 @@
 import { alpha, createTheme, ThemeOptions } from "@mui/material/styles";
-
+import type {} from "@mui/x-date-pickers/themeAugmentation";
 
 declare module "@mui/material/styles" {
   interface TypeBackground {
