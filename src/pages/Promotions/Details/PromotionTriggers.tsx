@@ -66,9 +66,9 @@ export const PromotionTriggers = () => {
                 </Stack>
                 <EligibleItems
                   inclusionFieldName={
-                    `triggers[${index}].triggerParameters.inclusionRules.conditions.all`
+                    `triggers[${index}].triggerParameters.inclusionRules.conditions`
                   }
-                  exclusionFieldName={`triggers[${index}].triggerParameters.exclusionRules.conditions.all`}/>
+                  exclusionFieldName={`triggers[${index}].triggerParameters.exclusionRules.conditions`}/>
                 <AlertDialog
                   title="Delete Trigger"
                   icon={<DeleteOutlineOutlinedIcon/>}
@@ -94,10 +94,13 @@ export const PromotionTriggers = () => {
               onClick={() => push({
                 triggerKey: "offers",
                 triggerParameters: {
+                  name: values.name,
                   conditions: {
                     all: [{
                       triggerType: TRIGGER_TYPE_OPTIONS[0].value,
-                      value: 0
+                      value: 0,
+                      fact: TRIGGER_TYPE_OPTIONS[0].value.split("-")[0],
+                      operator: TRIGGER_TYPE_OPTIONS[0].value.split("-")[1]
                     }]
                   }
                 }

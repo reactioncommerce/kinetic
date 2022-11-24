@@ -1,15 +1,19 @@
 import { DatePicker, DatePickerProps } from "@mui/x-date-pickers/DatePicker";
 import { FieldProps, getIn } from "formik";
+import { format } from "date-fns";
 
 import { InputWithLabel } from "@components/TextField";
 
-type DatePickerFieldProps = DatePickerProps<unknown, Date> & FieldProps
+type DatePickerFieldProps = DatePickerProps<unknown, Date> & FieldProps & {
+  dateFormat?: string
+}
 export const DatePickerField = ({
   field,
   form: { isSubmitting, setFieldValue, errors },
   onChange,
   disabled,
   renderInput,
+  dateFormat = "MM/dd/yyyy",
   ...props
 }: DatePickerFieldProps) => {
   const {
@@ -24,7 +28,7 @@ export const DatePickerField = ({
   const helperText = fieldError ?? undefined;
 
   const _onChange =
-    onChange ?? ((value) => setFieldValue(restFieldProps.name, value));
+    onChange ?? ((value) => setFieldValue(restFieldProps.name, value ? format(value, dateFormat) : null));
 
 
   return (

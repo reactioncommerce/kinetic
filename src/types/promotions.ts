@@ -27,6 +27,7 @@ export interface Promotion extends Omit<APIPromotion, "__typename" | "actions" |
   triggers: {
     triggerKey: string
     triggerParameters?: {
+      name: string
       conditions: {
         all: {
           fact: string
