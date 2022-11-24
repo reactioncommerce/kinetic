@@ -13,7 +13,7 @@ import { format } from "date-fns";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { Stackability, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
-import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
+import { DATE_FORMAT, PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
 import { Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
@@ -34,7 +34,17 @@ const promotionSchema = Yup.object().shape({
   actions: Yup.array().of(Yup.object({
     actionKey: Yup.string(),
     actionParameters: Yup.object({
-      discountValue: Yup.number().min(0, "Discount value must be greater than 0").required("This field is required")
+      discountValue: Yup.number().moreThan(0, "Discount value must be greater than 0").required("This field is required")
+    })
+  })),
+  triggers: Yup.array().of(Yup.object({
+    triggerKey: Yup.string(),
+    triggerParameters: Yup.object({
+      conditions: Yup.object({
+        all: Yup.array().of(Yup.object({
+          value: Yup.number().moreThan(0, "Cart value must be greater than 0").required("This field is required")
+        }))
+      })
     })
   })),
   startDate: Yup.date().nullable().min(TODAY, `Start date must be later than ${format(TODAY, "MM/dd/yyyy")}`),
@@ -44,10 +54,14 @@ const promotionSchema = Yup.object().shape({
 const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
   .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
 
-const formatTriggers = (triggers: Promotion["triggers"]) =>
+const formatTriggers = (triggers: Promotion["triggers"], promotionName: string) =>
   triggers.map((trigger) => ({
     ...trigger,
-    triggerParameters: { ...trigger.triggerParameters, conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) } }
+    triggerParameters: {
+      ...trigger.triggerParameters,
+      name: promotionName,
+      conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
+    }
   }));
 
 type PromotionFormValue = {
@@ -129,7 +143,10 @@ const PromotionDetails = () => {
     description: data?.promotion?.description || "",
     promotionType: (data?.promotion?.promotionType || "order-discount") as PromotionType,
     actions: data?.promotion?.actions || [],
-    triggers: data?.promotion?.triggers ? formatTriggers(data?.promotion?.triggers) : [],
+    triggers: data?.promotion?.triggers ? formatTriggers(
+      data?.promotion?.triggers,
+      data?.promotion?.name || ""
+    ) : [],
     stackAbility: data?.promotion?.stackAbility || Stackability.None,
     label: data?.promotion?.label || "",
     startDate: data?.promotion?.startDate || null,
@@ -211,17 +228,19 @@ const PromotionDetails = () => {
             </Box>
           </PromotionSection>
           <PromotionSection title="Promotion Scheduling">
-            <Stack direction="row" gap={2} mt={1} position="relative" width="50%">
+            <Stack direction="row" gap={2} mt={1} position="relative" sx={{ width: { md: "50%", xs: "100%" } }} >
               <Field
                 name="startDate"
                 component={DatePickerField}
                 label="Available From"
+                dateFormat={DATE_FORMAT}
               />
               <Field
                 name="endDate"
                 component={DatePickerField}
                 label="Available To"
                 minDate={values.startDate}
+                dateFormat={DATE_FORMAT}
               />
             </Stack>
           </PromotionSection>
