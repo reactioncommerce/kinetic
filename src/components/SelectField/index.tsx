@@ -32,6 +32,7 @@ export const SelectField = ({
   helperText,
   hiddenLabel,
   ariaLabel,
+  placeholder,
   ...props
 }: SelectFieldProps) => {
   const fieldError = getIn(errors, restFieldProps.name) as string;
@@ -66,6 +67,9 @@ export const SelectField = ({
         {...props}
         {...restFieldProps}
       >
+        <MenuItem disabled value="">
+          {placeholder}
+        </MenuItem>
         {options.map((opt) => (
           <MenuItem key={opt.value} value={opt.value}>
             {opt.label}

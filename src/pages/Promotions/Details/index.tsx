@@ -8,17 +8,19 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import * as Yup from "yup";
 import Box from "@mui/material/Box";
+import { format } from "date-fns";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { Stackability, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
-import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
+import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
 import { Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { usePermission } from "@components/PermissionGuard";
 import { Loader } from "@components/Loader";
+import { DatePickerField } from "@components/DatePickerField";
 
 import { ActionButtons } from "./ActionButtons";
 import { PromotionSection } from "./PromotionSection";
@@ -27,23 +29,26 @@ import { PromotionTriggers } from "./PromotionTriggers";
 
 const promotionSchema = Yup.object().shape({
   name: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
+  label: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
   description: Yup.string().max(5000, "This field must be at most 5000 characters"),
   actions: Yup.array().of(Yup.object({
     actionKey: Yup.string(),
     actionParameters: Yup.object({
       discountValue: Yup.number().min(0, "Discount value must be greater than 0").required("This field is required")
     })
-  }))
+  })),
+  startDate: Yup.date().nullable().min(TODAY, `Start date must be later than ${format(TODAY, "MM/dd/yyyy")}`),
+  endDate: Yup.date().nullable()
 });
 
-const getTriggerType = (triggerConditionAll: {fact: string, operator: string, value: number}[]) => triggerConditionAll
-  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` }));
+const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
+  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
 
 const formatTriggers = (triggers: Promotion["triggers"]) =>
-  (triggers ? triggers.map((trigger) => ({
+  triggers.map((trigger) => ({
     ...trigger,
-    triggerParameters: { ...trigger.triggerParameters, conditions: { all: getTriggerType(trigger.triggerParameters.conditions.all) } }
-  })) : null);
+    triggerParameters: { ...trigger.triggerParameters, conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) } }
+  }));
 
 type PromotionFormValue = {
   name: string
@@ -53,6 +58,8 @@ type PromotionFormValue = {
   triggers: Promotion["triggers"]
   stackAbility: Promotion["stackAbility"]
   label: string
+  startDate: string | null
+  endDate: string | null
 }
 
 const PromotionDetails = () => {
@@ -122,9 +129,11 @@ const PromotionDetails = () => {
     description: data?.promotion?.description || "",
     promotionType: (data?.promotion?.promotionType || "order-discount") as PromotionType,
     actions: data?.promotion?.actions || [],
-    triggers: formatTriggers(data?.promotion?.triggers) || [],
+    triggers: data?.promotion?.triggers ? formatTriggers(data?.promotion?.triggers) : [],
     stackAbility: data?.promotion?.stackAbility || Stackability.None,
-    label: data?.promotion?.label || ""
+    label: data?.promotion?.label || "",
+    startDate: data?.promotion?.startDate || null,
+    endDate: data?.promotion?.endDate || null
   };
 
   const showActionButtons = promotionId ? canUpdate : canCreate;
@@ -189,8 +198,8 @@ const PromotionDetails = () => {
             <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3}/>
           </PromotionSection>
           <PromotionSection title="Promotion Builder">
-            <PromotionActions actions={values.actions} promotionType={values.promotionType}/>
-            <PromotionTriggers triggers={values.triggers} promotionType={values.promotionType}/>
+            <PromotionActions/>
+            <PromotionTriggers />
           </PromotionSection>
           <PromotionSection title="Promotion Stackability">
             <Box mt={1} width="50%">
@@ -200,6 +209,21 @@ const PromotionDetails = () => {
                 label="Select Stackability"
                 options={PROMOTION_STACKABILITY_OPTIONS}/>
             </Box>
+          </PromotionSection>
+          <PromotionSection title="Promotion Scheduling">
+            <Stack direction="row" gap={2} mt={1} position="relative" width="50%">
+              <Field
+                name="startDate"
+                component={DatePickerField}
+                label="Available From"
+              />
+              <Field
+                name="endDate"
+                component={DatePickerField}
+                label="Available To"
+                minDate={values.startDate}
+              />
+            </Stack>
           </PromotionSection>
           <PromotionSection title="Promotion Message">
             <Box mt={1} width="50%">

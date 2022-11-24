@@ -21,7 +21,7 @@ import { filterNodes, formatDate } from "@utils/common";
 import { CalculationType, Promotion, PromotionStatus, PromotionType } from "types/promotions";
 import { SortOrder } from "@graphql/types";
 
-import { CALCULATION_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS } from "./constants";
+import { CALCULATION_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS, TODAY } from "./constants";
 
 
 type PromotionFilterKey = PromotionStatus | "viewAll"
@@ -33,7 +33,6 @@ const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
   viewAll: { label: "View All" }
 };
 
-const TODAY = new Date();
 
 const checkStatus: Record<PromotionFilterKey, (promotion: Promotion) => boolean> = {
   active: (promotion) => promotion.enabled && isBefore(new Date(promotion.startDate), TODAY) && (
@@ -80,7 +79,8 @@ const Promotions = () => {
       const promotions = filterNodes(response.promotions.nodes).map((promotion) => ({
         ...promotion,
         promotionType: promotion.promotionType as PromotionType,
-        actions: filterNodes(promotion.actions)
+        actions: filterNodes(promotion.actions),
+        triggers: filterNodes(promotion.triggers)
       }));
       return {
         totalCount: response.promotions.totalCount,
@@ -133,7 +133,7 @@ const Promotions = () => {
         <Typography variant="body2">{PROMOTION_TYPE_OPTIONS[row.getValue<PromotionType>()]?.label || "Unknown"}</Typography>
     },
     {
-      accessorFn: (row) => row.actions?.[0].actionParameters?.discountCalculationType,
+      accessorFn: (row) => row.actions?.[0]?.actionParameters?.discountCalculationType,
       header: "Action",
       id: "actionType",
       enableSorting: false,
