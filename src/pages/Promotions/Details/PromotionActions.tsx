@@ -61,9 +61,9 @@ export const PromotionActions = () => {
                 </Stack>
                 <EligibleItems
                   inclusionFieldName={
-                    `actions[${index}].actionParameters.inclusionRules.conditions.all`
+                    `actions[${index}].actionParameters.inclusionRules.conditions`
                   }
-                  exclusionFieldName={`actions[${index}].actionParameters.exclusionRules.conditions.all`}
+                  exclusionFieldName={`actions[${index}].actionParameters.exclusionRules.conditions`}
                 />
                 <AlertDialog
                   title="Delete Action"
