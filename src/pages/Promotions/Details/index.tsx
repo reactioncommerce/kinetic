@@ -11,20 +11,20 @@ import Box from "@mui/material/Box";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
-import { DATE_FORMAT, PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
+import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
 import { Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { usePermission } from "@components/PermissionGuard";
 import { Loader } from "@components/Loader";
-import { DatePickerField } from "@components/DatePickerField";
 
 import { ActionButtons } from "./ActionButtons";
 import { PromotionSection } from "./PromotionSection";
 import { PromotionActions } from "./PromotionActions";
 import { PromotionTriggers } from "./PromotionTriggers";
 import { promotionSchema } from "./validation";
+import { AvailableDateField } from "./AvailableDateField";
 
 
 const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
@@ -83,8 +83,8 @@ const PromotionDetails = () => {
     { setSubmitting, resetForm }
   ) => {
     if (promotionId && data?.promotion) {
-      const { referenceId, createdAt, updatedAt, ...rest } = data.promotion;
-      const updatedPromotion = { ...rest, ...values };
+      const { triggerType, shopId: promotionShopId, enabled } = data.promotion;
+      const updatedPromotion = { _id: promotionId, enabled, shopId: promotionShopId, triggerType, ...values };
       updatePromotion(
         { input: updatedPromotion },
         {
@@ -204,21 +204,7 @@ const PromotionDetails = () => {
             </Box>
           </PromotionSection>
           <PromotionSection title="Promotion Scheduling">
-            <Stack direction="row" gap={2} mt={1} position="relative" sx={{ width: { md: "50%", xs: "100%" } }} >
-              <Field
-                name="startDate"
-                component={DatePickerField}
-                label="Available From"
-                dateFormat={DATE_FORMAT}
-              />
-              <Field
-                name="endDate"
-                component={DatePickerField}
-                label="Available To"
-                minDate={values.startDate}
-                dateFormat={DATE_FORMAT}
-              />
-            </Stack>
+            <AvailableDateField/>
           </PromotionSection>
           <PromotionSection title="Promotion Message">
             <Box mt={1} width="50%">
