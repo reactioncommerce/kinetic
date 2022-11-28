@@ -6,14 +6,12 @@ import Typography from "@mui/material/Typography";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import * as Yup from "yup";
 import Box from "@mui/material/Box";
-import { format } from "date-fns";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
-import { Stackability, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
-import { DATE_FORMAT, PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
+import { useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
+import { DATE_FORMAT, PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
 import { Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
@@ -26,30 +24,8 @@ import { ActionButtons } from "./ActionButtons";
 import { PromotionSection } from "./PromotionSection";
 import { PromotionActions } from "./PromotionActions";
 import { PromotionTriggers } from "./PromotionTriggers";
+import { promotionSchema } from "./validation";
 
-const promotionSchema = Yup.object().shape({
-  name: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
-  label: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
-  description: Yup.string().max(5000, "This field must be at most 5000 characters"),
-  actions: Yup.array().of(Yup.object({
-    actionKey: Yup.string(),
-    actionParameters: Yup.object({
-      discountValue: Yup.number().moreThan(0, "Discount value must be greater than 0").required("This field is required")
-    })
-  })),
-  triggers: Yup.array().of(Yup.object({
-    triggerKey: Yup.string(),
-    triggerParameters: Yup.object({
-      conditions: Yup.object({
-        all: Yup.array().of(Yup.object({
-          value: Yup.number().moreThan(0, "Cart value must be greater than 0").required("This field is required")
-        }))
-      })
-    })
-  })),
-  startDate: Yup.date().nullable().min(TODAY, `Start date must be later than ${format(TODAY, "MM/dd/yyyy")}`),
-  endDate: Yup.date().nullable()
-});
 
 const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
   .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
@@ -70,7 +46,7 @@ type PromotionFormValue = {
   promotionType: PromotionType
   actions: Promotion["actions"]
   triggers: Promotion["triggers"]
-  stackAbility: Promotion["stackAbility"]
+  stackability: Promotion["stackability"]
   label: string
   startDate: string | null
   endDate: string | null
@@ -147,7 +123,7 @@ const PromotionDetails = () => {
       data?.promotion?.triggers,
       data?.promotion?.name || ""
     ) : [],
-    stackAbility: data?.promotion?.stackAbility || Stackability.None,
+    stackability: data?.promotion?.stackability || { key: "none", parameters: {} },
     label: data?.promotion?.label || "",
     startDate: data?.promotion?.startDate || null,
     endDate: data?.promotion?.endDate || null
@@ -221,7 +197,7 @@ const PromotionDetails = () => {
           <PromotionSection title="Promotion Stackability">
             <Box mt={1} width="50%">
               <Field
-                name="stackAbility"
+                name="stackability.key"
                 component={SelectField}
                 label="Select Stackability"
                 options={PROMOTION_STACKABILITY_OPTIONS}/>

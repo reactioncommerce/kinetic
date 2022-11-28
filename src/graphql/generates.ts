@@ -3213,6 +3213,8 @@ export type Mutation = {
   archiveProductVariants: ArchiveProductVariantsPayload;
   /** Archive products */
   archiveProducts: ArchiveProductsPayload;
+  /** Mark a promotion as archived */
+  archivePromotion?: Maybe<PromotionUpdatedPayload>;
   authenticate?: Maybe<LoginResult>;
   /**
    * Use this mutation to cancel one item of an order, either for the full ordered quantity
@@ -3255,7 +3257,8 @@ export type Mutation = {
   createProduct: CreateProductPayload;
   /** Create a new product variant */
   createProductVariant: CreateProductVariantPayload;
-  createPromotion?: Maybe<PromotionUpdateCreatePayload>;
+  /** Create a new promotion */
+  createPromotion?: Maybe<PromotionUpdatedPayload>;
   /** Use this mutation to create a refund on a payment method used to make the order */
   createRefund: CreateRefundPayload;
   /** Create a new shop */
@@ -3283,7 +3286,8 @@ export type Mutation = {
   deleteSurcharge: DeleteSurchargePayload;
   /** Delete a tax rate */
   deleteTaxRate?: Maybe<DeleteTaxRatePayload>;
-  duplicatePromotion?: Maybe<PromotionUpdateCreatePayload>;
+  /** Create a new promotion based on an existing promotion */
+  duplicatePromotion?: Maybe<PromotionUpdatedPayload>;
   /** A test mutation that returns whatever string you send it */
   echo?: Maybe<Scalars['String']>;
   /** Enable a payment method for a shop */
@@ -3410,7 +3414,8 @@ export type Mutation = {
   updateProductVariantPrices: UpdateProductVariantPricesPayload;
   /** Update the isVisible property of an array of products */
   updateProductsVisibility: UpdateProductsVisibilityPayload;
-  updatePromotion?: Maybe<PromotionUpdateCreatePayload>;
+  /** Update values on promotion */
+  updatePromotion?: Maybe<PromotionUpdatedPayload>;
   /** Given shop data, update the Shops collection with this data */
   updateShop: UpdateShopPayload;
   /**
@@ -3516,6 +3521,12 @@ export type MutationArchiveProductVariantsArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationArchiveProductsArgs = {
   input: ArchiveProductsInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationArchivePromotionArgs = {
+  input?: InputMaybe<PromotionDuplicateArchiveInput>;
 };
 
 
@@ -3721,7 +3732,7 @@ export type MutationDeleteTaxRateArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationDuplicatePromotionArgs = {
-  input?: InputMaybe<PromotionDuplicateInput>;
+  input?: InputMaybe<PromotionDuplicateArchiveInput>;
 };
 
 
@@ -5452,9 +5463,11 @@ export type Promotion = {
   /** The id of the shop that this promotion resides */
   shopId: Scalars['String'];
   /** Definition of how this promotion can be combined (none, per-type, or all) */
-  stackAbility?: Maybe<Stackability>;
+  stackability?: Maybe<Stackability>;
   /** The date that the promotion begins */
   startDate: Scalars['Date'];
+  /** What is the current state of the promotion */
+  state: PromotionState;
   /** What type of trigger this promotion uses */
   triggerType: TriggerType;
   /** The triggers for this Promotion */
@@ -5496,7 +5509,7 @@ export type PromotionCreateInput = {
   /** The id of the shop that this promotion resides in */
   shopId: Scalars['String'];
   /** Definition of how this promotion can be combined (none, per-type, or all) */
-  stackAbility?: InputMaybe<Stackability>;
+  stackability?: InputMaybe<StackabilityInput>;
   /** The date that the promotion begins */
   startDate: Scalars['Date'];
   /** The triggers for this Promotion */
@@ -5512,9 +5525,11 @@ export type PromotionDateOperators = {
   eq?: InputMaybe<Scalars['Date']>;
 };
 
-export type PromotionDuplicateInput = {
-  /** The id of the promotion to duplicate */
+export type PromotionDuplicateArchiveInput = {
+  /** The id of the promotion to duplicate or archive */
   promotionId: Scalars['String'];
+  /** shopId */
+  shopId: Scalars['String'];
 };
 
 /** A connection edge in which each node is a `Promotion` object */
@@ -5539,13 +5554,12 @@ export type PromotionQueryInput = {
   shopId: Scalars['String'];
 };
 
-export type PromotionUpdateCreatePayload = {
-  __typename?: 'PromotionUpdateCreatePayload';
-  /** The updated or created promotion */
-  promotion?: Maybe<Promotion>;
-  /** Was the operation a success */
-  success: Scalars['Boolean'];
-};
+export enum PromotionState {
+  Active = 'active',
+  Archived = 'archived',
+  Completed = 'completed',
+  Created = 'created'
+}
 
 /** This is identical to the PromotionCreate except it includes the _id */
 export type PromotionUpdateInput = {
@@ -5568,13 +5582,21 @@ export type PromotionUpdateInput = {
   /** The id of the shop that this promotion resides */
   shopId: Scalars['String'];
   /** Definition of how this promotion can be combined (none, per-type, or all) */
-  stackAbility?: InputMaybe<Stackability>;
+  stackability?: InputMaybe<StackabilityInput>;
   /** The date that the promotion begins */
   startDate: Scalars['Date'];
   /** What type of trigger this uses */
   triggerType: TriggerType;
   /** The triggers for this Promotion */
   triggers?: InputMaybe<Array<TriggerInput>>;
+};
+
+export type PromotionUpdatedPayload = {
+  __typename?: 'PromotionUpdatedPayload';
+  /** The updated or created promotion */
+  promotion?: Maybe<Promotion>;
+  /** Was the operation a success */
+  success: Scalars['Boolean'];
 };
 
 /** Input for the `publishNavigationChanges` mutation */
@@ -7051,11 +7073,20 @@ export type SplitOrderItemPayload = {
   order: Order;
 };
 
-export enum Stackability {
-  All = 'all',
-  None = 'none',
-  Type = 'type'
-}
+export type Stackability = {
+  __typename?: 'Stackability';
+  /** The key that defines this stackability */
+  key: Scalars['String'];
+  /** Parameters to be passed to the stackability */
+  parameters?: Maybe<Scalars['JSONObject']>;
+};
+
+export type StackabilityInput = {
+  /** The key that defines this stackability */
+  key: Scalars['String'];
+  /** Parameters to be passed to the stackability */
+  parameters?: InputMaybe<Scalars['JSONObject']>;
+};
 
 /** Storefront route URLs */
 export type StorefrontUrls = {
@@ -8504,28 +8535,28 @@ export type GetPromotionsQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null> | null } };
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
 
 export type GetPromotionQueryVariables = Exact<{
   input?: InputMaybe<PromotionQueryInput>;
 }>;
 
 
-export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, referenceId: number, shopId: string, startDate: any, endDate?: any | null, stackAbility?: Stackability | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null } | null };
+export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null };
 
 export type UpdatePromotionMutationVariables = Exact<{
   input?: InputMaybe<PromotionUpdateInput>;
 }>;
 
 
-export type UpdatePromotionMutation = { __typename?: 'Mutation', updatePromotion?: { __typename?: 'PromotionUpdateCreatePayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
+export type UpdatePromotionMutation = { __typename?: 'Mutation', updatePromotion?: { __typename?: 'PromotionUpdatedPayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
 
 export type CreatePromotionMutationVariables = Exact<{
   input?: InputMaybe<PromotionCreateInput>;
 }>;
 
 
-export type CreatePromotionMutation = { __typename?: 'Mutation', createPromotion?: { __typename?: 'PromotionUpdateCreatePayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
+export type CreatePromotionMutation = { __typename?: 'Mutation', createPromotion?: { __typename?: 'PromotionUpdatedPayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
 
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -9165,7 +9196,10 @@ export const GetPromotionsDocument = `
       shopId
       startDate
       endDate
-      stackAbility
+      stackability {
+        key
+        parameters
+      }
       createdAt
       updatedAt
     }
@@ -9209,7 +9243,10 @@ export const GetPromotionDocument = `
     shopId
     startDate
     endDate
-    stackAbility
+    stackability {
+      key
+      parameters
+    }
     createdAt
     updatedAt
   }
