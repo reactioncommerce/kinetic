@@ -30,7 +30,10 @@ query getPromotions(
         shopId
         startDate
         endDate
-        stackAbility
+        stackability {
+          key
+          parameters
+        }
         createdAt
         updatedAt
       }
@@ -59,7 +62,10 @@ query getPromotion($input: PromotionQueryInput) {
       shopId
       startDate
       endDate
-      stackAbility
+      stackability {
+        key
+        parameters
+      }
       createdAt
       updatedAt
   }

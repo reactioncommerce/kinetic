@@ -1,6 +1,5 @@
-import { Stackability } from "@graphql/generates";
 import { SelectOptionType } from "types/common";
-import { CalculationType, PromotionType } from "types/promotions";
+import { CalculationType, PromotionType, Stackability } from "types/promotions";
 
 export const CALCULATION_OPTIONS: Record<CalculationType, SelectOptionType<CalculationType> & {symbol: string}> = {
   percentage: { label: "% Off", value: "percentage", symbol: "%" },
@@ -22,8 +21,8 @@ export const DISCOUNT_TYPES_MAP: Record<PromotionType, string> = {
 export const DATE_FORMAT = "yyyy-MM-dd";
 
 export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = [
-  { label: "Never Stackable", value: Stackability.None },
-  { label: "Stack All", value: Stackability.All }
+  { label: "Never Stackable", value: "none" },
+  { label: "Stack All", value: "all" }
 ];
 
 export const TRIGGER_TYPE_OPTIONS = [
