@@ -1,30 +1,42 @@
 import InputAdornment from "@mui/material/InputAdornment";
 import Stack from "@mui/material/Stack";
-import { Field, FieldArray } from "formik";
+import { Field, FieldArray, useFormikContext } from "formik";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
-import { Promotion, PromotionType } from "types/promotions";
-import { CALCULATION_OPTIONS, DISCOUNT_TYPES_MAP } from "../constants";
+import { CalculationType, Promotion, PromotionType } from "types/promotions";
+import { CALCULATION_TYPE_OPTIONS, DISCOUNT_TYPES_MAP } from "../constants";
 import { AlertDialog } from "@components/Dialog";
 
 import { EligibleItems } from "./EligibleItems";
+import { EligibleShippingMethods } from "./EligibleShippingMethods";
 
 type Action = Promotion["actions"][0]
 
 const getSymbolBasedOnType = (action: Action) => {
   const calculationType = action.actionParameters?.discountCalculationType;
-  return calculationType ? CALCULATION_OPTIONS[calculationType].symbol : "%";
+  return calculationType ? CALCULATION_TYPE_OPTIONS[calculationType].symbol : null;
 };
 
 export const PromotionActions = () => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
+  const { values: { promotionType } } = useFormikContext<Promotion>();
+
+  const isShippingDiscount = promotionType === "shipping-discount";
+
+  const calculationTypeOptions = useMemo(() => {
+    const calculationTypeKeys = isShippingDiscount ?
+      Object.keys(CALCULATION_TYPE_OPTIONS) :
+      Object.keys(CALCULATION_TYPE_OPTIONS).filter((key) => key !== "flat");
+
+    return calculationTypeKeys.map((key) => CALCULATION_TYPE_OPTIONS[key as CalculationType]);
+  }, [isShippingDiscount]);
 
   return (
     <Stack direction="column" mt={2} gap={2}>
@@ -42,29 +54,38 @@ export const PromotionActions = () => {
                       component={SelectField}
                       hiddenLabel
                       label="Select Action Calculate Type"
-                      options={Object.values(CALCULATION_OPTIONS)}
+                      options={calculationTypeOptions}
                     />
-                    <Field
-                      component={TextField}
-                      name={`actions[${index}].actionParameters.discountValue`}
-                      label="Discount Value"
-                      type="number"
-                      hiddenLabel
-                      startAdornment={
-                        <InputAdornment position="start">{getSymbolBasedOnType(values.actions[index])}</InputAdornment>
-                      }
-                    />
+                    {getSymbolBasedOnType(values.actions[index]) ?
+                      <Field
+                        component={TextField}
+                        name={`actions[${index}].actionParameters.discountValue`}
+                        label="Discount Value"
+                        type="number"
+                        hiddenLabel
+                        startAdornment={
+                          <InputAdornment position="start">{getSymbolBasedOnType(values.actions[index])}</InputAdornment>
+                        }
+                      />
+                      : null}
                   </Stack>
                   <Button variant="text" color="error" onClick={() => setActiveField(index)}>
                   Remove Action
                   </Button>
                 </Stack>
-                <EligibleItems
-                  inclusionFieldName={
-                    `actions[${index}].actionParameters.inclusionRules.conditions`
-                  }
-                  exclusionFieldName={`actions[${index}].actionParameters.exclusionRules.conditions`}
-                />
+                {isShippingDiscount ?
+                  <EligibleShippingMethods
+                    inclusionFieldName={
+                      `actions[${index}].actionParameters.inclusionRules.conditions.all`
+                    }
+                  />
+                  : <EligibleItems
+                    inclusionFieldName={
+                      `actions[${index}].actionParameters.inclusionRules.conditions`
+                    }
+                    exclusionFieldName={`actions[${index}].actionParameters.exclusionRules.conditions`}
+                  />}
+
                 <AlertDialog
                   title="Delete Action"
                   icon={<DeleteOutlineOutlinedIcon/>}
