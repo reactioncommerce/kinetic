@@ -59,5 +59,5 @@ describe("Promotion Details", () => {
     await user.keyboard("{Enter}");
     await user.click(screen.getByText("Save Changes"));
     expect(screen.queryByText("Save Changes")).not.toBeInTheDocument();
-  });
+  }, 50000);
 });
