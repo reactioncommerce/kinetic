@@ -1,6 +1,8 @@
 import { enabledPromotions } from "@mocks/handlers/promotionsHandlers";
 import { Route, Routes } from "react-router-dom";
 import { format } from "date-fns";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { AppLayout } from "@containers/Layouts";
 import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, within } from "@utils/testUtils";
@@ -10,11 +12,16 @@ import PromotionDetails from ".";
 
 const promotion = enabledPromotions[0];
 
-const renderPromotionDetails = () => renderWithProviders(<Routes>
-  <Route element={<AppLayout/>}>
-    <Route path="promotions/:promotionId" element={<PromotionDetails/>}/>
-  </Route>
-</Routes>, { initialEntries: [`/promotions/${promotion._id}`] });
+const renderPromotionDetails = () => renderWithProviders(
+  <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <Routes>
+      <Route element={<AppLayout/>}>
+        <Route path="promotions/:promotionId" element={<PromotionDetails/>}/>
+      </Route>
+    </Routes>
+  </LocalizationProvider>
+  , { initialEntries: [`/promotions/${promotion._id}`] }
+);
 
 describe("Promotion Details", () => {
   it("should display promotion details", async () => {
