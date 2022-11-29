@@ -9,7 +9,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
-import { CalculationType, Promotion, PromotionType } from "types/promotions";
+import { Promotion, PromotionType } from "types/promotions";
 import { CALCULATION_TYPE_OPTIONS, DISCOUNT_TYPES_MAP } from "../constants";
 import { AlertDialog } from "@components/Dialog";
 
@@ -31,11 +31,9 @@ export const PromotionActions = () => {
   const isShippingDiscount = promotionType === "shipping-discount";
 
   const calculationTypeOptions = useMemo(() => {
-    const calculationTypeKeys = isShippingDiscount ?
-      Object.keys(CALCULATION_TYPE_OPTIONS) :
-      Object.keys(CALCULATION_TYPE_OPTIONS).filter((key) => key !== "flat");
+    if (isShippingDiscount) return Object.values(CALCULATION_TYPE_OPTIONS);
 
-    return calculationTypeKeys.map((key) => CALCULATION_TYPE_OPTIONS[key as CalculationType]);
+    return [CALCULATION_TYPE_OPTIONS.fixed, CALCULATION_TYPE_OPTIONS.percentage];
   }, [isShippingDiscount]);
 
   return (

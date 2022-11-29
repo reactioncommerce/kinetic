@@ -21,7 +21,7 @@ type SelectFieldProps = FieldProps &
 
 export const SelectField = ({
   field,
-  form: { isSubmitting, touched, errors },
+  form: { isSubmitting, touched, errors, setFieldValue },
   fullWidth = true,
   size = "small",
   margin = "normal",
@@ -47,7 +47,7 @@ export const SelectField = ({
   const _onBlur =
     onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
   const _onChange =
-    onChange ?? ((event: SelectChangeEvent<string | number>) => fieldOnChange(event.target.value));
+    onChange ?? ((event: SelectChangeEvent<string | number>) => setFieldValue(restFieldProps.name, event.target.value));
 
   return (
     <FormControl
