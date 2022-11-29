@@ -59,14 +59,14 @@ export const SelectField = ({
       disabled={props.disabled ?? isSubmitting}
     >
       {!hiddenLabel && (
-        <FormLabel htmlFor={fieldId}>
+        <FormLabel id={fieldId}>
           {label}
         </FormLabel>
       )}
       <Select
-        id={fieldId}
         onBlur={_onBlur}
         aria-describedby={helperTextId}
+        labelId={fieldId}
         inputProps={{ "aria-label": ariaLabel }}
         onChange={_onChange}
         {...props}

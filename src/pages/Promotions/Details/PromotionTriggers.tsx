@@ -49,6 +49,7 @@ export const PromotionTriggers = () => {
                             component={TextField}
                             name={`triggers[${index}].triggerParameters.conditions.all[0].value`}
                             label="Value"
+                            ariaLabel="Trigger Value"
                             type="number"
                             hiddenLabel
                             startAdornment={
