@@ -3,8 +3,7 @@ import { cleanup, render } from "@testing-library/react";
 import { afterEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+
 
 import { ShopProvider } from "@containers/ShopProvider";
 import { AccountProvider } from "@containers/AccountProvider";
@@ -23,21 +22,17 @@ const renderWithProviders = (ui: React.ReactElement, options = { initialEntries:
     wrapper: ({ children }) => {
       const client = new QueryClient();
 
-      return <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <QueryClientProvider client={client}>
-          <MemoryRouter initialEntries={initialEntries}>
-            <ToastProvider>
-              <ShopProvider>
-                <AccountProvider>
-                  {children}
-                </AccountProvider>
-              </ShopProvider>
-            </ToastProvider>
-
-          </MemoryRouter>
-        </QueryClientProvider>
-      </LocalizationProvider>
-      ;
+      return <QueryClientProvider client={client}>
+        <MemoryRouter initialEntries={initialEntries}>
+          <ToastProvider>
+            <ShopProvider>
+              <AccountProvider>
+                {children}
+              </AccountProvider>
+            </ShopProvider>
+          </ToastProvider>
+        </MemoryRouter>
+      </QueryClientProvider>;
     },
     ...restOptions
   });
