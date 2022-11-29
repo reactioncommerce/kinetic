@@ -12,7 +12,7 @@ import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
 import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
-import { Promotion, PromotionType } from "types/promotions";
+import { Promotion, PromotionType, Trigger } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
@@ -31,7 +31,7 @@ import { PromotionTypeField } from "./PromotionTypeField";
 const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
   .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
 
-const formatTriggers = (triggers: Promotion["triggers"], promotionName: string) =>
+const formatTriggers = (triggers: Trigger[], promotionName: string) =>
   triggers.map((trigger) => ({
     ...trigger,
     triggerParameters: {
@@ -121,7 +121,7 @@ const PromotionDetails = () => {
     promotionType: (data?.promotion?.promotionType || "order-discount") as PromotionType,
     actions: data?.promotion?.actions || [],
     triggers: data?.promotion?.triggers ? formatTriggers(
-      data?.promotion?.triggers,
+      data.promotion.triggers,
       data?.promotion?.name || ""
     ) : [],
     stackability: data?.promotion?.stackability || { key: "none", parameters: {} },
