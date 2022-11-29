@@ -3,8 +3,10 @@ import * as Yup from "yup";
 const ruleSchema = Yup.object({
   path: Yup.string().required("This field is required"),
   operator: Yup.string().required("This field is required"),
-  value: Yup.array().of(Yup.string()).min(1, "This field must have at least 1 item")
+  value: Yup.array().min(1, "This field must have at least 1 item")
 });
+
+const shippingRuleSchema = Yup.object({ value: Yup.array().min(1, "This field must have at least 1 item") });
 
 export const promotionSchema = Yup.object().shape({
   name: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
@@ -14,10 +16,19 @@ export const promotionSchema = Yup.object().shape({
     actionKey: Yup.string(),
     actionParameters: Yup.object({
       discountValue: Yup.number().moreThan(0, "Discount value must be greater than 0").required("This field is required"),
-      inclusionRules: Yup.object({
-        conditions: Yup.object({
-          any: Yup.array().of(ruleSchema),
-          all: Yup.array().of(ruleSchema)
+      discountType: Yup.string().required(),
+      inclusionRules: Yup.object().when("discountType", {
+        is: "shipping",
+        then: (schema) => schema.shape({
+          conditions: Yup.object({
+            all: Yup.array().of(shippingRuleSchema)
+          })
+        }),
+        otherwise: (schema) => schema.shape({
+          conditions: Yup.object({
+            any: Yup.array().of(ruleSchema),
+            all: Yup.array().of(ruleSchema)
+          })
         })
       }),
       exclusionRules: Yup.object({

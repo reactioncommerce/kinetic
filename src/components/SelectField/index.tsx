@@ -1,5 +1,5 @@
 import FormControl, { FormControlProps } from "@mui/material/FormControl";
-import Select, { SelectProps } from "@mui/material/Select";
+import Select, { SelectChangeEvent, SelectProps } from "@mui/material/Select";
 import FormHelperText from "@mui/material/FormHelperText";
 import Collapse from "@mui/material/Collapse";
 import FormLabel from "@mui/material/FormLabel";
@@ -15,12 +15,12 @@ type CustomSelectFieldProps = {
 };
 
 type SelectFieldProps = FieldProps &
-  FormControlProps &
+  Omit<FormControlProps, "onChange"> &
   Omit<SelectProps, "name" | "value" | "error" | "margin"> &
   CustomSelectFieldProps;
 
 export const SelectField = ({
-  field: { onBlur: fieldOnBlur, ...restFieldProps },
+  field,
   form: { isSubmitting, touched, errors },
   fullWidth = true,
   size = "small",
@@ -33,8 +33,10 @@ export const SelectField = ({
   hiddenLabel,
   ariaLabel,
   placeholder,
+  onChange,
   ...props
 }: SelectFieldProps) => {
+  const { onChange: fieldOnChange, onBlur: fieldOnBlur, ...restFieldProps } = field;
   const fieldError = getIn(errors, restFieldProps.name) as string;
   const showError = getIn(touched, restFieldProps.name) && !!fieldError;
   const _helperText = showError ? fieldError : helperText;
@@ -44,6 +46,8 @@ export const SelectField = ({
 
   const _onBlur =
     onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
+  const _onChange =
+    onChange ?? ((event: SelectChangeEvent<string | number>) => fieldOnChange(event.target.value));
 
   return (
     <FormControl
@@ -64,6 +68,7 @@ export const SelectField = ({
         onBlur={_onBlur}
         aria-describedby={helperTextId}
         inputProps={{ "aria-label": ariaLabel }}
+        onChange={_onChange}
         {...props}
         {...restFieldProps}
       >
