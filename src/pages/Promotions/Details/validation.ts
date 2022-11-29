@@ -3,11 +3,7 @@ import * as Yup from "yup";
 const ruleSchema = Yup.object({
   path: Yup.string().required("This field is required"),
   operator: Yup.string().required("This field is required"),
-  value: Yup.array().of(Yup.string()).min(1, "This field must have at least 1 items").when("operator", {
-    is: "equal",
-    then: (schema) => schema.max(1, "This field must have only 1 item"),
-    otherwise: (schema) => schema.min(1, "This field must have at least 1 items")
-  })
+  value: Yup.array().of(Yup.string()).min(1, "This field must have at least 1 item")
 });
 
 export const promotionSchema = Yup.object().shape({
@@ -54,6 +50,6 @@ export const promotionSchema = Yup.object().shape({
       })
     })
   })),
-  startDate: Yup.date().nullable(),
+  startDate: Yup.date().nullable().required("This field is required"),
   endDate: Yup.date().nullable()
 });
