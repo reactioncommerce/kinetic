@@ -1,7 +1,7 @@
 import { graphql } from "msw";
 import { faker } from "@faker-js/faker";
 
-import { CalculationType, Promotion, PromotionType } from "types/promotions";
+import { CalculationType, Promotion, PromotionType, Stackability } from "types/promotions";
 import { PromotionState, TriggerType } from "@graphql/generates";
 
 const date = new Date("2022-02-28");
@@ -19,6 +19,7 @@ const promotion = (index: number): Promotion => {
     updatedAt: date,
     referenceId: index + 1000,
     state: PromotionState.Created,
+    stackability: { key: Stackability.All, parameters: {} },
     actions: [{
       actionKey: "noop",
       actionParameters: {
@@ -30,9 +31,13 @@ const promotion = (index: number): Promotion => {
     startDate,
     enabled: index % 2 === 0,
     endDate: index % 2 === 0 ? faker.date.future() : date,
-    triggers: [{
-      triggerKey: "offer"
-    }],
+    // triggers: [{
+    //   triggerKey: "offer"
+    //   // triggerParameters: {
+    //   //   name: faker.word.noun(),
+    //   //   conditions: { all: [] }
+    //   // }
+    // }],
     description: "description",
     shopId: "id"
   };
@@ -51,4 +56,19 @@ const getPromotionsHandler = graphql.query("getPromotions", (req, res, ctx) => {
   return res(ctx.data({ promotions: { nodes: promotions, totalCount: promotions.length } }));
 });
 
-export const handlers = [getPromotionsHandler];
+
+const getPromotionHandler = graphql.query("getPromotion", (req, res, ctx) => res(ctx.data({ promotion: enabledPromotions[0] })));
+
+
+const createPromotionHandler = graphql.mutation("createPromotion", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+
+const updatePromotionHandler = graphql.mutation("updatePromotion", (req, res, ctx) => {
+  const { input } = req.variables;
+  return res(ctx.data({ input }));
+});
+
+export const handlers = [getPromotionsHandler, getPromotionHandler, createPromotionHandler, updatePromotionHandler];
