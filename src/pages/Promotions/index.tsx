@@ -173,6 +173,7 @@ const Promotions = () => {
   const handleChangeTab = (value: string) => {
     setSearchParams({ type: value });
     onRowSelectionChange({});
+    handlePaginationChange({ pageIndex: 0, pageSize: pagination.pageSize });
   };
 
   const disabledActionItem = Object.keys(rowSelection).length === 0;
