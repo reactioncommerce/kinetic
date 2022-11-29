@@ -52,6 +52,7 @@ export const PromotionActions = () => {
                       component={SelectField}
                       hiddenLabel
                       label="Select Action Calculate Type"
+                      ariaLabel="Calculate Type"
                       options={calculationTypeOptions}
                     />
                     {getSymbolBasedOnType(values.actions[index]) ?

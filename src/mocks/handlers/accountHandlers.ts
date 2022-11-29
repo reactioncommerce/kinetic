@@ -46,7 +46,9 @@ export const account: Partial<Account> = {
         "reaction:legacy:surcharges/create",
         "reaction:legacy:surcharges/delete",
         "reaction:legacy:groups/update",
-        "reaction:legacy:accounts/invite:group"
+        "reaction:legacy:accounts/invite:group",
+        "reaction:legacy:promotions/update",
+        "reaction:legacy:promotions/create"
       ]
     }],
     totalCount: 1,

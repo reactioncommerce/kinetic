@@ -3,19 +3,22 @@ import { Route, Routes } from "react-router-dom";
 import { format } from "date-fns";
 
 import { AppLayout } from "@containers/Layouts";
-import { renderWithProviders, screen, waitForElementToBeRemoved } from "@utils/testUtils";
+import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, within } from "@utils/testUtils";
 
 
 import PromotionDetails from ".";
 
 const promotion = enabledPromotions[0];
+
+const renderPromotionDetails = () => renderWithProviders(<Routes>
+  <Route element={<AppLayout/>}>
+    <Route path="promotions/:promotionId" element={<PromotionDetails/>}/>
+  </Route>
+</Routes>, { initialEntries: [`/promotions/${promotion._id}`] });
+
 describe("Promotion Details", () => {
   it("should display promotion details", async () => {
-    renderWithProviders(<Routes>
-      <Route element={<AppLayout/>}>
-        <Route path="promotions/:promotionId" element={<PromotionDetails/>}/>
-      </Route>
-    </Routes>, { initialEntries: [`/promotions/${promotion._id}`] });
+    renderPromotionDetails();
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
     expect(screen.getAllByText(promotion.name)).toHaveLength(2);
     expect(screen.getByLabelText("Promotion Name")).toHaveValue(promotion.name);
@@ -28,5 +31,33 @@ describe("Promotion Details", () => {
     expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, "MM/dd/yyyy"));
     expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, "MM/dd/yyyy"));
     expect(screen.getByLabelText("Checkout Label")).toHaveValue(promotion.label);
+  });
+
+  it("should update promotion details successfully", async () => {
+    renderPromotionDetails();
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
+    expect(screen.queryByText("Save Changes")).not.toBeInTheDocument();
+    const user = userEvent.setup();
+    await user.clear(screen.getByLabelText("Promotion Name"));
+    expect(screen.getByRole("button", { name: "Save Changes" })).toBeInTheDocument();
+    await user.type(screen.getByLabelText("Promotion Name"), "The North Face $5 Special");
+    await user.click(screen.getByLabelText("Calculate Type"));
+    // eslint-disable-next-line testing-library/prefer-presence-queries
+    expect(within(screen.getByRole("listbox")).queryByText("Free Shipping")).not.toBeInTheDocument();
+    await user.click(screen.getByLabelText("Promotion Type"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Shipping Discount"));
+    await user.click(screen.getByLabelText("Calculate Type"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Free Shipping"));
+    await user.click(screen.getByText("Add Trigger"));
+    await user.type(screen.getByLabelText("Trigger Value"), "12");
+    await user.click(screen.getAllByText("Add Condition")[0]);
+    await user.click(screen.getByLabelText("Property"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Vendor"));
+    await user.click(screen.getByLabelText("Operator"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Is"));
+    await user.type(screen.getByPlaceholderText("Value"), "value");
+    await user.keyboard("{Enter}");
+    await user.click(screen.getByText("Save Changes"));
+    expect(screen.queryByText("Save Changes")).not.toBeInTheDocument();
   });
 });
