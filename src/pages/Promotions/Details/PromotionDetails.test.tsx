@@ -13,21 +13,24 @@ import PromotionDetails from ".";
 const promotion = enabledPromotions[0];
 
 const renderPromotionDetails = () => renderWithProviders(
-  <LocalizationProvider dateAdapter={AdapterDateFns}>
-    <Routes>
-      <Route element={<AppLayout/>}>
-        <Route path="promotions/:promotionId" element={<PromotionDetails/>}/>
-      </Route>
-    </Routes>
-  </LocalizationProvider>
+
+  <Routes>
+    <Route element={<AppLayout/>}>
+      <Route path="promotions/:promotionId" element={
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <PromotionDetails/>
+        </LocalizationProvider>}/>
+    </Route>
+  </Routes>
+
   , { initialEntries: [`/promotions/${promotion._id}`] }
 );
 
 describe("Promotion Details", () => {
   it("should display promotion details", async () => {
     renderPromotionDetails();
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
-    expect(screen.getAllByText(promotion.name)).toHaveLength(2);
+    const promotionName = await screen.findAllByText(promotion.name);
+    expect(promotionName).toHaveLength(2);
     expect(screen.getByLabelText("Promotion Name")).toHaveValue(promotion.name);
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
@@ -38,7 +41,7 @@ describe("Promotion Details", () => {
     expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, "MM/dd/yyyy"));
     expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, "MM/dd/yyyy"));
     expect(screen.getByLabelText("Checkout Label")).toHaveValue(promotion.label);
-  });
+  }, 50000);
 
   it("should update promotion details successfully", async () => {
     renderPromotionDetails();
