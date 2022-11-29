@@ -2,15 +2,15 @@ import { SelectOptionType } from "types/common";
 import { CalculationType, PromotionType, Stackability } from "types/promotions";
 
 export const CALCULATION_TYPE_OPTIONS: Record<CalculationType, SelectOptionType<CalculationType> & {symbol?: string}> = {
-  percentage: { label: "% Off", value: "percentage", symbol: "%" },
-  fixed: { label: "$ Off", value: "fixed", symbol: "$" },
-  flat: { label: "Free Shipping", value: "flat" }
+  percentage: { label: "% Off", value: CalculationType.Percentage, symbol: "%" },
+  fixed: { label: "$ Off", value: CalculationType.Fixed, symbol: "$" },
+  flat: { label: "Free Shipping", value: CalculationType.Flat }
 };
 
 export const PROMOTION_TYPE_OPTIONS: Record<PromotionType, SelectOptionType<PromotionType>> = {
-  "order-discount": { label: "Order Discount", value: "order-discount" },
-  "item-discount": { label: "Item Discount", value: "item-discount" },
-  "shipping-discount": { label: "Shipping Discount", value: "shipping-discount" }
+  "order-discount": { label: "Order Discount", value: PromotionType.OrderDiscount },
+  "item-discount": { label: "Item Discount", value: PromotionType.ItemDiscount },
+  "shipping-discount": { label: "Shipping Discount", value: PromotionType.ShippingDiscount }
 };
 
 export const DISCOUNT_TYPES_MAP: Record<PromotionType, string> = {
@@ -22,8 +22,8 @@ export const DISCOUNT_TYPES_MAP: Record<PromotionType, string> = {
 export const DATE_FORMAT = "yyyy-MM-dd";
 
 export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = [
-  { label: "Never Stackable", value: "none" },
-  { label: "Stack All", value: "all" }
+  { label: "Never Stackable", value: Stackability.None },
+  { label: "Stack All", value: Stackability.All }
 ];
 
 export const TRIGGER_TYPE_OPTIONS = [
