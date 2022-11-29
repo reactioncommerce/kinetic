@@ -25,6 +25,7 @@ import { PromotionActions } from "./PromotionActions";
 import { PromotionTriggers } from "./PromotionTriggers";
 import { promotionSchema } from "./validation";
 import { AvailableDateField } from "./AvailableDateField";
+import { PromotionTypeField } from "./PromotionTypeField";
 
 
 const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
@@ -181,12 +182,7 @@ const PromotionDetails = () => {
           <PromotionSection title="Promotion Basics">
             <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 6 } }} alignItems="flex-start" pt={1} pb={0}>
               <Field name="name" component={TextField} label="Promotion Name"/>
-              <Field
-                component={SelectField}
-                name="promotionType"
-                label="Promotion Type"
-                options={Object.values(PROMOTION_TYPE_OPTIONS)}
-              />
+              <PromotionTypeField/>
             </Stack>
             <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3}/>
           </PromotionSection>

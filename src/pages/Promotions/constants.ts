@@ -1,9 +1,10 @@
 import { SelectOptionType } from "types/common";
 import { CalculationType, PromotionType, Stackability } from "types/promotions";
 
-export const CALCULATION_OPTIONS: Record<CalculationType, SelectOptionType<CalculationType> & {symbol: string}> = {
+export const CALCULATION_TYPE_OPTIONS: Record<CalculationType, SelectOptionType<CalculationType> & {symbol?: string}> = {
   percentage: { label: "% Off", value: "percentage", symbol: "%" },
-  amount: { label: "$ Off", value: "amount", symbol: "$" }
+  fixed: { label: "$ Off", value: "fixed", symbol: "$" },
+  flat: { label: "Free Shipping", value: "flat" }
 };
 
 export const PROMOTION_TYPE_OPTIONS: Record<PromotionType, SelectOptionType<PromotionType>> = {

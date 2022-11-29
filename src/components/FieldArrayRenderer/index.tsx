@@ -11,7 +11,7 @@ import { get } from "lodash-es";
 type FieldArrayRendererProps<T> = FieldArrayRenderProps & {
   renderFieldItem: (index: number) => JSX.Element;
   initialValue: T
-  addButtonProps?: ButtonProps
+  addButtonProps?: ButtonProps & {hidden?: boolean}
 };
 
 export const FieldArrayRenderer = <T, >({
@@ -28,7 +28,7 @@ export const FieldArrayRenderer = <T, >({
   return (
     <Box>
       {values.map((_: T, index: number) => (
-        <Grid container alignItems="baseline" spacing={1} key={index}>
+        <Grid container alignItems="center" spacing={1} key={index}>
           <Grid item xs={11}>
             {renderFieldItem(index)}
           </Grid>
@@ -43,17 +43,18 @@ export const FieldArrayRenderer = <T, >({
           </Grid>
         </Grid>
       ))}
-
-      <Button
-        size="small"
-        variant="outlined"
-        color="secondary"
-        onClick={() => push(initialValue)}
-        {...addButtonProps}
-        sx={{ ...addButtonProps?.sx, mt: 1, color: "grey.600" }}
-      >
-        {addButtonProps?.children ?? <><AddCircleOutlineRoundedIcon sx={{ pr: 1 }}/> Add</>}
-      </Button>
+      {!addButtonProps?.hidden ?
+        <Button
+          size="small"
+          variant="outlined"
+          color="secondary"
+          onClick={() => push(initialValue)}
+          {...addButtonProps}
+          sx={{ ...addButtonProps?.sx, mt: 1, color: "grey.600" }}
+        >
+          {addButtonProps?.children ?? <><AddCircleOutlineRoundedIcon sx={{ pr: 1 }}/> Add</>}
+        </Button>
+        : null}
     </Box>
   );
 };

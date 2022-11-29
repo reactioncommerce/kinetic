@@ -3,7 +3,7 @@ import { disabledPromotions, enabledPromotions } from "@mocks/handlers/promotion
 import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, within } from "@utils/testUtils";
 import { PromotionType } from "types/promotions";
 
-import { CALCULATION_OPTIONS, PROMOTION_TYPE_OPTIONS } from "./constants";
+import { CALCULATION_TYPE_OPTIONS, PROMOTION_TYPE_OPTIONS } from "./constants";
 
 import Promotions from ".";
 
@@ -19,7 +19,7 @@ describe("Promotions", () => {
       expect(screen.getByText(promotion.referenceId)).toBeInTheDocument();
       expect(screen.getAllByText(PROMOTION_TYPE_OPTIONS[promotion.promotionType as PromotionType].label)[index]).toBeInTheDocument();
       expect(screen.getAllByText(promotion.actions[0]?.actionParameters?.discountCalculationType ?
-        CALCULATION_OPTIONS[promotion.actions[0].actionParameters.discountCalculationType]?.label
+        CALCULATION_TYPE_OPTIONS[promotion.actions[0].actionParameters.discountCalculationType]?.label
         : "Unknown")
         [index]).toBeInTheDocument();
     });

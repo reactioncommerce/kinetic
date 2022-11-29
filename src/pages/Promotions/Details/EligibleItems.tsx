@@ -8,6 +8,7 @@ import { useState } from "react";
 
 import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 import { CONDITION_OPERATORS } from "../constants";
+import { Promotion } from "types/promotions";
 
 import { ConditionField } from "./ConditionField";
 import { ConditionOperators } from "./ConditionOperators";
@@ -17,8 +18,9 @@ type EligibleItemsProps = {
   exclusionFieldName: string
 }
 
+const initialValue = { fact: "item", path: "", value: [], operator: "" };
 export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: EligibleItemsProps) => {
-  const { setFieldValue, values } = useFormikContext();
+  const { setFieldValue, values } = useFormikContext<Promotion>();
 
   const currentInclusionRules = get(values, inclusionFieldName);
   const currentExclusionRules = get(values, exclusionFieldName);
@@ -62,7 +64,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
             <FieldArrayRenderer
               {...props}
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
-              initialValue={{ fact: "item", path: "", value: [], operator: "" }}
+              initialValue={initialValue}
               renderFieldItem={(index) => (
                 <Stack direction="row" gap={1} alignItems="center" pl={1}>
                   <Stack flexBasis="30px">
@@ -94,7 +96,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
             <FieldArrayRenderer
               {...props}
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
-              initialValue={{ fact: "item", path: "", value: [], operator: "" }}
+              initialValue={initialValue}
               renderFieldItem={(index) => (
                 <Stack direction="row" gap={1} alignItems="center" pl={1}>
                   <Stack flexBasis="30px">
