@@ -59,6 +59,7 @@ export const PromotionActions = () => {
                         component={TextField}
                         name={`actions[${index}].actionParameters.discountValue`}
                         label="Discount Value"
+                        ariaLabel="Discount Value"
                         type="number"
                         hiddenLabel
                         startAdornment={

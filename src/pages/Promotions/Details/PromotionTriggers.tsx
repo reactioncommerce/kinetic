@@ -11,8 +11,8 @@ import { useState } from "react";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { TRIGGER_TYPE_OPTIONS } from "../constants";
-import { Promotion } from "types/promotions";
 import { AlertDialog } from "@components/Dialog";
+import { Trigger } from "types/promotions";
 
 import { EligibleItems } from "./EligibleItems";
 
@@ -27,7 +27,7 @@ export const PromotionTriggers = () => {
         render={({ form: { values }, remove, push }) =>
           <Stack direction="column" gap={1}>
             <Typography variant="subtitle2">Customers qualify for this offer when</Typography>
-            {values.triggers.map((_: Promotion["triggers"][0], index: number) =>
+            {values.triggers.map((_: Trigger, index: number) =>
               <Paper key={index} variant="outlined" sx={{ padding: 2 }}>
                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                   <FieldArray
