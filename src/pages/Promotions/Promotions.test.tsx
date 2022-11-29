@@ -15,7 +15,7 @@ describe("Promotions", () => {
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
 
     enabledPromotions.forEach((promotion, index) => {
-      expect(screen.getByText(promotion.label)).toBeInTheDocument();
+      expect(screen.getByText(promotion.name)).toBeInTheDocument();
       expect(screen.getByText(promotion.referenceId)).toBeInTheDocument();
       expect(screen.getAllByText(PROMOTION_TYPE_OPTIONS[promotion.promotionType as PromotionType].label)[index]).toBeInTheDocument();
       expect(screen.getAllByText(promotion.actions[0]?.actionParameters?.discountCalculationType ?
