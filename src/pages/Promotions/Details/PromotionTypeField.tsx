@@ -8,7 +8,7 @@ export const PromotionTypeField = () => {
   const { setFieldValue, values } = useFormikContext<Promotion>();
   const onPromotionTypeChange = (value: string) => {
     setFieldValue("promotionType", value);
-    values.actions.map((action, index) => setFieldValue(`actions[${index}].actionParameters.discountType`, DISCOUNT_TYPES_MAP[value as PromotionType]));
+    values.actions.map((_, index) => setFieldValue(`actions[${index}].actionParameters.discountType`, DISCOUNT_TYPES_MAP[value as PromotionType]));
   };
 
   return (

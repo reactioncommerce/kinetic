@@ -1,9 +1,22 @@
 import { Promotion as APIPromotion } from "@graphql/generates";
 
 export type PromotionStatus = "active" | "upcoming" | "disabled" | "past"
-export type PromotionType = "order-discount" | "item-discount" | "shipping-discount"
-export type CalculationType = "percentage" | "fixed" | "flat"
-export type Stackability = "none" | "all"
+export enum PromotionType {
+  OrderDiscount = "order-discount",
+  ItemDiscount = "item-discount",
+  ShippingDiscount = "shipping-discount"
+}
+
+export enum CalculationType {
+  Percentage = "percentage",
+  Fixed = "fixed",
+  Flat = "flat"
+}
+
+export enum Stackability {
+  None = "none",
+  All = "all"
+}
 
 export interface Promotion extends Omit<APIPromotion, "__typename" | "actions" | "promotionType" | "triggers"> {
   promotionType: PromotionType
