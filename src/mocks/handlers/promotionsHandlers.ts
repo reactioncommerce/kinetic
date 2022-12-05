@@ -31,13 +31,6 @@ const promotion = (index: number): Promotion => {
     startDate,
     enabled: index % 2 === 0,
     endDate: index % 2 === 0 ? faker.date.future() : date,
-    // triggers: [{
-    //   triggerKey: "offer"
-    //   // triggerParameters: {
-    //   //   name: faker.word.noun(),
-    //   //   conditions: { all: [] }
-    //   // }
-    // }],
     description: "description",
     shopId: "id"
   };
