@@ -12,23 +12,20 @@ import PromotionDetails from ".";
 
 const promotion = enabledPromotions[0];
 
-const renderPromotionDetails = () => renderWithProviders(
-  <Routes>
-    <Route element={<AppLayout/>}>
-      <Route path="promotions/:promotionId" element={
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <PromotionDetails/>
-        </LocalizationProvider>}/>
-    </Route>
-  </Routes>
-  , { initialEntries: [`/promotions/${promotion._id}`] }
-);
-
 describe("Promotion Details", () => {
   it("should display promotion details", async () => {
-    renderPromotionDetails();
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${promotion._id}`] }
+    );
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
-
     expect(screen.getByLabelText("Promotion Name")).toHaveValue(promotion.name);
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
@@ -42,7 +39,17 @@ describe("Promotion Details", () => {
   }, 50000);
 
   it("should update promotion details successfully", async () => {
-    renderPromotionDetails();
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${promotion._id}`] }
+    );
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
     expect(screen.queryByText("Save Changes")).not.toBeInTheDocument();
     const user = userEvent.setup();
