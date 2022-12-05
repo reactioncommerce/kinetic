@@ -13,7 +13,6 @@ import PromotionDetails from ".";
 const promotion = enabledPromotions[0];
 
 const renderPromotionDetails = () => renderWithProviders(
-
   <Routes>
     <Route element={<AppLayout/>}>
       <Route path="promotions/:promotionId" element={
@@ -29,8 +28,8 @@ const renderPromotionDetails = () => renderWithProviders(
 describe("Promotion Details", () => {
   it("should display promotion details", async () => {
     renderPromotionDetails();
-    const promotionName = await screen.findAllByText(promotion.name);
-    expect(promotionName).toHaveLength(2);
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
+
     expect(screen.getByLabelText("Promotion Name")).toHaveValue(promotion.name);
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
