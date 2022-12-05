@@ -21,7 +21,6 @@ const renderPromotionDetails = () => renderWithProviders(
         </LocalizationProvider>}/>
     </Route>
   </Routes>
-
   , { initialEntries: [`/promotions/${promotion._id}`] }
 );
 
