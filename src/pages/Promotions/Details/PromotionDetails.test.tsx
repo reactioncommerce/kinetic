@@ -25,7 +25,8 @@ describe("Promotion Details", () => {
       </Routes>
       , { initialEntries: [`/promotions/${promotion._id}`] }
     );
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+
     expect(screen.getByLabelText("Promotion Name")).toHaveValue(promotion.name);
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
@@ -50,7 +51,7 @@ describe("Promotion Details", () => {
       </Routes>
       , { initialEntries: [`/promotions/${promotion._id}`] }
     );
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
     expect(screen.queryByText("Save Changes")).not.toBeInTheDocument();
     const user = userEvent.setup();
     await user.clear(screen.getByLabelText("Promotion Name"));
