@@ -36,7 +36,7 @@ export class ErrorBoundary extends Component<Props, {hasError: boolean, errorEle
         errorElement:
         <GeneralError
           title="Network Error"
-          description="There is a connection error. Please check your internet and try again."
+          description="There is an issue when connecting to the API. Please check your API server and try again."
         />
       });
       return;
