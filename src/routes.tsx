@@ -203,33 +203,39 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "settings",
-                element: <Navigate to="users-and-permissions" replace />
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to="users-and-permissions" replace />
+                  },
+                  {
+                    path: "users-and-permissions",
+                    element: <PageLayout headers={userPageRoutes} />,
+                    children: userPageRoutes
+                  },
+                  {
+                    path: "shop-details",
+                    element: <PageLayout headers={shopSettingPageRoutes}/>,
+                    children: shopSettingPageRoutes
+                  },
+                  {
+                    path: "checkout",
+                    element: <PageLayout headers={checkoutSettingPageRoutes}/>,
+                    children: checkoutSettingPageRoutes
+                  },
+                  {
+                    path: "shipping-fulfillment",
+                    element: <PageLayout headers={shippingPageRoutes}/>,
+                    children: shippingPageRoutes
+                  },
+                  {
+                    path: "emails",
+                    element: <PageLayout headers={emailsSettingPageRoutes}/>,
+                    children: emailsSettingPageRoutes
+                  }
+                ]
               },
-              {
-                path: "settings/users-and-permissions",
-                element: <PageLayout headers={userPageRoutes} />,
-                children: userPageRoutes
-              },
-              {
-                path: "settings/shop-details",
-                element: <PageLayout headers={shopSettingPageRoutes}/>,
-                children: shopSettingPageRoutes
-              },
-              {
-                path: "settings/checkout",
-                element: <PageLayout headers={checkoutSettingPageRoutes}/>,
-                children: checkoutSettingPageRoutes
-              },
-              {
-                path: "settings/shipping-fulfillment",
-                element: <PageLayout headers={shippingPageRoutes}/>,
-                children: shippingPageRoutes
-              },
-              {
-                path: "settings/emails",
-                element: <PageLayout headers={emailsSettingPageRoutes}/>,
-                children: emailsSettingPageRoutes
-              },
+
               {
                 path: "*",
                 element: <NotFound />
