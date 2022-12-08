@@ -5545,6 +5545,7 @@ export type PromotionFilter = {
   enabled?: InputMaybe<Scalars['Boolean']>;
   endDate?: InputMaybe<PromotionDateOperators>;
   startDate?: InputMaybe<PromotionDateOperators>;
+  state?: InputMaybe<PromotionState>;
 };
 
 export type PromotionQueryInput = {
@@ -8558,6 +8559,13 @@ export type CreatePromotionMutationVariables = Exact<{
 
 export type CreatePromotionMutation = { __typename?: 'Mutation', createPromotion?: { __typename?: 'PromotionUpdatedPayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
 
+export type ArchivePromotionMutationVariables = Exact<{
+  input?: InputMaybe<PromotionDuplicateArchiveInput>;
+}>;
+
+
+export type ArchivePromotionMutation = { __typename?: 'Mutation', archivePromotion?: { __typename?: 'PromotionUpdatedPayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
+
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -9312,6 +9320,29 @@ export const useCreatePromotionMutation = <
     useMutation<CreatePromotionMutation, TError, CreatePromotionMutationVariables, TContext>(
       ['createPromotion'],
       (variables?: CreatePromotionMutationVariables) => fetcher<CreatePromotionMutation, CreatePromotionMutationVariables>(client, CreatePromotionDocument, variables, headers)(),
+      options
+    );
+export const ArchivePromotionDocument = `
+    mutation archivePromotion($input: PromotionDuplicateArchiveInput) {
+  archivePromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}
+    `;
+export const useArchivePromotionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<ArchivePromotionMutation, TError, ArchivePromotionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<ArchivePromotionMutation, TError, ArchivePromotionMutationVariables, TContext>(
+      ['archivePromotion'],
+      (variables?: ArchivePromotionMutationVariables) => fetcher<ArchivePromotionMutation, ArchivePromotionMutationVariables>(client, ArchivePromotionDocument, variables, headers)(),
       options
     );
 export const GetAddressValidationServiceDocument = `

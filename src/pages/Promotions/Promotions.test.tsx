@@ -4,8 +4,7 @@ import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, with
 import { PromotionType } from "types/promotions";
 
 import { CALCULATION_TYPE_OPTIONS, PROMOTION_TYPE_OPTIONS } from "./constants";
-
-import Promotions from ".";
+import Promotions from "./List";
 
 
 describe("Promotions", () => {

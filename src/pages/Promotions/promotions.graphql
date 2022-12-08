@@ -90,3 +90,12 @@ mutation createPromotion($input: PromotionCreateInput) {
     }
   }
 }
+
+mutation archivePromotion($input: PromotionDuplicateArchiveInput) {
+  archivePromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}
