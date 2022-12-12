@@ -1,4 +1,4 @@
-import { enabledPromotions } from "@mocks/handlers/promotionsHandlers";
+import { disabledPromotions } from "@mocks/handlers/promotionsHandlers";
 import { Route, Routes } from "react-router-dom";
 import { format } from "date-fns";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -10,7 +10,7 @@ import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, with
 
 import PromotionDetails from ".";
 
-const promotion = enabledPromotions[0];
+const promotion = disabledPromotions[0];
 
 describe("Promotion Details", () => {
   it("should display promotion details", async () => {
