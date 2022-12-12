@@ -52,6 +52,7 @@ type PromotionFormValue = {
   label: string
   startDate: string | null
   endDate: string | null
+  enabled: boolean
 }
 
 const PromotionDetails = () => {
@@ -85,8 +86,8 @@ const PromotionDetails = () => {
     { setSubmitting, resetForm }
   ) => {
     if (promotionId && data?.promotion) {
-      const { triggerType, shopId: promotionShopId, enabled } = data.promotion;
-      const updatedPromotion = { _id: promotionId, enabled, shopId: promotionShopId, triggerType, ...values };
+      const { triggerType, shopId: promotionShopId } = data.promotion;
+      const updatedPromotion = { _id: promotionId, shopId: promotionShopId, triggerType, ...values };
       updatePromotion(
         { input: updatedPromotion },
         {
@@ -102,8 +103,7 @@ const PromotionDetails = () => {
       createPromotion({
         input: {
           ...values,
-          shopId: shopId!,
-          enabled: false
+          shopId: shopId!
         }
       }, {
         onSettled: () => setSubmitting(false),
@@ -127,7 +127,8 @@ const PromotionDetails = () => {
     stackability: data?.promotion?.stackability || { key: "none", parameters: {} },
     label: data?.promotion?.label || "",
     startDate: data?.promotion?.startDate || null,
-    endDate: data?.promotion?.endDate || null
+    endDate: data?.promotion?.endDate || null,
+    enabled: data?.promotion?.enabled || false
   };
 
   const showActionButtons = promotionId ? canUpdate : canCreate;

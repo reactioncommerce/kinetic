@@ -20,7 +20,7 @@ export const AvailableDateField = ({ disabled }: AvailableDateFieldProps) => {
   };
 
   return (
-    <Stack direction="row" gap={2} mt={1} position="relative" sx={{ width: { md: "50%", xs: "100%" } }} >
+    <Stack direction="row" gap={2} mt={1} position="relative" sx={{ width: { md: "50%", xs: "100%" } }}>
       <Field
         name="startDate"
         component={DatePickerField}

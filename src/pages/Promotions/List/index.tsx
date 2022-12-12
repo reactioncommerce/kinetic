@@ -56,7 +56,7 @@ const Promotions = () => {
       ...(activeTab === "active" ? { enabled: true, state: PromotionState.Active } : {}),
       ...(activeTab === "upcoming" ? { startDate: { after: formattedToday } } : {}),
       ...(activeTab === "disabled" ? { enabled: false } : {}),
-      ...(activeTab === "past" ? { state: PromotionState.Completed } : {}),
+      ...(activeTab === "past" ? { endDate: { before: formattedToday } } : {}),
       ...(activeTab === "archived" ? { state: PromotionState.Archived } : {})
     }
   }, {
