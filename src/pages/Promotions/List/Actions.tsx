@@ -21,6 +21,7 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
   const { mutate: archivePromotion } = useArchivePromotionMutation(client);
 
   const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
+  const canArchive = usePermission(["reaction:legacy:promotions/archive"]);
 
   const archivePromotions = () => {
     selectedPromotions.forEach(({ _id }) =>
@@ -41,7 +42,7 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
     disablePromotions(selectedPromotions);
   };
 
-  const hideArchivedAction = !canUpdate || activeTab === "archived";
+  const hideArchivedAction = !canArchive || activeTab === "archived";
   const hideEnableAction = !canUpdate || activeTab === "active" || activeTab === "past" || activeTab === "archived";
   const hideDisableAction = !canUpdate || activeTab === "disabled" || activeTab === "past" || activeTab === "archived";
 

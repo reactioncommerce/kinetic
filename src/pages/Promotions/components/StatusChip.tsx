@@ -1,4 +1,4 @@
-import { isAfter, isBefore, isSameDay } from "date-fns";
+import { isAfter } from "date-fns";
 import Chip from "@mui/material/Chip";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { startCase } from "lodash-es";
@@ -8,11 +8,10 @@ import { Promotion, PromotionTabs } from "types/promotions";
 import { TODAY } from "../constants";
 
 const checkStatus: Record<PromotionTabs, (promotion: Promotion) => boolean> = {
-  active: (promotion) => promotion.enabled && isBefore(new Date(promotion.startDate), TODAY) && (
-    !promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY)),
+  active: (promotion) => promotion.state === PromotionState.Active,
   upcoming: (promotion) => isAfter(new Date(promotion.startDate), TODAY),
   disabled: (promotion) => !promotion.enabled,
-  past: (promotion) => promotion.endDate && isBefore(new Date(promotion.endDate), TODAY),
+  past: (promotion) => promotion.state === PromotionState.Completed,
   archived: (promotion) => promotion.state === PromotionState.Archived,
   viewAll: () => true
 };
