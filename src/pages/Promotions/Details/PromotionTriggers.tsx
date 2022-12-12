@@ -16,8 +16,11 @@ import { Trigger } from "types/promotions";
 
 import { EligibleItems } from "./EligibleItems";
 
+type PromotionTriggersProps = {
+  disabled?: boolean
+}
 
-export const PromotionTriggers = () => {
+export const PromotionTriggers = ({ disabled }: PromotionTriggersProps) => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
   return (
@@ -42,6 +45,7 @@ export const PromotionTriggers = () => {
                             label="Select Trigger Type"
                             options={TRIGGER_TYPE_OPTIONS}
                             autoWidth
+                            disabled={disabled}
                           />
                         </Grid>
                         <Grid item>
@@ -56,16 +60,18 @@ export const PromotionTriggers = () => {
                               <InputAdornment position="start">$</InputAdornment>
                             }
                             sx={{ width: "100px" }}
+                            disabled={disabled}
                           />
                         </Grid>
                       </Grid>
                     }
                   />
-                  <Button variant="text" color="error" onClick={() => setActiveField(index)}>
+                  <Button variant="text" color="error" onClick={() => setActiveField(index)} disabled={disabled}>
                 Remove Trigger
                   </Button>
                 </Stack>
                 <EligibleItems
+                  disabled={disabled}
                   inclusionFieldName={
                     `triggers[${index}].triggerParameters.inclusionRules.conditions`
                   }
@@ -92,6 +98,7 @@ export const PromotionTriggers = () => {
             <Button
               color="secondary"
               variant="outlined"
+              disabled={disabled}
               onClick={() => push({
                 triggerKey: "offers",
                 triggerParameters: {

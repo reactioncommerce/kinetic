@@ -53,7 +53,7 @@ const Promotions = () => {
     sortBy: sorting[0]?.id,
     sortOrder: sorting[0]?.desc ? SortOrder.Desc : SortOrder.Asc,
     filter: {
-      ...(activeTab === "active" ? { state: PromotionState.Active } : {}),
+      ...(activeTab === "active" ? { enabled: true, state: PromotionState.Active } : {}),
       ...(activeTab === "upcoming" ? { startDate: { after: formattedToday } } : {}),
       ...(activeTab === "disabled" ? { enabled: false } : {}),
       ...(activeTab === "past" ? { state: PromotionState.Completed } : {}),

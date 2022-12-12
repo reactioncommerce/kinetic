@@ -16,10 +16,11 @@ import { ConditionOperators } from "./ConditionOperators";
 type EligibleItemsProps = {
   inclusionFieldName: string
   exclusionFieldName: string
+  disabled?: boolean
 }
 
 const initialValue = { fact: "item", path: "", value: [], operator: "" };
-export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: EligibleItemsProps) => {
+export const EligibleItems = ({ inclusionFieldName, exclusionFieldName, disabled }: EligibleItemsProps) => {
   const { setFieldValue, values } = useFormikContext<Promotion>();
 
   const currentInclusionRules = get(values, inclusionFieldName);
@@ -63,6 +64,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
             }
             <FieldArrayRenderer
               {...props}
+              disabled={disabled}
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
               initialValue={initialValue}
               renderFieldItem={(index) => (
@@ -73,7 +75,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
                     </Typography> : null}
                   </Stack>
 
-                  <ConditionField name={`${_inclusionFieldName}[${index}]`} />
+                  <ConditionField disabled={disabled} name={`${_inclusionFieldName}[${index}]`} />
                 </Stack>
               )}
             />
@@ -95,6 +97,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
             }
             <FieldArrayRenderer
               {...props}
+              disabled={disabled}
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
               initialValue={initialValue}
               renderFieldItem={(index) => (
@@ -105,7 +108,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
                     </Typography> : null}
                   </Stack>
 
-                  <ConditionField name={`${_exclusionFieldName}[${index}]`} />
+                  <ConditionField disabled={disabled} name={`${_exclusionFieldName}[${index}]`} />
                 </Stack>
               )}
             />

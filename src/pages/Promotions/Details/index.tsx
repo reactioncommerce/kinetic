@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
-import { useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
+import { PromotionState, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
 import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
 import { Promotion, PromotionType, Trigger } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
@@ -103,7 +103,6 @@ const PromotionDetails = () => {
         input: {
           ...values,
           shopId: shopId!,
-          startDate: "2022-12-30",
           enabled: false
         }
       }, {
@@ -132,6 +131,7 @@ const PromotionDetails = () => {
   };
 
   const showActionButtons = promotionId ? canUpdate : canCreate;
+  const shouldDisableField = data?.promotion.enabled && data?.promotion.state === PromotionState.Active;
 
   return (
     isLoading ? <Loader/> :
@@ -186,14 +186,14 @@ const PromotionDetails = () => {
           </Paper>
           <PromotionSection title="Promotion Basics">
             <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 6 } }} alignItems="flex-start" pt={1} pb={0}>
-              <Field name="name" component={TextField} label="Promotion Name"/>
-              <PromotionTypeField/>
+              <Field name="name" component={TextField} label="Promotion Name" disabled={shouldDisableField}/>
+              <PromotionTypeField disabled={shouldDisableField}/>
             </Stack>
-            <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3}/>
+            <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3} disabled={shouldDisableField}/>
           </PromotionSection>
           <PromotionSection title="Promotion Builder">
-            <PromotionActions/>
-            <PromotionTriggers />
+            <PromotionActions disabled={shouldDisableField} />
+            <PromotionTriggers disabled={shouldDisableField} />
           </PromotionSection>
           <PromotionSection title="Promotion Stackability">
             <Box mt={1} width="50%">
@@ -201,11 +201,13 @@ const PromotionDetails = () => {
                 name="stackability.key"
                 component={SelectField}
                 label="Select Stackability"
-                options={PROMOTION_STACKABILITY_OPTIONS}/>
+                options={PROMOTION_STACKABILITY_OPTIONS}
+                disabled={shouldDisableField}
+              />
             </Box>
           </PromotionSection>
           <PromotionSection title="Promotion Scheduling">
-            <AvailableDateField/>
+            <AvailableDateField disabled={shouldDisableField}/>
           </PromotionSection>
           <PromotionSection title="Promotion Message">
             <Box mt={1} width="50%">
@@ -213,6 +215,7 @@ const PromotionDetails = () => {
                 name="label"
                 component={TextField}
                 label="Checkout Label"
+                disabled={shouldDisableField}
               />
             </Box>
           </PromotionSection>

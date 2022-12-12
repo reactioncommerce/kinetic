@@ -9,10 +9,11 @@ import { AutocompleteField } from "@components/AutocompleteField";
 
 type ConditionFieldProps = {
   name: string
+  disabled?: boolean
 }
 
 
-export const ConditionField = ({ name }:ConditionFieldProps) =>
+export const ConditionField = ({ name, disabled }:ConditionFieldProps) =>
   (
     <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 3 } }} flexGrow={1}>
       <Field
@@ -23,6 +24,7 @@ export const ConditionField = ({ name }:ConditionFieldProps) =>
         hiddenLabel
         options={CONDITION_PROPERTIES_OPTIONS}
         displayEmpty
+        disabled={disabled}
       />
       <Field
         component={SelectField}
@@ -32,6 +34,7 @@ export const ConditionField = ({ name }:ConditionFieldProps) =>
         hiddenLabel
         placeholder="Operator"
         displayEmpty
+        disabled={disabled}
       />
       <Field
         component={AutocompleteField}
@@ -39,6 +42,7 @@ export const ConditionField = ({ name }:ConditionFieldProps) =>
         freeSolo
         multiple
         options={[]}
+        disabled={disabled}
         renderInput={(params: AutocompleteRenderInputParams) => (
           <InputWithLabel
             {...params}

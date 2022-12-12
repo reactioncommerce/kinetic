@@ -18,9 +18,10 @@ import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 
 type EligibleShippingMethodsProps = {
   inclusionFieldName: string
+  disabled?: boolean
 }
 
-export const EligibleShippingMethods = ({ inclusionFieldName }: EligibleShippingMethodsProps) => {
+export const EligibleShippingMethods = ({ inclusionFieldName, disabled }: EligibleShippingMethodsProps) => {
   const { shopId } = useShop();
   const canReadShippingMethods = usePermission(["reaction:legacy:shippingMethods/read"]);
 
@@ -53,6 +54,7 @@ export const EligibleShippingMethods = ({ inclusionFieldName }: EligibleShipping
 
             <FieldArrayRenderer
               {...props}
+              disabled={disabled}
               addButtonProps={{ children: "Add Shipping Method", sx: { ml: 5.7 }, hidden: get(props.form.values, inclusionFieldName, []).length > 0 }}
               initialValue={{ fact: "item", path: "", value: [], operator: "" }}
               renderFieldItem={() => (
@@ -64,6 +66,7 @@ export const EligibleShippingMethods = ({ inclusionFieldName }: EligibleShipping
                     options={data || []}
                     loading={isLoading}
                     isOptionEqualToValue={isOptionEqualToValue}
+                    disabled={disabled}
                     renderInput={(params: AutocompleteRenderInputParams) => (
                       <InputWithLabel
                         {...params}

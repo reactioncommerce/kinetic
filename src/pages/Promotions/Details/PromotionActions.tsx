@@ -23,7 +23,11 @@ const getSymbolBasedOnType = (action: Action) => {
   return calculationType ? CALCULATION_TYPE_OPTIONS[calculationType].symbol : null;
 };
 
-export const PromotionActions = () => {
+type PromotionActionsProps = {
+  disabled?: boolean
+}
+
+export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
   const { values: { promotionType } } = useFormikContext<Promotion>();
@@ -54,6 +58,7 @@ export const PromotionActions = () => {
                       label="Select Action Calculate Type"
                       ariaLabel="Calculate Type"
                       options={calculationTypeOptions}
+                      disabled={disabled}
                     />
                     {getSymbolBasedOnType(values.actions[index]) ?
                       <Field
@@ -63,18 +68,20 @@ export const PromotionActions = () => {
                         ariaLabel="Discount Value"
                         type="number"
                         hiddenLabel
+                        disabled={disabled}
                         startAdornment={
                           <InputAdornment position="start">{getSymbolBasedOnType(values.actions[index])}</InputAdornment>
                         }
                       />
                       : null}
                   </Stack>
-                  <Button variant="text" color="error" onClick={() => setActiveField(index)}>
+                  <Button variant="text" color="error" onClick={() => setActiveField(index)} disabled={disabled}>
                   Remove Action
                   </Button>
                 </Stack>
                 {isShippingDiscount ?
                   <EligibleShippingMethods
+                    disabled={disabled}
                     inclusionFieldName={
                       `actions[${index}].actionParameters.inclusionRules.conditions.all`
                     }
@@ -122,6 +129,7 @@ export const PromotionActions = () => {
                 })}
                 sx={{ width: "fit-content" }}
                 size="small"
+                disabled={disabled}
               >
               Add Action
               </Button> : null}

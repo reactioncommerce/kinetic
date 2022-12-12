@@ -47,8 +47,7 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
           [
             { label: "Enable", onClick: () => enablePromotions([promotion]), hidden: promotion.enabled || promotion.state === PromotionState.Archived },
             { label: "Disable", onClick: () => disablePromotions([promotion]), hidden: !promotion.enabled || promotion.state === PromotionState.Archived },
-            { label: "Duplicate", onClick: noop },
-            { label: "Delete", onClick: noop }
+            { label: "Duplicate", onClick: noop }
           ]
         }
         renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}

@@ -12,6 +12,7 @@ type FieldArrayRendererProps<T> = FieldArrayRenderProps & {
   renderFieldItem: (index: number) => JSX.Element;
   initialValue: T
   addButtonProps?: ButtonProps & {hidden?: boolean}
+  disabled?: boolean
 };
 
 export const FieldArrayRenderer = <T, >({
@@ -21,7 +22,8 @@ export const FieldArrayRenderer = <T, >({
   initialValue,
   push,
   remove,
-  addButtonProps
+  addButtonProps,
+  disabled
 }: FieldArrayRendererProps<T>) => {
   const values = get(formValues, name, []);
 
@@ -37,6 +39,7 @@ export const FieldArrayRenderer = <T, >({
               color="secondary"
               sx={{ color: "grey.500", width: "34px", height: "34px" }}
               onClick={() => remove(index)}
+              disabled={disabled}
             >
               <DeleteIcon />
             </IconButton>
@@ -51,6 +54,7 @@ export const FieldArrayRenderer = <T, >({
           onClick={() => push(initialValue)}
           {...addButtonProps}
           sx={{ ...addButtonProps?.sx, mt: 1, color: "grey.600" }}
+          disabled={disabled}
         >
           {addButtonProps?.children ?? <><AddCircleOutlineRoundedIcon sx={{ pr: 1 }}/> Add</>}
         </Button>

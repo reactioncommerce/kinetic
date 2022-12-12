@@ -8,7 +8,7 @@ import { Promotion, PromotionTabs } from "types/promotions";
 import { TODAY } from "../constants";
 
 const checkStatus: Record<PromotionTabs, (promotion: Promotion) => boolean> = {
-  active: (promotion) => promotion.state === PromotionState.Active,
+  active: (promotion) => promotion.enabled && promotion.state === PromotionState.Active,
   upcoming: (promotion) => isAfter(new Date(promotion.startDate), TODAY),
   disabled: (promotion) => !promotion.enabled,
   past: (promotion) => promotion.state === PromotionState.Completed,
