@@ -102,7 +102,6 @@ const PromotionDetails = () => {
         input: {
           ...values,
           shopId: shopId!,
-          startDate: "2022-12-30",
           enabled: false
         }
       }, {
