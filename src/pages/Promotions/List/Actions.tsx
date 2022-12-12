@@ -6,32 +6,44 @@ import { useArchivePromotionMutation } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { usePermission } from "@components/PermissionGuard";
-import { PromotionTabs } from "types/promotions";
+import { Promotion, PromotionTabs } from "types/promotions";
+import { useDisablePromotion, useEnablePromotion } from "../hooks";
 
 type ActionsProps = {
-  selectedPromotionIds: string[]
+  selectedPromotions: Promotion[]
   onSuccess: () => void
   activeTab: PromotionTabs
 }
-export const Actions = ({ selectedPromotionIds, onSuccess, activeTab }:ActionsProps) => {
-  const disabled = selectedPromotionIds.length === 0;
+export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProps) => {
+  const disabled = selectedPromotions.length === 0;
   const navigate = useNavigate();
   const { shopId } = useShop();
   const { mutate: archivePromotion } = useArchivePromotionMutation(client);
 
-  const canArchive = usePermission(["reaction:legacy:promotions/archive"]);
+  const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
 
   const archivePromotions = () => {
-    selectedPromotionIds.forEach((id) =>
+    selectedPromotions.forEach(({ _id }) =>
       archivePromotion(
-        { input: { promotionId: id, shopId: shopId! } },
+        { input: { promotionId: _id, shopId: shopId! } },
         { onSuccess }
       ));
   };
 
-  const hideArchivedAction = !canArchive || activeTab === "archived";
-  const hideEnableAction = activeTab === "active" || activeTab === "past";
-  const hideDisableAction = activeTab === "disabled" || activeTab === "past";
+  const { enablePromotions } = useEnablePromotion(onSuccess);
+  const { disablePromotions } = useDisablePromotion(onSuccess);
+
+  const onClickEnablePromotion = () => {
+    enablePromotions(selectedPromotions);
+  };
+
+  const onClickDisablePromotion = () => {
+    disablePromotions(selectedPromotions);
+  };
+
+  const hideArchivedAction = !canUpdate || activeTab === "archived";
+  const hideEnableAction = !canUpdate || activeTab === "active" || activeTab === "past" || activeTab === "archived";
+  const hideDisableAction = !canUpdate || activeTab === "disabled" || activeTab === "past" || activeTab === "archived";
 
   return (
     <MenuActions
@@ -39,8 +51,8 @@ export const Actions = ({ selectedPromotionIds, onSuccess, activeTab }:ActionsPr
         [
           { label: "Create New", onClick: () => navigate("create") },
           { label: "Duplicate", onClick: noop, disabled },
-          { label: "Enable", onClick: noop, disabled, hidden: hideEnableAction },
-          { label: "Disable", onClick: noop, disabled, hidden: hideDisableAction },
+          { label: "Enable", onClick: onClickEnablePromotion, disabled, hidden: hideEnableAction },
+          { label: "Disable", onClick: onClickDisablePromotion, disabled, hidden: hideDisableAction },
           { label: "Archive", onClick: archivePromotions, disabled, hidden: hideArchivedAction }
         ]
       }

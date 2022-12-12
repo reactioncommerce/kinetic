@@ -6,11 +6,8 @@ import Box from "@mui/material/Box";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMemo } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { isBefore, isAfter, isSameDay, format } from "date-fns";
-import Chip from "@mui/material/Chip";
+import { format } from "date-fns";
 import Checkbox from "@mui/material/Checkbox";
-import { startCase } from "lodash-es";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 import { PromotionState, useGetPromotionsQuery } from "@graphql/generates";
 import { useShop } from "@containers/ShopProvider";
@@ -21,6 +18,7 @@ import { CalculationType, Promotion, PromotionTabs, PromotionType } from "types/
 import { SortOrder } from "@graphql/types";
 import { CALCULATION_TYPE_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
 import { usePermission } from "@components/PermissionGuard";
+import { StatusChip } from "../components/StatusChip";
 
 import { Actions } from "./Actions";
 
@@ -34,24 +32,6 @@ const TAB_VALUES: Record<PromotionTabs, {label: string}> = {
   viewAll: { label: "View All" }
 };
 
-const checkStatus: Record<PromotionTabs, (promotion: Promotion) => boolean> = {
-  active: (promotion) => promotion.enabled && isBefore(new Date(promotion.startDate), TODAY) && (
-    !promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY)),
-  upcoming: (promotion) => isAfter(new Date(promotion.startDate), TODAY),
-  disabled: (promotion) => !promotion.enabled,
-  past: (promotion) => promotion.endDate && isBefore(new Date(promotion.endDate), TODAY),
-  archived: (promotion) => promotion.state === PromotionState.Archived,
-  viewAll: () => true
-};
-
-const getStatusText = (promotion: Promotion) => {
-  if (checkStatus.archived(promotion)) return "archived";
-  if (checkStatus.active(promotion)) return "active";
-  if (checkStatus.disabled(promotion)) return "disabled";
-  if (checkStatus.past(promotion)) return "past";
-  if (promotion.enabled) return "enabled";
-  return "disabled";
-};
 
 const Promotions = () => {
   const [searchParams, setSearchParams] = useSearchParams({ type: "active" });
@@ -64,6 +44,8 @@ const Promotions = () => {
 
   const { pagination, handlePaginationChange, sorting, onSortingChange, rowSelection, onRowSelectionChange } = useTableState(defaultSortingState);
 
+  const formattedToday = format(TODAY, DATE_FORMAT);
+
   const { data, isLoading, refetch } = useGetPromotionsQuery(client, {
     shopId: shopId!,
     first: pagination.pageSize,
@@ -71,10 +53,10 @@ const Promotions = () => {
     sortBy: sorting[0]?.id,
     sortOrder: sorting[0]?.desc ? SortOrder.Desc : SortOrder.Asc,
     filter: {
-      ...(activeTab === "active" ? { enabled: true, startDate: { before: format(TODAY, DATE_FORMAT) }, endDate: { after: format(TODAY, DATE_FORMAT) } } : {}),
-      ...(activeTab === "upcoming" ? { startDate: { after: format(TODAY, DATE_FORMAT) } } : {}),
+      ...(activeTab === "active" ? { enabled: true, startDate: { beforeInclusive: formattedToday }, endDate: { afterInclusive: formattedToday } } : {}),
+      ...(activeTab === "upcoming" ? { startDate: { after: formattedToday } } : {}),
       ...(activeTab === "disabled" ? { enabled: false } : {}),
-      ...(activeTab === "past" ? { endDate: { before: format(TODAY, DATE_FORMAT) } } : {}),
+      ...(activeTab === "past" ? { endDate: { before: formattedToday } } : {}),
       ...(activeTab === "archived" ? { state: PromotionState.Archived } : {})
     }
   }, {
@@ -159,15 +141,7 @@ const Promotions = () => {
     {
       id: "status",
       header: "Status",
-      cell: ({ row }) => {
-        const statusText = getStatusText(row.original);
-        return <Chip
-          icon={<FiberManualRecordIcon sx={{ height: "8px", width: "8px" }} />}
-          color={statusText === "active" ? "success" : "default"}
-          size="small"
-          label={startCase(statusText)}
-        />;
-      },
+      cell: ({ row }) => <StatusChip promotion={row.original}/>,
       enableSorting: false,
       meta: {
         align: "right"
@@ -186,6 +160,8 @@ const Promotions = () => {
     onRowSelectionChange({});
     refetch();
   };
+
+  const selectedPromotions = data?.promotions.filter(({ _id }) => !!rowSelection[_id]) || [];
 
   return (
     <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
@@ -208,7 +184,7 @@ const Promotions = () => {
         <TableContainer.Header
           title="Promotions"
           action={<Actions
-            selectedPromotionIds={Object.keys(rowSelection)}
+            selectedPromotions={selectedPromotions}
             onSuccess={onHandleActionsSuccess}
             activeTab={activeTab}
           />}
