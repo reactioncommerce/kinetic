@@ -230,6 +230,7 @@ export const routes: RouteObject[] = [
                   }
                 ]
               },
+
               {
                 path: "settings",
                 element: <Navigate to="users-and-permissions" replace />
