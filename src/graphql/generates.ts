@@ -8501,6 +8501,19 @@ export type GetCustomersQueryVariables = Exact<{
 
 export type GetCustomersQuery = { __typename?: "Query", customers: { __typename?: "AccountConnection", totalCount: number, nodes?: Array<{ __typename?: "Account", _id: string, userId: string, createdAt: any, primaryEmailAddress: any, name?: string | null, emailRecords?: Array<{ __typename?: "EmailRecord", address?: string | null } | null> | null } | null> | null } };
 
+export type GetCustomersQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<SortOrder>;
+  sortBy?: InputMaybe<AccountSortByField>;
+}>;
+
+
+export type GetCustomersQuery = { __typename?: 'Query', customers: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, userId: string, createdAt: any, primaryEmailAddress: any, name?: string | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null } | null> | null } };
+
 export type AuthenticateMutationVariables = Exact<{
   serviceName: Scalars["String"];
   params: AuthenticateParamsInput;
@@ -9083,13 +9096,13 @@ export const useGetCustomersQuery = <
       TData = GetCustomersQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables?: GetCustomersQueryVariables,
-    options?: UseQueryOptions<GetCustomersQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables?: GetCustomersQueryVariables,
+      options?: UseQueryOptions<GetCustomersQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetCustomersQuery, TError, TData>(
-      variables === undefined ? ["getCustomers"] : ["getCustomers", variables],
+      variables === undefined ? ['getCustomers'] : ['getCustomers', variables],
       fetcher<GetCustomersQuery, GetCustomersQueryVariables>(client, GetCustomersDocument, variables, headers),
       options
     );

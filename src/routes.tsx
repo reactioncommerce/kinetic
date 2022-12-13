@@ -230,7 +230,14 @@ export const routes: RouteObject[] = [
                   }
                 ]
               },
-
+              {
+                path: "customers",
+                element: <PageLayout/>,
+                children: [{
+                  index: true,
+                  element: <Customers/>
+                }]
+              },
               {
                 path: "customers",
                 element: <PageLayout/>,
