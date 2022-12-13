@@ -1,6 +1,6 @@
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import { Field, Form, Formik, FormikConfig } from "formik";
+import { FastField, Field, Form, Formik, FormikConfig } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -191,7 +191,7 @@ const PromotionDetails = () => {
           </PromotionSection>
           <PromotionSection title="Promotion Stackability">
             <Box mt={1} width="50%">
-              <Field
+              <FastField
                 name="stackability.key"
                 component={SelectField}
                 label="Select Stackability"
@@ -203,7 +203,7 @@ const PromotionDetails = () => {
           </PromotionSection>
           <PromotionSection title="Promotion Message">
             <Box mt={1} width="50%">
-              <Field
+              <FastField
                 name="label"
                 component={TextField}
                 label="Checkout Label"

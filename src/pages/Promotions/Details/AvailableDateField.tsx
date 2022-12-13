@@ -1,5 +1,5 @@
 import Stack from "@mui/material/Stack";
-import { Field, useFormikContext } from "formik";
+import { FastField, useFormikContext } from "formik";
 import { format, isBefore } from "date-fns";
 
 import { DatePickerField } from "@components/DatePickerField";
@@ -18,14 +18,14 @@ export const AvailableDateField = () => {
 
   return (
     <Stack direction="row" gap={2} mt={1} position="relative" sx={{ width: { md: "50%", xs: "100%" } }} >
-      <Field
+      <FastField
         name="startDate"
         component={DatePickerField}
         label="Available From"
         dateFormat={DATE_FORMAT}
         onChange={onStartDateChange}
       />
-      <Field
+      <FastField
         name="endDate"
         component={DatePickerField}
         label="Available To"
