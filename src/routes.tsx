@@ -29,6 +29,7 @@ const EmailLogsSettings = lazy(() => import("./pages/Settings/Emails/EmailLogs")
 const PaymentSettings = lazy(() => import("./pages/Settings/Checkout/Payments"));
 const AddressValidationSettings = lazy(() => import("./pages/Settings/Checkout/AddressValidation"));
 const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
+const Customers = lazy(() => import("./pages/Customers"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -235,7 +236,14 @@ export const routes: RouteObject[] = [
                   }
                 ]
               },
-
+              {
+                path: "customers",
+                element: <PageLayout/>,
+                children: [{
+                  index: true,
+                  element: <Customers/>
+                }]
+              },
               {
                 path: "*",
                 element: <NotFound />
