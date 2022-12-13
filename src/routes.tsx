@@ -30,8 +30,8 @@ const PaymentSettings = lazy(() => import("./pages/Settings/Checkout/Payments"))
 const AddressValidationSettings = lazy(() => import("./pages/Settings/Checkout/AddressValidation"));
 const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
 const Customers = lazy(() => import("./pages/Customers"));
-const Promotions = lazy(() => import("./pages/Promotions"));
 const PromotionDetails = lazy(() => import("./pages/Promotions/Details"));
+const Promotions = lazy(() => import("./pages/Promotions/List"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -232,32 +232,37 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "settings",
-                element: <Navigate to="users-and-permissions" replace />
-              },
-              {
-                path: "settings/users-and-permissions",
-                element: <PageLayout headers={userPageRoutes} />,
-                children: userPageRoutes
-              },
-              {
-                path: "settings/shop-details",
-                element: <PageLayout headers={shopSettingPageRoutes}/>,
-                children: shopSettingPageRoutes
-              },
-              {
-                path: "settings/checkout",
-                element: <PageLayout headers={checkoutSettingPageRoutes}/>,
-                children: checkoutSettingPageRoutes
-              },
-              {
-                path: "settings/shipping-fulfillment",
-                element: <PageLayout headers={shippingPageRoutes}/>,
-                children: shippingPageRoutes
-              },
-              {
-                path: "settings/emails",
-                element: <PageLayout headers={emailsSettingPageRoutes}/>,
-                children: emailsSettingPageRoutes
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to="users-and-permissions" replace />
+                  },
+                  {
+                    path: "users-and-permissions",
+                    element: <PageLayout headers={userPageRoutes} />,
+                    children: userPageRoutes
+                  },
+                  {
+                    path: "shop-details",
+                    element: <PageLayout headers={shopSettingPageRoutes}/>,
+                    children: shopSettingPageRoutes
+                  },
+                  {
+                    path: "checkout",
+                    element: <PageLayout headers={checkoutSettingPageRoutes}/>,
+                    children: checkoutSettingPageRoutes
+                  },
+                  {
+                    path: "shipping-fulfillment",
+                    element: <PageLayout headers={shippingPageRoutes}/>,
+                    children: shippingPageRoutes
+                  },
+                  {
+                    path: "emails",
+                    element: <PageLayout headers={emailsSettingPageRoutes}/>,
+                    children: emailsSettingPageRoutes
+                  }
+                ]
               },
               {
                 path: "customers",

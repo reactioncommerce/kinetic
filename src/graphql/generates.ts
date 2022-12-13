@@ -5517,7 +5517,7 @@ export type PromotionCreateInput = {
 };
 
 export type PromotionDateOperators = {
-  /** The value must be greater than or equal to the given value */
+  /** The value must be greater than the given value */
   after?: InputMaybe<Scalars['Date']>;
   /** The value must be less than the given value */
   before?: InputMaybe<Scalars['Date']>;
@@ -5545,6 +5545,7 @@ export type PromotionFilter = {
   enabled?: InputMaybe<Scalars['Boolean']>;
   endDate?: InputMaybe<PromotionDateOperators>;
   startDate?: InputMaybe<PromotionDateOperators>;
+  state?: InputMaybe<PromotionState>;
 };
 
 export type PromotionQueryInput = {
@@ -8535,7 +8536,7 @@ export type GetPromotionsQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, referenceId: number, shopId: string, startDate: any, endDate?: any | null, state: PromotionState, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
 
 export type GetPromotionQueryVariables = Exact<{
   input?: InputMaybe<PromotionQueryInput>;
@@ -9192,7 +9193,6 @@ export const GetPromotionsDocument = `
         actionKey
         actionParameters
       }
-      state
       referenceId
       shopId
       startDate
@@ -9201,6 +9201,7 @@ export const GetPromotionsDocument = `
         key
         parameters
       }
+      state
       createdAt
       updatedAt
     }
