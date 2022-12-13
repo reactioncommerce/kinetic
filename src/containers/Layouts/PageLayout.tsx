@@ -14,7 +14,7 @@ type PageLayoutProps = {
 
 export const PageLayout = ({ headers, noPadding = false }: PageLayoutProps) => (
   <Suspense fallback={<Loader/>}>
-    {headers ? <SubHeader items={headers} /> : <Paper variant="outlined" square sx={{ minHeight: 43 }}/>}
+    {headers ? <SubHeader items={headers} /> : null}
     <Container sx={{ ...(!noPadding && { padding: "20px 30px" }) }} maxWidth={false}>
       <ErrorBoundary>
         <Outlet/>
