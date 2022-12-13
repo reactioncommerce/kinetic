@@ -36,14 +36,15 @@ const promotion = (index: number): Promotion => {
   };
 };
 
-export const promotions = new Array(10).fill(0).map((_, index) => promotion(index));
+export const promotions = new Array(10).fill(0)
+  .map((_, index) => promotion(index)).map((promo) => ({ ...promo, state: promo.enabled ? PromotionState.Active : PromotionState.Created }));
 
 export const enabledPromotions = promotions.filter(({ enabled }) => enabled);
 export const disabledPromotions = promotions.filter(({ enabled }) => !enabled);
 
 const getPromotionsHandler = graphql.query("getPromotions", (req, res, ctx) => {
   const { filter } = req.variables;
-  if (filter.enabled) {
+  if (filter.enabled || filter.state === PromotionState.Active) {
     return res(ctx.data({ promotions: { nodes: enabledPromotions, totalCount: enabledPromotions.length } }));
   }
   return res(ctx.data({ promotions: { nodes: promotions, totalCount: promotions.length } }));

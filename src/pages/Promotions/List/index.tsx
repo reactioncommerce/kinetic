@@ -6,14 +6,12 @@ import Box from "@mui/material/Box";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMemo } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { isBefore, isAfter, isSameDay, format } from "date-fns";
-import Chip from "@mui/material/Chip";
+import { format } from "date-fns";
 import Checkbox from "@mui/material/Checkbox";
-import { noop, startCase } from "lodash-es";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { noop } from "lodash-es";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
-import { useGetPromotionsQuery } from "@graphql/generates";
+import { PromotionState, useGetPromotionsQuery } from "@graphql/generates";
 import { useShop } from "@containers/ShopProvider";
 import { client } from "@graphql/graphql-request-client";
 import { Table, TableContainer, useTableState } from "@components/Table";
@@ -61,6 +59,7 @@ const Promotions = () => {
 
   const { pagination, handlePaginationChange, sorting, onSortingChange, rowSelection, onRowSelectionChange } = useTableState(defaultSortingState);
 
+  const formattedToday = format(TODAY, DATE_FORMAT);
   const { data, isLoading } = useGetPromotionsQuery(client, {
     shopId: shopId!,
     first: pagination.pageSize,
@@ -68,10 +67,10 @@ const Promotions = () => {
     sortBy: sorting[0]?.id,
     sortOrder: sorting[0]?.desc ? SortOrder.Desc : SortOrder.Asc,
     filter: {
-      ...(activeTab === "active" ? { enabled: true, startDate: { before: format(TODAY, DATE_FORMAT) }, endDate: { after: format(TODAY, DATE_FORMAT) } } : {}),
-      ...(activeTab === "upcoming" ? { startDate: { after: format(TODAY, DATE_FORMAT) } } : {}),
+      ...(activeTab === "active" ? { enabled: true, state: PromotionState.Active } : {}),
+      ...(activeTab === "upcoming" ? { startDate: { after: formattedToday } } : {}),
       ...(activeTab === "disabled" ? { enabled: false } : {}),
-      ...(activeTab === "past" ? { endDate: { before: format(TODAY, DATE_FORMAT) } } : {})
+      ...(activeTab === "past" ? { endDate: { before: formattedToday } } : {})
     }
   }, {
     keepPreviousData: true,
@@ -154,15 +153,7 @@ const Promotions = () => {
     {
       id: "status",
       header: "Status",
-      cell: ({ row }) => {
-        const statusText = getStatusText(row.original);
-        return <Chip
-          icon={<FiberManualRecordIcon sx={{ height: "8px", width: "8px" }} />}
-          color={statusText === "active" ? "success" : "default"}
-          size="small"
-          label={startCase(statusText)}
-        />;
-      },
+      cell: ({ row }) => <StatusChip promotion={row.original}/>,
       enableSorting: false,
       meta: {
         align: "right"
