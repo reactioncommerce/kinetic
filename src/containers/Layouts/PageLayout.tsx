@@ -1,7 +1,6 @@
 import Container from "@mui/material/Container";
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
-import Paper from "@mui/material/Paper";
 
 import { SubHeader, SubHeaderItemProps } from "@components/AppHeader";
 import { Loader } from "@components/Loader";
