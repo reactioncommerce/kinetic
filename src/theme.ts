@@ -177,7 +177,8 @@ const theme = createTheme(baseTheme, {
           fontSize: 14,
           color: color.grey[600],
           fontWeight: 400,
-          borderRadius: 4
+          borderRadius: 4,
+          backgroundColor: color.grey[50]
         },
         colorSuccess: {
           color: color.darkGreen,
@@ -196,12 +197,20 @@ const theme = createTheme(baseTheme, {
         },
         colorPrimary: {
           color: baseTheme.palette.common.white,
-          fontWeight: 600
+          fontWeight: 600,
+          backgroundColor: baseTheme.palette.primary.main
         },
         sizeSmall: {
           fontSize: "11px",
           borderRadius: baseTheme.shape.borderRadius,
-          fontWeight: 600
+          fontWeight: 600,
+          lineHeight: 1.5
+        },
+        sizeMedium: {
+          fontSize: "14px",
+          borderRadius: baseTheme.shape.borderRadius,
+          fontWeight: 600,
+          lineHeight: 1.5
         }
       }
     },
