@@ -110,7 +110,7 @@ export const PromotionActions = () => {
                 color="secondary"
                 variant="outlined"
                 onClick={() => push({
-                  actionKey: "noop",
+                  actionKey: "discount",
                   actionParameters: {
                     discountValue: 0,
                     discountCalculationType: "percentage",
