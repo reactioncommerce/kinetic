@@ -38,7 +38,7 @@ export const OPERATOR_OPTIONS: SelectOptionType[] = [
 
 export const CONDITION_PROPERTIES_OPTIONS: SelectOptionType[] = [
   { label: "Vendor", value: "$.productVendor" },
-  { label: "Product ID", value: "$.productConfiguration.productId" },
+  { label: "Product ID", value: "$.productId" },
   { label: "Title", value: "$.title" }
 ];
 
