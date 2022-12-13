@@ -1,8 +1,8 @@
 import { graphql } from "msw";
 import { faker } from "@faker-js/faker";
 
-import { Promotion } from "types/promotions";
-import { TriggerType } from "@graphql/generates";
+import { CalculationType, Promotion, Stackability } from "types/promotions";
+import { PromotionState, TriggerType } from "@graphql/generates";
 
 const date = new Date("2022-02-28");
 
@@ -13,6 +13,7 @@ const promotion = (index: number): Promotion => {
     _id: faker.datatype.uuid(),
     label: faker.word.noun(),
     triggerType: TriggerType.Implicit,
+    name: faker.word.noun(),
     promotionType: "order-discount",
     createdAt: date,
     updatedAt: date,
@@ -20,7 +21,7 @@ const promotion = (index: number): Promotion => {
     actions: [{
       actionKey: "noop",
       actionParameters: {
-        discountCalculationType: "percentage",
+        discountCalculationType: CalculationType.Percentage,
         discountType: "order",
         discountValue: 50
       }
@@ -32,7 +33,9 @@ const promotion = (index: number): Promotion => {
       triggerKey: "offer"
     }],
     description: "description",
-    shopId: "id"
+    shopId: "id",
+    state: PromotionState.Created,
+    stackability: { key: Stackability.All, parameters: {} }
   };
 };
 
