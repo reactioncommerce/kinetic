@@ -1,7 +1,7 @@
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 
-import { LinkRouter } from "./LinkRouter";
+import { RouterLink } from "./LinkRouter";
 
 type BreadcrumbItemProps = {
   last: boolean
@@ -16,8 +16,8 @@ export const BreadcrumbItem = ({ last, label, to }: BreadcrumbItemProps) => (
       key={to}
     />
   ) : (
-    <LinkRouter underline="none" color="inherit" to={to} key={to}>
+    <RouterLink underline="none" color="inherit" to={to} key={to}>
       <Typography variant="subtitle2">{label}</Typography>
-    </LinkRouter>
+    </RouterLink>
   )
 );
