@@ -117,7 +117,7 @@ const Promotions = () => {
       }
     },
     {
-      accessorKey: "label",
+      accessorKey: "name",
       header: "Name"
     },
     {
@@ -131,12 +131,12 @@ const Promotions = () => {
         <Typography variant="body2">{PROMOTION_TYPE_OPTIONS[row.getValue<PromotionType>()]?.label || "Unknown"}</Typography>
     },
     {
-      accessorFn: (row) => row.actions?.[0].actionParameters?.discountCalculationType,
+      accessorFn: (row) => row.actions?.[0]?.actionParameters?.discountCalculationType,
       header: "Action",
       id: "actionType",
       enableSorting: false,
       cell: (row) =>
-        <Typography variant="body2">{CALCULATION_OPTIONS[row.getValue<CalculationType>()]?.label || "Unknown"}</Typography>
+        <Typography variant="body2">{CALCULATION_OPTIONS[row.getValue<CalculationType>()]?.label || "Noop"}</Typography>
     },
     {
       accessorKey: "startDate",

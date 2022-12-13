@@ -17,6 +17,7 @@ query getPromotions(
         label
         description
         enabled
+        name
         triggers {
           triggerKey
           triggerParameters
@@ -29,7 +30,11 @@ query getPromotions(
         shopId
         startDate
         endDate
-        stackAbility
+        stackability {
+          key
+          parameters
+        }
+        state
         createdAt
         updatedAt
       }
