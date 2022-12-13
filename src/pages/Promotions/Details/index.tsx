@@ -27,20 +27,6 @@ import { promotionSchema } from "./validation";
 import { AvailableDateField } from "./AvailableDateField";
 import { PromotionTypeField } from "./PromotionTypeField";
 
-
-const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
-  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
-
-const formatTriggers = (triggers: Trigger[], promotionName: string) =>
-  triggers.map((trigger) => ({
-    ...trigger,
-    triggerParameters: {
-      ...trigger.triggerParameters,
-      name: promotionName,
-      conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
-    }
-  }));
-
 type PromotionFormValue = {
   name: string
   description: string
@@ -52,6 +38,33 @@ type PromotionFormValue = {
   startDate: string | null
   endDate: string | null
 }
+
+
+const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
+  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
+
+const formatTriggers = (triggers: Trigger[], promotionName: string) =>
+  triggers.map((trigger) => ({
+    ...trigger,
+    triggerParameters: {
+      ...trigger.triggerParameters,
+      name: trigger.triggerParameters?.name || promotionName,
+      conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
+    }
+  }));
+
+const normalizeFormValues = (values: PromotionFormValue) =>
+  ({
+    ...values,
+    triggers: values.triggers?.map((trigger) => ({
+      ...trigger,
+      triggerParameters: {
+        ...trigger.triggerParameters,
+        name: values.name,
+        conditions: { all: trigger.triggerParameters?.conditions.all.map(({ triggerType, ...condition }) => condition) }
+      }
+    }))
+  });
 
 const PromotionDetails = () => {
   const { promotionId } = useParams();
@@ -85,13 +98,13 @@ const PromotionDetails = () => {
   ) => {
     if (promotionId && data?.promotion) {
       const { triggerType, shopId: promotionShopId, enabled } = data.promotion;
-      const updatedPromotion = { _id: promotionId, enabled, shopId: promotionShopId, triggerType, ...values };
+      const updatedPromotion = { _id: promotionId, enabled, shopId: promotionShopId, triggerType, ...normalizeFormValues(values) };
       updatePromotion(
         { input: updatedPromotion },
         {
           onSettled: () => setSubmitting(false),
           onSuccess: () => {
-            resetForm({ values: updatedPromotion });
+            resetForm({ values });
             setBreadcrumbs((currentBreadcrumbs) =>
               ({ ...currentBreadcrumbs, [`/promotions/${promotionId}`]: updatedPromotion.name }));
           }
@@ -100,7 +113,7 @@ const PromotionDetails = () => {
     } else {
       createPromotion({
         input: {
-          ...values,
+          ...normalizeFormValues(values),
           shopId: shopId!,
           enabled: false
         }
@@ -121,7 +134,7 @@ const PromotionDetails = () => {
     actions: data?.promotion?.actions || [],
     triggers: data?.promotion?.triggers ? formatTriggers(
       data.promotion.triggers,
-      data?.promotion?.name || ""
+      data?.promotion?.name || "trigger name"
     ) : [],
     stackability: data?.promotion?.stackability || { key: "none", parameters: {} },
     label: data?.promotion?.label || "",
