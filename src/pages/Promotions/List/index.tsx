@@ -18,9 +18,8 @@ import { Table, TableContainer, useTableState } from "@components/Table";
 import { filterNodes, formatDate } from "@utils/common";
 import { CalculationType, Promotion, PromotionStatus, PromotionType } from "types/promotions";
 import { SortOrder } from "@graphql/types";
-
-import { CALCULATION_TYPE_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS, TODAY } from "./constants";
-
+import { CALCULATION_TYPE_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
+import { StatusChip } from "../components/StatusChip";
 
 type PromotionFilterKey = PromotionStatus | "viewAll"
 const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
@@ -31,23 +30,6 @@ const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
   viewAll: { label: "View All" }
 };
 
-
-const checkStatus: Record<PromotionFilterKey, (promotion: Promotion) => boolean> = {
-  active: (promotion) => promotion.enabled && isBefore(new Date(promotion.startDate), TODAY) && (
-    !promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY)),
-  upcoming: (promotion) => isAfter(new Date(promotion.startDate), TODAY),
-  disabled: (promotion) => !promotion.enabled,
-  past: (promotion) => promotion.endDate && isBefore(new Date(promotion.endDate), TODAY),
-  viewAll: () => true
-};
-
-const getStatusText = (promotion: Promotion) => {
-  if (checkStatus.active(promotion)) return "active";
-  if (checkStatus.disabled(promotion)) return "disabled";
-  if (checkStatus.past(promotion)) return "past";
-  if (promotion.enabled) return "enabled";
-  return "disabled";
-};
 
 const Promotions = () => {
   const [searchParams, setSearchParams] = useSearchParams({ type: "active" });
