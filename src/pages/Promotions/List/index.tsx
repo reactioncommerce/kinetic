@@ -6,22 +6,20 @@ import Box from "@mui/material/Box";
 import { useSearchParams } from "react-router-dom";
 import { useMemo } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { isBefore, isAfter, isSameDay, format } from "date-fns";
-import Chip from "@mui/material/Chip";
+import { format } from "date-fns";
 import Checkbox from "@mui/material/Checkbox";
-import { noop, startCase } from "lodash-es";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { noop } from "lodash-es";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
-import { useGetPromotionsQuery } from "@graphql/generates";
+import { PromotionState, useGetPromotionsQuery } from "@graphql/generates";
 import { useShop } from "@containers/ShopProvider";
 import { client } from "@graphql/graphql-request-client";
 import { Table, TableContainer, useTableState } from "@components/Table";
 import { filterNodes, formatDate } from "@utils/common";
 import { CalculationType, Promotion, PromotionStatus, PromotionType } from "types/promotions";
 import { SortOrder } from "@graphql/types";
-
-import { CALCULATION_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS } from "./constants";
+import { CALCULATION_TYPE_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
+import { StatusChip } from "../components/StatusChip";
 
 type PromotionFilterKey = PromotionStatus | "viewAll"
 const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
@@ -32,24 +30,6 @@ const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
   viewAll: { label: "View All" }
 };
 
-const TODAY = new Date();
-
-const checkStatus: Record<PromotionFilterKey, (promotion: Promotion) => boolean> = {
-  active: (promotion) => promotion.enabled && isBefore(new Date(promotion.startDate), TODAY) && (
-    !promotion.endDate || isSameDay(new Date(promotion.endDate), TODAY) || isAfter(new Date(promotion.endDate), TODAY)),
-  upcoming: (promotion) => isAfter(new Date(promotion.startDate), TODAY),
-  disabled: (promotion) => !promotion.enabled,
-  past: (promotion) => promotion.endDate && isBefore(new Date(promotion.endDate), TODAY),
-  viewAll: () => true
-};
-
-const getStatusText = (promotion: Promotion) => {
-  if (checkStatus.active(promotion)) return "active";
-  if (checkStatus.disabled(promotion)) return "disabled";
-  if (checkStatus.past(promotion)) return "past";
-  if (promotion.enabled) return "enabled";
-  return "disabled";
-};
 
 const Promotions = () => {
   const [searchParams, setSearchParams] = useSearchParams({ type: "active" });
@@ -60,6 +40,7 @@ const Promotions = () => {
 
   const { pagination, handlePaginationChange, sorting, onSortingChange, rowSelection, onRowSelectionChange } = useTableState(defaultSortingState);
 
+  const formattedToday = format(TODAY, DATE_FORMAT);
   const { data, isLoading } = useGetPromotionsQuery(client, {
     shopId: shopId!,
     first: pagination.pageSize,
@@ -67,10 +48,10 @@ const Promotions = () => {
     sortBy: sorting[0]?.id,
     sortOrder: sorting[0]?.desc ? SortOrder.Desc : SortOrder.Asc,
     filter: {
-      ...(activeTab === "active" ? { enabled: true, startDate: { before: format(TODAY, DATE_FORMAT) }, endDate: { after: format(TODAY, DATE_FORMAT) } } : {}),
-      ...(activeTab === "upcoming" ? { startDate: { after: format(TODAY, DATE_FORMAT) } } : {}),
+      ...(activeTab === "active" ? { enabled: true, state: PromotionState.Active } : {}),
+      ...(activeTab === "upcoming" ? { startDate: { after: formattedToday } } : {}),
       ...(activeTab === "disabled" ? { enabled: false } : {}),
-      ...(activeTab === "past" ? { endDate: { before: format(TODAY, DATE_FORMAT) } } : {})
+      ...(activeTab === "past" ? { endDate: { before: formattedToday } } : {})
     }
   }, {
     keepPreviousData: true,
@@ -136,7 +117,7 @@ const Promotions = () => {
       id: "actionType",
       enableSorting: false,
       cell: (row) =>
-        <Typography variant="body2">{CALCULATION_OPTIONS[row.getValue<CalculationType>()]?.label || "Noop"}</Typography>
+        <Typography variant="body2">{CALCULATION_TYPE_OPTIONS[row.getValue<CalculationType>()]?.label || "Noop"}</Typography>
     },
     {
       accessorKey: "startDate",
@@ -152,15 +133,7 @@ const Promotions = () => {
     {
       id: "status",
       header: "Status",
-      cell: ({ row }) => {
-        const statusText = getStatusText(row.original);
-        return <Chip
-          icon={<FiberManualRecordIcon sx={{ height: "8px", width: "8px" }} />}
-          color={statusText === "active" ? "success" : "default"}
-          size="small"
-          label={startCase(statusText)}
-        />;
-      },
+      cell: ({ row }) => <StatusChip promotion={row.original}/>,
       enableSorting: false,
       meta: {
         align: "right"

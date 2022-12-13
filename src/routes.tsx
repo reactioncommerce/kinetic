@@ -30,7 +30,7 @@ const PaymentSettings = lazy(() => import("./pages/Settings/Checkout/Payments"))
 const AddressValidationSettings = lazy(() => import("./pages/Settings/Checkout/AddressValidation"));
 const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
 const Customers = lazy(() => import("./pages/Customers"));
-const Promotions = lazy(() => import("./pages/Promotions"));
+const Promotions = lazy(() => import("./pages/Promotions/List"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
