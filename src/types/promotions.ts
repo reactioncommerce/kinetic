@@ -27,6 +27,7 @@ export type Trigger = {
         fact: string
         operator: string
         value: number
+        triggerType?: string
       }[]
     }
   }
