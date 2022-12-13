@@ -5454,9 +5454,9 @@ export type Promotion = {
   /** The date that the promotion end (empty means it never ends) */
   endDate?: Maybe<Scalars["Date"]>;
   /** The short description of the promotion */
-  label: Scalars["String"];
+  label: Scalars['String'];
   /** The short description of the promotion */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** What type of promotion is this */
   promotionType: Scalars["String"];
   /** An integer ID for user reference */
@@ -5466,7 +5466,7 @@ export type Promotion = {
   /** Definition of how this promotion can be combined (none, per-type, or all) */
   stackability?: Maybe<Stackability>;
   /** The date that the promotion begins */
-  startDate: Scalars["Date"];
+  startDate: Scalars['Date'];
   /** What is the current state of the promotion */
   state: PromotionState;
   /** What type of trigger this promotion uses */
@@ -5519,18 +5519,18 @@ export type PromotionCreateInput = {
 
 export type PromotionDateOperators = {
   /** The value must be greater than the given value */
-  after?: InputMaybe<Scalars["Date"]>;
+  after?: InputMaybe<Scalars['Date']>;
   /** The value must be less than the given value */
-  before?: InputMaybe<Scalars["Date"]>;
+  before?: InputMaybe<Scalars['Date']>;
   /** The value must be equal to the given value */
   eq?: InputMaybe<Scalars["Date"]>;
 };
 
 export type PromotionDuplicateArchiveInput = {
   /** The id of the promotion to duplicate or archive */
-  promotionId: Scalars["String"];
+  promotionId: Scalars['String'];
   /** shopId */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
 };
 
 /** A connection edge in which each node is a `Promotion` object */
@@ -5557,10 +5557,10 @@ export type PromotionQueryInput = {
 };
 
 export enum PromotionState {
-  Active = "active",
-  Archived = "archived",
-  Completed = "completed",
-  Created = "created"
+  Active = 'active',
+  Archived = 'archived',
+  Completed = 'completed',
+  Created = 'created'
 }
 
 /** This is identical to the PromotionCreate except it includes the _id */
@@ -5594,11 +5594,11 @@ export type PromotionUpdateInput = {
 };
 
 export type PromotionUpdatedPayload = {
-  __typename?: "PromotionUpdatedPayload";
+  __typename?: 'PromotionUpdatedPayload';
   /** The updated or created promotion */
   promotion?: Maybe<Promotion>;
   /** Was the operation a success */
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
 /** Input for the `publishNavigationChanges` mutation */
@@ -7076,18 +7076,18 @@ export type SplitOrderItemPayload = {
 };
 
 export type Stackability = {
-  __typename?: "Stackability";
+  __typename?: 'Stackability';
   /** The key that defines this stackability */
-  key: Scalars["String"];
+  key: Scalars['String'];
   /** Parameters to be passed to the stackability */
-  parameters?: Maybe<Scalars["JSONObject"]>;
+  parameters?: Maybe<Scalars['JSONObject']>;
 };
 
 export type StackabilityInput = {
   /** The key that defines this stackability */
-  key: Scalars["String"];
+  key: Scalars['String'];
   /** Parameters to be passed to the stackability */
-  parameters?: InputMaybe<Scalars["JSONObject"]>;
+  parameters?: InputMaybe<Scalars['JSONObject']>;
 };
 
 /** Storefront route URLs */
@@ -8550,28 +8550,7 @@ export type GetPromotionsQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionsQuery = { __typename?: "Query", promotions: { __typename?: "PromotionConnection", totalCount: number, nodes?: Array<{ __typename?: "Promotion", _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: "Trigger", triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: "Action", actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: "Stackability", key: string, parameters?: any | null } | null } | null> | null } };
-
-export type GetPromotionQueryVariables = Exact<{
-  input?: InputMaybe<PromotionQueryInput>;
-}>;
-
-
-export type GetPromotionQuery = { __typename?: "Query", promotion?: { __typename?: "Promotion", _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: "Trigger", triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: "Action", actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: "Stackability", key: string, parameters?: any | null } | null } | null };
-
-export type UpdatePromotionMutationVariables = Exact<{
-  input?: InputMaybe<PromotionUpdateInput>;
-}>;
-
-
-export type UpdatePromotionMutation = { __typename?: "Mutation", updatePromotion?: { __typename?: "PromotionUpdatedPayload", success: boolean, promotion?: { __typename?: "Promotion", _id: string } | null } | null };
-
-export type CreatePromotionMutationVariables = Exact<{
-  input?: InputMaybe<PromotionCreateInput>;
-}>;
-
-
-export type CreatePromotionMutation = { __typename?: "Mutation", createPromotion?: { __typename?: "PromotionUpdatedPayload", success: boolean, promotion?: { __typename?: "Promotion", _id: string } | null } | null };
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, referenceId: number, shopId: string, startDate: any, endDate?: any | null, state: PromotionState, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
 
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -9216,6 +9195,7 @@ export const GetPromotionsDocument = `
         key
         parameters
       }
+      state
       createdAt
       updatedAt
     }
