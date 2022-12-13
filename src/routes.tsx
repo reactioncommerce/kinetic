@@ -230,6 +230,7 @@ export const routes: RouteObject[] = [
                   }
                 ]
               },
+
               {
                 path: "customers",
                 element: <PageLayout/>,
