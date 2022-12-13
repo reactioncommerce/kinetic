@@ -89,7 +89,7 @@ export const TablePagination = ({
         <InputBase
           sx={{ "mx": 1, "width": "40px", "fontSize": "0.75rem", "& .MuiInputBase-input": { padding: 0 } }}
           type="number"
-          defaultValue={page + 1}
+          value={page + 1}
           disabled={pageCount === 0}
           inputProps={{ min: 1, max: pageCount }}
           onChange={(event) => {
