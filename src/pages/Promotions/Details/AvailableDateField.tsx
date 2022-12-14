@@ -1,6 +1,6 @@
 import Stack from "@mui/material/Stack";
 import { FastField, useFormikContext } from "formik";
-import { format, isBefore } from "date-fns";
+import { format, isBefore, isValid } from "date-fns";
 
 import { DatePickerField } from "@components/DatePickerField";
 import { DATE_FORMAT } from "../constants";
@@ -11,7 +11,7 @@ export const AvailableDateField = () => {
 
   const onStartDateChange = (value: Date | null) => {
     setFieldValue("startDate", value ? format(value, DATE_FORMAT) : null);
-    if (value && isBefore(new Date(values.endDate), new Date(value))) {
+    if (value && isValid(value) && isBefore(new Date(values.endDate), new Date(value))) {
       setFieldValue("endDate", null);
     }
   };
@@ -22,14 +22,14 @@ export const AvailableDateField = () => {
         name="startDate"
         component={DatePickerField}
         label="Available From"
-        dateFormat={DATE_FORMAT}
-        onChange={onStartDateChange}
+        inputFormat={DATE_FORMAT}
+        onAccept={onStartDateChange}
       />
       <FastField
         name="endDate"
         component={DatePickerField}
         label="Available To"
-        dateFormat={DATE_FORMAT}
+        inputFormat={DATE_FORMAT}
         minDate={values.startDate}
       />
     </Stack>
