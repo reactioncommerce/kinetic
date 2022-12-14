@@ -4,16 +4,16 @@ import { format } from "date-fns";
 
 import { InputWithLabel } from "@components/TextField";
 
-type DatePickerFieldProps = DatePickerProps<unknown, Date> & FieldProps & {
-  dateFormat?: string
-}
+type DatePickerFieldProps = DatePickerProps<unknown, Date> & FieldProps
+
 export const DatePickerField = ({
   field,
   form: { isSubmitting, setFieldValue, errors },
   onChange,
   disabled,
   renderInput,
-  dateFormat = "MM/dd/yyyy",
+  onAccept,
+  inputFormat = "MM/dd/yyyy",
   ...props
 }: DatePickerFieldProps) => {
   const {
@@ -28,8 +28,12 @@ export const DatePickerField = ({
   const helperText = fieldError ?? undefined;
 
   const _onChange =
-    onChange ?? ((value) => setFieldValue(restFieldProps.name, value ? format(value, dateFormat) : null));
+    onChange ?? ((value) => setFieldValue(restFieldProps.name, value));
 
+  const _onAccept = (value: Date | null) => {
+    onAccept?.(value);
+    setFieldValue(restFieldProps.name, value ? format(value, inputFormat) : null);
+  };
 
   return (
     <DatePicker
@@ -37,13 +41,15 @@ export const DatePickerField = ({
       {...restFieldProps}
       disabled={disabled ?? isSubmitting}
       onChange={_onChange}
-      onClose={() => fieldOnBlur(restFieldProps.name)}
+      onAccept={_onAccept}
+      inputFormat={inputFormat}
       renderInput={({ inputRef, ...params }) =>
         <InputWithLabel
           {...params}
           ref={inputRef}
           error={!!helperText}
-          helperText={helperText} />}
+          helperText={helperText}
+        />}
     />
   );
 };
