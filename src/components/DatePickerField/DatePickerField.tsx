@@ -31,8 +31,7 @@ export const DatePickerField = ({
     onChange ?? ((value) => setFieldValue(restFieldProps.name, value));
 
   const _onAccept = (value: Date | null) => {
-    onAccept?.(value);
-    setFieldValue(restFieldProps.name, value ? format(value, inputFormat) : null);
+    onAccept?.(value) ?? setFieldValue(restFieldProps.name, value ? format(value, inputFormat) : null);
   };
 
   return (
