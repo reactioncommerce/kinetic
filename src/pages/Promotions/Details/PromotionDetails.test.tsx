@@ -6,7 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { AppLayout } from "@containers/Layouts";
 import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, within } from "@utils/testUtils";
-
+import { DATE_FORMAT } from "../constants";
 
 import PromotionDetails from ".";
 
@@ -34,8 +34,8 @@ describe("Promotion Details", () => {
     expect(screen.getByText("Add Trigger")).toBeInTheDocument();
     expect(screen.getByLabelText("Discount Value")).toHaveValue(promotion.actions[0].actionParameters?.discountValue);
     expect(screen.getByLabelText("Stack All")).toBeInTheDocument();
-    expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, "MM/dd/yyyy"));
-    expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, "MM/dd/yyyy"));
+    expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DATE_FORMAT));
+    expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, DATE_FORMAT));
     expect(screen.getByLabelText("Checkout Label")).toHaveValue(promotion.label);
   }, 50000);
 
