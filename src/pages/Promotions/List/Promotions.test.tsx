@@ -2,9 +2,9 @@ import { disabledPromotions, enabledPromotions } from "@mocks/handlers/promotion
 
 import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, within } from "@utils/testUtils";
 import { PromotionType } from "types/promotions";
+import { CALCULATION_TYPE_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
 
-import { CALCULATION_TYPE_OPTIONS, PROMOTION_TYPE_OPTIONS } from "./constants";
-import Promotions from "./List";
+import Promotions from ".";
 
 
 describe("Promotions", () => {

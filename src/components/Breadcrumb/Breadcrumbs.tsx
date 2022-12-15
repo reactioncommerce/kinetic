@@ -9,7 +9,7 @@ import { SxProps, Theme } from "@mui/material/styles";
 
 import { useShop } from "@containers/ShopProvider";
 
-import { LinkRouter } from "./LinkRouter";
+import { RouterLink } from "./LinkRouter";
 import { BREADCRUMB_ITEMS } from "./defaultBreadcrumbItems";
 import { BreadcrumbItem } from "./BreadcrumbItem";
 
@@ -24,8 +24,12 @@ export const Breadcrumbs = ({ items = BREADCRUMB_ITEMS, sx }: BreadcrumbsProps) 
   const pathnames = location.pathname.split("/").filter(Boolean);
   const { shop } = useShop();
   return (
-    <MuiBreadcrumbs maxItems={2} aria-label="breadcrumb" separator={<NavigateNextIcon fontSize="small" />} sx={{ lineHeight: 1, color: "grey.600", ...sx }}>
-      <LinkRouter key="home" underline="none" color="inherit" to="/">
+    <MuiBreadcrumbs
+      maxItems={3}
+      itemsAfterCollapse={2}
+      aria-label="breadcrumb"
+      separator={<NavigateNextIcon fontSize="small" />} sx={{ lineHeight: 1, color: "grey.600", ...sx }}>
+      <RouterLink key="home" underline="none" color="inherit" to="/">
         <Stack direction="row" alignItems="center" gap={1}>
           <HomeOutlinedIcon />
           <NavigateNextIcon fontSize="small" />
@@ -37,7 +41,7 @@ export const Breadcrumbs = ({ items = BREADCRUMB_ITEMS, sx }: BreadcrumbsProps) 
             <Typography variant="subtitle2">{shop?.name}</Typography>
           }
         </Stack>
-      </LinkRouter>
+      </RouterLink>
       {pathnames.map((_, index) => {
         const last: boolean = index === pathnames.length - 1;
         const to = `/${pathnames.slice(0, index + 1).join("/")}`;

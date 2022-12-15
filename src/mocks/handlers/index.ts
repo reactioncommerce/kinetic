@@ -4,10 +4,10 @@ import { handlers as userHandlers } from "./userAndPermissionHandlers";
 import { handlers as shopSettingsHandlers } from "./shopSettingsHandlers";
 import { handlers as transactionalEmailHandlers } from "./transactionalEmailHandlers";
 import { handlers as checkoutSettingsHandlers } from "./checkoutSettingsHandlers";
-import { handlers as customersHandlers } from "./customersHandlers";
-import { handlers as promotionsHandlers } from "./promotionsHandlers";
+import { handlers as customersHandlersHandlers } from "./customersHandlers";
+import { handlers as promotionsHandlersHandlers } from "./promotionsHandlers";
 
 export const handlers = [
   ...shippingMethodsHandlers, ...accountHandlers, ...userHandlers, ...shopSettingsHandlers, ...transactionalEmailHandlers, ...checkoutSettingsHandlers,
-  ...customersHandlers, ...promotionsHandlers
+  ...customersHandlersHandlers, ...promotionsHandlersHandlers
 ];
