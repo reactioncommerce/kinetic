@@ -26,6 +26,7 @@ import { PromotionTriggers } from "./PromotionTriggers";
 import { promotionSchema } from "./validation";
 import { AvailableDateField } from "./AvailableDateField";
 import { PromotionTypeField } from "./PromotionTypeField";
+import { normalizeActionsData, normalizeTriggersData } from "./utils";
 
 type PromotionFormValue = {
   name: string
@@ -56,14 +57,8 @@ const formatTriggers = (triggers: Trigger[], promotionName: string) =>
 const normalizeFormValues = (values: PromotionFormValue) =>
   ({
     ...values,
-    triggers: values.triggers?.map((trigger) => ({
-      ...trigger,
-      triggerParameters: {
-        ...trigger.triggerParameters,
-        name: values.name,
-        conditions: { all: trigger.triggerParameters?.conditions.all.map(({ triggerType, ...condition }) => condition) }
-      }
-    }))
+    triggers: normalizeTriggersData(values.triggers),
+    actions: normalizeActionsData(values.actions)
   });
 
 const PromotionDetails = () => {
