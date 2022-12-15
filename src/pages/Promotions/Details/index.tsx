@@ -18,6 +18,7 @@ import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { usePermission } from "@components/PermissionGuard";
 import { Loader } from "@components/Loader";
+import { StatusChip } from "../components/StatusChip";
 
 import { ActionButtons } from "./ActionButtons";
 import { PromotionSection } from "./PromotionSection";
@@ -75,9 +76,9 @@ const PromotionDetails = () => {
 
   const [, setBreadcrumbs] = useGlobalBreadcrumbs();
 
-  const { data, isLoading } = useGetPromotionQuery(client, { input: { _id: promotionId || "id", shopId: shopId! } }, {
+  const { data, isLoading, refetch } = useGetPromotionQuery(client, { input: { _id: promotionId || "id", shopId: shopId! } }, {
     enabled: !!promotionId,
-    select: (responseData) => ({ promotion: responseData.promotion }),
+    select: (responseData) => ({ promotion: responseData.promotion as Promotion }),
     onSuccess: (responseData) => {
       const { promotion } = responseData;
       if (promotion) {
@@ -155,7 +156,10 @@ const PromotionDetails = () => {
           <Paper variant="outlined" square sx={{ padding: 3, pb: 0, position: "sticky", top: { xs: 56, sm: 64 }, zIndex: 1 }}>
             <Stack direction="row" alignItems="center" justifyContent="space-between" pb={1}>
               <Stack direction="column" maxWidth="80%" flexWrap="wrap">
-                <Typography variant="h6" gutterBottom>{values.name || "New Promotion"}</Typography>
+                <Stack direction="row" alignItems="center" gap={1.5} mb={0.5} flexWrap="wrap">
+                  <Typography variant="h6">{values.name || "New Promotion"}</Typography>
+                  {data?.promotion ? <StatusChip promotion={data?.promotion}/> : null}
+                </Stack>
                 <Stack direction="row" gap={0.5} alignItems="center">
                   {data?.promotion?.referenceId ?
                     <>
@@ -183,7 +187,8 @@ const PromotionDetails = () => {
                   disabled={!dirty}
                   submitForm={submitForm}
                   onCancel={() => (promotionId ? resetForm() : navigate("/promotions"))}
-                  promotionId={promotionId}
+                  promotion={data?.promotion}
+                  onSuccess={refetch}
                 />
                 : null}
             </Stack>

@@ -157,6 +157,8 @@ const Promotions = () => {
     refetch();
   };
 
+  const selectedPromotions = data?.promotions.filter(({ _id }) => !!rowSelection[_id]) || [];
+
   return (
     <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
       <Typography variant="h5" gutterBottom>Promotions</Typography>
@@ -175,7 +177,7 @@ const Promotions = () => {
         <TableContainer.Header
           title="Promotions"
           action={<Actions
-            selectedPromotionIds={Object.keys(rowSelection)}
+            selectedPromotions={selectedPromotions}
             onSuccess={onHandleActionsSuccess}
             activeTab={activeTab}
           />}
