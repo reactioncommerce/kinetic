@@ -7,6 +7,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { useState } from "react";
+import Alert from "@mui/material/Alert";
 
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
@@ -24,7 +25,7 @@ export const PromotionTriggers = () => {
     <Stack direction="column" mt={2} gap={2}>
       <FieldArray
         name="triggers"
-        render={({ form: { values }, remove, push }) =>
+        render={({ form: { values, errors, touched }, remove, push }) =>
           <Stack direction="column" gap={1}>
             <Typography variant="subtitle2">Customers qualify for this offer when</Typography>
             {values.triggers.map((_: Trigger, index: number) =>
@@ -89,7 +90,7 @@ export const PromotionTriggers = () => {
                 />
               </Paper>)
             }
-            <Button
+            {!values.triggers.length ? <Button
               color="secondary"
               variant="outlined"
               onClick={() => push({
@@ -110,7 +111,8 @@ export const PromotionTriggers = () => {
               size="small"
             >
             Add Trigger
-            </Button>
+            </Button> : null}
+            {touched.triggers && errors.triggers && typeof errors.triggers === "string" ? <Alert severity="error">{errors.triggers}</Alert> : null}
           </Stack>}
       />
     </Stack>

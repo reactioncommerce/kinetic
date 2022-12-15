@@ -18,6 +18,20 @@ export enum Stackability {
   All = "all"
 }
 
+export type RuleCondition = {
+  fact: string,
+  operator: string,
+  value: string[],
+  path: string
+}
+
+export type Rule = {
+  conditions: {
+    all?: RuleCondition[]
+    any?: RuleCondition[]
+  }
+}
+
 export type Trigger = {
   triggerKey: string
   triggerParameters?: {
@@ -30,28 +44,24 @@ export type Trigger = {
         triggerType?: string
       }[]
     }
+    inclusionRules?: Rule
+    exclusionRules?: Rule
+  }
+}
+
+export type Action = {
+  actionKey: string
+  actionParameters?: {
+    discountType: string
+    discountValue: number
+    discountCalculationType: CalculationType
+    inclusionRules?: Rule
+    exclusionRules?: Rule
   }
 }
 export interface Promotion extends Omit<APIPromotion, "__typename" | "actions" | "promotionType" | "triggers"> {
   promotionType: PromotionType
-  actions: {
-    actionKey: string
-    actionParameters?: {
-      discountType: string
-      discountValue: number
-      discountCalculationType: CalculationType
-      inclusionRules?: {
-        conditions: {
-          all: {
-          fact: string
-          operator: string
-          value: string
-          path: string
-        }[]
-      }
-      }
-    }
-  }[]
+  actions: Action[]
   triggers?: Trigger[]
 }
 
