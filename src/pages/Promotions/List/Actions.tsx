@@ -2,12 +2,10 @@ import { noop } from "lodash-es";
 import { useNavigate } from "react-router-dom";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
-import { useArchivePromotionMutation } from "@graphql/generates";
-import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { usePermission } from "@components/PermissionGuard";
 import { Promotion, PromotionTabs } from "types/promotions";
-import { useDisablePromotion, useEnablePromotion } from "../hooks";
+import { useDisablePromotion, useEnablePromotion, useArchivePromotions } from "../hooks";
 
 type ActionsProps = {
   selectedPromotions: Promotion[]
@@ -18,22 +16,18 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
   const disabled = selectedPromotions.length === 0;
   const navigate = useNavigate();
   const { shopId } = useShop();
-  const { mutate: archivePromotion } = useArchivePromotionMutation(client);
 
   const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
-  const canArchive = usePermission(["reaction:legacy:promotions/archive"]);
+  const canCreate = usePermission(["reaction:legacy:promotions/create"]);
 
-  const archivePromotions = () => {
-    selectedPromotions.forEach(({ _id }) =>
-      archivePromotion(
-        { input: { promotionId: _id, shopId: shopId! } },
-        { onSuccess }
-      ));
-  };
 
   const { enablePromotions } = useEnablePromotion(onSuccess);
   const { disablePromotions } = useDisablePromotion(onSuccess);
+  const { archivePromotions } = useArchivePromotions(onSuccess);
 
+  const handleArchivePromotions = () => {
+    archivePromotions(selectedPromotions.map(({ _id }) => _id), shopId!);
+  };
   const onClickEnablePromotion = () => {
     enablePromotions(selectedPromotions);
   };
@@ -42,22 +36,23 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
     disablePromotions(selectedPromotions);
   };
 
-  const hideArchivedAction = !canArchive || activeTab === "archived";
-  const hideEnableAction = !canUpdate || activeTab === "active" || activeTab === "past" || activeTab === "archived";
-  const hideDisableAction = !canUpdate || activeTab === "disabled" || activeTab === "past" || activeTab === "archived";
+  const hideArchivedAction = !canUpdate || activeTab === "archived";
+  const hideEnableAction = !canUpdate || activeTab === "active" || activeTab === "past";
+  const hideDisableAction = !canUpdate || activeTab === "disabled" || activeTab === "past";
 
   return (
-    <MenuActions
-      options={
-        [
-          { label: "Create New", onClick: () => navigate("create") },
-          { label: "Duplicate", onClick: noop, disabled },
-          { label: "Enable", onClick: onClickEnablePromotion, disabled, hidden: hideEnableAction },
-          { label: "Disable", onClick: onClickDisablePromotion, disabled, hidden: hideDisableAction },
-          { label: "Archive", onClick: archivePromotions, disabled, hidden: hideArchivedAction }
-        ]
-      }
-      renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}
-    />
+    canUpdate || canCreate ?
+      (<MenuActions
+        options={
+          [
+            { label: "Create New", onClick: () => navigate("create"), hidden: !canCreate },
+            { label: "Duplicate", onClick: noop, disabled },
+            { label: "Enable", onClick: onClickEnablePromotion, disabled, hidden: hideEnableAction },
+            { label: "Disable", onClick: onClickDisablePromotion, disabled, hidden: hideDisableAction },
+            { label: "Archive", onClick: handleArchivePromotions, disabled, hidden: hideArchivedAction }
+          ]
+        }
+        renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}
+      />) : null
   );
 };

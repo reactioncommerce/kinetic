@@ -7,7 +7,6 @@ import { get } from "lodash-es";
 import { useState } from "react";
 
 import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
-import { CONDITION_OPERATORS } from "../constants";
 import { Promotion } from "types/promotions";
 
 import { ConditionField } from "./ConditionField";
@@ -68,15 +67,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName, disabled
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
               initialValue={initialValue}
               renderFieldItem={(index) => (
-                <Stack direction="row" gap={1} alignItems="center" pl={1}>
-                  <Stack flexBasis="30px">
-                    {index > 0 ? <Typography color="grey.700" variant="caption">
-                      {CONDITION_OPERATORS[conditionOperator[inclusionFieldName]]?.fieldPrefix?.toUpperCase()}
-                    </Typography> : null}
-                  </Stack>
-
-                  <ConditionField disabled={disabled} name={`${_inclusionFieldName}[${index}]`} />
-                </Stack>
+                <ConditionField name={`${_inclusionFieldName}[${index}]`} index={index} operator={conditionOperator[inclusionFieldName]}/>
               )}
             />
           </Paper>
@@ -101,15 +92,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName, disabled
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
               initialValue={initialValue}
               renderFieldItem={(index) => (
-                <Stack direction="row" gap={1} alignItems="center" pl={1}>
-                  <Stack flexBasis="30px">
-                    {index > 0 ? <Typography color="grey.700" variant="caption">
-                      {CONDITION_OPERATORS[conditionOperator[exclusionFieldName]]?.fieldPrefix?.toUpperCase()}
-                    </Typography> : null}
-                  </Stack>
-
-                  <ConditionField disabled={disabled} name={`${_exclusionFieldName}[${index}]`} />
-                </Stack>
+                <ConditionField name={`${_exclusionFieldName}[${index}]`} index={index} operator={conditionOperator[exclusionFieldName]}/>
               )}
             />
           </Paper>

@@ -5,8 +5,9 @@ import { noop } from "lodash-es";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
 import { Promotion } from "types/promotions";
-import { useDisablePromotion, useEnablePromotion } from "../hooks";
+import { useDisablePromotion, useEnablePromotion, useArchivePromotions } from "../hooks";
 import { PromotionState } from "@graphql/generates";
+import { usePermission } from "@components/PermissionGuard";
 
 type ActionButtonsProps = {
   loading: boolean
@@ -20,6 +21,8 @@ type ActionButtonsProps = {
 export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCancel, onSuccess }: ActionButtonsProps) => {
   const { enablePromotions } = useEnablePromotion(onSuccess);
   const { disablePromotions } = useDisablePromotion(onSuccess);
+  const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
+  const { archivePromotions } = useArchivePromotions(onSuccess);
 
   return (
     !promotion || !disabled ?
@@ -45,9 +48,22 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
       <MenuActions
         options={
           [
-            { label: "Enable", onClick: () => enablePromotions([promotion]), hidden: promotion.enabled || promotion.state === PromotionState.Archived },
-            { label: "Disable", onClick: () => disablePromotions([promotion]), hidden: !promotion.enabled || promotion.state === PromotionState.Archived },
-            { label: "Duplicate", onClick: noop }
+            {
+              label: "Enable",
+              onClick: () => enablePromotions([promotion]),
+              hidden: !canUpdate || promotion.enabled || promotion.state === PromotionState.Archived
+            },
+            {
+              label: "Disable",
+              onClick: () => disablePromotions([promotion]),
+              hidden: !canUpdate || !promotion.enabled || promotion.state === PromotionState.Archived
+            },
+            { label: "Duplicate", onClick: noop },
+            {
+              label: "Archive",
+              onClick: () => archivePromotions([promotion._id], promotion.shopId),
+              hidden: !canUpdate || promotion.state === PromotionState.Archived
+            }
           ]
         }
         renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}

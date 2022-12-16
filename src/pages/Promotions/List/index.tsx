@@ -17,11 +17,9 @@ import { filterNodes, formatDate } from "@utils/common";
 import { CalculationType, Promotion, PromotionTabs, PromotionType } from "types/promotions";
 import { SortOrder } from "@graphql/types";
 import { CALCULATION_TYPE_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
-import { usePermission } from "@components/PermissionGuard";
 import { StatusChip } from "../components/StatusChip";
 
 import { Actions } from "./Actions";
-
 
 const TAB_VALUES: Record<PromotionTabs, {label: string}> = {
   active: { label: "Active" },
@@ -37,7 +35,6 @@ const Promotions = () => {
   const [searchParams, setSearchParams] = useSearchParams({ type: "active" });
   const { shopId } = useShop();
   const navigate = useNavigate();
-  const canViewArchived = usePermission(["reaction:legacy:promotions/read:archived"]);
 
   const activeTab = (searchParams.get("type") || "active") as PromotionTabs;
   const defaultSortingState: SortingState = [{ id: "label", desc: false }];
@@ -45,7 +42,6 @@ const Promotions = () => {
   const { pagination, handlePaginationChange, sorting, onSortingChange, rowSelection, onRowSelectionChange } = useTableState(defaultSortingState);
 
   const formattedToday = format(TODAY, DATE_FORMAT);
-
   const { data, isLoading, refetch } = useGetPromotionsQuery(client, {
     shopId: shopId!,
     first: pagination.pageSize,
@@ -169,14 +165,11 @@ const Promotions = () => {
       <Box sx={{ borderBottom: 1, borderColor: "grey.200", marginBottom: 3 }}>
         <Tabs value={activeTab} onChange={(_, value) => handleChangeTab(value)}>
           {Object.keys(TAB_VALUES).map((key) =>
-            (key !== "archived" ||
-            (key === "archived" && canViewArchived) ?
-              <Tab
-                disableRipple
-                key={key} value={key}
-                label={TAB_VALUES[key as PromotionTabs].label}
-              /> : null
-            ))
+            <Tab
+              disableRipple
+              key={key} value={key}
+              label={TAB_VALUES[key as PromotionTabs].label}
+            />)
           }
         </Tabs>
       </Box>

@@ -1,5 +1,5 @@
 import { useToast } from "@containers/ToastProvider";
-import { useUpdatePromotionMutation } from "@graphql/generates";
+import { useUpdatePromotionMutation, useArchivePromotionMutation } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { Promotion } from "types/promotions";
 
@@ -37,4 +37,17 @@ export const useDisablePromotion = (onSuccess?: () => void) => {
   };
 
   return { disablePromotions };
+};
+
+export const useArchivePromotions = (onSuccess?: () => void) => {
+  const { mutate: archive } = useArchivePromotionMutation(client);
+
+  const archivePromotions = (promotionIds: string[], shopId: string) => {
+    promotionIds.forEach((promotionId) =>
+      archive(
+        { input: { promotionId, shopId } },
+        { onSuccess }
+      ));
+  };
+  return { archivePromotions };
 };

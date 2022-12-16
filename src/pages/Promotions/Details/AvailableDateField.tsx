@@ -12,7 +12,7 @@ type AvailableDateFieldProps = {
 export const AvailableDateField = ({ disabled }: AvailableDateFieldProps) => {
   const { setFieldValue, values } = useFormikContext<Promotion>();
 
-  const onStartDateChange = (value: Date | null) => {
+  const onStartDateAccept = (value: Date | null) => {
     setFieldValue("startDate", value ? format(value, DATE_FORMAT) : null);
     if (value && isBefore(new Date(values.endDate), new Date(value))) {
       setFieldValue("endDate", null);
@@ -25,15 +25,14 @@ export const AvailableDateField = ({ disabled }: AvailableDateFieldProps) => {
         name="startDate"
         component={DatePickerField}
         label="Available From"
-        dateFormat={DATE_FORMAT}
-        onChange={onStartDateChange}
-        disabled={disabled}
+        inputFormat={DATE_FORMAT}
+        onAccept={onStartDateAccept}
       />
       <Field
         name="endDate"
         component={DatePickerField}
         label="Available To"
-        dateFormat={DATE_FORMAT}
+        inputFormat={DATE_FORMAT}
         minDate={values.startDate}
         disabled={disabled}
       />
