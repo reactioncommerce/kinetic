@@ -6,6 +6,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useMemo, useState } from "react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import Alert from "@mui/material/Alert";
 
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
@@ -44,7 +45,7 @@ export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
     <Stack direction="column" mt={2} gap={2}>
       <FieldArray
         name="actions"
-        render={({ form: { values }, remove, push }) =>
+        render={({ form: { values, touched, errors }, remove, push }) =>
           <Stack direction="column" gap={1}>
             <Typography variant="subtitle2">Select an action for your promotion</Typography>
             {values.actions.map((_: Action, index: number) =>
@@ -117,7 +118,7 @@ export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
                 color="secondary"
                 variant="outlined"
                 onClick={() => push({
-                  actionKey: "discount",
+                  actionKey: "discounts",
                   actionParameters: {
                     discountValue: 0,
                     discountCalculationType: "percentage",
@@ -133,6 +134,7 @@ export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
               >
               Add Action
               </Button> : null}
+            {touched.actions && errors.actions && typeof errors.actions === "string" ? <Alert severity="error">{errors.actions}</Alert> : null}
           </Stack>}
       />
     </Stack>
