@@ -15,11 +15,10 @@ import { ConditionOperators } from "./ConditionOperators";
 type EligibleItemsProps = {
   inclusionFieldName: string
   exclusionFieldName: string
-  disabled?: boolean
 }
 
 const initialValue = { fact: "item", path: "", value: [], operator: "" };
-export const EligibleItems = ({ inclusionFieldName, exclusionFieldName, disabled }: EligibleItemsProps) => {
+export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: EligibleItemsProps) => {
   const { setFieldValue, values } = useFormikContext<Promotion>();
 
   const currentInclusionRules = get(values, inclusionFieldName);
@@ -63,7 +62,6 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName, disabled
             }
             <FieldArrayRenderer
               {...props}
-              disabled={disabled}
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
               initialValue={initialValue}
               renderFieldItem={(index) => (
@@ -88,7 +86,6 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName, disabled
             }
             <FieldArrayRenderer
               {...props}
-              disabled={disabled}
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
               initialValue={initialValue}
               renderFieldItem={(index) => (

@@ -149,90 +149,87 @@ const PromotionDetails = () => {
         initialValues={initialValues}
         validationSchema={promotionSchema}
       >
-        {({ values, dirty, resetForm, isSubmitting, submitForm }) => <Stack component={Form} direction="column" gap={3} pb={3}>
-          <Paper variant="outlined" square sx={{ padding: 3, pb: 0, position: "sticky", top: { xs: 56, sm: 64 }, zIndex: 1 }}>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" pb={1}>
-              <Stack direction="column" maxWidth="80%" flexWrap="wrap">
-                <Stack direction="row" alignItems="center" gap={1.5} mb={0.5} flexWrap="wrap">
-                  <Typography variant="h6">{values.name || "New Promotion"}</Typography>
-                  {data?.promotion ? <StatusChip promotion={data?.promotion}/> : null}
-                </Stack>
-                <Stack direction="row" gap={0.5} alignItems="center">
-                  {data?.promotion?.referenceId ?
-                    <>
-                      <Typography
-                        variant="subtitle2"
-                        sx={{ color: "grey.600" }}>
-                        {data?.promotion.referenceId}
-                      </Typography>
-                      <FiberManualRecordIcon sx={{ height: "5px", width: "5px", color: "grey.600" }} />
-                    </>
-                    : null}
+        {({ values, dirty, resetForm, isSubmitting, submitForm }) =>
+          <Stack component={Form} direction="column" gap={3} pb={3}>
+            <Paper variant="outlined" square sx={{ padding: 3, pb: 0, position: "sticky", top: { xs: 56, sm: 64 }, zIndex: 1 }}>
+              <Stack direction="row" alignItems="center" justifyContent="space-between" pb={1}>
+                <Stack direction="column" maxWidth="80%" flexWrap="wrap">
+                  <Stack direction="row" alignItems="center" gap={1.5} mb={0.5} flexWrap="wrap">
+                    <Typography variant="h6">{values.name || "New Promotion"}</Typography>
+                    {data?.promotion ? <StatusChip promotion={data?.promotion}/> : null}
+                  </Stack>
+                  <Stack direction="row" gap={0.5} alignItems="center">
+                    {data?.promotion?.referenceId ?
+                      <>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ color: "grey.600" }}>
+                          {data?.promotion.referenceId}
+                        </Typography>
+                        <FiberManualRecordIcon sx={{ height: "5px", width: "5px", color: "grey.600" }} />
+                      </>
+                      : null}
 
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "grey.600" }}
-                    noWrap
-                  >
-                    {PROMOTION_TYPE_OPTIONS[values.promotionType as PromotionType]?.label || "Unknown"}
-                  </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ color: "grey.600" }}
+                      noWrap
+                    >
+                      {PROMOTION_TYPE_OPTIONS[values.promotionType as PromotionType]?.label || "Unknown"}
+                    </Typography>
+                  </Stack>
                 </Stack>
+                {showActionButtons ?
+                  <ActionButtons
+                    loading={isSubmitting}
+                    disabled={!dirty}
+                    submitForm={submitForm}
+                    onCancel={() => (promotionId ? resetForm() : navigate("/promotions"))}
+                    promotion={data?.promotion}
+                    onSuccess={refetch}
+                  />
+                  : null}
               </Stack>
-              {showActionButtons ?
-                <ActionButtons
-                  loading={isSubmitting}
-                  disabled={!dirty}
-                  submitForm={submitForm}
-                  onCancel={() => (promotionId ? resetForm() : navigate("/promotions"))}
-                  promotion={data?.promotion}
-                  onSuccess={refetch}
+              <Tabs value="details">
+                <Tab disableRipple value="details" label="Details"/>
+              </Tabs>
+            </Paper>
+            <PromotionSection title="Promotion Basics">
+              <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 6 } }} alignItems="flex-start" pt={1} pb={0}>
+                <Field name="name" component={TextField} label="Promotion Name" />
+                <PromotionTypeField disabled={shouldDisableField}/>
+              </Stack>
+              <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3} />
+            </PromotionSection>
+            <PromotionSection title="Promotion Builder">
+              <PromotionActions />
+              <PromotionTriggers />
+            </PromotionSection>
+            <PromotionSection title="Promotion Stackability">
+              <Box mt={1} width="50%">
+                <FastField
+                  name="stackability.key"
+                  component={SelectField}
+                  label="Select Stackability"
+                  options={PROMOTION_STACKABILITY_OPTIONS}
                 />
-                : null}
-            </Stack>
-            <Tabs value="details">
-              <Tab disableRipple value="details" label="Details"/>
-            </Tabs>
-          </Paper>
-          <PromotionSection title="Promotion Basics">
-            <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 6 } }} alignItems="flex-start" pt={1} pb={0}>
-              <Field name="name" component={TextField} label="Promotion Name" disabled={shouldDisableField}/>
-              <PromotionTypeField disabled={shouldDisableField}/>
-            </Stack>
-            <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3} disabled={shouldDisableField}/>
-          </PromotionSection>
-          <PromotionSection title="Promotion Builder">
-            <PromotionActions disabled={shouldDisableField} />
-            <PromotionTriggers disabled={shouldDisableField} />
-          </PromotionSection>
-          <PromotionSection title="Promotion Stackability">
-            <Box mt={1} width="50%">
-              <FastField
-                name="stackability.key"
-                component={SelectField}
-                label="Select Stackability"
-                options={PROMOTION_STACKABILITY_OPTIONS}
-                disabled={shouldDisableField}
-              />
-            </Box>
-          </PromotionSection>
-          <PromotionSection title="Promotion Scheduling">
-            <AvailableDateField disabled={shouldDisableField}/>
-          </PromotionSection>
-          <PromotionSection title="Promotion Message">
-            <Box mt={1} width="50%">
-              <FastField
-                name="label"
-                component={TextField}
-                label="Checkout Label"
-                disabled={shouldDisableField}
-              />
-            </Box>
-          </PromotionSection>
-        </Stack>
+              </Box>
+            </PromotionSection>
+            <PromotionSection title="Promotion Scheduling">
+              <AvailableDateField disabled={shouldDisableField}/>
+            </PromotionSection>
+            <PromotionSection title="Promotion Message">
+              <Box mt={1} width="50%">
+                <FastField
+                  name="label"
+                  component={TextField}
+                  label="Checkout Label"
+                />
+              </Box>
+            </PromotionSection>
+          </Stack>
         }
       </Formik>
-
-
   );
 };
 

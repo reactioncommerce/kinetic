@@ -27,6 +27,7 @@ export const AvailableDateField = ({ disabled }: AvailableDateFieldProps) => {
         label="Available From"
         inputFormat={DATE_FORMAT}
         onAccept={onStartDateAccept}
+        disabled={disabled}
       />
       <Field
         name="endDate"
@@ -34,7 +35,6 @@ export const AvailableDateField = ({ disabled }: AvailableDateFieldProps) => {
         label="Available To"
         inputFormat={DATE_FORMAT}
         minDate={values.startDate}
-        disabled={disabled}
       />
     </Stack>
   );

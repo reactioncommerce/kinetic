@@ -51,18 +51,18 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
             {
               label: "Enable",
               onClick: () => enablePromotions([promotion]),
-              hidden: !canUpdate || promotion.enabled || promotion.state === PromotionState.Archived
+              hidden: !canUpdate || promotion.enabled || promotion.state === PromotionState.Active
             },
             {
               label: "Disable",
               onClick: () => disablePromotions([promotion]),
-              hidden: !canUpdate || !promotion.enabled || promotion.state === PromotionState.Archived
+              hidden: !canUpdate || !promotion.enabled || promotion.state === PromotionState.Active
             },
             { label: "Duplicate", onClick: noop },
             {
               label: "Archive",
               onClick: () => archivePromotions([promotion._id], promotion.shopId),
-              hidden: !canUpdate || promotion.state === PromotionState.Archived
+              hidden: !canUpdate || promotion.state === PromotionState.Active
             }
           ]
         }

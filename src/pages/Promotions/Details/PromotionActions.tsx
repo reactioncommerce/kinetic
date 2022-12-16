@@ -24,11 +24,8 @@ const getSymbolBasedOnType = (action: Action) => {
   return calculationType ? CALCULATION_TYPE_OPTIONS[calculationType].symbol : null;
 };
 
-type PromotionActionsProps = {
-  disabled?: boolean
-}
 
-export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
+export const PromotionActions = () => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
   const { values: { promotionType } } = useFormikContext<Promotion>();
@@ -59,7 +56,6 @@ export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
                       label="Select Action Calculate Type"
                       ariaLabel="Calculate Type"
                       options={calculationTypeOptions}
-                      disabled={disabled}
                     />
                     {getSymbolBasedOnType(values.actions[index]) ?
                       <Field
@@ -69,20 +65,18 @@ export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
                         ariaLabel="Discount Value"
                         type="number"
                         hiddenLabel
-                        disabled={disabled}
                         startAdornment={
                           <InputAdornment position="start">{getSymbolBasedOnType(values.actions[index])}</InputAdornment>
                         }
                       />
                       : null}
                   </Stack>
-                  <Button variant="text" color="error" onClick={() => setActiveField(index)} disabled={disabled}>
+                  <Button variant="text" color="error" onClick={() => setActiveField(index)}>
                   Remove Action
                   </Button>
                 </Stack>
                 {isShippingDiscount ?
                   <EligibleShippingMethods
-                    disabled={disabled}
                     inclusionFieldName={
                       `actions[${index}].actionParameters.inclusionRules.conditions.all`
                     }
@@ -130,7 +124,6 @@ export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
                 })}
                 sx={{ width: "fit-content" }}
                 size="small"
-                disabled={disabled}
               >
               Add Action
               </Button> : null}

@@ -21,16 +21,29 @@ const promotion = (index: number): Promotion => {
     state: PromotionState.Created,
     stackability: { key: Stackability.All, parameters: {} },
     actions: [{
-      actionKey: "noop",
+      actionKey: "discounts",
       actionParameters: {
         discountCalculationType: CalculationType.Percentage,
         discountType: "order",
         discountValue: 50
       }
     }],
+    triggers: [{
+      triggerKey: "offers",
+      triggerParameters: {
+        name: "trigger",
+        conditions: {
+          all: [{
+            fact: "totalItemAmount",
+            operator: "greaterThanInclusive",
+            value: 2
+          }]
+        }
+      }
+    }],
     startDate,
     enabled: index % 2 === 0,
-    endDate: index % 2 === 0 ? faker.date.future() : date,
+    endDate: faker.date.future(undefined, startDate),
     description: "description",
     shopId: "id"
   };
@@ -51,7 +64,11 @@ const getPromotionsHandler = graphql.query("getPromotions", (req, res, ctx) => {
 });
 
 
-const getPromotionHandler = graphql.query("getPromotion", (req, res, ctx) => res(ctx.data({ promotion: disabledPromotions[0] })));
+const getPromotionHandler = graphql.query("getPromotion", (req, res, ctx) => {
+  const { input } = req.variables;
+
+  return res(ctx.data({ promotion: promotions.find(({ _id }) => _id === input._id) || disabledPromotions[0] }));
+});
 
 
 const createPromotionHandler = graphql.mutation("createPromotion", (req, res, ctx) => {
