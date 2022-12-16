@@ -578,6 +578,8 @@ export type AppliedSurchargeMessageArgs = {
 
 /** Input for the applyCouponToCart mutation */
 export type ApplyCouponToCartInput = {
+  /** The account ID of the user who is applying the coupon */
+  accountId?: InputMaybe<Scalars['ID']>;
   /** The ID of the Cart */
   cartId: Scalars['ID'];
   /** The coupon code to apply */
@@ -5519,12 +5521,8 @@ export type PromotionCreateInput = {
 export type PromotionDateOperators = {
   /** The value must be greater than the given value */
   after?: InputMaybe<Scalars['Date']>;
-  /** The value must be greater than or equal to the given value */
-  afterInclusive?: InputMaybe<Scalars['Date']>;
   /** The value must be less than the given value */
   before?: InputMaybe<Scalars['Date']>;
-  /** The value must be less than or equal to the given value */
-  beforeInclusive?: InputMaybe<Scalars['Date']>;
   /** The value must be equal to the given value */
   eq?: InputMaybe<Scalars['Date']>;
 };
