@@ -1,6 +1,6 @@
 import { DatePicker, DatePickerProps } from "@mui/x-date-pickers/DatePicker";
 import { FieldProps, getIn } from "formik";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 
 import { InputWithLabel } from "@components/TextField";
 
