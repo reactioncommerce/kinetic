@@ -3,6 +3,7 @@ export const BREADCRUMB_ITEMS = {
   "/orders": "Orders",
   "/customers": "Customers",
   "/promotions": "Promotions",
+  "/promotions/create": "New Promotion",
   "/categories": "Categories",
   "/settings": "Settings",
   "/settings/users-and-permissions": "Users & Permissions",

@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMemo } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -34,6 +34,7 @@ const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
 const Promotions = () => {
   const [searchParams, setSearchParams] = useSearchParams({ type: "active" });
   const { shopId } = useShop();
+  const navigate = useNavigate();
 
   const activeTab = (searchParams.get("type") || "active") as PromotionFilterKey;
   const defaultSortingState: SortingState = [{ id: "label", desc: false }];
@@ -59,7 +60,8 @@ const Promotions = () => {
       const promotions = filterNodes(response.promotions.nodes).map((promotion) => ({
         ...promotion,
         promotionType: promotion.promotionType as PromotionType,
-        actions: filterNodes(promotion.actions)
+        actions: filterNodes(promotion.actions),
+        triggers: filterNodes(promotion.triggers)
       }));
       return {
         totalCount: response.promotions.totalCount,
@@ -144,6 +146,7 @@ const Promotions = () => {
   const handleChangeTab = (value: string) => {
     setSearchParams({ type: value });
     onRowSelectionChange({});
+    handlePaginationChange({ pageIndex: 0, pageSize: pagination.pageSize });
   };
 
   const disabledActionItem = Object.keys(rowSelection).length === 0;
@@ -161,7 +164,7 @@ const Promotions = () => {
           action={<MenuActions
             options={
               [
-                { label: "Create New", onClick: noop },
+                { label: "Create New", onClick: () => navigate("create") },
                 { label: "Duplicate", onClick: noop, disabled: disabledActionItem },
                 { label: "Enable", onClick: noop, disabled: disabledActionItem },
                 { label: "Disable", onClick: noop, disabled: disabledActionItem }
@@ -181,6 +184,7 @@ const Promotions = () => {
           onSortingChange={onSortingChange}
           maxHeight={600}
           getRowId={(promotion) => promotion._id}
+          onRowClick={(promotion) => navigate(`/promotions/${promotion._id}`)}
         />
       </TableContainer>
     </Container>

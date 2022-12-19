@@ -30,6 +30,7 @@ const PaymentSettings = lazy(() => import("./pages/Settings/Checkout/Payments"))
 const AddressValidationSettings = lazy(() => import("./pages/Settings/Checkout/AddressValidation"));
 const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
 const Customers = lazy(() => import("./pages/Customers"));
+const PromotionDetails = lazy(() => import("./pages/Promotions/Details"));
 const Promotions = lazy(() => import("./pages/Promotions/List"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
@@ -205,10 +206,37 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "promotions",
-                element:
-                <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
-                  <Promotions/>
-                </PermissionGuard>
+                children: [
+                  {
+                    index: true,
+                    element:
+                    <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
+                      <Promotions/>
+                    </PermissionGuard>
+                  },
+                  {
+                    path: "create",
+                    element:
+                  <PermissionGuard permissions={["reaction:legacy:promotions/create"]}>
+                    <PromotionDetails/>
+                  </PermissionGuard>
+                  },
+                  {
+                    path: ":promotionId",
+                    element:
+                    <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
+                      <PromotionDetails/>
+                    </PermissionGuard>
+                  }
+                ]
+              },
+              {
+                path: "customers",
+                element: <PageLayout/>,
+                children: [{
+                  index: true,
+                  element: <Customers/>
+                }]
               },
               {
                 path: "settings",
