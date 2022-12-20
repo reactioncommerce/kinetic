@@ -26,6 +26,7 @@ query getPromotions(
           actionKey
           actionParameters
         }
+        state
         referenceId
         shopId
         startDate
@@ -34,7 +35,6 @@ query getPromotions(
           key
           parameters
         }
-        state
         createdAt
         updatedAt
       }

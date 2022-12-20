@@ -52,7 +52,7 @@ export const ConditionField = memo(({ name, index, operator }: ConditionFieldPro
             <InputWithLabel
               {...params}
               name="value"
-              placeholder="Value"
+              placeholder="Enter Values"
               hiddenLabel
             />
           )}
