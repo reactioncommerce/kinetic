@@ -1,14 +1,13 @@
-import { GraphQLClient } from "graphql-request";
-import { RequestInit } from "graphql-request/dist/types.dom";
-import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from "react-query";
-
+import { GraphQLClient } from 'graphql-request';
+import { RequestInit } from 'graphql-request/dist/types.dom';
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 
-function fetcher<TData, TVariables>(client: GraphQLClient, query: string, variables?: TVariables, headers?: RequestInit["headers"]) {
+function fetcher<TData, TVariables>(client: GraphQLClient, query: string, variables?: TVariables, headers?: RequestInit['headers']) {
   return async (): Promise<TData> => client.request<TData, TVariables>(query, variables, headers);
 }
 /** All built-in and custom scalars, mapped to their actual values */
@@ -44,67 +43,67 @@ export type Scalars = {
 
 /** Represents a single user account */
 export type Account = Node & {
-  __typename?: "Account";
+  __typename?: 'Account';
   /** The account ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** A list of physical or mailing addresses associated with this account */
   addressBook?: Maybe<AddressConnection>;
   /** A list of shops this user can administer with the admin UI */
   adminUIShops?: Maybe<Array<Maybe<Shop>>>;
   /** Bio to display on profile */
-  bio?: Maybe<Scalars["String"]>;
+  bio?: Maybe<Scalars['String']>;
   /** The date and time at which this account was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The preferred currency used by this account */
   currency?: Maybe<Currency>;
   /** A list of email records associated with this account */
   emailRecords?: Maybe<Array<Maybe<EmailRecord>>>;
   /** The first name of the person this account represents, if known */
-  firstName?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars['String']>;
   /** A paged list of the account groups in which this account is listed */
   groups?: Maybe<GroupConnection>;
   /** The preferred language used by this account */
-  language?: Maybe<Scalars["String"]>;
+  language?: Maybe<Scalars['String']>;
   /** The last name of the person this account represents, if known */
-  lastName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars['String']>;
   /** Arbitrary additional metadata about this account */
   metafields?: Maybe<Array<Maybe<Metafield>>>;
   /** The full name of the person this account represents, if known */
-  name?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars['String']>;
   /** Some note about this account */
-  note?: Maybe<Scalars["String"]>;
+  note?: Maybe<Scalars['String']>;
   /** URL of picture to display on profile */
-  picture?: Maybe<Scalars["String"]>;
+  picture?: Maybe<Scalars['String']>;
   /** An object storing plugin-specific preferences for this account */
-  preferences?: Maybe<Scalars["JSONObject"]>;
+  preferences?: Maybe<Scalars['JSONObject']>;
   /** The primary email address for the account. This matches the address in `emailRecords` where `provides` is `default`. */
-  primaryEmailAddress: Scalars["Email"];
+  primaryEmailAddress: Scalars['Email'];
   /** The date and time at which this account was last updated */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** The Identity user ID with which this account is associated */
-  userId: Scalars["String"];
+  userId: Scalars['String'];
   /** Username */
-  username?: Maybe<Scalars["String"]>;
+  username?: Maybe<Scalars['String']>;
 };
 
 
 /** Represents a single user account */
 export type AccountAddressBookArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
 };
 
 
 /** Represents a single user account */
 export type AccountGroupsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<GroupSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -118,7 +117,7 @@ export type AccountGroupsArgs = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type AccountConnection = {
-  __typename?: "AccountConnection";
+  __typename?: 'AccountConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<AccountEdge>>>;
   /**
@@ -129,14 +128,14 @@ export type AccountConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is an `Account` object */
 export type AccountEdge = NodeEdge & {
-  __typename?: "AccountEdge";
+  __typename?: 'AccountEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The account */
   node?: Maybe<Account>;
 };
@@ -144,85 +143,85 @@ export type AccountEdge = NodeEdge & {
 /** The fields by which you are allowed to sort any query that returns an `AccountConnection` */
 export enum AccountSortByField {
   /** Account ID */
-  Id = "_id",
+  Id = '_id',
   /** Date and time at which this account was created */
-  CreatedAt = "createdAt",
+  CreatedAt = 'createdAt',
   /** Date and time at which this account was last updated */
-  UpdatedAt = "updatedAt"
+  UpdatedAt = 'updatedAt'
 }
 
 /** The action to be taken when a promotion is triggered */
 export type Action = {
-  __typename?: "Action";
+  __typename?: 'Action';
   /** The key that defines this action */
-  actionKey: Scalars["String"];
+  actionKey: Scalars['String'];
   /** Parameters to be passed to the action */
-  actionParameters?: Maybe<Scalars["JSONObject"]>;
+  actionParameters?: Maybe<Scalars['JSONObject']>;
 };
 
 /** The action to be taken when a promotion is triggered */
 export type ActionInput = {
   /** The key that defines this action */
-  actionKey: Scalars["String"];
+  actionKey: Scalars['String'];
   /** Parameters to be passed to the action */
-  actionParameters?: InputMaybe<Scalars["JSONObject"]>;
+  actionParameters?: InputMaybe<Scalars['JSONObject']>;
 };
 
 /** Defines a new Address and the account to which it should be added */
 export type AddAccountAddressBookEntryInput = {
   /** The account ID */
-  accountId: Scalars["ID"];
+  accountId: Scalars['ID'];
   /** The address to add */
   address: AddressInput;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
 };
 
 /** The response from the `addAccountAddressBookEntry` mutation */
 export type AddAccountAddressBookEntryPayload = {
-  __typename?: "AddAccountAddressBookEntryPayload";
+  __typename?: 'AddAccountAddressBookEntryPayload';
   /** The added address */
   address?: Maybe<Address>;
   /** The added address edge */
   addressEdge?: Maybe<AddressEdge>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Defines a new Email and the account to which it should be added */
 export type AddAccountEmailRecordInput = {
   /** The account ID, which defaults to the viewer account */
-  accountId?: InputMaybe<Scalars["ID"]>;
+  accountId?: InputMaybe<Scalars['ID']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The email address to add */
-  email: Scalars["Email"];
+  email: Scalars['Email'];
 };
 
 /** The response from the `addAccountEmailRecord` mutation */
 export type AddAccountEmailRecordPayload = {
-  __typename?: "AddAccountEmailRecordPayload";
+  __typename?: 'AddAccountEmailRecordPayload';
   /** The account, with updated `emailRecords` */
   account?: Maybe<Account>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Defines a group and account that should be linked */
 export type AddAccountToGroupInput = {
   /** The account ID */
-  accountId: Scalars["ID"];
+  accountId: Scalars['ID'];
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The group ID */
-  groupId: Scalars["ID"];
+  groupId: Scalars['ID'];
 };
 
 /** The response from the `addAccountToGroup` mutation */
 export type AddAccountToGroupPayload = {
-  __typename?: "AddAccountToGroupPayload";
+  __typename?: 'AddAccountToGroupPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated group */
   group?: Maybe<Group>;
 };
@@ -230,25 +229,25 @@ export type AddAccountToGroupPayload = {
 /** Input for the `addCartItems` mutation */
 export type AddCartItemsInput = {
   /** The cart ID */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** If this cart is anonymous, provide the `cartToken` that was returned in the `CreateCartPayload` */
-  cartToken?: InputMaybe<Scalars["String"]>;
+  cartToken?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Array of items to be added to the cart */
   items: Array<InputMaybe<CartItemInput>>;
 };
 
 /** The payload returned from the `addCartItems` mutation call */
 export type AddCartItemsPayload = {
-  __typename?: "AddCartItemsPayload";
+  __typename?: 'AddCartItemsPayload';
   /**
    * The modified cart. You should check `incorrectPriceFailures` and `minOrderQuantityFailures` for
    * information necessary to display errors to the shopper. Some items may not have been added.
    */
   cart?: Maybe<Cart>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * Clients should check to see if any items failed to be added due to the price not matching the current price.
    * In general, a user interface should display the correct current prices to the shopper, confirm that they still
@@ -270,22 +269,22 @@ export type AddCartItemsPayload = {
 /** Input for the addOrderFulfillmentGroup mutation */
 export type AddOrderFulfillmentGroupInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The order fulfillment group input, used to build the new group */
   fulfillmentGroup: OrderFulfillmentGroupExistingOrderInput;
   /** Optional list of order item IDs that should be moved from an existing group to the new group */
-  moveItemIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  moveItemIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** ID of the order that has the item you want to add the group to */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
 };
 
 /** Response payload for the addOrderFulfillmentGroup mutation */
 export type AddOrderFulfillmentGroupPayload = {
-  __typename?: "AddOrderFulfillmentGroupPayload";
+  __typename?: 'AddOrderFulfillmentGroupPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** ID of the added fulfillment group */
-  newFulfillmentGroupId: Scalars["ID"];
+  newFulfillmentGroupId: Scalars['ID'];
   /** The updated order */
   order: Order;
 };
@@ -293,77 +292,77 @@ export type AddOrderFulfillmentGroupPayload = {
 /** Input for `addTag` mutation */
 export type AddTagInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Title to display to customers */
-  displayTitle?: InputMaybe<Scalars["String"]>;
+  displayTitle?: InputMaybe<Scalars['String']>;
   /** Hero media URL */
-  heroMediaUrl?: InputMaybe<Scalars["String"]>;
+  heroMediaUrl?: InputMaybe<Scalars['String']>;
   /** Whether the tag is visible */
-  isVisible: Scalars["Boolean"];
+  isVisible: Scalars['Boolean'];
   /** Tag metafields */
   metafields?: InputMaybe<Array<InputMaybe<MetafieldInput>>>;
   /** Unique name of the tag */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** The shop that owns the tag */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The tag slug. If left blank, the name will be slugified and saved as the slug */
-  slug?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** Response payload for `addTag` mutation */
 export type AddTagPayload = {
-  __typename?: "AddTagPayload";
+  __typename?: 'AddTagPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The shop that owns the tag */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The newly-created tag */
   tag: Tag;
 };
 
 /** Represents a physical or mailing address somewhere on Earth */
 export type Address = {
-  __typename?: "Address";
+  __typename?: 'Address';
   /** The address ID */
-  _id?: Maybe<Scalars["ID"]>;
+  _id?: Maybe<Scalars['ID']>;
   /** The street address / first line */
-  address1: Scalars["String"];
+  address1: Scalars['String'];
   /** Optional second line */
-  address2?: Maybe<Scalars["String"]>;
+  address2?: Maybe<Scalars['String']>;
   /** City */
-  city: Scalars["String"];
+  city: Scalars['String'];
   /** Optional company name, if it's a business address */
-  company?: Maybe<Scalars["String"]>;
+  company?: Maybe<Scalars['String']>;
   /** Country */
-  country: Scalars["String"];
+  country: Scalars['String'];
   /**
    * The first name of a person at this address
    * This is an optional field to support legacy and third party platforms
    * We use fullName internally, and use first and last name fields to combine into a full name if needed
    */
-  firstName?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars['String']>;
   /** The full name of a person at this address */
-  fullName: Scalars["String"];
+  fullName: Scalars['String'];
   /** Is this the default address for billing purposes? */
-  isBillingDefault?: Maybe<Scalars["Boolean"]>;
+  isBillingDefault?: Maybe<Scalars['Boolean']>;
   /** Is this a commercial address? */
-  isCommercial: Scalars["Boolean"];
+  isCommercial: Scalars['Boolean'];
   /** Is this the default address to use when selecting a shipping address at checkout? */
-  isShippingDefault?: Maybe<Scalars["Boolean"]>;
+  isShippingDefault?: Maybe<Scalars['Boolean']>;
   /**
    * The last name of a person at this address
    * This is an optional field to support legacy and third party platforms
    * We use fullName internally, and use first and last name fields to combine into a full name if needed
    */
-  lastName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars['String']>;
   /** Arbitrary additional metadata about this address */
   metafields?: Maybe<Array<Maybe<Metafield>>>;
   /** A phone number for someone at this address */
-  phone: Scalars["String"];
+  phone: Scalars['String'];
   /** Postal code */
-  postal: Scalars["String"];
+  postal: Scalars['String'];
   /** Region. For example, a U.S. state */
-  region: Scalars["String"];
+  region: Scalars['String'];
 };
 
 /**
@@ -375,7 +374,7 @@ export type Address = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type AddressConnection = {
-  __typename?: "AddressConnection";
+  __typename?: 'AddressConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<AddressEdge>>>;
   /**
@@ -386,14 +385,14 @@ export type AddressConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is an `Address` object */
 export type AddressEdge = {
-  __typename?: "AddressEdge";
+  __typename?: 'AddressEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The address */
   node?: Maybe<Address>;
 };
@@ -401,71 +400,71 @@ export type AddressEdge = {
 /** The details of an `Address` to be created or updated */
 export type AddressInput = {
   /** The street address / first line */
-  address1: Scalars["String"];
+  address1: Scalars['String'];
   /** Optional second line */
-  address2?: InputMaybe<Scalars["String"]>;
+  address2?: InputMaybe<Scalars['String']>;
   /** Optionally, a name for this address (e.g. 'Home') to easily identify it in the future */
-  addressName?: InputMaybe<Scalars["String"]>;
+  addressName?: InputMaybe<Scalars['String']>;
   /** City */
-  city: Scalars["String"];
+  city: Scalars['String'];
   /** Optional company name, if it's a business address */
-  company?: InputMaybe<Scalars["String"]>;
+  company?: InputMaybe<Scalars['String']>;
   /** Country */
-  country: Scalars["String"];
+  country: Scalars['String'];
   /**
    * The first name of a person at this address
    * This is an optional field to support legacy and third party platforms
    * We use fullName internally, and use first and last name fields to combine into a full name if needed
    */
-  firstName?: InputMaybe<Scalars["String"]>;
+  firstName?: InputMaybe<Scalars['String']>;
   /** The full name of a person at this address */
-  fullName: Scalars["String"];
+  fullName: Scalars['String'];
   /** Is this the default address for billing purposes? */
-  isBillingDefault?: InputMaybe<Scalars["Boolean"]>;
+  isBillingDefault?: InputMaybe<Scalars['Boolean']>;
   /** Is this a commercial address? */
-  isCommercial?: InputMaybe<Scalars["Boolean"]>;
+  isCommercial?: InputMaybe<Scalars['Boolean']>;
   /** Is this the default address to use when selecting a shipping address at checkout? */
-  isShippingDefault?: InputMaybe<Scalars["Boolean"]>;
+  isShippingDefault?: InputMaybe<Scalars['Boolean']>;
   /**
    * The last name of a person at this address
    * This is an optional field to support legacy and third party platforms
    * We use fullName internally, and use first and last name fields to combine into a full name if needed
    */
-  lastName?: InputMaybe<Scalars["String"]>;
+  lastName?: InputMaybe<Scalars['String']>;
   /** Arbitrary additional metadata about this address */
   metafields?: InputMaybe<Array<InputMaybe<MetafieldInput>>>;
   /** A phone number for someone at this address */
-  phone: Scalars["String"];
+  phone: Scalars['String'];
   /** Postal code */
-  postal: Scalars["String"];
+  postal: Scalars['String'];
   /** Region. For example, a U.S. state */
-  region: Scalars["String"];
+  region: Scalars['String'];
 };
 
 /** A list of the possible types of `Address` */
 export enum AddressType {
   /** Address can be used for payment transactions and invoicing */
-  Billing = "billing",
+  Billing = 'billing',
   /** Address can be used as a mailing address for sending physical items */
-  Shipping = "shipping"
+  Shipping = 'shipping'
 }
 
 /** Details about an error that was the result of validating an address that is invalid */
 export type AddressValidationError = {
-  __typename?: "AddressValidationError";
+  __typename?: 'AddressValidationError';
   /** A longer, detailed error message suitable for showing in the user interface */
-  details?: Maybe<Scalars["String"]>;
+  details?: Maybe<Scalars['String']>;
   /** An identifier of the source of this error. These are not currently standardized. As long as your client understands it, any string is fine. */
-  source?: Maybe<Scalars["String"]>;
+  source?: Maybe<Scalars['String']>;
   /** A short error message suitable for showing in the user interface */
-  summary: Scalars["String"];
+  summary: Scalars['String'];
   /** The error type. These are not currently standardized. As long as your client understands it, any string is fine. */
-  type: Scalars["String"];
+  type: Scalars['String'];
 };
 
 /** The response from `Query.addressValidation` */
 export type AddressValidationResults = {
-  __typename?: "AddressValidationResults";
+  __typename?: 'AddressValidationResults';
   /**
    * A list of suggested addresses. If the address is valid as is OR the address input is invalid OR
    * the shop is not configured to validate addresses, then this will be empty.
@@ -483,22 +482,22 @@ export type AddressValidationResults = {
  * which countries in each shop.
  */
 export type AddressValidationRule = Node & {
-  __typename?: "AddressValidationRule";
+  __typename?: 'AddressValidationRule';
   /** The rule ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Country codes for which this service is enabled */
-  countryCodes?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  countryCodes?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** The date and time at which this rule was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /**
    * The name of one of the installed validation services. Use `addressValidationServices`
    * query to get a list with more details about all installed services.
    */
-  serviceName: Scalars["String"];
+  serviceName: Scalars['String'];
   /** ID of the shop to which this rule applies */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The date and time at which this rule was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 /**
@@ -510,7 +509,7 @@ export type AddressValidationRule = Node & {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type AddressValidationRuleConnection = {
-  __typename?: "AddressValidationRuleConnection";
+  __typename?: 'AddressValidationRuleConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<AddressValidationRuleEdge>>>;
   /**
@@ -521,14 +520,14 @@ export type AddressValidationRuleConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `AddressValidationRule` object */
 export type AddressValidationRuleEdge = NodeEdge & {
-  __typename?: "AddressValidationRuleEdge";
+  __typename?: 'AddressValidationRuleEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The address validation rule */
   node?: Maybe<AddressValidationRule>;
 };
@@ -536,45 +535,45 @@ export type AddressValidationRuleEdge = NodeEdge & {
 /** The fields by which you are allowed to sort any query that returns an `AddressValidationRuleConnection` */
 export enum AddressValidationRuleSortByField {
   /** AddressValidationRule ID */
-  Id = "_id",
+  Id = '_id',
   /** Date and time at which the rule was created */
-  CreatedAt = "createdAt",
+  CreatedAt = 'createdAt',
   /** Service name */
-  ServiceName = "serviceName",
+  ServiceName = 'serviceName',
   /** Date and time at which the rule was last updated */
-  UpdatedAt = "updatedAt"
+  UpdatedAt = 'updatedAt'
 }
 
 /** A single registered address validation service */
 export type AddressValidationService = {
-  __typename?: "AddressValidationService";
+  __typename?: 'AddressValidationService';
   /** Human-readable name to show operators */
-  displayName: Scalars["String"];
+  displayName: Scalars['String'];
   /** Unique name to serve as a key identifying this service */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** An optional list of all country codes that this address service supports. Null means all countries. */
-  supportedCountryCodes?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  supportedCountryCodes?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 /** Defines a surcharge that has been applied to a Cart or Order */
 export type AppliedSurcharge = Node & {
-  __typename?: "AppliedSurcharge";
+  __typename?: 'AppliedSurcharge';
   /** The surcharge ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The amount of the surcharge */
   amount: Money;
   /** The fulfillmentGroupId (for reference) */
-  fulfillmentGroupId?: Maybe<Scalars["ID"]>;
+  fulfillmentGroupId?: Maybe<Scalars['ID']>;
   /** The message to explain the surchage to customers, translated (if available) based on shop language */
-  message?: Maybe<Scalars["String"]>;
+  message?: Maybe<Scalars['String']>;
   /** The surchargeId from the surchages collection (for reference) */
-  surchargeDefinitionId: Scalars["ID"];
+  surchargeDefinitionId: Scalars['ID'];
 };
 
 
 /** Defines a surcharge that has been applied to a Cart or Order */
 export type AppliedSurchargeMessageArgs = {
-  language: Scalars["String"];
+  language: Scalars['String'];
 };
 
 /** Input for the applyCouponToCart mutation */
@@ -582,58 +581,58 @@ export type ApplyCouponToCartInput = {
   /** The account ID of the user who is applying the coupon */
   accountId?: InputMaybe<Scalars['ID']>;
   /** The ID of the Cart */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** The coupon code to apply */
-  couponCode: Scalars["String"];
-  shopId: Scalars["ID"];
+  couponCode: Scalars['String'];
+  shopId: Scalars['ID'];
   /** Cart token, if anonymous */
-  token?: InputMaybe<Scalars["String"]>;
+  token?: InputMaybe<Scalars['String']>;
 };
 
 /** The response for the applyCouponToCart mutation */
 export type ApplyCouponToCartPayload = {
-  __typename?: "ApplyCouponToCartPayload";
+  __typename?: 'ApplyCouponToCartPayload';
   cart?: Maybe<Cart>;
 };
 
 /** Input for an `ApplyDiscountCodeToCartInput` */
 export type ApplyDiscountCodeToCartInput = {
   /** Cart to add discount to */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** Discount code to add to cart */
-  discountCode: Scalars["String"];
+  discountCode: Scalars['String'];
   /** Shop cart belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Cart token, if anonymous */
-  token?: InputMaybe<Scalars["String"]>;
+  token?: InputMaybe<Scalars['String']>;
 };
 
 /** Response from the `applyDiscountCodeToCart` mutation */
 export type ApplyDiscountCodeToCartPayload = {
-  __typename?: "ApplyDiscountCodeToCartPayload";
+  __typename?: 'ApplyDiscountCodeToCartPayload';
   /** The updated cart with discount code applied */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the `approveOrderPayments` mutation */
 export type ApproveOrderPaymentsInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The order ID */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
   /** The IDs of one or more payments to approve for this order */
-  paymentIds: Array<InputMaybe<Scalars["ID"]>>;
+  paymentIds: Array<InputMaybe<Scalars['ID']>>;
   /** The ID of the shop that owns this order */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response from the `approveOrderPayments` mutation */
 export type ApproveOrderPaymentsPayload = {
-  __typename?: "ApproveOrderPaymentsPayload";
+  __typename?: 'ApproveOrderPaymentsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
 };
@@ -641,18 +640,18 @@ export type ApproveOrderPaymentsPayload = {
 /** Input for the archiveMediaRecord mutation */
 export type ArchiveMediaRecordInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of MediaRecord to archive */
-  mediaRecordId: Scalars["ID"];
+  mediaRecordId: Scalars['ID'];
   /** ID of shop that owns this MediaRecord */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the archiveMediaRecord mutation */
 export type ArchiveMediaRecordPayload = {
-  __typename?: "ArchiveMediaRecordPayload";
+  __typename?: 'ArchiveMediaRecordPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The archived MediaRecord */
   mediaRecord: MediaRecord;
 };
@@ -660,16 +659,16 @@ export type ArchiveMediaRecordPayload = {
 /** Input for the `archiveProducts` mutation */
 export type ArchiveProductVariantsInput = {
   /** ID of shop that owns all variants you are archiving */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Array of IDs of variants to archive */
-  variantIds: Array<InputMaybe<Scalars["ID"]>>;
+  variantIds: Array<InputMaybe<Scalars['ID']>>;
 };
 
 /** Response payload of `archiveProductVariants` mutation */
 export type ArchiveProductVariantsPayload = {
-  __typename?: "ArchiveProductVariantsPayload";
+  __typename?: 'ArchiveProductVariantsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Array of newly archived variants */
   variants: Array<Maybe<ProductVariant>>;
 };
@@ -677,97 +676,97 @@ export type ArchiveProductVariantsPayload = {
 /** Input for the `archiveProducts` mutation */
 export type ArchiveProductsInput = {
   /** Array of IDs of products to archive */
-  productIds: Array<InputMaybe<Scalars["ID"]>>;
+  productIds: Array<InputMaybe<Scalars['ID']>>;
   /** ID of shop that owns all products you are archiving */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload of `archiveProducts` mutation */
 export type ArchiveProductsPayload = {
-  __typename?: "ArchiveProductsPayload";
+  __typename?: 'ArchiveProductsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Array of newly archived products */
   products: Array<Maybe<Product>>;
 };
 
 /** An attribute restriction condition */
 export type AttributeRestrictions = {
-  __typename?: "AttributeRestrictions";
+  __typename?: 'AttributeRestrictions';
   /** The operator to use for value comparison */
-  operator: Scalars["String"];
+  operator: Scalars['String'];
   /** The property to check */
-  property: Scalars["String"];
+  property: Scalars['String'];
   /** The type of this property */
-  propertyType: Scalars["String"];
+  propertyType: Scalars['String'];
   /** The value to check for */
-  value: Scalars["String"];
+  value: Scalars['String'];
 };
 
 /** Input to create an attribute restriction condition */
 export type AttributeRestrictionsInput = {
   /** The operator to use for value comparison */
-  operator: Scalars["String"];
+  operator: Scalars['String'];
   /** The property to check */
-  property: Scalars["String"];
+  property: Scalars['String'];
   /** The type of this property */
-  propertyType: Scalars["String"];
+  propertyType: Scalars['String'];
   /** The value to check for */
-  value: Scalars["String"];
+  value: Scalars['String'];
 };
 
 export type AuthenticateParamsInput = {
-  access_token?: InputMaybe<Scalars["String"]>;
-  access_token_secret?: InputMaybe<Scalars["String"]>;
-  code?: InputMaybe<Scalars["String"]>;
-  password?: InputMaybe<Scalars["String"]>;
-  provider?: InputMaybe<Scalars["String"]>;
-  token?: InputMaybe<Scalars["String"]>;
+  access_token?: InputMaybe<Scalars['String']>;
+  access_token_secret?: InputMaybe<Scalars['String']>;
+  code?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  provider?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<UserInput>;
 };
 
 /** Represents a single user partial account */
 export type BasicAccount = Node & {
-  __typename?: "BasicAccount";
+  __typename?: 'BasicAccount';
   /** The account ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Flag to indicate if the account accepts marketing emails */
-  acceptsMarketing?: Maybe<Scalars["Boolean"]>;
+  acceptsMarketing?: Maybe<Scalars['Boolean']>;
   /** List of shop Ids */
-  adminUIShopIds?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  adminUIShopIds?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** The date and time at which this account was created */
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** Email record associated with the account */
   emails?: Maybe<Array<Maybe<EmailRecord>>>;
   /** List of group Ids to which the account belongs */
-  groups?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  groups?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** The full name of the person this account represents, if known */
-  name?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars['String']>;
   /** List of shipping/billing addresses */
   profile?: Maybe<Array<Maybe<Profile>>>;
   /** ID of shop */
-  shopId?: Maybe<Scalars["String"]>;
+  shopId?: Maybe<Scalars['String']>;
   /** Account creation state */
-  state?: Maybe<Scalars["String"]>;
+  state?: Maybe<Scalars['String']>;
   /** The date and time at which this account was last updated */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** ID of user */
-  userId?: Maybe<Scalars["String"]>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 /** A single calculated tax for a cart, order group, cart item, or order item */
 export type CalculatedTax = {
-  __typename?: "CalculatedTax";
+  __typename?: 'CalculatedTax';
   /** Calculated tax ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Jurisdiction ID. It is up to the tax service to determine if and how to use this. */
-  jurisdictionId?: Maybe<Scalars["String"]>;
+  jurisdictionId?: Maybe<Scalars['String']>;
   /** Did this tax match due to the order origin or the order destination? */
   sourcing: TaxSource;
   /** Amount of tax due */
   tax: Money;
   /** A human-readable display name for showing this tax to operators and customers in the UI */
-  taxName: Scalars["String"];
+  taxName: Scalars['String'];
   /** The tax rate used for this calculation */
   taxRate: Rate;
   /** Amount that was used for calculating the tax due */
@@ -777,25 +776,25 @@ export type CalculatedTax = {
 /** Input for the cancelOrderItem mutation */
 export type CancelOrderItemInput = {
   /** Quantity to cancel. Must be equal to or less than the item quantity. */
-  cancelQuantity: Scalars["Int"];
+  cancelQuantity: Scalars['Int'];
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of the item order you want to cancel */
-  itemId: Scalars["ID"];
+  itemId: Scalars['ID'];
   /** ID of the order that has the item you want to cancel */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
   /**
    * An optional free text reason for cancellation, which may be shown to operators
    * or to the user who placed the order.
    */
-  reason?: InputMaybe<Scalars["String"]>;
+  reason?: InputMaybe<Scalars['String']>;
 };
 
 /** Response payload for the cancelOrderItem mutation */
 export type CancelOrderItemPayload = {
-  __typename?: "CancelOrderItemPayload";
+  __typename?: 'CancelOrderItemPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
 };
@@ -803,29 +802,29 @@ export type CancelOrderItemPayload = {
 /** Input for the `captureOrderPayments` mutation */
 export type CaptureOrderPaymentsInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The order ID */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
   /** The IDs of one or more payments to capture for this order */
-  paymentIds: Array<InputMaybe<Scalars["ID"]>>;
+  paymentIds: Array<InputMaybe<Scalars['ID']>>;
   /** The ID of the shop that owns this order */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response from the `captureOrderPayments` mutation */
 export type CaptureOrderPaymentsPayload = {
-  __typename?: "CaptureOrderPaymentsPayload";
+  __typename?: 'CaptureOrderPaymentsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
 };
 
 /** The cart holds selected items until order is placed. */
 export type Cart = Node & {
-  __typename?: "Cart";
+  __typename?: 'Cart';
   /** The Cart ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /**
    * The account that owns the cart. Some carts are created for anonymous users. Anonymous carts have a null account.
    * Every account has exactly one cart per shop.
@@ -834,11 +833,11 @@ export type Cart = Node & {
   /** Holds all information collected for a cart during checkout */
   checkout?: Maybe<Checkout>;
   /** The date and time at which the cart was created, which is when the first item was added to it. */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** An email address that has been associated with the cart */
-  email?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars['String']>;
   /** The date and time at which the cart will expire. Account carts usually do not expire, so they will have a null value here. */
-  expiresAt?: Maybe<Scalars["DateTime"]>;
+  expiresAt?: Maybe<Scalars['DateTime']>;
   /** The items that have been added to the cart. A cart is not created until the first item is added. Items can be removed from a cart, and a cart is not deleted if all items are removed from it. Because all items may have been removed, this may be an empty array. */
   items?: Maybe<CartItemConnection>;
   /**
@@ -856,7 +855,7 @@ export type Cart = Node & {
    * the `order` placed from that cart. This ID can also be customized by plugins and is the best
    * ID to use if it is necessary to show a cart ID in the user interface.
    */
-  referenceId?: Maybe<Scalars["String"]>;
+  referenceId?: Maybe<Scalars['String']>;
   /** The shop that owns the cart. */
   shop: Shop;
   /** Surcharges applied to this cart */
@@ -867,28 +866,28 @@ export type Cart = Node & {
    */
   taxSummary?: Maybe<TaxSummary>;
   /** Total quantity of all items in the cart */
-  totalItemQuantity: Scalars["Int"];
+  totalItemQuantity: Scalars['Int'];
   /** The date and time at which this cart was last updated. */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 
 /** The cart holds selected items until order is placed. */
 export type CartItemsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<CartItemsSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
 
 /** A single item in a cart. The item contains information about an intended purchase. */
 export type CartItem = Node & {
-  __typename?: "CartItem";
+  __typename?: 'CartItem';
   /** The cart item ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /**
    * "
    * The date and time at which this item was first added to the associated cart.
@@ -896,7 +895,7 @@ export type CartItem = Node & {
    * However, if an item is added twice, the quantity will increase but this date will remain
    * the initial added date.
    */
-  addedAt: Scalars["DateTime"];
+  addedAt: Scalars['DateTime'];
   /**
    * FUTURE. Additional attributes of the chosen item. For example, if this item is for a product, socks, where `blue` and `small`
    * options were chosen for some configurable attributes, then `color:blue` and `size:small` will be indicated here.
@@ -908,7 +907,7 @@ export type CartItem = Node & {
    * The date and time at which the cart item was created. If an item is added, removed, and then added again,
    * the original item is destroyed and this field will reflect the time it was created for the most recent addition.
    */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The URLs for a picture of the item in various sizes */
   imageURLs?: Maybe<ImageSizes>;
   /**
@@ -917,28 +916,28 @@ export type CartItem = Node & {
    * This number does not include reserved inventory (i.e. inventory that has been ordered, but not yet processed by the operator).
    * This is most likely the quantity to display in the storefront UI.
    */
-  inventoryAvailableToSell?: Maybe<Scalars["Int"]>;
+  inventoryAvailableToSell?: Maybe<Scalars['Int']>;
   /**
    * True if this item is currently sold out but allows backorders. A storefront UI may use this
    * to decide to show a "Backordered" indicator.
    */
-  isBackorder: Scalars["Boolean"];
+  isBackorder: Scalars['Boolean'];
   /**
    * True if this item has a low available quantity (`inventoryAvailableToSell`) in stock.
    * A storefront UI may use this to decide to show a "Low Quantity" indicator.
    */
-  isLowQuantity: Scalars["Boolean"];
+  isLowQuantity: Scalars['Boolean'];
   /**
    * True if this item is currently sold out (`inventoryAvailableToSell` is 0). A storefront
    * UI may use this to decide to show a "Sold Out" indicator when `isBackorder` is not also true.
    */
-  isSoldOut: Scalars["Boolean"];
+  isSoldOut: Scalars['Boolean'];
   /** Is this a taxable item? */
-  isTaxable: Scalars["Boolean"];
+  isTaxable: Scalars['Boolean'];
   /** Arbitrary additional metadata about this cart item. */
   metafields?: Maybe<Array<Maybe<Metafield>>>;
   /** The selected variant optionTitle */
-  optionTitle?: Maybe<Scalars["String"]>;
+  optionTitle?: Maybe<Scalars['String']>;
   /** Packing information such as item weight, height, length, and depth. Used for calculating shipping rates. */
   parcel?: Maybe<ShippingParcel>;
   /** The current price of the item */
@@ -948,15 +947,15 @@ export type CartItem = Node & {
   /** The product and chosen options */
   productConfiguration: ProductConfiguration;
   /** The product's slug */
-  productSlug?: Maybe<Scalars["String"]>;
+  productSlug?: Maybe<Scalars['String']>;
   /** The list of tags that have been applied to this product */
   productTags?: Maybe<TagConnection>;
   /** The type of product, used to display cart items differently */
-  productType?: Maybe<Scalars["String"]>;
+  productType?: Maybe<Scalars['String']>;
   /** The product vendor */
-  productVendor?: Maybe<Scalars["String"]>;
+  productVendor?: Maybe<Scalars['String']>;
   /** The quantity of this item that has been added to the cart. This must be a positive integer. Remove this `CartItem` from it's associated cart if you want `0` of this item. */
-  quantity: Scalars["Int"];
+  quantity: Scalars['Int'];
   /** The shop associated with this cart item. */
   shop: Shop;
   /** The current price of the item multiplied by the quantity */
@@ -964,38 +963,38 @@ export type CartItem = Node & {
   /** Total tax calculated for this item */
   tax?: Maybe<Money>;
   /** The tax code for this item */
-  taxCode?: Maybe<Scalars["String"]>;
+  taxCode?: Maybe<Scalars['String']>;
   /** Amount of subtotal that is taxable */
   taxableAmount?: Maybe<Money>;
   /** List of calculated taxes due for this item */
   taxes?: Maybe<Array<Maybe<CalculatedTax>>>;
   /** A title for use in cart/orders that conveys the selected product's title + chosen options */
-  title: Scalars["String"];
+  title: Scalars['String'];
   /** The date and time at which this item was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
   /** The selected variant title */
-  variantTitle?: Maybe<Scalars["String"]>;
+  variantTitle?: Maybe<Scalars['String']>;
 };
 
 
 /** A single item in a cart. The item contains information about an intended purchase. */
 export type CartItemProductTagsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
 
 /** One attribute of a cart item */
 export type CartItemAttribute = {
-  __typename?: "CartItemAttribute";
+  __typename?: 'CartItemAttribute';
   /** The attribute label, e.g., Color */
-  label?: Maybe<Scalars["String"]>;
+  label?: Maybe<Scalars['String']>;
   /** The attribute value, e.g., Blue */
-  value?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -1007,7 +1006,7 @@ export type CartItemAttribute = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type CartItemConnection = {
-  __typename?: "CartItemConnection";
+  __typename?: 'CartItemConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<CartItemEdge>>>;
   /**
@@ -1018,14 +1017,14 @@ export type CartItemConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `CartItem` object */
 export type CartItemEdge = NodeEdge & {
-  __typename?: "CartItemEdge";
+  __typename?: 'CartItemEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The cart item */
   node?: Maybe<CartItem>;
 };
@@ -1042,33 +1041,33 @@ export type CartItemInput = {
   /** The product and chosen options */
   productConfiguration: ProductConfigurationInput;
   /** The number of this item to add to the cart */
-  quantity: Scalars["Int"];
+  quantity: Scalars['Int'];
 };
 
 /** Allowed values for cart item sortBy parameter */
 export enum CartItemsSortByField {
   /** Cart item ID */
-  Id = "_id",
+  Id = '_id',
   /** Date and time at which the item was added to the cart */
-  AddedAt = "addedAt"
+  AddedAt = 'addedAt'
 }
 
 /** Supported cart reconciliation modes */
 export enum CartReconciliationMode {
   /** Delete the anonymous cart and use the account cart. */
-  KeepAccountCart = "keepAccountCart",
+  KeepAccountCart = 'keepAccountCart',
   /** Assign the anonymous cart to the account, and delete the account cart. */
-  KeepAnonymousCart = "keepAnonymousCart",
+  KeepAnonymousCart = 'keepAnonymousCart',
   /**
    * Move all items from the anonymous cart into the account cart along with existing
    * account cart items. If the same item is in both carts, combine the quantities.
    */
-  Merge = "merge"
+  Merge = 'merge'
 }
 
 /** A summary of the totals for this cart */
 export type CartSummary = {
-  __typename?: "CartSummary";
+  __typename?: 'CartSummary';
   /** The total of all discounts applied, as a positive number */
   discountTotal: Money;
   /**
@@ -1105,15 +1104,15 @@ export type CartSummary = {
 
 /** One product catalog for a particular shop */
 export type Catalog = Node & {
-  __typename?: "Catalog";
+  __typename?: 'Catalog';
   /** The Catalog ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time at which this Catalog was first created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The shop to which this catalog belongs */
   shop: Shop;
   /** The date and time at which this Catalog was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 /** A filter to be applied to a Catalog query */
@@ -1121,33 +1120,33 @@ export type CatalogBooleanFilter = {
   /** The name of the filter */
   name: CatalogBooleanFilterName;
   /** The filter value */
-  value: Scalars["Boolean"];
+  value: Scalars['Boolean'];
 };
 
 /** The list of currently supported top level Catalog props on which catalog items can be filtered. */
 export enum CatalogBooleanFilterName {
   /** isBackorder */
-  IsBackorder = "isBackorder",
+  IsBackorder = 'isBackorder',
   /** isDeleted */
-  IsDeleted = "isDeleted",
+  IsDeleted = 'isDeleted',
   /** isLowQuantity */
-  IsLowQuantity = "isLowQuantity",
+  IsLowQuantity = 'isLowQuantity',
   /** isSoldOut */
-  IsSoldOut = "isSoldOut",
+  IsSoldOut = 'isSoldOut',
   /** isVisible */
-  IsVisible = "isVisible"
+  IsVisible = 'isVisible'
 }
 
 /** Catalog items are combined to create a catalog. Each item can represent a different type of content. */
 export type CatalogItem = {
   /** Item ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Date and time at which the item was created */
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** Shop that owns the item */
   shop: Shop;
   /** Date and time at which the item was last updated */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 /**
@@ -1159,7 +1158,7 @@ export type CatalogItem = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type CatalogItemConnection = {
-  __typename?: "CatalogItemConnection";
+  __typename?: 'CatalogItemConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<CatalogItemEdge>>>;
   /**
@@ -1170,58 +1169,58 @@ export type CatalogItemConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** Represents a catalog item that displays some non-product content */
 export type CatalogItemContent = CatalogItem & Node & {
-  __typename?: "CatalogItemContent";
+  __typename?: 'CatalogItemContent';
   /** The CatalogItemProduct ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time at which this CatalogItem was first created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The shop to which this catalog belongs */
   shop: Shop;
   /** The date and time at which this CatalogItem was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 /** A connection edge in which each node is a `CatalogItem` object */
 export type CatalogItemEdge = {
-  __typename?: "CatalogItemEdge";
+  __typename?: 'CatalogItemEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The catalog item */
   node?: Maybe<CatalogItem>;
 };
 
 /** Represents a catalog item that displays a product */
 export type CatalogItemProduct = CatalogItem & Node & {
-  __typename?: "CatalogItemProduct";
+  __typename?: 'CatalogItemProduct';
   /** The CatalogItemProduct ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time at which this CatalogItem was first created, which is when the related product was first published */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The catalog product */
   product?: Maybe<CatalogProduct>;
   /** The shop to which this catalog belongs */
   shop: Shop;
   /** The date and time at which this CatalogItem was last updated, which is when the related product was most recently published */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 /** Allowed values for sorting catalog items */
 export enum CatalogItemSortByField {
   /** Sort by item ID */
-  Id = "_id",
+  Id = '_id',
   /** Sort by date and time at which the item was created */
-  CreatedAt = "createdAt",
+  CreatedAt = 'createdAt',
   /** Sort in the shop-defined order for the tag filter */
-  Featured = "featured",
+  Featured = 'featured',
   /** Sort by price */
-  MinPrice = "minPrice",
+  MinPrice = 'minPrice',
   /** Sort by date and time at which the item was last updated */
-  UpdatedAt = "updatedAt"
+  UpdatedAt = 'updatedAt'
 }
 
 /**
@@ -1230,50 +1229,50 @@ export enum CatalogItemSortByField {
  * be displayed to shoppers who browse that catalog.
  */
 export type CatalogProduct = CatalogProductOrVariant & Node & {
-  __typename?: "CatalogProduct";
+  __typename?: 'CatalogProduct';
   /** The CatalogProduct ID. Do not assume that this is the same as the related product ID. See `productId` for that. */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The product barcode value, if it has one */
-  barcode?: Maybe<Scalars["String"]>;
+  barcode?: Maybe<Scalars['String']>;
   /** The date and time at which this CatalogProduct was created, which is when the related product was first published */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The full product description, which may have newline characters in it */
-  description?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars['String']>;
   /** The height of the product, if it has physical dimensions */
-  height?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars['Float']>;
   /**
    * True if every purchasable variant of this product is sold out but allows backorders. A storefront UI may use this
    * to decide to show a "Backordered" indicator.
    */
-  isBackorder: Scalars["Boolean"];
+  isBackorder: Scalars['Boolean'];
   /** True if this product has been deleted. Typically, deleted products are not returned in queries. */
-  isDeleted: Scalars["Boolean"];
+  isDeleted: Scalars['Boolean'];
   /**
    * True if at least one purchasable variant of this product has a low quantity in stock. A storefront UI may use this
    * to decide to show a "Low Quantity" indicator.
    */
-  isLowQuantity: Scalars["Boolean"];
+  isLowQuantity: Scalars['Boolean'];
   /**
    * True if every purchasable variant of this product is sold out. A storefront UI may use this
    * to decide to show a "Sold Out" indicator when `isBackorder` is not also true.
    */
-  isSoldOut: Scalars["Boolean"];
+  isSoldOut: Scalars['Boolean'];
   /** True if this product should be shown to shoppers. Typically, non-visible products are not returned in queries. */
-  isVisible: Scalars["Boolean"];
+  isVisible: Scalars['Boolean'];
   /** The length of the product, if it has physical dimensions */
-  length?: Maybe<Scalars["Float"]>;
+  length?: Maybe<Scalars['Float']>;
   /** All media for this product and its variants */
   media?: Maybe<Array<Maybe<ImageInfo>>>;
   /** The product description to use for page `description` meta element in HTML */
-  metaDescription?: Maybe<Scalars["String"]>;
+  metaDescription?: Maybe<Scalars['String']>;
   /** Arbitrary additional metadata about this product */
   metafields?: Maybe<Array<Maybe<Metafield>>>;
   /** The minimum quantity that must be added to a cart */
-  minOrderQuantity?: Maybe<Scalars["Int"]>;
+  minOrderQuantity?: Maybe<Scalars['Int']>;
   /** The country of origin */
-  originCountry?: Maybe<Scalars["String"]>;
+  originCountry?: Maybe<Scalars['String']>;
   /** Subtitle */
-  pageTitle?: Maybe<Scalars["String"]>;
+  pageTitle?: Maybe<Scalars['String']>;
   /** Dimensions and other information about the containers in which this product will be shipped */
   parcel?: Maybe<ShippingParcel>;
   /** Price and related information, per currency */
@@ -1281,35 +1280,35 @@ export type CatalogProduct = CatalogProductOrVariant & Node & {
   /** The primary image */
   primaryImage?: Maybe<ImageInfo>;
   /** The related Product ID */
-  productId: Scalars["ID"];
+  productId: Scalars['ID'];
   /** An arbitrary product type value, such as from an external system */
-  productType?: Maybe<Scalars["String"]>;
+  productType?: Maybe<Scalars['String']>;
   /** The shop to which this product belongs */
   shop: Shop;
   /** A stock keeping unit (SKU) identifier for this product */
-  sku?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars['String']>;
   /** A URL-safe and human-readable string that uniquely identifies this product */
-  slug?: Maybe<Scalars["String"]>;
+  slug?: Maybe<Scalars['String']>;
   /** Holds metadata specific to a specific social network service */
   socialMetadata?: Maybe<Array<Maybe<SocialMetadata>>>;
   /** When a shopper purchases this product, what types of fulfillment can they choose from? */
   supportedFulfillmentTypes: Array<Maybe<FulfillmentType>>;
   /** The list of tag IDs that have been applied to this product */
-  tagIds?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  tagIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** The list of tags that have been applied to this product */
   tags?: Maybe<TagConnection>;
   /** Product title */
-  title?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars['String']>;
   /** The date and time at which this CatalogProduct was last updated, which is when the related product was most recently published */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
   /** A flat list of all variants for this product */
   variants?: Maybe<Array<Maybe<CatalogProductVariant>>>;
   /** The product vendor or manufacturer, for display */
-  vendor?: Maybe<Scalars["String"]>;
+  vendor?: Maybe<Scalars['String']>;
   /** The weight of the product on Earth, if it has physical dimensions */
-  weight?: Maybe<Scalars["Float"]>;
+  weight?: Maybe<Scalars['Float']>;
   /** The width of the product, if it has physical dimensions */
-  width?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars['Float']>;
 };
 
 
@@ -1319,11 +1318,11 @@ export type CatalogProduct = CatalogProductOrVariant & Node & {
  * be displayed to shoppers who browse that catalog.
  */
 export type CatalogProductTagsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -1331,58 +1330,58 @@ export type CatalogProductTagsArgs = {
 /** This interface represents the fields that are identical for both Products and Variants */
 export type CatalogProductOrVariant = {
   /** The product barcode value, if it has one */
-  barcode?: Maybe<Scalars["String"]>;
+  barcode?: Maybe<Scalars['String']>;
   /** The date and time at which this CatalogProduct was created, which is when the related product was first published */
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** The height of the product, if it has physical dimensions */
-  height?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars['Float']>;
   /** The length of the product, if it has physical dimensions */
-  length?: Maybe<Scalars["Float"]>;
+  length?: Maybe<Scalars['Float']>;
   /** Arbitrary additional metadata about this product */
   metafields?: Maybe<Array<Maybe<Metafield>>>;
   /** The minimum quantity that must be added to a cart */
-  minOrderQuantity?: Maybe<Scalars["Int"]>;
+  minOrderQuantity?: Maybe<Scalars['Int']>;
   /** The country of origin */
-  originCountry?: Maybe<Scalars["String"]>;
+  originCountry?: Maybe<Scalars['String']>;
   /** The shop to which this product belongs */
   shop: Shop;
   /** A stock keeping unit (SKU) identifier for this product */
-  sku?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars['String']>;
   /** Product or variant title */
-  title?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars['String']>;
   /** The date and time at which this CatalogProduct was last updated, which is when the related product was most recently published */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** The weight of the product on Earth, if it has physical dimensions */
-  weight?: Maybe<Scalars["Float"]>;
+  weight?: Maybe<Scalars['Float']>;
   /** The width of the product, if it has physical dimensions */
-  width?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars['Float']>;
 };
 
 /** A variant of a catalog product */
 export type CatalogProductVariant = CatalogProductOrVariant & Node & {
-  __typename?: "CatalogProductVariant";
+  __typename?: 'CatalogProductVariant';
   /** The CatalogProductVariant ID. Do not assume that this is the same as the related variant ID. See `variantId` for that. */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /**
    * The attribute label describes the category of variant, for example, `Color` or `Size`.
    * In most cases this will be the same for all variants at the same level.
    */
-  attributeLabel: Scalars["String"];
+  attributeLabel: Scalars['String'];
   /** The product variant barcode value, if it has one */
-  barcode?: Maybe<Scalars["String"]>;
+  barcode?: Maybe<Scalars['String']>;
   /**
    * True for a purchasable variant if an order containing this variant will be accepted even when there is insufficient
    * available inventory (`inventoryAvailableToSell`) to fulfill it immediately. For non-purchasable variants, this is true if at least one purchasable
    * child variant can be backordered. A storefront UI may use this in combination with `inventoryAvailableToSell` to
    * decide whether to show or enable an "Add to Cart" button.
    */
-  canBackorder: Scalars["Boolean"];
+  canBackorder: Scalars['Boolean'];
   /** The date and time at which this CatalogProductVariant was created, which is when the related product was first published */
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** The height of the product variant, if it has physical dimensions */
-  height?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars['Float']>;
   /** The position of this variant among other variants at the same level of the product-variant-option hierarchy */
-  index: Scalars["Int"];
+  index: Scalars['Int'];
   /**
    * The quantity of this item currently available to sell.
    * This number is updated when an order is placed by the customer.
@@ -1390,7 +1389,7 @@ export type CatalogProductVariant = CatalogProductOrVariant & Node & {
    * If this is a variant, this number is created by summing all child option inventory numbers.
    * This is most likely the quantity to display in the storefront UI.
    */
-  inventoryAvailableToSell?: Maybe<Scalars["Int"]>;
+  inventoryAvailableToSell?: Maybe<Scalars['Int']>;
   /**
    * The quantity of this item currently in stock.
    * This number is updated when an order is processed by the operator.
@@ -1398,41 +1397,41 @@ export type CatalogProductVariant = CatalogProductOrVariant & Node & {
    * If this is a variant, this number is created by summing all child option inventory numbers.
    * This is most likely just used as a reference in the operator UI, and not displayed in the storefront UI.
    */
-  inventoryInStock?: Maybe<Scalars["Int"]>;
+  inventoryInStock?: Maybe<Scalars['Int']>;
   /**
    * True for a purchasable variant if it is sold out but allows backorders. For non-purchasable variants, this is
    * true if every purchasable child variant is sold out but allows backorders. A storefront UI may use this
    * to decide to show a "Backordered" indicator.
    */
-  isBackorder: Scalars["Boolean"];
+  isBackorder: Scalars['Boolean'];
   /**
    * True for a purchasable variant if it has a low available quantity (`inventoryAvailableToSell`) in stock.
    * For non-purchasable variants, this is true if at least one purchasable child variant has a low available
    * quantity in stock. A storefront UI may use this to decide to show a "Low Quantity" indicator.
    */
-  isLowQuantity: Scalars["Boolean"];
+  isLowQuantity: Scalars['Boolean'];
   /**
    * True for a purchasable variant if it is sold out (`inventoryAvailableToSell` is 0). For non-purchasable
    * variants, this is true if every purchasable child variant is sold out. A storefront UI may use this
    * to decide to show a "Sold Out" indicator when `isBackorder` is not also true.
    */
-  isSoldOut: Scalars["Boolean"];
+  isSoldOut: Scalars['Boolean'];
   /** Is sales tax charged on this item? */
-  isTaxable: Scalars["Boolean"];
+  isTaxable: Scalars['Boolean'];
   /** The length of the product, if it has physical dimensions */
-  length?: Maybe<Scalars["Float"]>;
+  length?: Maybe<Scalars['Float']>;
   /** All media for this variant / option */
   media?: Maybe<Array<Maybe<ImageInfo>>>;
   /** Arbitrary additional metadata about this product */
   metafields?: Maybe<Array<Maybe<Metafield>>>;
   /** The minimum quantity that must be added to a cart */
-  minOrderQuantity?: Maybe<Scalars["Int"]>;
+  minOrderQuantity?: Maybe<Scalars['Int']>;
   /** A short title to use for product detail select lists */
-  optionTitle?: Maybe<Scalars["String"]>;
+  optionTitle?: Maybe<Scalars['String']>;
   /** Child variants, if any */
   options?: Maybe<Array<Maybe<CatalogProductVariant>>>;
   /** The country of origin */
-  originCountry?: Maybe<Scalars["String"]>;
+  originCountry?: Maybe<Scalars['String']>;
   /** Price and related information, per currency */
   pricing: Array<Maybe<ProductPricingInfo>>;
   /** The primary image of this variant / option */
@@ -1440,31 +1439,31 @@ export type CatalogProductVariant = CatalogProductOrVariant & Node & {
   /** The shop to which this product variant belongs */
   shop: Shop;
   /** A stock keeping unit (SKU) identifier for this product */
-  sku?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars['String']>;
   /** An optional code which, if understood by the active tax service for the shop, determines how this product should be taxed */
-  taxCode?: Maybe<Scalars["String"]>;
+  taxCode?: Maybe<Scalars['String']>;
   /** A description to use for the tax line item on an invoice */
-  taxDescription?: Maybe<Scalars["String"]>;
+  taxDescription?: Maybe<Scalars['String']>;
   /**
    * The full variant title for use on cart, checkout, and order summaries and on invoices.
    * This fully describes the configured variant. For example, if this is an option with
    * `optionTitle` `Large`, its parent variant has `optionTitle` `Red`, and the product
    * `title` is `Fancy T-Shirt`, then this `title` will be something like `Fancy T-Shirt - Red - Large`.
    */
-  title?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars['String']>;
   /** The date and time at which this CatalogProduct was last updated, which is when the related product was most recently published */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** The related Variant ID */
-  variantId: Scalars["ID"];
+  variantId: Scalars['ID'];
   /** The weight of the product on Earth, if it has physical dimensions */
-  weight?: Maybe<Scalars["Float"]>;
+  weight?: Maybe<Scalars['Float']>;
   /** The width of the product, if it has physical dimensions */
-  width?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars['Float']>;
 };
 
 /** Holds all information collected for a cart during checkout */
 export type Checkout = {
-  __typename?: "Checkout";
+  __typename?: 'Checkout';
   /** One or more fulfillment groups, for example, mapping certain items to certain shipping addresses */
   fulfillmentGroups: Array<Maybe<FulfillmentGroup>>;
   /** A summary of the totals for this cart */
@@ -1474,16 +1473,16 @@ export type Checkout = {
 /** Input for the `cloneProductVariants` mutation */
 export type CloneProductVariantsInput = {
   /** ID of shop that owns all product variants you want to clone */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Array of IDs of variants to clone */
-  variantIds: Array<InputMaybe<Scalars["ID"]>>;
+  variantIds: Array<InputMaybe<Scalars['ID']>>;
 };
 
 /** Response payload of `cloneProductVariants` mutation */
 export type CloneProductVariantsPayload = {
-  __typename?: "CloneProductVariantsPayload";
+  __typename?: 'CloneProductVariantsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Array of newly cloned product variants */
   variants: Array<Maybe<ProductVariant>>;
 };
@@ -1491,16 +1490,16 @@ export type CloneProductVariantsPayload = {
 /** Input for the `cloneProducts` mutation */
 export type CloneProductsInput = {
   /** Array of IDs of products to clone */
-  productIds: Array<InputMaybe<Scalars["ID"]>>;
+  productIds: Array<InputMaybe<Scalars['ID']>>;
   /** ID of shop that owns all products you are cloning */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload of `cloneProducts` mutation */
 export type CloneProductsPayload = {
-  __typename?: "CloneProductsPayload";
+  __typename?: 'CloneProductsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Array of newly cloned products */
   products: Array<Maybe<Product>>;
 };
@@ -1508,18 +1507,18 @@ export type CloneProductsPayload = {
 /** The details for creating a group */
 export type CreateAccountGroupInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The group to create */
   group: GroupInput;
   /** The ID of the shop this group belongs to */
-  shopId?: InputMaybe<Scalars["ID"]>;
+  shopId?: InputMaybe<Scalars['ID']>;
 };
 
 /** The response from the `createAccountGroup` mutation */
 export type CreateAccountGroupPayload = {
-  __typename?: "CreateAccountGroupPayload";
+  __typename?: 'CreateAccountGroupPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The new group */
   group?: Maybe<Group>;
 };
@@ -1527,69 +1526,69 @@ export type CreateAccountGroupPayload = {
 /** Defines the account which should be created */
 export type CreateAccountInput = {
   /** Bio to display on profile */
-  bio?: InputMaybe<Scalars["String"]>;
+  bio?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Email record to create account with */
   emails: Array<InputMaybe<EmailRecordInput>>;
   /** Name to display on profile */
-  name?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars['String']>;
   /** URL of picture to display on profile */
-  picture?: InputMaybe<Scalars["String"]>;
+  picture?: InputMaybe<Scalars['String']>;
   /** The ID of the shop this account will belong to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The userID account was created from create a new account from */
-  userId: Scalars["ID"];
+  userId: Scalars['ID'];
   /** Username */
-  username?: InputMaybe<Scalars["String"]>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 /** The response from the `createAccount` mutation */
 export type CreateAccountPayload = {
-  __typename?: "CreateAccountPayload";
+  __typename?: 'CreateAccountPayload';
   /** The added account */
   account?: Maybe<BasicAccount>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the `createAddressValidationRule` mutation */
 export type CreateAddressValidationRuleInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Country codes for which this service is enabled. `null` means all, while an empty array means none. */
-  countryCodes?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  countryCodes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /**
    * The name of one of the installed validation services. Use `addressValidationServices`
    * query to get a list, and then use the `name` field value from one of them.
    */
-  serviceName: Scalars["String"];
+  serviceName: Scalars['String'];
   /** ID of the shop to which this rule applies */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Payload for the `createAddressValidationRule` mutation */
 export type CreateAddressValidationRulePayload = {
-  __typename?: "CreateAddressValidationRulePayload";
+  __typename?: 'CreateAddressValidationRulePayload';
   /** Created address validation rule */
   addressValidationRule: AddressValidationRule;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** The input necessary to create a cart */
 export type CreateCartInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Array of items to add to new cart. */
   items: Array<InputMaybe<CartItemInput>>;
   /** ShopId association for the cart. */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** The payload returned from the `createCart` mutation call */
 export type CreateCartPayload = {
-  __typename?: "CreateCartPayload";
+  __typename?: 'CreateCartPayload';
   /**
    * The created cart, if at least one item could be added. Otherwise null, and you should check
    * `incorrectPriceFailures` and `minOrderQuantityFailures` for information necessary to display
@@ -1597,7 +1596,7 @@ export type CreateCartPayload = {
    */
   cart?: Maybe<Cart>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * Clients should check to see if any items failed to be added due to the price not matching the current price.
    * In general, a user interface should display the correct current prices to the shopper, confirm that they still
@@ -1621,24 +1620,24 @@ export type CreateCartPayload = {
    * in some type of local storage solution, and then send it along with all future anonymous cart queries and
    * mutations.
    */
-  token?: Maybe<Scalars["String"]>;
+  token?: Maybe<Scalars['String']>;
 };
 
 /** Describes the input for creating a discount code */
 export type CreateDiscountCodeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The discount code to update */
   discountCode?: InputMaybe<DiscountCodeInput>;
   /** The shop ID of the discount code to update */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** The response from the `createDiscountCode` mutation */
 export type CreateDiscountCodePayload = {
-  __typename?: "CreateDiscountCodePayload";
+  __typename?: 'CreateDiscountCodePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created discount code */
   discountCode?: Maybe<DiscountCode>;
 };
@@ -1646,18 +1645,18 @@ export type CreateDiscountCodePayload = {
 /** Input for the `createFlatRateFulfillmentMethod` mutation */
 export type CreateFlatRateFulfillmentMethodInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** This defines the flat rate fulfillment method that you want to create */
   method: FlatRateFulfillmentMethodInput;
   /** The shop to create this flat rate fulfillment method for */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response from the `createFlatRateFulfillmentMethod` mutation */
 export type CreateFlatRateFulfillmentMethodPayload = {
-  __typename?: "CreateFlatRateFulfillmentMethodPayload";
+  __typename?: 'CreateFlatRateFulfillmentMethodPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created fulfillment method */
   method: FlatRateFulfillmentMethod;
 };
@@ -1665,18 +1664,18 @@ export type CreateFlatRateFulfillmentMethodPayload = {
 /** Input for the `CreateFlatRateFulfillmentRestriction` mutation */
 export type CreateFlatRateFulfillmentRestrictionInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** This defines the flat rate fulfillment method restriction that you want to create */
   restriction: FlatRateFulfillmentRestrictionInput;
   /** The shop to create this flat rate fulfillment method restriction for */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response from the `CreateFlatRateFulfillmentRestriction` mutation */
 export type CreateFlatRateFulfillmentRestrictionPayload = {
-  __typename?: "CreateFlatRateFulfillmentRestrictionPayload";
+  __typename?: 'CreateFlatRateFulfillmentRestrictionPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created flat rate fulfillment method restriction */
   restriction: FlatRateFulfillmentRestriction;
 };
@@ -1684,18 +1683,18 @@ export type CreateFlatRateFulfillmentRestrictionPayload = {
 /** Input for the createMediaRecord mutation */
 export type CreateMediaRecordInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The media record to insert, with related file data already fully uploaded to temporary storage */
   mediaRecord: MediaRecordInput;
   /** ID of shop that owns this MediaRecord */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the createMediaRecord mutation */
 export type CreateMediaRecordPayload = {
-  __typename?: "CreateMediaRecordPayload";
+  __typename?: 'CreateMediaRecordPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created MediaRecord */
   mediaRecord: MediaRecord;
 };
@@ -1703,16 +1702,16 @@ export type CreateMediaRecordPayload = {
 /** Input for the `createNavigationItem` mutation */
 export type CreateNavigationItemInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The navigation item to create */
   navigationItem: NavigationItemInput;
 };
 
 /** Response payload for the `createNavigationItem` mutation */
 export type CreateNavigationItemPayload = {
-  __typename?: "CreateNavigationItemPayload";
+  __typename?: 'CreateNavigationItemPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created navigation item */
   navigationItem?: Maybe<NavigationItem>;
 };
@@ -1720,20 +1719,20 @@ export type CreateNavigationItemPayload = {
 /** Input for the `createNavigationTree` mutation */
 export type CreateNavigationTreeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The draft navigation items that make up this tree */
   draftItems?: InputMaybe<Array<InputMaybe<NavigationTreeItemInput>>>;
   /** The name of the tree, for operator display purposes */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** The ID of the shop this navigation tree belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `createNavigationTree` mutation */
 export type CreateNavigationTreePayload = {
-  __typename?: "CreateNavigationTreePayload";
+  __typename?: 'CreateNavigationTreePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created navigation tree */
   navigationTree: NavigationTree;
 };
@@ -1743,16 +1742,16 @@ export type CreateProductInput = {
   /** Product input */
   product?: InputMaybe<ProductInput>;
   /** ID of shop product will belong to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Set to false if you do not want to auto-create the first variant of the product */
-  shouldCreateFirstVariant?: InputMaybe<Scalars["Boolean"]>;
+  shouldCreateFirstVariant?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Response payload of `createProduct` mutation */
 export type CreateProductPayload = {
-  __typename?: "CreateProductPayload";
+  __typename?: 'CreateProductPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created product */
   product: Product;
 };
@@ -1760,18 +1759,18 @@ export type CreateProductPayload = {
 /** Input for the `createProductVariant` mutation */
 export type CreateProductVariantInput = {
   /** ID of product variant belongs to */
-  productId: Scalars["ID"];
+  productId: Scalars['ID'];
   /** ID of shop product variant will belong to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Variant input */
   variant?: InputMaybe<ProductVariantInput>;
 };
 
 /** Response payload of `createProductVariant` mutation */
 export type CreateProductVariantPayload = {
-  __typename?: "CreateProductVariantPayload";
+  __typename?: 'CreateProductVariantPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created product variant */
   variant: ProductVariant;
 };
@@ -1779,23 +1778,23 @@ export type CreateProductVariantPayload = {
 /** Input for the cancelOrderItem mutation */
 export type CreateRefundInput = {
   /** Amount to cancel. Must be equal to or less than the remaining non-refunded payment amount for this payment method. */
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
   /** ID of the order that has the item you want to cancel */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
   /** ID of the payment that you want to refund */
-  paymentId: Scalars["ID"];
+  paymentId: Scalars['ID'];
   /**
    * An optional free text reason for refund, which may be shown to operators
    * or to the user who requested the refund.
    */
-  reason?: InputMaybe<Scalars["String"]>;
+  reason?: InputMaybe<Scalars['String']>;
 };
 
 /** Response payload for the createRefund mutation */
 export type CreateRefundPayload = {
-  __typename?: "CreateRefundPayload";
+  __typename?: 'CreateRefundPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
 };
@@ -1803,63 +1802,63 @@ export type CreateRefundPayload = {
 /** Input parameters for the `createShop` mutation */
 export type CreateShopInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Currency in which all money values should be assumed to be. Default is `USD`. */
-  currencyCode?: InputMaybe<Scalars["String"]>;
+  currencyCode?: InputMaybe<Scalars['String']>;
   /** Default language for translation and localization. Default is `en`. */
-  defaultLanguage?: InputMaybe<Scalars["String"]>;
+  defaultLanguage?: InputMaybe<Scalars['String']>;
   /** Primary timezone. Default is `US/Pacific` */
-  defaultTimezone?: InputMaybe<Scalars["String"]>;
+  defaultTimezone?: InputMaybe<Scalars['String']>;
   /** An optional description of the shop, intended for only admins to see */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars['String']>;
   /** A unique name for the shop */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** The shop type. Default is `primary`, but there may be only one primary shop. */
-  type?: InputMaybe<Scalars["String"]>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 /** The response from the `createShop` mutation */
 export type CreateShopPayload = {
-  __typename?: "CreateShopPayload";
+  __typename?: 'CreateShopPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The shop which was created */
   shop: Shop;
 };
 
 /** Input for the createStripePaymentIntent mutation */
 export type CreateStripePaymentIntentInput = {
-  cartId: Scalars["String"];
+  cartId: Scalars['String'];
   /** If this cart is anonymous, provide the `token` that was returned in the `CreateCartPayload` */
-  cartToken?: InputMaybe<Scalars["String"]>;
+  cartToken?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  shopId: Scalars["String"];
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  shopId: Scalars['String'];
 };
 
 /** The response from the `createStripePaymentIntent` mutation */
 export type CreateStripePaymentIntentPayload = {
-  __typename?: "CreateStripePaymentIntentPayload";
+  __typename?: 'CreateStripePaymentIntentPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
-  paymentIntentClientSecret?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
+  paymentIntentClientSecret?: Maybe<Scalars['String']>;
 };
 
 /** Input for the `CreateSurcharge` mutation */
 export type CreateSurchargeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The shop to create this surcharge for */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** This defines the surcharge that you want to create */
   surcharge: SurchargeInput;
 };
 
 /** Response from the `CreateSurcharge` mutation */
 export type CreateSurchargePayload = {
-  __typename?: "CreateSurchargePayload";
+  __typename?: 'CreateSurchargePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created surcharge */
   surcharge: Surcharge;
 };
@@ -1867,76 +1866,76 @@ export type CreateSurchargePayload = {
 /** The input for creating a tax rate */
 export type CreateTaxRateInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** An optional country code to limit where this tax is applied based on destination address */
-  country?: InputMaybe<Scalars["String"]>;
+  country?: InputMaybe<Scalars['String']>;
   /** An optional postal code to limit where this tax is applied based on destination address */
-  postal?: InputMaybe<Scalars["String"]>;
+  postal?: InputMaybe<Scalars['String']>;
   /** The tax rate. For example, 0.05 for a 5% sales tax. */
-  rate: Scalars["Float"];
+  rate: Scalars['Float'];
   /** An optional region (e.g., state) to limit where this tax is applied based on destination address */
-  region?: InputMaybe<Scalars["String"]>;
+  region?: InputMaybe<Scalars['String']>;
   /** Shop ID */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Whether the `country`, `postal`, and `region` filters apply to the origin address or the destination address */
   sourcing?: InputMaybe<TaxSource>;
   /** An optional tax code, to apply this tax rate to only products that have this tax code */
-  taxCode?: InputMaybe<Scalars["String"]>;
+  taxCode?: InputMaybe<Scalars['String']>;
 };
 
 /** The response from the `createTaxRate` mutation */
 export type CreateTaxRatePayload = {
-  __typename?: "CreateTaxRatePayload";
+  __typename?: 'CreateTaxRatePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The created tax rate */
   taxRate: TaxRate;
 };
 
 export type CreateUserInput = {
-  email?: InputMaybe<Scalars["String"]>;
-  password?: InputMaybe<Scalars["String"]>;
-  username?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateUserResult = {
-  __typename?: "CreateUserResult";
+  __typename?: 'CreateUserResult';
   loginResult?: Maybe<LoginResult>;
-  userId?: Maybe<Scalars["ID"]>;
+  userId?: Maybe<Scalars['ID']>;
 };
 
 /** Input for the createdAt database field */
 export type CreatedAtInput = {
   /** Start date, inclusive */
-  gte?: InputMaybe<Scalars["DateTime"]>;
+  gte?: InputMaybe<Scalars['DateTime']>;
   /** End date, inclusive */
-  lte?: InputMaybe<Scalars["DateTime"]>;
+  lte?: InputMaybe<Scalars['DateTime']>;
 };
 
 /** Represents one type of currency */
 export type Currency = Node & {
-  __typename?: "Currency";
+  __typename?: 'Currency';
   /** ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Currency code */
-  code: Scalars["String"];
+  code: Scalars['String'];
   /** Decimal symbol */
-  decimal?: Maybe<Scalars["String"]>;
+  decimal?: Maybe<Scalars['String']>;
   /** Format string */
-  format: Scalars["String"];
+  format: Scalars['String'];
   /** Exchange rate from shop default currency, if known */
-  rate?: Maybe<Scalars["Float"]>;
+  rate?: Maybe<Scalars['Float']>;
   /** The decimal scale used by this currency */
-  scale?: Maybe<Scalars["Int"]>;
+  scale?: Maybe<Scalars['Int']>;
   /** Currency symbol */
-  symbol: Scalars["String"];
+  symbol: Scalars['String'];
   /** Thousands separator symbol */
-  thousand?: Maybe<Scalars["String"]>;
+  thousand?: Maybe<Scalars['String']>;
 };
 
 /** The product price or price range for a specific currency */
 export type CurrencyExchangeProductPricingInfo = {
-  __typename?: "CurrencyExchangeProductPricingInfo";
+  __typename?: 'CurrencyExchangeProductPricingInfo';
   /**
    * A comparison price value, usually MSRP. If `price` is null, this will also be null. That is,
    * only purchasable variants will have a `compareAtPrice`.
@@ -1949,24 +1948,24 @@ export type CurrencyExchangeProductPricingInfo = {
    * variants and options, then this is a price range string such as "$3.95 - $6.99". It includes the currency
    * symbols.
    */
-  displayPrice: Scalars["String"];
+  displayPrice: Scalars['String'];
   /** The price of the most expensive possible variant+option combination */
-  maxPrice: Scalars["Float"];
+  maxPrice: Scalars['Float'];
   /** The price of the least expensive possible variant+option combination */
-  minPrice: Scalars["Float"];
+  minPrice: Scalars['Float'];
   /**
    * For variants with no options and for options, this will always be set to a price. For variants
    * with options and products, this will be `null`. There must be a price for a variant to be
    * added to a cart or purchased. Otherwise you would instead add one of its child options to a cart.
    */
-  price?: Maybe<Scalars["Float"]>;
+  price?: Maybe<Scalars['Float']>;
 };
 
 /** Represents Mongo Database information */
 export type DatabaseInformation = {
-  __typename?: "DatabaseInformation";
+  __typename?: 'DatabaseInformation';
   /** Version of database */
-  version: Scalars["String"];
+  version: Scalars['String'];
 };
 
 /** Objects implementing the Deletable support soft deletion */
@@ -1975,43 +1974,43 @@ export type Deletable = {
    * If true, this object should be considered deleted. Soft deleted objects are not
    * returned in query results unless you explicitly ask for them.
    */
-  isDeleted: Scalars["Boolean"];
+  isDeleted: Scalars['Boolean'];
 };
 
 /** Input for the `deleteAddressValidationRule` mutation */
 export type DeleteAddressValidationRuleInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of the rule you want to delete */
-  ruleId: Scalars["ID"];
+  ruleId: Scalars['ID'];
   /** Shop ID of the rule you want to delete */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Payload for the `deleteAddressValidationRule` mutation */
 export type DeleteAddressValidationRulePayload = {
-  __typename?: "DeleteAddressValidationRulePayload";
+  __typename?: 'DeleteAddressValidationRulePayload';
   /** Deleted address validation rule */
   addressValidationRule: AddressValidationRule;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Describes the input for removing a discount code */
 export type DeleteDiscountCodeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The discount code ID */
-  discountCodeId: Scalars["ID"];
+  discountCodeId: Scalars['ID'];
   /** Shop ID */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** The response from the `deleteDiscountCode` mutation */
 export type DeleteDiscountCodePayload = {
-  __typename?: "DeleteDiscountCodePayload";
+  __typename?: 'DeleteDiscountCodePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The deleted discount code */
   discountCode?: Maybe<DiscountCode>;
 };
@@ -2019,18 +2018,18 @@ export type DeleteDiscountCodePayload = {
 /** Input for the `deleteFlatRateFulfillmentMethod` mutation */
 export type DeleteFlatRateFulfillmentMethodInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the flat rate fulfillment method you want to delete */
-  methodId: Scalars["ID"];
+  methodId: Scalars['ID'];
   /** The shop that owns the method */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response from the `deleteFlatRateFulfillmentMethod` mutation */
 export type DeleteFlatRateFulfillmentMethodPayload = {
-  __typename?: "DeleteFlatRateFulfillmentMethodPayload";
+  __typename?: 'DeleteFlatRateFulfillmentMethodPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The removed fulfillment method */
   method: FlatRateFulfillmentMethod;
 };
@@ -2038,18 +2037,18 @@ export type DeleteFlatRateFulfillmentMethodPayload = {
 /** Input for the `deleteFlatRateFulfillmentRestriction` mutation */
 export type DeleteFlatRateFulfillmentRestrictionInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the flat rate fulfillment method restriction you want to delete */
-  restrictionId: Scalars["ID"];
+  restrictionId: Scalars['ID'];
   /** The shop that owns the flat rate fulfillment method restriction */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response from the `deleteFlatRateFulfillmentRestriction` mutation */
 export type DeleteFlatRateFulfillmentRestrictionPayload = {
-  __typename?: "DeleteFlatRateFulfillmentRestrictionPayload";
+  __typename?: 'DeleteFlatRateFulfillmentRestrictionPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The removed flat rate fulfillment method restriction */
   restriction: FlatRateFulfillmentRestriction;
 };
@@ -2057,18 +2056,18 @@ export type DeleteFlatRateFulfillmentRestrictionPayload = {
 /** Input for the deleteMediaRecord mutation */
 export type DeleteMediaRecordInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of MediaRecord to delete */
-  mediaRecordId: Scalars["ID"];
+  mediaRecordId: Scalars['ID'];
   /** ID of shop that owns this MediaRecord */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the deleteMediaRecord mutation */
 export type DeleteMediaRecordPayload = {
-  __typename?: "DeleteMediaRecordPayload";
+  __typename?: 'DeleteMediaRecordPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The deleted MediaRecord */
   mediaRecord: MediaRecord;
 };
@@ -2076,18 +2075,18 @@ export type DeleteMediaRecordPayload = {
 /** Input for the `deleteNavigationItem` mutation */
 export type DeleteNavigationItemInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the navigation item to delete */
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   /** The ID of the shop navigation item belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `deleteNavigationItem` mutation */
 export type DeleteNavigationItemPayload = {
-  __typename?: "DeleteNavigationItemPayload";
+  __typename?: 'DeleteNavigationItemPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The deleted navigation item */
   navigationItem?: Maybe<NavigationItem>;
 };
@@ -2095,18 +2094,18 @@ export type DeleteNavigationItemPayload = {
 /** Input for the `deleteSurcharge` mutation */
 export type DeleteSurchargeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The shop that owns the method */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The ID of the flat rate fulfillment method you want to delete */
-  surchargeId: Scalars["ID"];
+  surchargeId: Scalars['ID'];
 };
 
 /** Response from the `deleteSurcharge` mutation */
 export type DeleteSurchargePayload = {
-  __typename?: "DeleteSurchargePayload";
+  __typename?: 'DeleteSurchargePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The removed fulfillment method */
   surcharge: Surcharge;
 };
@@ -2114,18 +2113,18 @@ export type DeleteSurchargePayload = {
 /** Describes the input for removing a tax rate */
 export type DeleteTaxRateInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Shop ID */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The tax rate ID */
-  taxRateId: Scalars["ID"];
+  taxRateId: Scalars['ID'];
 };
 
 /** The response from the `deleteTaxRate` mutation */
 export type DeleteTaxRatePayload = {
-  __typename?: "DeleteTaxRatePayload";
+  __typename?: 'DeleteTaxRatePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The deleted tax rate */
   taxRate: TaxRate;
 };
@@ -2135,28 +2134,28 @@ export type DeleteTaxRatePayload = {
  * `region`, and `postal` are set, there is an AND relationship.
  */
 export type DestinationRestrictions = {
-  __typename?: "DestinationRestrictions";
+  __typename?: 'DestinationRestrictions';
   /** Restrict for any of these destination countries */
-  country?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  country?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Restrict for any of these destination postal codes */
-  postal?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  postal?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Restrict for any of these destination regions */
-  region?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  region?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 /** Input for a destination restriction condition */
 export type DestinationRestrictionsInput = {
   /** Restrict for any of these destination countries */
-  country?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  country?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Restrict for any of these destination postal codes */
-  postal?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  postal?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Restrict for any of these destination regions */
-  region?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  region?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /** Discount code calculation */
 export type DiscountCalculation = {
-  __typename?: "DiscountCalculation";
+  __typename?: 'DiscountCalculation';
   /** Discount code calculation method */
   method?: Maybe<DiscountCalculationMethod>;
 };
@@ -2170,37 +2169,37 @@ export type DiscountCalculationInput = {
 /** Discount calculation types */
 export enum DiscountCalculationMethod {
   /** Store credit */
-  Credit = "credit",
+  Credit = 'credit',
   /** Discount of order */
-  Discount = "discount",
+  Discount = 'discount',
   /** Sale on an item */
-  Sale = "sale",
+  Sale = 'sale',
   /** Discount to shipping */
-  Shipping = "shipping"
+  Shipping = 'shipping'
 }
 
 /** A discount code */
 export type DiscountCode = {
-  __typename?: "DiscountCode";
+  __typename?: 'DiscountCode';
   /** Discount code ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** How the discount should be applied */
   calculation?: Maybe<DiscountCalculation>;
   /** Discount Code */
-  code: Scalars["String"];
+  code: Scalars['String'];
   /** Discount code conditions */
   conditions?: Maybe<DiscountConditions>;
   /** Description to describe the discount code */
-  description?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars['String']>;
   /**
    * Discount is allowed to be string or number.
    * it's a formula value (could be shipping code)
    */
-  discount?: Maybe<Scalars["String"]>;
+  discount?: Maybe<Scalars['String']>;
   /** Discount method type */
   discountMethod?: Maybe<DiscountMethod>;
   /** Label to describe the code */
-  label?: Maybe<Scalars["String"]>;
+  label?: Maybe<Scalars['String']>;
   /** The shop to which this DiscountCode belongs to */
   shop: Shop;
   /** History of transactions */
@@ -2216,7 +2215,7 @@ export type DiscountCode = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type DiscountCodeConnection = {
-  __typename?: "DiscountCodeConnection";
+  __typename?: 'DiscountCodeConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<DiscountCodeEdge>>>;
   /**
@@ -2227,14 +2226,14 @@ export type DiscountCodeConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `DiscountCode` object */
 export type DiscountCodeEdge = {
-  __typename?: "DiscountCodeEdge";
+  __typename?: 'DiscountCodeEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The discount code */
   node?: Maybe<DiscountCode>;
 };
@@ -2242,7 +2241,7 @@ export type DiscountCodeEdge = {
 /** Input type for filters to be applied to an discount codes list */
 export type DiscountCodeFilterInput = {
   /** Keywords typed by the user in the search input field */
-  searchField?: InputMaybe<Scalars["String"]>;
+  searchField?: InputMaybe<Scalars['String']>;
 };
 
 /** Input type for a discount code */
@@ -2250,152 +2249,152 @@ export type DiscountCodeInput = {
   /** How the discount should be applied */
   calculation?: InputMaybe<DiscountCalculationInput>;
   /** Discount Code */
-  code: Scalars["String"];
+  code: Scalars['String'];
   /** Discount code conditions */
   conditions?: InputMaybe<DiscountConditionsInput>;
   /** Description to describe the discount code */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars['String']>;
   /**
    * Discount is allowed to be string or number.
    * it's a formula value (could be shipping code)
    */
-  discount?: InputMaybe<Scalars["String"]>;
+  discount?: InputMaybe<Scalars['String']>;
   /** Discount method type */
   discountMethod?: InputMaybe<DiscountMethod>;
   /** Label to describe the code */
-  label?: InputMaybe<Scalars["String"]>;
+  label?: InputMaybe<Scalars['String']>;
   /** History of transactions */
   transactions?: InputMaybe<Array<InputMaybe<DiscountTransactionInput>>>;
 };
 
 /** The conditions an order must meet for a discount code to be applied */
 export type DiscountConditionOrder = {
-  __typename?: "DiscountConditionOrder";
+  __typename?: 'DiscountConditionOrder';
   /** Order date range end */
-  endDate?: Maybe<Scalars["DateTime"]>;
+  endDate?: Maybe<Scalars['DateTime']>;
   /** Maximum order value */
-  max?: Maybe<Scalars["Float"]>;
+  max?: Maybe<Scalars['Float']>;
   /** Minimum order value */
-  min: Scalars["Float"];
+  min: Scalars['Float'];
   /** Order date range start */
-  startDate?: Maybe<Scalars["DateTime"]>;
+  startDate?: Maybe<Scalars['DateTime']>;
 };
 
 /** Discount order conditions input type */
 export type DiscountConditionOrderInput = {
   /** Order date range end */
-  endDate?: InputMaybe<Scalars["DateTime"]>;
+  endDate?: InputMaybe<Scalars['DateTime']>;
   /** Maximum order value */
-  max?: InputMaybe<Scalars["Float"]>;
+  max?: InputMaybe<Scalars['Float']>;
   /** Minimum order value */
-  min: Scalars["Float"];
+  min: Scalars['Float'];
   /** Order date range start */
-  startDate?: InputMaybe<Scalars["DateTime"]>;
+  startDate?: InputMaybe<Scalars['DateTime']>;
 };
 
 /** Conditions for a discount code to be applied */
 export type DiscountConditions = {
-  __typename?: "DiscountConditions";
+  __typename?: 'DiscountConditions';
   /** Account Limit */
-  accountLimit?: Maybe<Scalars["Int"]>;
+  accountLimit?: Maybe<Scalars['Int']>;
   /** Audience that may apply this discount code */
-  audience?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  audience?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Is this discount code enabled */
-  enabled: Scalars["Boolean"];
+  enabled: Scalars['Boolean'];
   /** Order conditions */
   order?: Maybe<DiscountConditionOrder>;
   /** Permissions that may apply this discount code */
-  permissions?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  permissions?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Products that may apply this discount code */
-  products?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  products?: Maybe<Array<Maybe<Scalars['String']>>>;
   /**
    * Number of times this code may be redeemed.
    * Setting to 100 means the first 100 customers may apply this code.
    * Setting this value to 0 will allow this code to be applied an infinite number of times.
    */
-  redemptionLimit?: Maybe<Scalars["Int"]>;
+  redemptionLimit?: Maybe<Scalars['Int']>;
   /** Tags that may be apply this discount code */
-  tags?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 /** Discount conditions input type */
 export type DiscountConditionsInput = {
   /** Account Limit */
-  accountLimit?: InputMaybe<Scalars["Int"]>;
+  accountLimit?: InputMaybe<Scalars['Int']>;
   /** Audience that may apply this discount code */
-  audience?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  audience?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Is this discount code enabled */
-  enabled: Scalars["Boolean"];
+  enabled: Scalars['Boolean'];
   /** Order conditions */
   order?: InputMaybe<DiscountConditionOrderInput>;
   /** Permissions that may apply this discount code */
-  permissions?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  permissions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Products that may apply this discount code */
-  products?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  products?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /**
    * Number of times this code may be redeemed.
    * Setting to 100 means the first 100 customers may apply this code.
    * Setting this value to 0 will allow this code to be applied an infinite number of times.
    */
-  redemptionLimit?: InputMaybe<Scalars["Int"]>;
+  redemptionLimit?: InputMaybe<Scalars['Int']>;
   /** Tags that may be apply this discount code */
-  tags?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /** Discount method types */
 export enum DiscountMethod {
   /** Code type */
-  Code = "code",
+  Code = 'code',
   /** Rate type */
-  Rate = "rate"
+  Rate = 'rate'
 }
 
 /** Transaction history for a discount code */
 export type DiscountTransaction = {
-  __typename?: "DiscountTransaction";
+  __typename?: 'DiscountTransaction';
   /** Date the code was applied */
-  appliedAt?: Maybe<Scalars["DateTime"]>;
+  appliedAt?: Maybe<Scalars['DateTime']>;
   /** Cart id */
-  cartId: Scalars["String"];
+  cartId: Scalars['String'];
   /** User id */
-  userId: Scalars["String"];
+  userId: Scalars['String'];
 };
 
 /** Discount transation input type */
 export type DiscountTransactionInput = {
   /** Date the code was applied */
-  appliedAt?: InputMaybe<Scalars["DateTime"]>;
+  appliedAt?: InputMaybe<Scalars['DateTime']>;
   /** Cart id */
-  cartId: Scalars["String"];
+  cartId: Scalars['String'];
   /** User id */
-  userId: Scalars["String"];
+  userId: Scalars['String'];
 };
 
 /** Distance units */
 export enum DistanceUnit {
   /** Centimeter */
-  Cm = "cm",
+  Cm = 'cm',
   /** Foot */
-  Ft = "ft",
+  Ft = 'ft',
   /** Inch */
-  In = "in"
+  In = 'in'
 }
 
 /** An e-mail job */
 export type EmailJob = {
-  __typename?: "EmailJob";
+  __typename?: 'EmailJob';
   /** The ID of the e-mail job */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time of the creation of the e-mail job */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The data of the e-mail */
   data: EmailJobData;
   /** The status of the e-mail job */
-  status: Scalars["String"];
+  status: Scalars['String'];
   /** To be deprecated. Use updatedAt instead. The date and time of the last update to the e-mail job. */
-  updated: Scalars["DateTime"];
+  updated: Scalars['DateTime'];
   /** The date and time of the last update to the e-mail job */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 /**
@@ -2407,7 +2406,7 @@ export type EmailJob = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type EmailJobConnection = {
-  __typename?: "EmailJobConnection";
+  __typename?: 'EmailJobConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<EmailJobEdge>>>;
   /**
@@ -2418,111 +2417,111 @@ export type EmailJobConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** The data of the e-mail */
 export type EmailJobData = {
-  __typename?: "EmailJobData";
+  __typename?: 'EmailJobData';
   /** The subject of the e-mail */
-  subject: Scalars["String"];
+  subject: Scalars['String'];
   /** The address the e-mail was/is being/will be sent to */
-  to: Scalars["String"];
+  to: Scalars['String'];
 };
 
 /** A connection edge in which each node is an `EmailJob` object */
 export type EmailJobEdge = {
-  __typename?: "EmailJobEdge";
+  __typename?: 'EmailJobEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The product */
   node?: Maybe<EmailJob>;
 };
 
 /** A confirmable email record */
 export type EmailRecord = {
-  __typename?: "EmailRecord";
+  __typename?: 'EmailRecord';
   /** The actual email address */
-  address?: Maybe<Scalars["String"]>;
+  address?: Maybe<Scalars['String']>;
   /** The services provided by this address */
-  provides?: Maybe<Scalars["String"]>;
+  provides?: Maybe<Scalars['String']>;
   /** Has this address been verified? */
-  verified?: Maybe<Scalars["Boolean"]>;
+  verified?: Maybe<Scalars['Boolean']>;
 };
 
 /** A confirmable email record */
 export type EmailRecordInput = {
   /** The actual email address */
-  address?: InputMaybe<Scalars["String"]>;
+  address?: InputMaybe<Scalars['String']>;
   /** The services provided by this address */
-  provides?: InputMaybe<Scalars["String"]>;
+  provides?: InputMaybe<Scalars['String']>;
   /** Has this address been verified? */
-  verified?: InputMaybe<Scalars["Boolean"]>;
+  verified?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Input for the `enablePaymentMethodForShop` mutation */
 export type EnablePaymentMethodForShopInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** True to enable it or false to disable it */
-  isEnabled: Scalars["Boolean"];
+  isEnabled: Scalars['Boolean'];
   /** The name of the payment method to enable or disable */
-  paymentMethodName: Scalars["String"];
+  paymentMethodName: Scalars['String'];
   /** The ID of the shop for which this payment method should be enabled or disabled */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `enablePaymentMethodForShop` mutation */
 export type EnablePaymentMethodForShopPayload = {
-  __typename?: "EnablePaymentMethodForShopPayload";
+  __typename?: 'EnablePaymentMethodForShopPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The full list of payment methods for the shop */
   paymentMethods: Array<Maybe<PaymentMethod>>;
 };
 
 /** Data for an example IOU payment */
 export type ExampleIouPaymentData = {
-  __typename?: "ExampleIOUPaymentData";
+  __typename?: 'ExampleIOUPaymentData';
   /** The name of the IOU payer entered by the shopper */
-  fullName: Scalars["String"];
+  fullName: Scalars['String'];
 };
 
 /** Data for an example IOU payment method */
 export type ExampleIouPaymentMethodData = {
-  __typename?: "ExampleIOUPaymentMethodData";
+  __typename?: 'ExampleIOUPaymentMethodData';
   /** Example */
-  example: Scalars["String"];
+  example: Scalars['String'];
 };
 
 /** Do not use this */
 export type FakeData = {
-  __typename?: "FakeData";
+  __typename?: 'FakeData';
   /** Do not use this */
-  doNotUse?: Maybe<Scalars["String"]>;
+  doNotUse?: Maybe<Scalars['String']>;
 };
 
 /** Defines a fulfillment method that has a fixed price. This type is provided by the `flat-rate` fulfillment plugin. */
 export type FlatRateFulfillmentMethod = Node & {
-  __typename?: "FlatRateFulfillmentMethod";
+  __typename?: 'FlatRateFulfillmentMethod';
   /** The flat rate fulfillment method ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The cost of this fulfillment method to the shop, if you track this */
-  cost?: Maybe<Scalars["Float"]>;
+  cost?: Maybe<Scalars['Float']>;
   /** The fulfillment types for which this method may be used. For example, `shipping` or `digital`. */
   fulfillmentTypes: Array<Maybe<FulfillmentType>>;
   /** The group to which this method belongs */
-  group: Scalars["String"];
+  group: Scalars['String'];
   /** A fixed price to charge for handling costs when this fulfillment method is selected for an order */
-  handling: Scalars["Float"];
+  handling: Scalars['Float'];
   /** Include this as a fulfillment option shown to shoppers during checkout? */
-  isEnabled: Scalars["Boolean"];
+  isEnabled: Scalars['Boolean'];
   /** The name of this method, for display in the user interface */
-  label: Scalars["String"];
+  label: Scalars['String'];
   /** The name of this method, a unique identifier */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** A fixed price to charge for fulfillment costs when this fulfillment method is selected for an order */
-  rate: Scalars["Float"];
+  rate: Scalars['Float'];
   /** The shop to which this fulfillment method belongs */
   shop: Shop;
 };
@@ -2536,7 +2535,7 @@ export type FlatRateFulfillmentMethod = Node & {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type FlatRateFulfillmentMethodConnection = {
-  __typename?: "FlatRateFulfillmentMethodConnection";
+  __typename?: 'FlatRateFulfillmentMethodConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<FlatRateFulfillmentMethodEdge>>>;
   /**
@@ -2547,14 +2546,14 @@ export type FlatRateFulfillmentMethodConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `FlatRateFulfillmentMethod` object */
 export type FlatRateFulfillmentMethodEdge = {
-  __typename?: "FlatRateFulfillmentMethodEdge";
+  __typename?: 'FlatRateFulfillmentMethodEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The fulfillment method */
   node?: Maybe<FlatRateFulfillmentMethod>;
 };
@@ -2562,36 +2561,36 @@ export type FlatRateFulfillmentMethodEdge = {
 /** Defines a fulfillment method that has a fixed price. This type is provided by the `flat-rate` fulfillment plugin. */
 export type FlatRateFulfillmentMethodInput = {
   /** The cost of this fulfillment method to the shop, if you track this */
-  cost?: InputMaybe<Scalars["Float"]>;
+  cost?: InputMaybe<Scalars['Float']>;
   /** The fulfillment types for which this method may be used. For example, `shipping` or `digital`. */
   fulfillmentTypes: Array<InputMaybe<FulfillmentType>>;
   /** The group to which this method belongs */
-  group: Scalars["String"];
+  group: Scalars['String'];
   /** A fixed price to charge for handling costs when this fulfillment method is selected for an order */
-  handling: Scalars["Float"];
+  handling: Scalars['Float'];
   /** Include this as a fulfillment option shown to shoppers during checkout? */
-  isEnabled: Scalars["Boolean"];
+  isEnabled: Scalars['Boolean'];
   /** The name of this method, for display in the user interface */
-  label: Scalars["String"];
+  label: Scalars['String'];
   /** The name of this method, a unique identifier */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** A fixed price to charge for fulfillment costs when this fulfillment method is selected for an order */
-  rate: Scalars["Float"];
+  rate: Scalars['Float'];
 };
 
 /** Defines a flat rate fulfillment method restriction. */
 export type FlatRateFulfillmentRestriction = Node & {
-  __typename?: "FlatRateFulfillmentRestriction";
+  __typename?: 'FlatRateFulfillmentRestriction';
   /** The restriction ID. */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Attribute restrictions. Multiple attribute restrictions are evaluated with AND. If both destination and attribute restrictions are present, they evaluate with AND. */
   attributes?: Maybe<Array<Maybe<AttributeRestrictions>>>;
   /** Destination restrictions. If multiple destination restrictions are present, the most localized is the only one evaluated (i.e. evaluate postal if present, then region if present, then country). If both destination and attribute restrictions are present, they evaluate with AND. */
   destination?: Maybe<DestinationRestrictions>;
   /** Method IDs to apply this restriction to. If none, applies to all methods as a universal restriction. */
-  methodIds?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  methodIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** The shop ID */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The type of this restriction. Allowed types are `allow` or `deny`. */
   type: RestrictionTypeEnum;
 };
@@ -2605,7 +2604,7 @@ export type FlatRateFulfillmentRestriction = Node & {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type FlatRateFulfillmentRestrictionConnection = {
-  __typename?: "FlatRateFulfillmentRestrictionConnection";
+  __typename?: 'FlatRateFulfillmentRestrictionConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<FlatRateFulfillmentRestrictionEdge>>>;
   /**
@@ -2616,14 +2615,14 @@ export type FlatRateFulfillmentRestrictionConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `FlatRateFulfillmentRestriction` object */
 export type FlatRateFulfillmentRestrictionEdge = {
-  __typename?: "FlatRateFulfillmentRestrictionEdge";
+  __typename?: 'FlatRateFulfillmentRestrictionEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The flat rate fulfillment restriction */
   node?: Maybe<FlatRateFulfillmentRestriction>;
 };
@@ -2635,7 +2634,7 @@ export type FlatRateFulfillmentRestrictionInput = {
   /** Destination restrictions. If multiple destination restrictions are present, the most localized is the only one evaluated (i.e. evaluate postal if present, then region if present, then country). If both destination and attribute restrictions are present, they evaluate with AND. */
   destination?: InputMaybe<DestinationRestrictionsInput>;
   /** Method IDs to apply this restriction to. If none, applies to all methods as a universal restriction. */
-  methodIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  methodIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** The type of this restriction. Allowed types are `allow` or `deny`. */
   type: RestrictionTypeEnum;
 };
@@ -2643,12 +2642,12 @@ export type FlatRateFulfillmentRestrictionInput = {
 /** Allowed values for `FlatRateFulfillmentRestriction` sortBy parameter */
 export enum FlatRateFulfillmentRestrictionSortByField {
   /** Date the restriction was created */
-  CreatedAt = "createdAt"
+  CreatedAt = 'createdAt'
 }
 
 /** Information needed by the selected fulfillment method to properly fulfill the order */
 export type FulfillmentData = {
-  __typename?: "FulfillmentData";
+  __typename?: 'FulfillmentData';
   /** The mailing address to which this fulfillment group should be shipped */
   shippingAddress?: Maybe<Address>;
 };
@@ -2658,9 +2657,9 @@ export type FulfillmentData = {
  * per shipping address.
  */
 export type FulfillmentGroup = Node & {
-  __typename?: "FulfillmentGroup";
+  __typename?: 'FulfillmentGroup';
   /** The fulfillment ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /**
    * The list of fulfillment options from which the shopper may choose. This list is created by taking
    * the full list of registered fulfillment methods, keeping only those that match the fulfillment `type`
@@ -2686,24 +2685,24 @@ export type FulfillmentGroup = Node & {
  * and the shopper chooses one method per fulfillment group per cart during checkout.
  */
 export type FulfillmentMethod = Node & {
-  __typename?: "FulfillmentMethod";
+  __typename?: 'FulfillmentMethod';
   /** The fulfillment method ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** A carrier name */
-  carrier?: Maybe<Scalars["String"]>;
+  carrier?: Maybe<Scalars['String']>;
   /** The name of this method, for display in the user interface */
-  displayName: Scalars["String"];
+  displayName: Scalars['String'];
   /** The fulfillment types for which this method may be used. For example, `shipping` or `digital`. */
   fulfillmentTypes: Array<Maybe<FulfillmentType>>;
   /** The group to which this method belongs */
-  group?: Maybe<Scalars["String"]>;
+  group?: Maybe<Scalars['String']>;
   /** The name of this method, a unique identifier */
-  name: Scalars["String"];
+  name: Scalars['String'];
 };
 
 /** A fulfillment option for a cart fulfillment group, which is a method with an associated price */
 export type FulfillmentOption = {
-  __typename?: "FulfillmentOption";
+  __typename?: 'FulfillmentOption';
   /** The fulfillment method this pricing is for */
   fulfillmentMethod?: Maybe<FulfillmentMethod>;
   /** The additional amount charged for handling */
@@ -2715,28 +2714,28 @@ export type FulfillmentOption = {
 /** Allowed fulfillment types */
 export enum FulfillmentType {
   /** An order will be fulfilled digitally, such as by sending a download link */
-  Digital = "digital",
+  Digital = 'digital',
   /** An order will be fulfilled by the customer picking it up */
-  Pickup = "pickup",
+  Pickup = 'pickup',
   /** An order will be fulfilled by the seller shipping it to the customer */
-  Shipping = "shipping"
+  Shipping = 'shipping'
 }
 
 /** Input for the `generateSitemaps` mutation */
 export type GenerateSitemapsInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the shop to generate sitemap for */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response for the `generateSitemaps` mutation */
 export type GenerateSitemapsPayload = {
-  __typename?: "GenerateSitemapsPayload";
+  __typename?: 'GenerateSitemapsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the sitemap generation job was successfully scheduled */
-  wasJobScheduled: Scalars["Boolean"];
+  wasJobScheduled: Scalars['Boolean'];
 };
 
 /**
@@ -2744,9 +2743,9 @@ export type GenerateSitemapsPayload = {
  * whatever settings they need.
  */
 export type GlobalSettings = {
-  __typename?: "GlobalSettings";
+  __typename?: 'GlobalSettings';
   /** A fake setting necessary until some plugin extends this with a real setting */
-  doNotUse?: Maybe<Scalars["String"]>;
+  doNotUse?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -2756,47 +2755,47 @@ export type GlobalSettings = {
  */
 export type GlobalSettingsUpdates = {
   /** Do not use this field */
-  doNotUse?: InputMaybe<Scalars["String"]>;
+  doNotUse?: InputMaybe<Scalars['String']>;
 };
 
 export type GrantOrRevokeAdminUiAccessInput = {
   /** The account ID to update */
-  accountId: Scalars["String"];
+  accountId: Scalars['String'];
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The shop IDs to unassign or assign to the accounts */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
 };
 
 export type GrantOrRevokeAdminUiAccessPayload = {
-  __typename?: "GrantOrRevokeAdminUIAccessPayload";
+  __typename?: 'GrantOrRevokeAdminUIAccessPayload';
   /** The up to date account object */
   account?: Maybe<Account>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Represents an account group */
 export type Group = Node & {
-  __typename?: "Group";
+  __typename?: 'Group';
   /** The group ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time at which this group was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The account that created this group */
   createdBy?: Maybe<Account>;
   /** A free text description of this group */
-  description?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars['String']>;
   /** A unique name for the group */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** A list of the account permissions implied by membership in this group */
-  permissions?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  permissions?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** The shop to which this group belongs */
   shop?: Maybe<Shop>;
   /** A unique URL-safe string representing this group */
-  slug: Scalars["String"];
+  slug: Scalars['String'];
   /** The date and time at which this group was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 /**
@@ -2808,7 +2807,7 @@ export type Group = Node & {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type GroupConnection = {
-  __typename?: "GroupConnection";
+  __typename?: 'GroupConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<GroupEdge>>>;
   /**
@@ -2819,14 +2818,14 @@ export type GroupConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `Group` object */
 export type GroupEdge = NodeEdge & {
-  __typename?: "GroupEdge";
+  __typename?: 'GroupEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The group */
   node?: Maybe<Group>;
 };
@@ -2834,79 +2833,79 @@ export type GroupEdge = NodeEdge & {
 /** A group definition */
 export type GroupInput = {
   /** A free text description of this group */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars['String']>;
   /** A unique name for the group */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** A list of the account permissions implied by membership in this group */
-  permissions?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  permissions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** A unique URL-safe string representing this group */
-  slug?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** The fields by which you are allowed to sort any query that returns an `GroupConnection` */
 export enum GroupSortByField {
   /** Group ID */
-  Id = "_id",
+  Id = '_id',
   /** Date and time at which this group was created */
-  CreatedAt = "createdAt",
+  CreatedAt = 'createdAt',
   /** Group name */
-  Name = "name",
+  Name = 'name',
   /** Date and time at which this group was last updated */
-  UpdatedAt = "updatedAt"
+  UpdatedAt = 'updatedAt'
 }
 
 /** Information about an image */
 export type ImageInfo = {
-  __typename?: "ImageInfo";
+  __typename?: 'ImageInfo';
   /** A list of URLs for various size files of this image */
   URLs?: Maybe<ImageSizes>;
   /** ID */
-  _id?: Maybe<Scalars["ID"]>;
+  _id?: Maybe<Scalars['ID']>;
   /**
    * Sort by priority ascending when displaying more than one image for a product in a user interface.
    * This is an integer with 1 being the first / highest priority image.
    */
-  priority?: Maybe<Scalars["Int"]>;
+  priority?: Maybe<Scalars['Int']>;
   /** The related product ID */
-  productId?: Maybe<Scalars["ID"]>;
+  productId?: Maybe<Scalars['ID']>;
   /** The related variant ID, if linked with a particular variant */
-  variantId?: Maybe<Scalars["ID"]>;
+  variantId?: Maybe<Scalars['ID']>;
 };
 
 /** A list of URLs for various sizes of an image */
 export type ImageSizes = {
-  __typename?: "ImageSizes";
+  __typename?: 'ImageSizes';
   /** Use this URL to get a large resolution file for this image */
-  large?: Maybe<Scalars["String"]>;
+  large?: Maybe<Scalars['String']>;
   /** Use this URL to get a medium resolution file for this image */
-  medium?: Maybe<Scalars["String"]>;
+  medium?: Maybe<Scalars['String']>;
   /**
    * Use this URL to get this image with its original resolution as uploaded. This may not be
    * the true original size if there is a hard cap on how big image files can be.
    */
-  original?: Maybe<Scalars["String"]>;
+  original?: Maybe<Scalars['String']>;
   /** Use this URL to get a small resolution file for this image */
-  small?: Maybe<Scalars["String"]>;
+  small?: Maybe<Scalars['String']>;
   /** Use this URL to get a thumbnail resolution file for this image */
-  thumbnail?: Maybe<Scalars["String"]>;
+  thumbnail?: Maybe<Scalars['String']>;
 };
 
 export type ImpersonateReturn = {
-  __typename?: "ImpersonateReturn";
-  authorized?: Maybe<Scalars["Boolean"]>;
+  __typename?: 'ImpersonateReturn';
+  authorized?: Maybe<Scalars['Boolean']>;
   tokens?: Maybe<Tokens>;
   user?: Maybe<User>;
 };
 
 export type ImpersonationUserIdentityInput = {
-  email?: InputMaybe<Scalars["String"]>;
-  userId?: InputMaybe<Scalars["String"]>;
-  username?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 /** Details about a CartItemInput that failed to be added to a cart due to a price mismatch */
 export type IncorrectPriceFailureDetails = {
-  __typename?: "IncorrectPriceFailureDetails";
+  __typename?: 'IncorrectPriceFailureDetails';
   /** The current price in the system for this product configuration in the requested currency */
   currentPrice: Money;
   /** The productConfiguration that was provided with the CartItemInput that caused this failure */
@@ -2917,11 +2916,11 @@ export type IncorrectPriceFailureDetails = {
 
 /** Represents a single staff member invitation */
 export type Invitation = Node & {
-  __typename?: "Invitation";
+  __typename?: 'Invitation';
   /** The invitation ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The e-mail address the invitation was sent to */
-  email: Scalars["String"];
+  email: Scalars['String'];
   /** The groups this person was invited to */
   groups: Array<Maybe<Group>>;
   /** The admin who invited this person */
@@ -2939,7 +2938,7 @@ export type Invitation = Node & {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type InvitationConnection = {
-  __typename?: "InvitationConnection";
+  __typename?: 'InvitationConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<InvitationEdge>>>;
   /**
@@ -2950,14 +2949,14 @@ export type InvitationConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is an `Invitation` object */
 export type InvitationEdge = NodeEdge & {
-  __typename?: "InvitationEdge";
+  __typename?: 'InvitationEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The account */
   node?: Maybe<Invitation>;
 };
@@ -2965,33 +2964,33 @@ export type InvitationEdge = NodeEdge & {
 /** Input parameters for the inviteShopMember mutation */
 export type InviteShopMemberInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The email address of the person to invite */
-  email: Scalars["String"];
+  email: Scalars['String'];
   /** The permission group for this person's new account. DEPRECATED. Use `groupIds` field instead. */
-  groupId?: InputMaybe<Scalars["ID"]>;
+  groupId?: InputMaybe<Scalars['ID']>;
   /** The permission groups for this person's new account */
-  groupIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  groupIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** The invitee's full name */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** The ID of the shop to which you want to invite this person */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Whether the newly invited user should get admin UI access to the shop upon sign-up */
-  shouldGetAdminUIAccess?: InputMaybe<Scalars["Boolean"]>;
+  shouldGetAdminUIAccess?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** The response from the `inviteShopMember` mutation */
 export type InviteShopMemberPayload = {
-  __typename?: "InviteShopMemberPayload";
+  __typename?: 'InviteShopMemberPayload';
   /** The account that was successfully created or found and updated by inviting this shop member */
   account?: Maybe<Account>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type LoginResult = {
-  __typename?: "LoginResult";
-  sessionId?: Maybe<Scalars["String"]>;
+  __typename?: 'LoginResult';
+  sessionId?: Maybe<Scalars['String']>;
   tokens?: Maybe<Tokens>;
   user?: Maybe<User>;
 };
@@ -2999,20 +2998,20 @@ export type LoginResult = {
 /** Mass units */
 export enum MassUnit {
   /** Gram */
-  G = "g",
+  G = 'g',
   /** Kilogram */
-  Kg = "kg",
+  Kg = 'kg',
   /** Pound */
-  Lb = "lb",
+  Lb = 'lb',
   /** Ounce */
-  Oz = "oz"
+  Oz = 'oz'
 }
 
 /** A FileRecord for a media file */
 export type MediaRecord = {
-  __typename?: "MediaRecord";
+  __typename?: 'MediaRecord';
   /** MediaRecord ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Custom metadata for the media record */
   metadata: MediaRecordMetadata;
   /** Core info about the original uploaded file */
@@ -3021,33 +3020,33 @@ export type MediaRecord = {
 
 /** Core info about the original uploaded media file */
 export type MediaRecordInfo = {
-  __typename?: "MediaRecordInfo";
+  __typename?: 'MediaRecordInfo';
   /** File name */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** File size */
-  size: Scalars["Int"];
+  size: Scalars['Int'];
   /** File type */
-  type: Scalars["String"];
+  type: Scalars['String'];
   /** Date and time at which the file was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
   /** Date and time at which the file was uploaded */
-  uploadedAt: Scalars["DateTime"];
+  uploadedAt: Scalars['DateTime'];
 };
 
 /** Core info about the original uploaded media file */
 export type MediaRecordInfoInput = {
   /** File name */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** File size */
-  size: Scalars["Int"];
+  size: Scalars['Int'];
   /** ID of the file uploaded to temporary storage */
-  tempStoreId: Scalars["String"];
+  tempStoreId: Scalars['String'];
   /** File type */
-  type: Scalars["String"];
+  type: Scalars['String'];
   /** Date and time at which the file was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
   /** Date and time at which the file was uploaded */
-  uploadedAt: Scalars["DateTime"];
+  uploadedAt: Scalars['DateTime'];
 };
 
 /** A FileRecord for a media file */
@@ -3060,132 +3059,132 @@ export type MediaRecordInput = {
 
 /** Custom metadata for the media record */
 export type MediaRecordMetadata = {
-  __typename?: "MediaRecordMetadata";
+  __typename?: 'MediaRecordMetadata';
   /** True if the MediaRecord is archived. This typically means that the media will not show in a storefront but the image file data still exists. */
-  isArchived: Scalars["Boolean"];
+  isArchived: Scalars['Boolean'];
   /** ID of the account that uploaded the file */
-  ownerId?: Maybe<Scalars["String"]>;
+  ownerId?: Maybe<Scalars['String']>;
   /** Priority among media files with similar metadata */
-  priority?: Maybe<Scalars["Int"]>;
+  priority?: Maybe<Scalars['Int']>;
   /** ID of the related product, if the media is for a product */
-  productId?: Maybe<Scalars["String"]>;
+  productId?: Maybe<Scalars['String']>;
   /** ID of the shop that owns the media */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
   /** A string that identifies where this media will be used, for filtering */
-  type?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars['String']>;
   /** ID of the related product variant, if the media is for a product variant */
-  variantId?: Maybe<Scalars["String"]>;
+  variantId?: Maybe<Scalars['String']>;
 };
 
 /** Custom metadata for the media record */
 export type MediaRecordMetadataInput = {
   /** Priority among media files with similar metadata */
-  priority?: InputMaybe<Scalars["Int"]>;
+  priority?: InputMaybe<Scalars['Int']>;
   /** ID of the related product, if the media is for a product */
-  productId?: InputMaybe<Scalars["ID"]>;
+  productId?: InputMaybe<Scalars['ID']>;
   /** A string that identifies where this media will be used, for filtering */
-  type?: InputMaybe<Scalars["String"]>;
+  type?: InputMaybe<Scalars['String']>;
   /** ID of the related product variant, if the media is for a product variant */
-  variantId?: InputMaybe<Scalars["ID"]>;
+  variantId?: InputMaybe<Scalars['ID']>;
 };
 
 /** Input to add a surcharge message with language */
 export type MessagesByLanguageInput = {
   /** The message for this language */
-  content: Scalars["String"];
+  content: Scalars['String'];
   /** The language code */
-  language: Scalars["String"];
+  language: Scalars['String'];
 };
 
 /** User defined attributes */
 export type Metafield = {
-  __typename?: "Metafield";
+  __typename?: 'Metafield';
   /** Field description */
-  description?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars['String']>;
   /** Field key */
-  key?: Maybe<Scalars["String"]>;
+  key?: Maybe<Scalars['String']>;
   /** Field namespace */
-  namespace?: Maybe<Scalars["String"]>;
+  namespace?: Maybe<Scalars['String']>;
   /** Field scope */
-  scope?: Maybe<Scalars["String"]>;
+  scope?: Maybe<Scalars['String']>;
   /** Field value */
-  value?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars['String']>;
   /** Field value type */
-  valueType?: Maybe<Scalars["String"]>;
+  valueType?: Maybe<Scalars['String']>;
 };
 
 /** User defined attributes. You can include only `key` and use these like tags, or also include a `value`. */
 export type MetafieldInput = {
   /** Field description */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars['String']>;
   /** Field key */
-  key: Scalars["String"];
+  key: Scalars['String'];
   /** Field namespace */
-  namespace?: InputMaybe<Scalars["String"]>;
+  namespace?: InputMaybe<Scalars['String']>;
   /** Field scope */
-  scope?: InputMaybe<Scalars["String"]>;
+  scope?: InputMaybe<Scalars['String']>;
   /** Field value */
-  value?: InputMaybe<Scalars["String"]>;
+  value?: InputMaybe<Scalars['String']>;
   /** Field value type */
-  valueType?: InputMaybe<Scalars["String"]>;
+  valueType?: InputMaybe<Scalars['String']>;
 };
 
 /** Details about a CartItemInput that failed to be added to a cart due to a quantity error */
 export type MinOrderQuantityFailureDetails = {
-  __typename?: "MinOrderQuantityFailureDetails";
+  __typename?: 'MinOrderQuantityFailureDetails';
   /** The minimum quantity that can be added to a cart */
-  minOrderQuantity: Scalars["Int"];
+  minOrderQuantity: Scalars['Int'];
   /** The productConfiguration that was provided with the CartItemInput that caused this failure */
   productConfiguration: ProductConfiguration;
   /** The quantity that was provided with the CartItemInput that caused this failure */
-  quantity: Scalars["Int"];
+  quantity: Scalars['Int'];
 };
 
 /** Represents some amount of a single currency */
 export type Money = {
-  __typename?: "Money";
+  __typename?: 'Money';
   /** The numeric amount */
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
   /** The currency, for interpreting the `amount` */
   currency: Currency;
   /** The display amount, with any currency symbols and decimal places already added */
-  displayAmount: Scalars["String"];
+  displayAmount: Scalars['String'];
 };
 
 /** Represents input for some amount of a single currency */
 export type MoneyInput = {
   /** The numeric amount */
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
   /** The currency code, for interpreting the `amount` */
-  currencyCode: Scalars["String"];
+  currencyCode: Scalars['String'];
 };
 
 /** Input for the moveOrderItems mutation */
 export type MoveOrderItemsInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the order fulfillment group from which all the items are to be moved. */
-  fromFulfillmentGroupId: Scalars["ID"];
+  fromFulfillmentGroupId: Scalars['ID'];
   /** The list of item IDs to move. The full quantity must be moved. */
-  itemIds: Array<InputMaybe<Scalars["ID"]>>;
+  itemIds: Array<InputMaybe<Scalars['ID']>>;
   /** ID of the order that has the items you want to move */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
   /** The ID of the order fulfillment group to which all the items are to be moved. */
-  toFulfillmentGroupId: Scalars["ID"];
+  toFulfillmentGroupId: Scalars['ID'];
 };
 
 /** Response payload for the moveOrderItems mutation */
 export type MoveOrderItemsPayload = {
-  __typename?: "MoveOrderItemsPayload";
+  __typename?: 'MoveOrderItemsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
 };
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type Mutation = {
-  __typename?: "Mutation";
+  __typename?: 'Mutation';
   /** Add a new address to the `addressBook` field for an account */
   addAccountAddressBookEntry?: Maybe<AddAccountAddressBookEntryPayload>;
   /** Add an email address to an account */
@@ -3194,7 +3193,7 @@ export type Mutation = {
   addAccountToGroup?: Maybe<AddAccountToGroupPayload>;
   /** Add item(s) to a cart */
   addCartItems: AddCartItemsPayload;
-  addEmail?: Maybe<Scalars["Boolean"]>;
+  addEmail?: Maybe<Scalars['Boolean']>;
   /**
    * Use this mutation to add a new order fulfillment group to an order. It must have at least one
    * item. Items may be provided or moved from another existing group or both.
@@ -3231,7 +3230,7 @@ export type Mutation = {
   cancelOrderItem: CancelOrderItemPayload;
   /** Capture one or more payments for an order */
   captureOrderPayments: CaptureOrderPaymentsPayload;
-  changePassword?: Maybe<Scalars["Boolean"]>;
+  changePassword?: Maybe<Scalars['Boolean']>;
   /** Clone an existing product variant */
   cloneProductVariants: CloneProductVariantsPayload;
   /** Clone an existing product */
@@ -3292,7 +3291,7 @@ export type Mutation = {
   /** Create a new promotion based on an existing promotion */
   duplicatePromotion?: Maybe<PromotionUpdatedPayload>;
   /** A test mutation that returns whatever string you send it */
-  echo?: Maybe<Scalars["String"]>;
+  echo?: Maybe<Scalars['String']>;
   /** Enable a payment method for a shop */
   enablePaymentMethodForShop: EnablePaymentMethodForShopPayload;
   /** Generate sitemap documents */
@@ -3305,7 +3304,7 @@ export type Mutation = {
    * and put them in the provided permission group
    */
   inviteShopMember?: Maybe<InviteShopMemberPayload>;
-  logout?: Maybe<Scalars["Boolean"]>;
+  logout?: Maybe<Scalars['Boolean']>;
   /** Use this mutation to move one or more items between existing order fulfillment groups. */
   moveOrderItems: MoveOrderItemsPayload;
   /**
@@ -3347,8 +3346,8 @@ export type Mutation = {
   selectFulfillmentOptionForGroup: SelectFulfillmentOptionForGroupPayload;
   /** Send a reset password email to an email address from an account */
   sendResetAccountPasswordEmail?: Maybe<SendResetAccountPasswordEmailPayload>;
-  sendResetPasswordEmail?: Maybe<Scalars["Boolean"]>;
-  sendVerificationEmail?: Maybe<Scalars["Boolean"]>;
+  sendResetPasswordEmail?: Maybe<Scalars['Boolean']>;
+  sendVerificationEmail?: Maybe<Scalars['Boolean']>;
   /** Set default email address for an account */
   setAccountDefaultEmail?: Maybe<SetAccountDefaultEmailPayload>;
   /** Set the email address for an anonymous cart */
@@ -3364,8 +3363,8 @@ export type Mutation = {
    * the item order right now.
    */
   splitOrderItem: SplitOrderItemPayload;
-  twoFactorSet?: Maybe<Scalars["Boolean"]>;
-  twoFactorUnset?: Maybe<Scalars["Boolean"]>;
+  twoFactorSet?: Maybe<Scalars['Boolean']>;
+  twoFactorUnset?: Maybe<Scalars['Boolean']>;
   /** Update account fields */
   updateAccount?: Maybe<UpdateAccountPayload>;
   /** Remove an address that exists in the `addressBook` field for an account */
@@ -3436,8 +3435,8 @@ export type Mutation = {
   updateTaxRate?: Maybe<UpdateTaxRatePayload>;
   /** Updates an existing template */
   updateTemplate: UpdateTemplatePayload;
-  verifyAuthentication?: Maybe<Scalars["Boolean"]>;
-  verifyEmail?: Maybe<Scalars["Boolean"]>;
+  verifyAuthentication?: Maybe<Scalars['Boolean']>;
+  verifyEmail?: Maybe<Scalars['Boolean']>;
   /** Use this mutation to verify the SMTP email settings */
   verifySMTPEmailSettings: VerifySmtpEmailSettingsInputPayload;
 };
@@ -3469,7 +3468,7 @@ export type MutationAddCartItemsArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationAddEmailArgs = {
-  newEmail: Scalars["String"];
+  newEmail: Scalars['String'];
 };
 
 
@@ -3536,7 +3535,7 @@ export type MutationArchivePromotionArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationAuthenticateArgs = {
   params: AuthenticateParamsInput;
-  serviceName: Scalars["String"];
+  serviceName: Scalars['String'];
 };
 
 
@@ -3554,8 +3553,8 @@ export type MutationCaptureOrderPaymentsArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationChangePasswordArgs = {
-  newPassword: Scalars["String"];
-  oldPassword: Scalars["String"];
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
 };
 
 
@@ -3741,7 +3740,7 @@ export type MutationDuplicatePromotionArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationEchoArgs = {
-  str?: InputMaybe<Scalars["String"]>;
+  str?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -3765,7 +3764,7 @@ export type MutationGrantAdminUiAccessArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationImpersonateArgs = {
-  accessToken: Scalars["String"];
+  accessToken: Scalars['String'];
   impersonated: ImpersonationUserIdentityInput;
 };
 
@@ -3796,7 +3795,7 @@ export type MutationPublishNavigationChangesArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationPublishProductsToCatalogArgs = {
-  productIds: Array<InputMaybe<Scalars["ID"]>>;
+  productIds: Array<InputMaybe<Scalars['ID']>>;
 };
 
 
@@ -3814,8 +3813,8 @@ export type MutationReconcileCartsArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationRefreshTokensArgs = {
-  accessToken: Scalars["String"];
-  refreshToken: Scalars["String"];
+  accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
 };
 
 
@@ -3869,8 +3868,8 @@ export type MutationRemoveTagsFromProductsArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationResetPasswordArgs = {
-  newPassword: Scalars["String"];
-  token: Scalars["String"];
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
 };
 
 
@@ -3900,13 +3899,13 @@ export type MutationSendResetAccountPasswordEmailArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationSendResetPasswordEmailArgs = {
-  email: Scalars["String"];
+  email: Scalars['String'];
 };
 
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationSendVerificationEmailArgs = {
-  email: Scalars["String"];
+  email: Scalars['String'];
 };
 
 
@@ -3942,14 +3941,14 @@ export type MutationSplitOrderItemArgs = {
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationTwoFactorSetArgs = {
-  code: Scalars["String"];
+  code: Scalars['String'];
   secret: TwoFactorSecretKeyInput;
 };
 
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationTwoFactorUnsetArgs = {
-  code: Scalars["String"];
+  code: Scalars['String'];
 };
 
 
@@ -4130,13 +4129,13 @@ export type MutationUpdateTemplateArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationVerifyAuthenticationArgs = {
   params: AuthenticateParamsInput;
-  serviceName: Scalars["String"];
+  serviceName: Scalars['String'];
 };
 
 
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationVerifyEmailArgs = {
-  token: Scalars["String"];
+  token: Scalars['String'];
 };
 
 
@@ -4147,21 +4146,21 @@ export type MutationVerifySmtpEmailSettingsArgs = {
 
 /** Represents a single navigation item */
 export type NavigationItem = Node & {
-  __typename?: "NavigationItem";
+  __typename?: 'NavigationItem';
   /** The navigation item ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time at which this navigation item was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The published data for this navigation item */
   data?: Maybe<NavigationItemData>;
   /** The draft/unpublished data for this navigation item */
   draftData?: Maybe<NavigationItemData>;
   /** Whether the navigation item has unpublished changes */
-  hasUnpublishedChanges?: Maybe<Scalars["Boolean"]>;
+  hasUnpublishedChanges?: Maybe<Scalars['Boolean']>;
   /** An object storing additional metadata about the navigation item (such as its related tag) */
-  metadata?: Maybe<Scalars["JSONObject"]>;
+  metadata?: Maybe<Scalars['JSONObject']>;
   /** The ID of the shop the navigation item belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /**
@@ -4173,7 +4172,7 @@ export type NavigationItem = Node & {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type NavigationItemConnection = {
-  __typename?: "NavigationItemConnection";
+  __typename?: 'NavigationItemConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<NavigationItemEdge>>>;
   /**
@@ -4184,62 +4183,62 @@ export type NavigationItemConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** Represents the translated content for a navigation item */
 export type NavigationItemContent = {
-  __typename?: "NavigationItemContent";
+  __typename?: 'NavigationItemContent';
   /** The language of the piece of navigation content */
-  language: Scalars["String"];
+  language: Scalars['String'];
   /** The translated value, in plain text or markdown */
-  value?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars['String']>;
 };
 
 /** NavigationItem content input */
 export type NavigationItemContentInput = {
   /** The language of the piece of navigation content */
-  language: Scalars["String"];
+  language: Scalars['String'];
   /** The translated value, in plain text or markdown */
-  value?: InputMaybe<Scalars["String"]>;
+  value?: InputMaybe<Scalars['String']>;
 };
 
 /** Represents the data for a navigation item */
 export type NavigationItemData = {
-  __typename?: "NavigationItemData";
+  __typename?: 'NavigationItemData';
   /** CSS class names to add to the menu item for display */
-  classNames?: Maybe<Scalars["String"]>;
+  classNames?: Maybe<Scalars['String']>;
   /** The content for the navigation item, in one or more languages */
   content?: Maybe<Array<Maybe<NavigationItemContent>>>;
   /** The translated content for a navigation item */
-  contentForLanguage?: Maybe<Scalars["String"]>;
+  contentForLanguage?: Maybe<Scalars['String']>;
   /** Whether the provided URL is relative or external */
-  isUrlRelative?: Maybe<Scalars["Boolean"]>;
+  isUrlRelative?: Maybe<Scalars['Boolean']>;
   /** Whether the navigation item should trigger a new tab/window to open when clicked */
-  shouldOpenInNewWindow?: Maybe<Scalars["Boolean"]>;
+  shouldOpenInNewWindow?: Maybe<Scalars['Boolean']>;
   /** The URL for the navigation item to link to */
-  url?: Maybe<Scalars["String"]>;
+  url?: Maybe<Scalars['String']>;
 };
 
 /** NavigationItemData input */
 export type NavigationItemDataInput = {
   /** CSS class names to add to the menu item for display */
-  classNames?: InputMaybe<Scalars["String"]>;
+  classNames?: InputMaybe<Scalars['String']>;
   /** The content for the navigation item, in one or more languages */
   content?: InputMaybe<Array<InputMaybe<NavigationItemContentInput>>>;
   /** Whether the provided URL is relative or external */
-  isUrlRelative?: InputMaybe<Scalars["Boolean"]>;
+  isUrlRelative?: InputMaybe<Scalars['Boolean']>;
   /** Whether the navigation item should trigger a new tab/window to open when clicked */
-  shouldOpenInNewWindow?: InputMaybe<Scalars["Boolean"]>;
+  shouldOpenInNewWindow?: InputMaybe<Scalars['Boolean']>;
   /** The URL for the navigation item to link to */
-  url?: InputMaybe<Scalars["String"]>;
+  url?: InputMaybe<Scalars['String']>;
 };
 
 /** A connection edge in which each node is a `NavigationItem` object */
 export type NavigationItemEdge = NodeEdge & {
-  __typename?: "NavigationItemEdge";
+  __typename?: 'NavigationItemEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The navigation item */
   node?: Maybe<NavigationItem>;
 };
@@ -4249,34 +4248,34 @@ export type NavigationItemInput = {
   /** The draft/unpublished data for this navigation item */
   draftData?: InputMaybe<NavigationItemDataInput>;
   /** An object storing additional metadata about the navigation item (such as its related tag) */
-  metadata?: InputMaybe<Scalars["JSONObject"]>;
+  metadata?: InputMaybe<Scalars['JSONObject']>;
   /** Shop ID of the navigation item */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** The fields by which you are allowed to sort any query that returns a `NavigationItemConnection` */
 export enum NavigationItemSortByField {
   /** Sort by NavigationItem ID */
-  Id = "_id",
+  Id = '_id',
   /** Sort by when the NavigationItem was created */
-  CreatedAt = "createdAt"
+  CreatedAt = 'createdAt'
 }
 
 /** Represents a navigation tree containing multiple levels of navigation items */
 export type NavigationTree = Node & {
-  __typename?: "NavigationTree";
+  __typename?: 'NavigationTree';
   /** The navigation tree ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The draft navigation items that make up this tree */
   draftItems?: Maybe<Array<Maybe<NavigationTreeItem>>>;
   /** Whether the navigation item has unpublished changes */
-  hasUnpublishedChanges?: Maybe<Scalars["Boolean"]>;
+  hasUnpublishedChanges?: Maybe<Scalars['Boolean']>;
   /** The published navigation items that make up this tree */
   items?: Maybe<Array<Maybe<NavigationTreeItem>>>;
   /** The name of the tree, for operator display purposes. Assumed to be in the primary shop's language */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** The ID of the shop this navigation tree belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** NavigationTree input */
@@ -4284,20 +4283,20 @@ export type NavigationTreeInput = {
   /** The draft navigation items that make up this tree */
   draftItems?: InputMaybe<Array<InputMaybe<NavigationTreeItemInput>>>;
   /** The name of the tree, for operator display purposes */
-  name?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 /** Represents a navigation item and its children in a tree */
 export type NavigationTreeItem = {
-  __typename?: "NavigationTreeItem";
+  __typename?: 'NavigationTreeItem';
   /** Whether the navigation item should display its children */
-  expanded?: Maybe<Scalars["Boolean"]>;
+  expanded?: Maybe<Scalars['Boolean']>;
   /** Whether the navigation item should be hidden from customers */
-  isPrivate?: Maybe<Scalars["Boolean"]>;
+  isPrivate?: Maybe<Scalars['Boolean']>;
   /** Whether the navigaton item is a secondary navigation item */
-  isSecondary?: Maybe<Scalars["Boolean"]>;
+  isSecondary?: Maybe<Scalars['Boolean']>;
   /** Whether the navigation ttem should shown in query results for customers and admins */
-  isVisible?: Maybe<Scalars["Boolean"]>;
+  isVisible?: Maybe<Scalars['Boolean']>;
   /** The child navigation items */
   items?: Maybe<Array<Maybe<NavigationTreeItem>>>;
   /** The navigation item */
@@ -4307,23 +4306,23 @@ export type NavigationTreeItem = {
 /** NavigationTree item input */
 export type NavigationTreeItemInput = {
   /** Whether the navigation item should display its children */
-  expanded?: InputMaybe<Scalars["Boolean"]>;
+  expanded?: InputMaybe<Scalars['Boolean']>;
   /** Whether the navigation item should be hidden from customers */
-  isPrivate?: InputMaybe<Scalars["Boolean"]>;
+  isPrivate?: InputMaybe<Scalars['Boolean']>;
   /** Whether the navigaton item is a secondary navigation item */
-  isSecondary?: InputMaybe<Scalars["Boolean"]>;
+  isSecondary?: InputMaybe<Scalars['Boolean']>;
   /** Whether the navigation ttem should shown in query results for customers and admins */
-  isVisible?: InputMaybe<Scalars["Boolean"]>;
+  isVisible?: InputMaybe<Scalars['Boolean']>;
   /** The child navigation items */
   items?: InputMaybe<Array<InputMaybe<NavigationTreeItemInput>>>;
   /** The ID of the navigation item */
-  navigationItemId: Scalars["ID"];
+  navigationItemId: Scalars['ID'];
 };
 
 /** Objects implementing the Node interface will always have an _id field that is globally unique. */
 export type Node = {
   /** The ID of the object */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
 };
 
 /**
@@ -4332,28 +4331,28 @@ export type Node = {
  */
 export type NodeEdge = {
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The node itself */
   node?: Maybe<Node>;
 };
 
 /** An order */
 export type Order = Node & {
-  __typename?: "Order";
+  __typename?: 'Order';
   /** The Order ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The account that placed the order. Some orders are created for anonymous users. Anonymous orders have a null account. */
   account?: Maybe<Account>;
   /** Full name(s) involved with payment. Payment can be made by one or more than one person */
-  billingName?: Maybe<Scalars["String"]>;
+  billingName?: Maybe<Scalars['String']>;
   /** The ID of the cart that created this order. Carts are deleted after becoming orders, so this is just a reference. */
-  cartId?: Maybe<Scalars["ID"]>;
+  cartId?: Maybe<Scalars['ID']>;
   /** The date and time at which the cart was created, which is when the first item was added to it. */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The order status for display in UI */
-  displayStatus: Scalars["String"];
+  displayStatus: Scalars['String'];
   /** An email address that has been associated with the cart */
-  email?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars['String']>;
   /** One or more fulfillment groups. Each of these are fulfilled and charged as separate orders. */
   fulfillmentGroups: Array<Maybe<OrderFulfillmentGroup>>;
   /** Notes about the order. This will always return an array but it may be empty */
@@ -4367,27 +4366,27 @@ export type Order = Node & {
    * An ID by which the customer can reference this order when enquiring about it. A storefront user
    * interface may show this to customers. Do not display other IDs (`_id`) to customers.
    */
-  referenceId: Scalars["String"];
+  referenceId: Scalars['String'];
   /** Refunds that have been applied to the payments on this order. */
   refunds?: Maybe<Array<Maybe<Refund>>>;
   /** The shop through which the order was placed */
   shop: Shop;
   /** The machine-readable order status. */
-  status: Scalars["String"];
+  status: Scalars['String'];
   /** A summary of the totals for all fulfillment groups for this order */
   summary: OrderSummary;
   /** Surcharges applied to this order */
   surcharges: Array<Maybe<AppliedSurcharge>>;
   /** Total quantity of all items in the order */
-  totalItemQuantity: Scalars["Int"];
+  totalItemQuantity: Scalars['Int'];
   /** The date and time at which this order was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 
 /** An order */
 export type OrderDisplayStatusArgs = {
-  language: Scalars["String"];
+  language: Scalars['String'];
 };
 
 /**
@@ -4399,7 +4398,7 @@ export type OrderDisplayStatusArgs = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type OrderConnection = {
-  __typename?: "OrderConnection";
+  __typename?: 'OrderConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<OrderEdge>>>;
   /**
@@ -4410,14 +4409,14 @@ export type OrderConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `Order` object */
 export type OrderEdge = NodeEdge & {
-  __typename?: "OrderEdge";
+  __typename?: 'OrderEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The order */
   node?: Maybe<Order>;
 };
@@ -4431,40 +4430,40 @@ export type OrderFilterInput = {
   /** An order's payment status */
   paymentStatus?: InputMaybe<Array<InputMaybe<OrderPaymentStatus>>>;
   /** Keywords typed by the user in the search input field */
-  searchField?: InputMaybe<Scalars["String"]>;
+  searchField?: InputMaybe<Scalars['String']>;
   /** The order's status to filter by */
   status?: InputMaybe<OrderStatus>;
 };
 
 /** An order fulfillment group */
 export type OrderFulfillmentGroup = Node & {
-  __typename?: "OrderFulfillmentGroup";
+  __typename?: 'OrderFulfillmentGroup';
   /** The order fulfillment group ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Information needed by the selected fulfillment method to properly fulfill the order */
   data?: Maybe<OrderFulfillmentGroupData>;
   /** The order status for display in UI */
-  displayStatus: Scalars["String"];
+  displayStatus: Scalars['String'];
   /** The items that are part of this fulfillment group */
   items?: Maybe<OrderItemConnection>;
   /** The fulfillment method that was selected, with its price quote */
   selectedFulfillmentOption: FulfillmentOption;
   /** The shipping label URL */
-  shippingLabelUrl?: Maybe<Scalars["String"]>;
+  shippingLabelUrl?: Maybe<Scalars['String']>;
   /** The shop responsible for fulfilling this order */
   shop: Shop;
   /** The machine-readable fulfillment group status. */
-  status: Scalars["String"];
+  status: Scalars['String'];
   /** A summary of the totals for this group */
   summary: OrderSummary;
   /** A summary of calculated taxes for this group. */
   taxSummary?: Maybe<TaxSummary>;
   /** Total quantity of all items in the group */
-  totalItemQuantity: Scalars["Int"];
+  totalItemQuantity: Scalars['Int'];
   /** The order fulfillment group shipment tracking number */
-  tracking?: Maybe<Scalars["String"]>;
+  tracking?: Maybe<Scalars['String']>;
   /** The order fulfillment group shipment tracking URL */
-  trackingUrl?: Maybe<Scalars["String"]>;
+  trackingUrl?: Maybe<Scalars['String']>;
   /** The fulfillment type. Any valid type that has been registered by a fulfillment plugin. Examples: `shipping`, `digital` */
   type: FulfillmentType;
 };
@@ -4472,17 +4471,17 @@ export type OrderFulfillmentGroup = Node & {
 
 /** An order fulfillment group */
 export type OrderFulfillmentGroupDisplayStatusArgs = {
-  language: Scalars["String"];
+  language: Scalars['String'];
 };
 
 
 /** An order fulfillment group */
 export type OrderFulfillmentGroupItemsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<OrderFulfillmentGroupItemsSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -4503,16 +4502,16 @@ export type OrderFulfillmentGroupExistingOrderInput = {
   /** The list of items to be ordered */
   items?: InputMaybe<Array<InputMaybe<OrderFulfillmentGroupItemInput>>>;
   /** The ID of the fulfillment method to be used for this order group */
-  selectedFulfillmentMethodId: Scalars["ID"];
+  selectedFulfillmentMethodId: Scalars['ID'];
   /** The shop that owns these items and needs to fulfill this part of the order */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /**
    * The total price of the items, fulfillment, and taxes, for this group, less any discounts, in the
    * `order.currencyCode` currency. This value is not trusted; the actual total is calculated by the
    * Order service. However, providing this value prevents an order being created for an amount that
    * does not match what was shown to the shopper in order preview.
    */
-  totalPrice?: InputMaybe<Scalars["Float"]>;
+  totalPrice?: InputMaybe<Scalars['Float']>;
   /** The fulfillment type. Any valid type that has been registered by a fulfillment plugin. Examples: `shipping`, `digital` */
   type: FulfillmentType;
 };
@@ -4524,16 +4523,16 @@ export type OrderFulfillmentGroupInput = {
   /** The list of items to be ordered */
   items: Array<InputMaybe<OrderFulfillmentGroupItemInput>>;
   /** The ID of the fulfillment method to be used for this order group */
-  selectedFulfillmentMethodId: Scalars["ID"];
+  selectedFulfillmentMethodId: Scalars['ID'];
   /** The shop that owns these items and needs to fulfill this part of the order */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /**
    * The total price of the items, fulfillment, and taxes, for this group, less any discounts, in the
    * `order.currencyCode` currency. This value is not trusted; the actual total is calculated by the
    * Order service. However, providing this value prevents an order being created for an amount that
    * does not match what was shown to the shopper in order preview.
    */
-  totalPrice?: InputMaybe<Scalars["Float"]>;
+  totalPrice?: InputMaybe<Scalars['Float']>;
   /** The fulfillment type. Any valid type that has been registered by a fulfillment plugin. Examples: `shipping`, `digital` */
   type: FulfillmentType;
 };
@@ -4541,35 +4540,35 @@ export type OrderFulfillmentGroupInput = {
 /** Input for an `OrderFulfillmentGroupItem` */
 export type OrderFulfillmentGroupItemInput = {
   /** The date and time at which this item was first added to the source cart, if this is something you want to track */
-  addedAt?: InputMaybe<Scalars["DateTime"]>;
+  addedAt?: InputMaybe<Scalars['DateTime']>;
   /**
    * The price of the item, in the `order.currencyCode` currency. This value is not trusted; the actual price
    * is confirmed by the Order service. However, providing this value prevents an order being created for an
    * amount that does not match what was shown to the shopper in order preview.
    */
-  price: Scalars["Float"];
+  price: Scalars['Float'];
   /** The product and chosen options */
   productConfiguration: ProductConfigurationInput;
   /** The desired quantity of this item. This must be a positive integer. */
-  quantity: Scalars["Int"];
+  quantity: Scalars['Int'];
 };
 
 /** Allowed values for the `OrderFulfillmentGroupItems` sortBy parameter */
 export enum OrderFulfillmentGroupItemsSortByField {
   /** Sort by the item ID */
-  Id = "_id",
+  Id = '_id',
   /** Sort by the date and time when the item was added to the order */
-  AddedAt = "addedAt"
+  AddedAt = 'addedAt'
 }
 
 /** Available order fulfillment statuses */
 export enum OrderFulfillmentStatus {
   /** An order that has been completed */
-  Completed = "completed",
+  Completed = 'completed',
   /** Newly created order that needs processing */
-  New = "new",
+  New = 'new',
   /** An order that is currently being processed */
-  Processing = "processing"
+  Processing = 'processing'
 }
 
 /** Input for placing an order */
@@ -4580,15 +4579,15 @@ export type OrderInput = {
    * reference. Second, it allows the Cart service to automatically delete the related cart after the order is
    * created.
    */
-  cartId?: InputMaybe<Scalars["String"]>;
+  cartId?: InputMaybe<Scalars['String']>;
   /** The code for the currency in which all values are being provided */
-  currencyCode: Scalars["String"];
+  currencyCode: Scalars['String'];
   /**
    * An email address to use for order tracking and correspondence. If a logged in user is placing an order,
    * we recommend that you use their "orders" email address, if they have one, or their default email address.
    * Or you can ask them to provide any email address.
    */
-  email: Scalars["String"];
+  email: Scalars['String'];
   /**
    * One or more fulfillment groups for the order. These are the actual orders that need to be fulfilled,
    * separate by shop, fulfillment type, and shipping origin or destination.
@@ -4599,14 +4598,14 @@ export type OrderInput = {
    * each fulfillment group also has a shop ID, which represents the shop that needs to fulfill that part of the
    * order, and those shop IDs may or may not match this one.
    */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
 };
 
 /** A single item in an order. The item contains information about a purchase. */
 export type OrderItem = Node & {
-  __typename?: "OrderItem";
+  __typename?: 'OrderItem';
   /** The order item ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /**
    * "
    * The date and time at which this item was first added to the associated cart.
@@ -4614,24 +4613,24 @@ export type OrderItem = Node & {
    * However, if an item is added twice, the quantity will increase but this date will remain
    * the initial added date.
    */
-  addedAt?: Maybe<Scalars["DateTime"]>;
+  addedAt?: Maybe<Scalars['DateTime']>;
   /**
    * FUTURE. Additional attributes of the chosen item. For example, if this item is for a product, socks, where `blue` and `small`
    * options were chosen for some configurable attributes, then `color:blue` and `size:small` will be indicated here.
    */
   attributes?: Maybe<Array<Maybe<OrderItemAttribute>>>;
   /** If this order item is canceled, the reason for cancelation, if provided */
-  cancelReason?: Maybe<Scalars["String"]>;
+  cancelReason?: Maybe<Scalars['String']>;
   /** The date and time at which the order item was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The URLs for a picture of the item in various sizes */
   imageURLs?: Maybe<ImageSizes>;
   /** Is this a taxable item? */
-  isTaxable: Scalars["Boolean"];
+  isTaxable: Scalars['Boolean'];
   /** Arbitrary additional metadata about this cart item. */
   metafields?: Maybe<Array<Maybe<Metafield>>>;
   /** The short title of the associated option, if this is an option item */
-  optionTitle?: Maybe<Scalars["String"]>;
+  optionTitle?: Maybe<Scalars['String']>;
   /** Packing information such as item weight, height, length, and depth. Used for calculating shipping rates. */
   parcel?: Maybe<ShippingParcel>;
   /** The price of the item at the time of purchase */
@@ -4639,56 +4638,56 @@ export type OrderItem = Node & {
   /** The product and chosen options */
   productConfiguration: ProductConfiguration;
   /** The product's slug */
-  productSlug?: Maybe<Scalars["String"]>;
+  productSlug?: Maybe<Scalars['String']>;
   /** The list of tags that have been applied to this product */
   productTags?: Maybe<TagConnection>;
   /** The type of product, used to display cart items differently */
-  productType?: Maybe<Scalars["String"]>;
+  productType?: Maybe<Scalars['String']>;
   /** The product vendor */
-  productVendor?: Maybe<Scalars["String"]>;
+  productVendor?: Maybe<Scalars['String']>;
   /** The quantity of this item that has been added to the cart. This must be a positive integer. Remove this `CartItem` from it's associated cart if you want `0` of this item. */
-  quantity: Scalars["Int"];
+  quantity: Scalars['Int'];
   /** The shop associated with this cart item. */
   shop: Shop;
   /** The machine-readable order item status. */
-  status: Scalars["String"];
+  status: Scalars['String'];
   /** The price of the item multiplied by the quantity of this item ordered */
   subtotal: Money;
   /** Total tax calculated for this item */
   tax: Money;
   /** The tax code for this item */
-  taxCode?: Maybe<Scalars["String"]>;
+  taxCode?: Maybe<Scalars['String']>;
   /** Amount of subtotal that is taxable */
   taxableAmount: Money;
   /** List of calculated taxes due for this item */
   taxes: Array<Maybe<CalculatedTax>>;
   /** A title for use in orders that conveys the selected product's title + chosen options */
-  title: Scalars["String"];
+  title: Scalars['String'];
   /** The date and time at which this item was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
   /** The selected variant title */
-  variantTitle?: Maybe<Scalars["String"]>;
+  variantTitle?: Maybe<Scalars['String']>;
 };
 
 
 /** A single item in an order. The item contains information about a purchase. */
 export type OrderItemProductTagsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
 
 /** One attribute of an order item */
 export type OrderItemAttribute = {
-  __typename?: "OrderItemAttribute";
+  __typename?: 'OrderItemAttribute';
   /** The attribute label, e.g., Color */
-  label?: Maybe<Scalars["String"]>;
+  label?: Maybe<Scalars['String']>;
   /** The attribute value, e.g., Blue */
-  value?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -4700,7 +4699,7 @@ export type OrderItemAttribute = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type OrderItemConnection = {
-  __typename?: "OrderItemConnection";
+  __typename?: 'OrderItemConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<OrderItemEdge>>>;
   /**
@@ -4711,54 +4710,54 @@ export type OrderItemConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `OrderItem` object */
 export type OrderItemEdge = NodeEdge & {
-  __typename?: "OrderItemEdge";
+  __typename?: 'OrderItemEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The order item */
   node?: Maybe<OrderItem>;
 };
 
 /** A note about an order */
 export type OrderNote = {
-  __typename?: "OrderNote";
+  __typename?: 'OrderNote';
   /** The account who wrote this note */
   account: Account;
   /** The content of the note */
-  content: Scalars["String"];
+  content: Scalars['String'];
   /** The date and time at which this note was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The date and time at which this note was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 /** Order payment status */
 export enum OrderPaymentStatus {
   /** Payments that have been successfully processed */
-  Completed = "completed",
+  Completed = 'completed',
   /** A payment intent has been created */
-  Created = "created"
+  Created = 'created'
 }
 
 /** Order status */
 export enum OrderStatus {
   /** Canceled order */
-  Canceled = "canceled",
+  Canceled = 'canceled',
   /** A completed order */
-  Completed = "completed",
+  Completed = 'completed',
   /** A new order that needs processing */
-  New = "new",
+  New = 'new',
   /** An order that is being processed */
-  Processing = "processing"
+  Processing = 'processing'
 }
 
 /** A summary of the totals for this order */
 export type OrderSummary = {
-  __typename?: "OrderSummary";
+  __typename?: 'OrderSummary';
   /** The total of all discounts applied, as a positive number */
   discountTotal: Money;
   /** The calculated tax-exclusive tax rate on all items and fulfillment prices (taxTotal / taxableAmount) */
@@ -4786,7 +4785,7 @@ export type OrderSummary = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type OrdersByAccountIdConnection = {
-  __typename?: "OrdersByAccountIdConnection";
+  __typename?: 'OrdersByAccountIdConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<OrdersByAccountIdEdge>>>;
   /**
@@ -4797,14 +4796,14 @@ export type OrdersByAccountIdConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `Order` object */
 export type OrdersByAccountIdEdge = NodeEdge & {
-  __typename?: "OrdersByAccountIdEdge";
+  __typename?: 'OrdersByAccountIdEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The order */
   node?: Maybe<Order>;
 };
@@ -4812,17 +4811,17 @@ export type OrdersByAccountIdEdge = NodeEdge & {
 /** The fields by which you are allowed to sort any query that returns a `OrdersByAccountIdConnection` */
 export enum OrdersByAccountIdSortByField {
   /** Sort by the order ID */
-  Id = "_id",
+  Id = '_id',
   /** Sort by the date and time when the order was placed */
-  CreatedAt = "createdAt"
+  CreatedAt = 'createdAt'
 }
 
 /** The fields by which you are allowed to sort any query that returns a `OrderConnection` */
 export enum OrdersSortByField {
   /** Sort by the order ID */
-  Id = "_id",
+  Id = '_id',
   /** Sort by the date and time when the order was placed */
-  CreatedAt = "createdAt"
+  CreatedAt = 'createdAt'
 }
 
 /**
@@ -4830,22 +4829,22 @@ export enum OrdersSortByField {
  * as your before or after parameters for the query you are paging.
  */
 export type PageInfo = {
-  __typename?: "PageInfo";
+  __typename?: 'PageInfo';
   /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars["ConnectionCursor"]>;
+  endCursor?: Maybe<Scalars['ConnectionCursor']>;
   /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars["Boolean"];
+  hasNextPage: Scalars['Boolean'];
   /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars["Boolean"];
+  hasPreviousPage: Scalars['Boolean'];
   /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars["ConnectionCursor"]>;
+  startCursor?: Maybe<Scalars['ConnectionCursor']>;
 };
 
 /** Information about a payment made */
 export type Payment = Node & {
-  __typename?: "Payment";
+  __typename?: 'Payment';
   /** The Payment ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /**
    * The amount that will be applied to this payment method. If there are multiple payment methods applied to the
    * cart, this may be less than the cart total.
@@ -4854,30 +4853,30 @@ export type Payment = Node & {
   /** The billing address for this payment, if one was collected */
   billingAddress?: Maybe<Address>;
   /** If status is `error` due to a capture error, this code describes the error in a machine-readable way. */
-  captureErrorCode?: Maybe<Scalars["String"]>;
+  captureErrorCode?: Maybe<Scalars['String']>;
   /** If status is `error` due to a capture error, this code describes the error in a human-readable way. */
-  captureErrorMessage?: Maybe<Scalars["String"]>;
+  captureErrorMessage?: Maybe<Scalars['String']>;
   /** For card payments, the brand of the card. Useful for showing card icons for common brands. */
-  cardBrand?: Maybe<Scalars["String"]>;
+  cardBrand?: Maybe<Scalars['String']>;
   /** The date and time at which this payment was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /**
    * The shopper-provided data needed to complete the payment using this method.
    * For example, a billing address, store credit code, stored credit card ID, etc.
    */
   data?: Maybe<PaymentData>;
   /** Use this identifier when showing this payment in a user interface */
-  displayName: Scalars["String"];
+  displayName: Scalars['String'];
   /** Has the payment authorization been canceled? */
-  isAuthorizationCanceled: Scalars["Boolean"];
+  isAuthorizationCanceled: Scalars['Boolean'];
   /** Has the payment been captured? If false, it is just an authorization. */
-  isCaptured: Scalars["Boolean"];
+  isCaptured: Scalars['Boolean'];
   /** The payment method */
   method: PaymentMethod;
   /** The payment mode */
-  mode?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars['String']>;
   /** The payment processor */
-  processor?: Maybe<Scalars["String"]>;
+  processor?: Maybe<Scalars['String']>;
   /** Refunds that have been applied to this payment. */
   refunds?: Maybe<Array<Maybe<Refund>>>;
   /** Risk level of payment */
@@ -4885,7 +4884,7 @@ export type Payment = Node & {
   /** The current status of this payment */
   status: PaymentStatus;
   /** The payment transaction ID */
-  transactionId?: Maybe<Scalars["String"]>;
+  transactionId?: Maybe<Scalars['String']>;
 };
 
 /** Data identifying a payment for an order */
@@ -4898,7 +4897,7 @@ export type PaymentInput = {
    * to be in the same currency as the order. Set to `null` to charge the remaining amount
    * to this payment method, which might be the full order total if this is the only payment.
    */
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
   /**
    * The billing address entered by the shopper. If omitted, the billing address on the order input
    * will be used. Some payment methods may not require a billing address but others will fail
@@ -4907,26 +4906,26 @@ export type PaymentInput = {
    */
   billingAddress?: InputMaybe<AddressInput>;
   /** Any additional user-provided input necessary to authorize and capture the payment */
-  data?: InputMaybe<Scalars["JSONObject"]>;
+  data?: InputMaybe<Scalars['JSONObject']>;
   /** The name of the payment method to use for this payment */
   method: PaymentMethodName;
 };
 
 /** Describes a payment method */
 export type PaymentMethod = {
-  __typename?: "PaymentMethod";
+  __typename?: 'PaymentMethod';
   /** If this is `false`, the payment method does not support refunding. Use this to hide refund UI. */
-  canRefund: Scalars["Boolean"];
+  canRefund: Scalars['Boolean'];
   /** Data for this method. The data format differs for each method */
   data?: Maybe<PaymentMethodData>;
   /** Human-readable display name */
-  displayName: Scalars["String"];
+  displayName: Scalars['String'];
   /** Whether the payment method is enabled on a given shop */
-  isEnabled: Scalars["Boolean"];
+  isEnabled: Scalars['Boolean'];
   /** The payment method name. Any valid name that has been registered by a payment plugin. e.g., saved_card */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** Name of the plugin that added the payment method */
-  pluginName: Scalars["String"];
+  pluginName: Scalars['String'];
 };
 
 /** Any extra data needed by the payment method */
@@ -4935,37 +4934,37 @@ export type PaymentMethodData = ExampleIouPaymentMethodData | FakeData;
 /** The name of a payment method, which is how payment methods are keyed */
 export enum PaymentMethodName {
   /** IOU Example payment method */
-  IouExample = "iou_example",
+  IouExample = 'iou_example',
   /** No payment method */
-  None = "none",
+  None = 'none',
   /** Stripe payment method */
-  StripePaymentIntent = "stripe_payment_intent"
+  StripePaymentIntent = 'stripe_payment_intent'
 }
 
 /** Valid payment statuses */
 export enum PaymentStatus {
   /** A shop operator adjusted the payment amount after the order was placed */
-  Adjustments = "adjustments",
+  Adjustments = 'adjustments',
   /** A shop operator has approved this payment */
-  Approved = "approved",
+  Approved = 'approved',
   /** A shop operator has canceled this payment before it was captured */
-  Canceled = "canceled",
+  Canceled = 'canceled',
   /** A shop operator has captured this payment */
-  Completed = "completed",
+  Completed = 'completed',
   /** Upon placing an order, the status of all payments for that order begins at 'created' */
-  Created = "created",
+  Created = 'created',
   /** There was an error capturing the payment */
-  Error = "error",
+  Error = 'error',
   /** A shop operator has refunded some but not all of this payment */
-  PartialRefund = "partialRefund",
+  PartialRefund = 'partialRefund',
   /** A shop operator has refunded all of this payment */
-  Refunded = "refunded"
+  Refunded = 'refunded'
 }
 
 /** Input for the placeOrder mutation */
 export type PlaceOrderInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The order to be placed, if payment is accepted */
   order: OrderInput;
   /**
@@ -4979,49 +4978,49 @@ export type PlaceOrderInput = {
 
 /** Response payload for the placeOrder mutation */
 export type PlaceOrderPayload = {
-  __typename?: "PlaceOrderPayload";
+  __typename?: 'PlaceOrderPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Orders that were created */
   orders: Array<Maybe<Order>>;
   /** If you are not logged in, this will be a token that can be used for future requests */
-  token?: Maybe<Scalars["String"]>;
+  token?: Maybe<Scalars['String']>;
 };
 
 /** Represents Reaction Plugin */
 export type Plugin = {
-  __typename?: "Plugin";
+  __typename?: 'Plugin';
   /** Name of plugin */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** Version of plugin */
-  version?: Maybe<Scalars["String"]>;
+  version?: Maybe<Scalars['String']>;
 };
 
 /** A Reaction product */
 export type Product = {
-  __typename?: "Product";
+  __typename?: 'Product';
   /** Product ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time at which this product was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** Hash to compare with publishedProductHash, to see if this product has changed since it was last published */
-  currentProductHash?: Maybe<Scalars["String"]>;
+  currentProductHash?: Maybe<Scalars['String']>;
   /** The full product description, which may have newline characters in it */
-  description?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars['String']>;
   /** True if this product has been deleted. Typically, deleted products are not returned in queries. */
-  isDeleted: Scalars["Boolean"];
+  isDeleted: Scalars['Boolean'];
   /** True if this product should be shown to shoppers. Typically, non-visible products are not returned in queries. */
-  isVisible: Scalars["Boolean"];
+  isVisible: Scalars['Boolean'];
   /** All media for a product */
   media?: Maybe<Array<Maybe<ImageInfo>>>;
   /** The product description to use for page `description` meta element in HTML */
-  metaDescription?: Maybe<Scalars["String"]>;
+  metaDescription?: Maybe<Scalars['String']>;
   /** Arbitrary additional metadata about this product */
   metafields: Array<Maybe<Metafield>>;
   /** The country of origin */
-  originCountry?: Maybe<Scalars["String"]>;
+  originCountry?: Maybe<Scalars['String']>;
   /** Subtitle */
-  pageTitle?: Maybe<Scalars["String"]>;
+  pageTitle?: Maybe<Scalars['String']>;
   /**
    * Price range
    * @deprecated Use `pricing`
@@ -5030,49 +5029,49 @@ export type Product = {
   /** Pricing information */
   pricing: ProductPricingInfo;
   /** An arbitrary product type value, such as from an external system */
-  productType?: Maybe<Scalars["String"]>;
+  productType?: Maybe<Scalars['String']>;
   /** The date and time at which this product was last published. If `null`, it has never been published. */
-  publishedAt?: Maybe<Scalars["DateTime"]>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
   /** Hash to compare with currentProductHash, to see if this product has changed since it was last published */
-  publishedProductHash?: Maybe<Scalars["String"]>;
+  publishedProductHash?: Maybe<Scalars['String']>;
   /** The shop to which this product belongs */
   shop: Shop;
   /** Whether this product will be shown in the generated sitemap */
-  shouldAppearInSitemap?: Maybe<Scalars["Boolean"]>;
+  shouldAppearInSitemap?: Maybe<Scalars['Boolean']>;
   /** A URL-safe and human-readable string that uniquely identifies this product */
-  slug?: Maybe<Scalars["String"]>;
+  slug?: Maybe<Scalars['String']>;
   /** Holds metadata specific to a specific social network service */
   socialMetadata?: Maybe<Array<Maybe<SocialMetadata>>>;
   /** When a shopper purchases this product, what types of fulfillment can they choose from? */
   supportedFulfillmentTypes: Array<Maybe<FulfillmentType>>;
   /** The list of tag IDs that have been applied to this product */
-  tagIds?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  tagIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** The list of tags that have been applied to this product */
   tags?: Maybe<TagConnection>;
   /** Product title */
-  title?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars['String']>;
   /** The date and time at which this product was last updated */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** A list of all variants for this product */
   variants: Array<Maybe<ProductVariant>>;
   /** The product vendor or manufacturer, for display */
-  vendor?: Maybe<Scalars["String"]>;
+  vendor?: Maybe<Scalars['String']>;
 };
 
 
 /** A Reaction product */
 export type ProductMediaArgs = {
-  shouldIncludeVariantMedia?: InputMaybe<Scalars["Boolean"]>;
+  shouldIncludeVariantMedia?: InputMaybe<Scalars['Boolean']>;
 };
 
 
 /** A Reaction product */
 export type ProductTagsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -5080,25 +5079,25 @@ export type ProductTagsArgs = {
 
 /** A Reaction product */
 export type ProductVariantsArgs = {
-  shouldIncludeArchived?: InputMaybe<Scalars["Boolean"]>;
-  shouldIncludeHidden?: InputMaybe<Scalars["Boolean"]>;
+  shouldIncludeArchived?: InputMaybe<Scalars['Boolean']>;
+  shouldIncludeHidden?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Product configuration data */
 export type ProductConfiguration = {
-  __typename?: "ProductConfiguration";
+  __typename?: 'ProductConfiguration';
   /** The Product ID */
-  productId: Scalars["ID"];
+  productId: Scalars['ID'];
   /** The ProductVariant ID */
-  productVariantId: Scalars["ID"];
+  productVariantId: Scalars['ID'];
 };
 
 /** Input that defines a single configuration of a product */
 export type ProductConfigurationInput = {
   /** The Product ID */
-  productId: Scalars["ID"];
+  productId: Scalars['ID'];
   /** The ProductVariant ID */
-  productVariantId: Scalars["ID"];
+  productVariantId: Scalars['ID'];
 };
 
 /**
@@ -5110,7 +5109,7 @@ export type ProductConfigurationInput = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type ProductConnection = {
-  __typename?: "ProductConnection";
+  __typename?: 'ProductConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<ProductEdge>>>;
   /**
@@ -5121,34 +5120,34 @@ export type ProductConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** Operators for filtering on a DateTime field */
 export type ProductDateOperators = {
   /** The value must be greater than or equal to the given value */
-  after?: InputMaybe<Scalars["DateTime"]>;
+  after?: InputMaybe<Scalars['DateTime']>;
   /** The value must be greater than the given value */
-  before?: InputMaybe<Scalars["DateTime"]>;
+  before?: InputMaybe<Scalars['DateTime']>;
   /** The value must be between the given values */
   between?: InputMaybe<ProductDateRange>;
   /** The value must be equal to the given value */
-  eq?: InputMaybe<Scalars["DateTime"]>;
+  eq?: InputMaybe<Scalars['DateTime']>;
 };
 
 /** Range operator for DateTime fields */
 export type ProductDateRange = {
   /** The end of the date range */
-  end: Scalars["DateTime"];
+  end: Scalars['DateTime'];
   /** The start of the date range */
-  start: Scalars["DateTime"];
+  start: Scalars['DateTime'];
 };
 
 /** A connection edge in which each node is a `Product` object */
 export type ProductEdge = {
-  __typename?: "ProductEdge";
+  __typename?: 'ProductEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The product */
   node?: Maybe<Product>;
 };
@@ -5162,59 +5161,59 @@ export type ProductInput = {
    * option internal ID or you will get a duplicate ID error. If you do not include this when creating
    * a product, a random unique string is generated for you.
    */
-  _id?: InputMaybe<Scalars["String"]>;
+  _id?: InputMaybe<Scalars['String']>;
   /** The full product description, which may have newline characters in it */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars['String']>;
   /** Facebook message */
-  facebookMsg?: InputMaybe<Scalars["String"]>;
+  facebookMsg?: InputMaybe<Scalars['String']>;
   /** Google message */
-  googleplusMsg?: InputMaybe<Scalars["String"]>;
+  googleplusMsg?: InputMaybe<Scalars['String']>;
   /** True if this product has been deleted. Typically, deleted products are not returned in queries. */
-  isDeleted?: InputMaybe<Scalars["Boolean"]>;
+  isDeleted?: InputMaybe<Scalars['Boolean']>;
   /** True if this product should be shown to shoppers. Typically, non-visible products are not returned in queries. */
-  isVisible?: InputMaybe<Scalars["Boolean"]>;
+  isVisible?: InputMaybe<Scalars['Boolean']>;
   /** The product description to use for page `description` meta element in HTML */
-  metaDescription?: InputMaybe<Scalars["String"]>;
+  metaDescription?: InputMaybe<Scalars['String']>;
   /** Arbitrary additional metadata about this product */
   metafields?: InputMaybe<Array<InputMaybe<MetafieldInput>>>;
   /** The country of origin */
-  originCountry?: InputMaybe<Scalars["String"]>;
+  originCountry?: InputMaybe<Scalars['String']>;
   /** Subtitle */
-  pageTitle?: InputMaybe<Scalars["String"]>;
+  pageTitle?: InputMaybe<Scalars['String']>;
   /** Pinterest message */
-  pinterestMsg?: InputMaybe<Scalars["String"]>;
+  pinterestMsg?: InputMaybe<Scalars['String']>;
   /** An arbitrary product type value, such as from an external system */
-  productType?: InputMaybe<Scalars["String"]>;
+  productType?: InputMaybe<Scalars['String']>;
   /** Whether this product will be shown in the generated sitemap */
-  shouldAppearInSitemap?: InputMaybe<Scalars["Boolean"]>;
+  shouldAppearInSitemap?: InputMaybe<Scalars['Boolean']>;
   /** A URL-safe and human-readable string that uniquely identifies this product */
-  slug?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars['String']>;
   /** When a shopper purchases this product, what types of fulfillment can they choose from? */
   supportedFulfillmentTypes?: InputMaybe<Array<InputMaybe<FulfillmentType>>>;
   /** The list of tag IDs that have been applied to this product */
-  tagIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  tagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Product title */
-  title?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars['String']>;
   /** Twitter message */
-  twitterMsg?: InputMaybe<Scalars["String"]>;
+  twitterMsg?: InputMaybe<Scalars['String']>;
   /** The product vendor or manufacturer, for display */
-  vendor?: InputMaybe<Scalars["String"]>;
+  vendor?: InputMaybe<Scalars['String']>;
 };
 
 /** Product price range */
 export type ProductPriceRange = {
-  __typename?: "ProductPriceRange";
+  __typename?: 'ProductPriceRange';
   /** Maximum price in range */
-  max?: Maybe<Scalars["Float"]>;
+  max?: Maybe<Scalars['Float']>;
   /** Minimum price in range */
-  min?: Maybe<Scalars["Float"]>;
+  min?: Maybe<Scalars['Float']>;
   /** Price range display */
-  range?: Maybe<Scalars["String"]>;
+  range?: Maybe<Scalars['String']>;
 };
 
 /** The product price or price range for a specific currency */
 export type ProductPricingInfo = {
-  __typename?: "ProductPricingInfo";
+  __typename?: 'ProductPricingInfo';
   /**
    * A comparison price value, usually MSRP. If `price` is null, this will also be null. That is,
    * only purchasable variants will have a `compareAtPrice`.
@@ -5229,142 +5228,142 @@ export type ProductPricingInfo = {
    * variants and options, then this is a price range string such as "$3.95 - $6.99". It includes the currency
    * symbols.
    */
-  displayPrice: Scalars["String"];
+  displayPrice: Scalars['String'];
   /** The price of the most expensive possible variant+option combination */
-  maxPrice: Scalars["Float"];
+  maxPrice: Scalars['Float'];
   /** The price of the least expensive possible variant+option combination */
-  minPrice: Scalars["Float"];
+  minPrice: Scalars['Float'];
   /**
    * For variants with no options and for options, this will always be set to a price. For variants
    * with options and products, this will be `null`. There must be a price for a variant to be
    * added to a cart or purchased. Otherwise you would instead add one of its child options to a cart.
    */
-  price?: Maybe<Scalars["Float"]>;
+  price?: Maybe<Scalars['Float']>;
 };
 
 
 /** The product price or price range for a specific currency */
 export type ProductPricingInfoCurrencyExchangePricingArgs = {
-  currencyCode: Scalars["String"];
+  currencyCode: Scalars['String'];
 };
 
 /** The fields by which you are allowed to sort any query that returns a `ProductConnection` */
 export enum ProductSortByField {
   /** Product ID */
-  Id = "_id",
+  Id = '_id',
   /** Date and time the product was created */
-  CreatedAt = "createdAt",
+  CreatedAt = 'createdAt',
   /** Product title */
-  Title = "title",
+  Title = 'title',
   /** Date and time the product was last updated */
-  UpdatedAt = "updatedAt"
+  UpdatedAt = 'updatedAt'
 }
 
 /** Input for adding tags to products in bulk */
 export type ProductTagsOperationInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** An array of product productIds to which an array of tags will be added */
-  productIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** The shop id */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** An array of tag ids to add to an array of products */
-  tagIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  tagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 /** Response payload managing tags on products */
 export type ProductTagsOperationPayload = {
-  __typename?: "ProductTagsOperationPayload";
+  __typename?: 'ProductTagsOperationPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The number of products found */
-  foundCount?: Maybe<Scalars["Int"]>;
+  foundCount?: Maybe<Scalars['Int']>;
   /** The number of products for which a match was not found */
-  notFoundCount?: Maybe<Scalars["Int"]>;
+  notFoundCount?: Maybe<Scalars['Int']>;
   /** The number of products successfully updated */
-  updatedCount?: Maybe<Scalars["Int"]>;
+  updatedCount?: Maybe<Scalars['Int']>;
   /** An array of write errors if any were generated */
   writeErrors?: Maybe<Array<Maybe<WriteError>>>;
 };
 
 /** A Reaction product variant or option */
 export type ProductVariant = {
-  __typename?: "ProductVariant";
+  __typename?: 'ProductVariant';
   /** Variant ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /**
    * The attribute label describes the category of variant, for example, `Color` or `Size`.
    * In most cases this will be the same for all variants at the same level.
    */
-  attributeLabel?: Maybe<Scalars["String"]>;
+  attributeLabel?: Maybe<Scalars['String']>;
   /** The product variant barcode value, if it has one */
-  barcode?: Maybe<Scalars["String"]>;
+  barcode?: Maybe<Scalars['String']>;
   /**
    * Compare at price of the variant
    * @deprecated Use `pricing`
    */
-  compareAtPrice?: Maybe<Scalars["Float"]>;
+  compareAtPrice?: Maybe<Scalars['Float']>;
   /** The date and time at which this variant was created */
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** The height of the product variant, if it has physical dimensions */
-  height?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars['Float']>;
   /** The position of this variant among other variants at the same level of the product-variant-option hierarchy */
-  index?: Maybe<Scalars["Int"]>;
+  index?: Maybe<Scalars['Int']>;
   /** True if this variant was deleted. Deleted variants are not published to the catalog. */
-  isDeleted: Scalars["Boolean"];
+  isDeleted: Scalars['Boolean'];
   /** Whether this variant is taxable */
-  isTaxable?: Maybe<Scalars["Boolean"]>;
+  isTaxable?: Maybe<Scalars['Boolean']>;
   /** True if this variant is visible. Hidden variants are not published to the catalog. */
-  isVisible: Scalars["Boolean"];
+  isVisible: Scalars['Boolean'];
   /** The length of the product, if it has physical dimensions */
-  length?: Maybe<Scalars["Float"]>;
+  length?: Maybe<Scalars['Float']>;
   /** All media for a variant */
   media?: Maybe<Array<Maybe<ImageInfo>>>;
   /** Arbitrary additional metadata about this product */
   metafields: Array<Maybe<Metafield>>;
   /** The minimum quantity that must be added to a cart */
-  minOrderQuantity?: Maybe<Scalars["Int"]>;
+  minOrderQuantity?: Maybe<Scalars['Int']>;
   /** A short title to use for product detail select lists */
-  optionTitle?: Maybe<Scalars["String"]>;
+  optionTitle?: Maybe<Scalars['String']>;
   /** Child variants, if any */
   options: Array<Maybe<ProductVariant>>;
   /** The country of origin */
-  originCountry?: Maybe<Scalars["String"]>;
+  originCountry?: Maybe<Scalars['String']>;
   /**
    * Price of the variant
    * @deprecated Use `pricing`
    */
-  price?: Maybe<Scalars["Float"]>;
+  price?: Maybe<Scalars['Float']>;
   /** Pricing information */
   pricing: ProductPricingInfo;
   /** The shop to which this product variant belongs */
   shop: Shop;
   /** SKU of variant */
-  sku?: Maybe<Scalars["String"]>;
+  sku?: Maybe<Scalars['String']>;
   /** Tax code */
-  taxCode?: Maybe<Scalars["String"]>;
+  taxCode?: Maybe<Scalars['String']>;
   /** Tax description */
-  taxDescription?: Maybe<Scalars["String"]>;
+  taxDescription?: Maybe<Scalars['String']>;
   /**
    * The full variant title for use on cart, checkout, and order summaries and on invoices.
    * This fully describes the configured variant. For example, if this is an option with
    * `optionTitle` "Large", its parent variant has `optionTitle` `Red`, and the product
    * `title` is "Fancy T-Shirt", then this `title` will be something like `Fancy T-Shirt - Red - Large`.
    */
-  title?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars['String']>;
   /** The date and time at which this product was last updated */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** The weight of the product on Earth, if it has physical dimensions */
-  weight?: Maybe<Scalars["Float"]>;
+  weight?: Maybe<Scalars['Float']>;
   /** The width of the product, if it has physical dimensions */
-  width?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars['Float']>;
 };
 
 
 /** A Reaction product variant or option */
 export type ProductVariantOptionsArgs = {
-  shouldIncludeArchived?: InputMaybe<Scalars["Boolean"]>;
-  shouldIncludeHidden?: InputMaybe<Scalars["Boolean"]>;
+  shouldIncludeArchived?: InputMaybe<Scalars['Boolean']>;
+  shouldIncludeHidden?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Mutation input for a product variant or option */
@@ -5376,99 +5375,99 @@ export type ProductVariantInput = {
    * option internal ID or you will get a duplicate ID error. If you do not include this when creating
    * a variant, a random unique string is generated for you.
    */
-  _id?: InputMaybe<Scalars["String"]>;
+  _id?: InputMaybe<Scalars['String']>;
   /**
    * The attribute label describes the category of variant, for example, `Color` or `Size`.
    * In most cases this will be the same for all variants at the same level.
    */
-  attributeLabel?: InputMaybe<Scalars["String"]>;
+  attributeLabel?: InputMaybe<Scalars['String']>;
   /** The product variant barcode value, if it has one */
-  barcode?: InputMaybe<Scalars["String"]>;
+  barcode?: InputMaybe<Scalars['String']>;
   /** Variant compareAtPrice. DEPRECATED. Use the `updateProductVariantPrices` mutation to set product variant prices. */
-  compareAtPrice?: InputMaybe<Scalars["Float"]>;
+  compareAtPrice?: InputMaybe<Scalars['Float']>;
   /** The height of the product variant, if it has physical dimensions */
-  height?: InputMaybe<Scalars["Float"]>;
+  height?: InputMaybe<Scalars['Float']>;
   /** The position of this variant among other variants at the same level of the product-variant-option hierarchy */
-  index?: InputMaybe<Scalars["Int"]>;
+  index?: InputMaybe<Scalars['Int']>;
   /** True if this variant was deleted. Deleted variants are not published to the catalog. */
-  isDeleted?: InputMaybe<Scalars["Boolean"]>;
+  isDeleted?: InputMaybe<Scalars['Boolean']>;
   /** Whether this variant is taxable */
-  isTaxable?: InputMaybe<Scalars["Boolean"]>;
+  isTaxable?: InputMaybe<Scalars['Boolean']>;
   /** True if this variant is visible. Hidden variants are not published to the catalog. */
-  isVisible?: InputMaybe<Scalars["Boolean"]>;
+  isVisible?: InputMaybe<Scalars['Boolean']>;
   /** The length of the product, if it has physical dimensions */
-  length?: InputMaybe<Scalars["Float"]>;
+  length?: InputMaybe<Scalars['Float']>;
   /** Arbitrary additional metadata about this product */
   metafields?: InputMaybe<Array<InputMaybe<MetafieldInput>>>;
   /** The minimum quantity that must be added to a cart */
-  minOrderQuantity?: InputMaybe<Scalars["Int"]>;
+  minOrderQuantity?: InputMaybe<Scalars['Int']>;
   /** A short title to use for product detail select lists */
-  optionTitle?: InputMaybe<Scalars["String"]>;
+  optionTitle?: InputMaybe<Scalars['String']>;
   /** The country of origin */
-  originCountry?: InputMaybe<Scalars["String"]>;
+  originCountry?: InputMaybe<Scalars['String']>;
   /** Variant price. DEPRECATED. Use the `updateProductVariantPrices` mutation to set product variant prices. */
-  price?: InputMaybe<Scalars["Float"]>;
+  price?: InputMaybe<Scalars['Float']>;
   /** SKU of variant */
-  sku?: InputMaybe<Scalars["String"]>;
+  sku?: InputMaybe<Scalars['String']>;
   /** Tax code */
-  taxCode?: InputMaybe<Scalars["String"]>;
+  taxCode?: InputMaybe<Scalars['String']>;
   /** Tax description */
-  taxDescription?: InputMaybe<Scalars["String"]>;
+  taxDescription?: InputMaybe<Scalars['String']>;
   /**
    * The full variant title for use on cart, checkout, and order summaries and on invoices.
    * This fully describes the configured variant. For example, if this is an option with
    * `optionTitle` `Large`, its parent variant has `optionTitle` `Red`, and the product
    * `title` is `Fancy T-Shirt`, then this `title` will be something like `Fancy T-Shirt - Red - Large`.
    */
-  title?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars['String']>;
   /** The weight of the product on Earth, if it has physical dimensions */
-  weight?: InputMaybe<Scalars["Float"]>;
+  weight?: InputMaybe<Scalars['Float']>;
   /** The width of the product, if it has physical dimensions */
-  width?: InputMaybe<Scalars["Float"]>;
+  width?: InputMaybe<Scalars['Float']>;
 };
 
 /** Mutation input for a product variant or option */
 export type ProductVariantPricesInput = {
   /** Variant compareAtPrice */
-  compareAtPrice?: InputMaybe<Scalars["Float"]>;
+  compareAtPrice?: InputMaybe<Scalars['Float']>;
   /** Variant price */
-  price?: InputMaybe<Scalars["Float"]>;
+  price?: InputMaybe<Scalars['Float']>;
 };
 
 export type Profile = {
-  __typename?: "Profile";
+  __typename?: 'Profile';
   addressBook?: Maybe<Array<Maybe<Address>>>;
 };
 
 /** A record representing a particular promotion */
 export type Promotion = {
-  __typename?: "Promotion";
+  __typename?: 'Promotion';
   /** The unique ID of the promotion */
-  _id: Scalars["String"];
+  _id: Scalars['String'];
   /** The actions to be taken when the promotion is triggered */
   actions?: Maybe<Array<Action>>;
   /** When was this record created */
-  createdAt: Scalars["Date"];
+  createdAt: Scalars['Date'];
   /** A longer detailed description of the promotion */
-  description: Scalars["String"];
+  description: Scalars['String'];
   /** Whether the promotion is current active */
-  enabled: Scalars["Boolean"];
+  enabled: Scalars['Boolean'];
   /** The date that the promotion end (empty means it never ends) */
-  endDate?: Maybe<Scalars["Date"]>;
+  endDate?: Maybe<Scalars['Date']>;
   /** The short description of the promotion */
-  label: Scalars["String"];
+  label: Scalars['String'];
   /** The short description of the promotion */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** What type of promotion is this */
-  promotionType: Scalars["String"];
+  promotionType: Scalars['String'];
   /** An integer ID for user reference */
-  referenceId: Scalars["Int"];
+  referenceId: Scalars['Int'];
   /** The id of the shop that this promotion resides */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
   /** Definition of how this promotion can be combined (none, per-type, or all) */
   stackability?: Maybe<Stackability>;
   /** The date that the promotion begins */
-  startDate: Scalars["Date"];
+  startDate: Scalars['Date'];
   /** What is the current state of the promotion */
   state: PromotionState;
   /** What type of trigger this promotion uses */
@@ -5476,11 +5475,11 @@ export type Promotion = {
   /** The triggers for this Promotion */
   triggers?: Maybe<Array<Trigger>>;
   /** When was this record last updated */
-  updatedAt: Scalars["Date"];
+  updatedAt: Scalars['Date'];
 };
 
 export type PromotionConnection = {
-  __typename?: "PromotionConnection";
+  __typename?: 'PromotionConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<PromotionEdge>>>;
   /**
@@ -5491,61 +5490,61 @@ export type PromotionConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 export type PromotionCreateInput = {
   /** The actions to be taken when the promotion is triggered */
   actions?: InputMaybe<Array<ActionInput>>;
   /** A longer detailed description of the promotion */
-  description: Scalars["String"];
+  description: Scalars['String'];
   /** Whether the promotion is current active */
-  enabled: Scalars["Boolean"];
+  enabled: Scalars['Boolean'];
   /** The date that the promotion end (empty means it never ends) */
-  endDate?: InputMaybe<Scalars["Date"]>;
+  endDate?: InputMaybe<Scalars['Date']>;
   /** The short description of the promotion visible to the customer */
-  label: Scalars["String"];
+  label: Scalars['String'];
   /** The short description of the promotion */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** What type of promotion this is for stackability purposes */
-  promotionType: Scalars["String"];
+  promotionType: Scalars['String'];
   /** The id of the shop that this promotion resides in */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
   /** Definition of how this promotion can be combined (none, per-type, or all) */
   stackability?: InputMaybe<StackabilityInput>;
   /** The date that the promotion begins */
-  startDate: Scalars["Date"];
+  startDate: Scalars['Date'];
   /** The triggers for this Promotion */
   triggers?: InputMaybe<Array<TriggerInput>>;
 };
 
 export type PromotionDateOperators = {
   /** The value must be greater than the given value */
-  after?: InputMaybe<Scalars["Date"]>;
+  after?: InputMaybe<Scalars['Date']>;
   /** The value must be less than the given value */
-  before?: InputMaybe<Scalars["Date"]>;
+  before?: InputMaybe<Scalars['Date']>;
   /** The value must be equal to the given value */
-  eq?: InputMaybe<Scalars["Date"]>;
+  eq?: InputMaybe<Scalars['Date']>;
 };
 
 export type PromotionDuplicateArchiveInput = {
   /** The id of the promotion to duplicate or archive */
-  promotionId: Scalars["String"];
+  promotionId: Scalars['String'];
   /** shopId */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
 };
 
 /** A connection edge in which each node is a `Promotion` object */
 export type PromotionEdge = {
-  __typename?: "PromotionEdge";
+  __typename?: 'PromotionEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The product */
   node?: Maybe<Promotion>;
 };
 
 export type PromotionFilter = {
-  enabled?: InputMaybe<Scalars["Boolean"]>;
+  enabled?: InputMaybe<Scalars['Boolean']>;
   endDate?: InputMaybe<PromotionDateOperators>;
   startDate?: InputMaybe<PromotionDateOperators>;
   state?: InputMaybe<PromotionState>;
@@ -5553,42 +5552,42 @@ export type PromotionFilter = {
 
 export type PromotionQueryInput = {
   /** The unique ID of the promotion */
-  _id: Scalars["String"];
+  _id: Scalars['String'];
   /** The unique ID of the shop */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
 };
 
 export enum PromotionState {
-  Active = "active",
-  Archived = "archived",
-  Completed = "completed",
-  Created = "created"
+  Active = 'active',
+  Archived = 'archived',
+  Completed = 'completed',
+  Created = 'created'
 }
 
 /** This is identical to the PromotionCreate except it includes the _id */
 export type PromotionUpdateInput = {
   /** The unique ID of the promotion */
-  _id: Scalars["String"];
+  _id: Scalars['String'];
   /** The actions to be taken when the promotion is triggered */
   actions?: InputMaybe<Array<ActionInput>>;
   /** A longer detailed description of the promotion */
-  description: Scalars["String"];
+  description: Scalars['String'];
   /** Whether the promotion is current active */
-  enabled: Scalars["Boolean"];
+  enabled: Scalars['Boolean'];
   /** The date that the promotion end (empty means it never ends) */
-  endDate?: InputMaybe<Scalars["Date"]>;
+  endDate?: InputMaybe<Scalars['Date']>;
   /** The short description of the promotion visible to the customer */
-  label: Scalars["String"];
+  label: Scalars['String'];
   /** The short description of the promotion */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** What type of promotion this is for stackability purposes */
-  promotionType: Scalars["String"];
+  promotionType: Scalars['String'];
   /** The id of the shop that this promotion resides */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
   /** Definition of how this promotion can be combined (none, per-type, or all) */
   stackability?: InputMaybe<StackabilityInput>;
   /** The date that the promotion begins */
-  startDate: Scalars["Date"];
+  startDate: Scalars['Date'];
   /** What type of trigger this uses */
   triggerType: TriggerType;
   /** The triggers for this Promotion */
@@ -5596,35 +5595,35 @@ export type PromotionUpdateInput = {
 };
 
 export type PromotionUpdatedPayload = {
-  __typename?: "PromotionUpdatedPayload";
+  __typename?: 'PromotionUpdatedPayload';
   /** The updated or created promotion */
   promotion?: Maybe<Promotion>;
   /** Was the operation a success */
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
 /** Input for the `publishNavigationChanges` mutation */
 export type PublishNavigationChangesInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the navigation tree */
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   /** Shop ID of the navigation tree */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `publishNavigationChanges` mutation */
 export type PublishNavigationChangesPayload = {
-  __typename?: "PublishNavigationChangesPayload";
+  __typename?: 'PublishNavigationChangesPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The navigation tree with updated items */
   navigationTree?: Maybe<NavigationTree>;
 };
 
 /** Queries return all requested data, without any side effects */
 export type Query = {
-  __typename?: "Query";
+  __typename?: 'Query';
   /** Returns the account with the provided ID */
   account?: Maybe<Account>;
   /** Find a cart for a given account ID. */
@@ -5696,11 +5695,11 @@ export type Query = {
   /** Get a full list of all payment methods */
   paymentMethods: Array<Maybe<PaymentMethod>>;
   /** A test query */
-  ping: Scalars["String"];
+  ping: Scalars['String'];
   /** Returns the primary shop for the domain */
   primaryShop?: Maybe<Shop>;
   /** Returns the ID of the primary shop for the domain */
-  primaryShopId?: Maybe<Scalars["ID"]>;
+  primaryShopId?: Maybe<Scalars['ID']>;
   /** Query for a single Product */
   product?: Maybe<Product>;
   /** Query for a list of Products */
@@ -5758,26 +5757,26 @@ export type Query = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryAccountArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryAccountCartByAccountIdArgs = {
-  accountId: Scalars["ID"];
-  shopId: Scalars["ID"];
+  accountId: Scalars['ID'];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryAccountsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  groupIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  notInAnyGroups?: InputMaybe<Scalars["Boolean"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  groupIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  notInAnyGroups?: InputMaybe<Scalars['Boolean']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<AccountSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -5786,19 +5785,19 @@ export type QueryAccountsArgs = {
 /** Queries return all requested data, without any side effects */
 export type QueryAddressValidationArgs = {
   address: AddressInput;
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryAddressValidationRulesArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  serviceNames?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  serviceNames?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  shopId: Scalars['ID'];
   sortBy?: InputMaybe<AddressValidationRuleSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -5806,48 +5805,48 @@ export type QueryAddressValidationRulesArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryAnonymousCartByCartIdArgs = {
-  cartId: Scalars["ID"];
-  cartToken: Scalars["String"];
+  cartId: Scalars['ID'];
+  cartToken: Scalars['String'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryAvailablePaymentMethodsArgs = {
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryCatalogItemProductArgs = {
-  shopId?: InputMaybe<Scalars["ID"]>;
-  slugOrId?: InputMaybe<Scalars["String"]>;
+  shopId?: InputMaybe<Scalars['ID']>;
+  slugOrId?: InputMaybe<Scalars['String']>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryCatalogItemsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
   booleanFilters?: InputMaybe<Array<InputMaybe<CatalogBooleanFilter>>>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  searchQuery?: InputMaybe<Scalars["String"]>;
-  shopIds: Array<InputMaybe<Scalars["ID"]>>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  searchQuery?: InputMaybe<Scalars['String']>;
+  shopIds: Array<InputMaybe<Scalars['ID']>>;
   sortBy?: InputMaybe<CatalogItemSortByField>;
-  sortByPriceCurrencyCode?: InputMaybe<Scalars["String"]>;
+  sortByPriceCurrencyCode?: InputMaybe<Scalars['String']>;
   sortOrder?: InputMaybe<SortOrder>;
-  tagIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  tagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryCustomersArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<AccountSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -5855,71 +5854,71 @@ export type QueryCustomersArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryDiscountCodesArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
   filters?: InputMaybe<DiscountCodeFilterInput>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryEmailJobsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopIds: Array<InputMaybe<Scalars["ID"]>>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopIds: Array<InputMaybe<Scalars['ID']>>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryEmailTemplatesArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryFlatRateFulfillmentMethodArgs = {
-  methodId: Scalars["ID"];
-  shopId: Scalars["ID"];
+  methodId: Scalars['ID'];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryFlatRateFulfillmentMethodsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryGetFlatRateFulfillmentRestrictionArgs = {
-  restrictionId: Scalars["ID"];
-  shopId: Scalars["ID"];
+  restrictionId: Scalars['ID'];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryGetFlatRateFulfillmentRestrictionsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
   sortBy?: InputMaybe<FlatRateFulfillmentRestrictionSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -5927,18 +5926,18 @@ export type QueryGetFlatRateFulfillmentRestrictionsArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryGroupArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryGroupsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
   sortBy?: InputMaybe<GroupSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -5946,12 +5945,12 @@ export type QueryGroupsArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryInvitationsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   sortBy?: InputMaybe<AccountSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -5959,12 +5958,12 @@ export type QueryInvitationsArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryNavigationItemsByShopIdArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
   sortBy?: InputMaybe<NavigationItemSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -5972,38 +5971,38 @@ export type QueryNavigationItemsByShopIdArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryNavigationTreeByIdArgs = {
-  id: Scalars["ID"];
-  language: Scalars["String"];
-  shopId: Scalars["ID"];
-  shouldIncludeSecondary?: InputMaybe<Scalars["Boolean"]>;
+  id: Scalars['ID'];
+  language: Scalars['String'];
+  shopId: Scalars['ID'];
+  shouldIncludeSecondary?: InputMaybe<Scalars['Boolean']>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryOrderByIdArgs = {
-  id: Scalars["ID"];
-  shopId: Scalars["ID"];
-  token?: InputMaybe<Scalars["String"]>;
+  id: Scalars['ID'];
+  shopId: Scalars['ID'];
+  token?: InputMaybe<Scalars['String']>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryOrderByReferenceIdArgs = {
-  id: Scalars["ID"];
-  shopId: Scalars["ID"];
-  token?: InputMaybe<Scalars["String"]>;
+  id: Scalars['ID'];
+  shopId: Scalars['ID'];
+  token?: InputMaybe<Scalars['String']>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryOrdersArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
   filters?: InputMaybe<OrderFilterInput>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   sortBy?: InputMaybe<OrdersSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -6011,14 +6010,14 @@ export type QueryOrdersArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryOrdersByAccountIdArgs = {
-  accountId: Scalars["ID"];
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  orderStatus?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  shopIds: Array<InputMaybe<Scalars["ID"]>>;
+  accountId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderStatus?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  shopIds: Array<InputMaybe<Scalars['ID']>>;
   sortBy?: InputMaybe<OrdersByAccountIdSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -6026,52 +6025,52 @@ export type QueryOrdersByAccountIdArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryPaymentMethodsArgs = {
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryProductArgs = {
-  productId: Scalars["ID"];
-  shopId: Scalars["ID"];
+  productId: Scalars['ID'];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryProductsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
   createdAt?: InputMaybe<ProductDateOperators>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  isArchived?: InputMaybe<Scalars["Boolean"]>;
-  isExactMatch?: InputMaybe<Scalars["Boolean"]>;
-  isVisible?: InputMaybe<Scalars["Boolean"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  metafieldKey?: InputMaybe<Scalars["String"]>;
-  metafieldValue?: InputMaybe<Scalars["String"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  priceMax?: InputMaybe<Scalars["Float"]>;
-  priceMin?: InputMaybe<Scalars["Float"]>;
-  productIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  query?: InputMaybe<Scalars["String"]>;
-  shopIds: Array<InputMaybe<Scalars["ID"]>>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  isArchived?: InputMaybe<Scalars['Boolean']>;
+  isExactMatch?: InputMaybe<Scalars['Boolean']>;
+  isVisible?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  metafieldKey?: InputMaybe<Scalars['String']>;
+  metafieldValue?: InputMaybe<Scalars['String']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  priceMax?: InputMaybe<Scalars['Float']>;
+  priceMin?: InputMaybe<Scalars['Float']>;
+  productIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  query?: InputMaybe<Scalars['String']>;
+  shopIds: Array<InputMaybe<Scalars['ID']>>;
   sortBy?: InputMaybe<ProductSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
-  tagIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  tagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   updatedAt?: InputMaybe<ProductDateOperators>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryProductsByTagIdArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  query?: InputMaybe<Scalars["String"]>;
-  shopId: Scalars["ID"];
-  tagId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  query?: InputMaybe<Scalars['String']>;
+  shopId: Scalars['ID'];
+  tagId: Scalars['ID'];
 };
 
 
@@ -6083,43 +6082,43 @@ export type QueryPromotionArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryPromotionsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
   filter?: InputMaybe<PromotionFilter>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
-  sortBy?: InputMaybe<Scalars["String"]>;
-  sortOrder?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
+  sortBy?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryRefundsArgs = {
-  orderId: Scalars["ID"];
-  shopId: Scalars["ID"];
-  token?: InputMaybe<Scalars["String"]>;
+  orderId: Scalars['ID'];
+  shopId: Scalars['ID'];
+  token?: InputMaybe<Scalars['String']>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryRefundsByPaymentIdArgs = {
-  orderId: Scalars["ID"];
-  paymentId: Scalars["ID"];
-  shopId: Scalars["ID"];
-  token?: InputMaybe<Scalars["String"]>;
+  orderId: Scalars['ID'];
+  paymentId: Scalars['ID'];
+  shopId: Scalars['ID'];
+  token?: InputMaybe<Scalars['String']>;
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryRolesArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
   sortBy?: InputMaybe<RoleSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -6127,30 +6126,30 @@ export type QueryRolesArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryShopArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryShopBySlugArgs = {
-  slug: Scalars["String"];
+  slug: Scalars['String'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryShopSettingsArgs = {
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryShopsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   sortBy?: InputMaybe<GroupSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -6159,32 +6158,32 @@ export type QueryShopsArgs = {
 /** Queries return all requested data, without any side effects */
 export type QuerySimpleInventoryArgs = {
   productConfiguration: ProductConfigurationInput;
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QuerySitemapArgs = {
-  handle: Scalars["String"];
-  shopUrl: Scalars["String"];
+  handle: Scalars['String'];
+  shopUrl: Scalars['String'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QuerySurchargeByIdArgs = {
-  shopId: Scalars["ID"];
-  surchargeId: Scalars["ID"];
+  shopId: Scalars['ID'];
+  surchargeId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QuerySurchargesArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
   sortBy?: InputMaybe<SurchargeSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -6192,32 +6191,32 @@ export type QuerySurchargesArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QuerySystemInformationArgs = {
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryTagArgs = {
-  shopId: Scalars["ID"];
-  shouldIncludeInvisible?: InputMaybe<Scalars["Boolean"]>;
-  slugOrId: Scalars["String"];
+  shopId: Scalars['ID'];
+  shouldIncludeInvisible?: InputMaybe<Scalars['Boolean']>;
+  slugOrId: Scalars['String'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryTagsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
   createdAt?: InputMaybe<TagDateOperators>;
-  excludedTagIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  filter?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  isTopLevel?: InputMaybe<Scalars["Boolean"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
-  shouldIncludeDeleted?: InputMaybe<Scalars["Boolean"]>;
-  shouldIncludeInvisible?: InputMaybe<Scalars["Boolean"]>;
+  excludedTagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  filter?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  isTopLevel?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
+  shouldIncludeDeleted?: InputMaybe<Scalars['Boolean']>;
+  shouldIncludeInvisible?: InputMaybe<Scalars['Boolean']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<TagDateOperators>;
@@ -6226,48 +6225,48 @@ export type QueryTagsArgs = {
 
 /** Queries return all requested data, without any side effects */
 export type QueryTaxCodesArgs = {
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryTaxRatesArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryTaxServicesArgs = {
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 
 /** Queries return all requested data, without any side effects */
 export type QueryVendorsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shopIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   sortOrder?: InputMaybe<SortOrder>;
-  tagIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  tagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 /** A numeric rate, with its corresponding percent values */
 export type Rate = {
-  __typename?: "Rate";
+  __typename?: 'Rate';
   /** The rate */
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
   /** The percent as a preformatted string with percent symbol included */
-  displayPercent: Scalars["String"];
+  displayPercent: Scalars['String'];
   /** The percent (rate x 100) */
-  percent: Scalars["Float"];
+  percent: Scalars['Float'];
 };
 
 /** Input for the `recalculateReservedSimpleInventory` mutation */
@@ -6275,14 +6274,14 @@ export type RecalculateReservedSimpleInventoryInput = {
   /** The product and chosen options this info applies to */
   productConfiguration: ProductConfigurationInput;
   /** Shop that owns the product */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `updateSimpleInventory` mutation */
 export type RecalculateReservedSimpleInventoryPayload = {
-  __typename?: "RecalculateReservedSimpleInventoryPayload";
+  __typename?: 'RecalculateReservedSimpleInventoryPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated inventory info */
   inventoryInfo: SimpleInventoryInfo;
 };
@@ -6290,11 +6289,11 @@ export type RecalculateReservedSimpleInventoryPayload = {
 /** Input for the `reconcileCarts` mutation call */
 export type ReconcileCartsInput = {
   /** An anonymous cart ID */
-  anonymousCartId: Scalars["ID"];
+  anonymousCartId: Scalars['ID'];
   /** An anonymous cart token */
-  cartToken: Scalars["String"];
+  cartToken: Scalars['String'];
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /**
    * If both an anonymous cart and a cart for the authenticated account are found, how do we combine them?
    * Default mode is `merge`, where all anonymous items are moved into the account cart along with existing
@@ -6302,88 +6301,88 @@ export type ReconcileCartsInput = {
    */
   mode?: InputMaybe<CartReconciliationMode>;
   /** The ID of the shop that owns both carts */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** The payload returned from the `reconcileCarts` mutation call */
 export type ReconcileCartsPayload = {
-  __typename?: "ReconcileCartsPayload";
+  __typename?: 'ReconcileCartsPayload';
   /** The account cart, potentially modified */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** A refund of a payment on an order */
 export type Refund = Node & {
-  __typename?: "Refund";
+  __typename?: 'Refund';
   /** The refund ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The amount of the refund */
   amount: Money;
   /** The date and time at which the refund was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** The display name of the payment refunded to */
-  paymentDisplayName: Scalars["String"];
+  paymentDisplayName: Scalars['String'];
   /** The ID of the payment this refund is applied to */
-  paymentId: Scalars["ID"];
+  paymentId: Scalars['ID'];
   /** The reason for the refund */
-  reason?: Maybe<Scalars["String"]>;
+  reason?: Maybe<Scalars['String']>;
 };
 
 /** Describes which address should be removed from which account */
 export type RemoveAccountAddressBookEntryInput = {
   /** The account ID */
-  accountId: Scalars["ID"];
+  accountId: Scalars['ID'];
   /** The address ID */
-  addressId: Scalars["ID"];
+  addressId: Scalars['ID'];
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
 };
 
 /** The response from the `removeAccountAddressBookEntry` mutation */
 export type RemoveAccountAddressBookEntryPayload = {
-  __typename?: "RemoveAccountAddressBookEntryPayload";
+  __typename?: 'RemoveAccountAddressBookEntryPayload';
   /** The removed address */
   address?: Maybe<Address>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Defines which email address should be removed from which account */
 export type RemoveAccountEmailRecordInput = {
   /** The account ID, which defaults to the viewer account */
-  accountId?: InputMaybe<Scalars["ID"]>;
+  accountId?: InputMaybe<Scalars['ID']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The email address to remove */
-  email: Scalars["Email"];
+  email: Scalars['Email'];
 };
 
 /** The response from the `removeAccountEmailRecord` mutation */
 export type RemoveAccountEmailRecordPayload = {
-  __typename?: "RemoveAccountEmailRecordPayload";
+  __typename?: 'RemoveAccountEmailRecordPayload';
   /** The account, with updated `emailRecords` */
   account?: Maybe<Account>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Defines a group and account that should be unlinked */
 export type RemoveAccountFromGroupInput = {
   /** The account ID */
-  accountId: Scalars["ID"];
+  accountId: Scalars['ID'];
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The group ID */
-  groupId: Scalars["ID"];
+  groupId: Scalars['ID'];
 };
 
 /** The response from the `removeAccountFromGroup` mutation */
 export type RemoveAccountFromGroupPayload = {
-  __typename?: "RemoveAccountFromGroupPayload";
+  __typename?: 'RemoveAccountFromGroupPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The removed group */
   group: Group;
 };
@@ -6391,18 +6390,18 @@ export type RemoveAccountFromGroupPayload = {
 /** The details for removing a group */
 export type RemoveAccountGroupInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The group ID */
-  groupId: Scalars["ID"];
+  groupId: Scalars['ID'];
   /** The ID of the shop this group belongs to */
-  shopId?: InputMaybe<Scalars["ID"]>;
+  shopId?: InputMaybe<Scalars['ID']>;
 };
 
 /** The response from the `removeGroup` mutation */
 export type RemoveAccountGroupPayload = {
-  __typename?: "RemoveAccountGroupPayload";
+  __typename?: 'RemoveAccountGroupPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The removed group */
   group?: Maybe<Group>;
 };
@@ -6410,60 +6409,60 @@ export type RemoveAccountGroupPayload = {
 /** Input for the `removeCartItems` mutation */
 export type RemoveCartItemsInput = {
   /** The cart ID */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** Array of items to remove from the cart. */
-  cartItemIds: Array<InputMaybe<Scalars["ID"]>>;
+  cartItemIds: Array<InputMaybe<Scalars['ID']>>;
   /** If this cart is anonymous, provide the `cartToken` that was returned in the `CreateCartPayload` */
-  cartToken?: InputMaybe<Scalars["String"]>;
+  cartToken?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
 };
 
 /** The payload returned from the `removeCartItems` mutation call */
 export type RemoveCartItemsPayload = {
-  __typename?: "RemoveCartItemsPayload";
+  __typename?: 'RemoveCartItemsPayload';
   /** The modified cart */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for an `RemoveDiscountCodeFromCartInput` */
 export type RemoveDiscountCodeFromCartInput = {
   /** Cart to add discount to */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** ID of the discount you want to remove from the cart */
-  discountId: Scalars["ID"];
+  discountId: Scalars['ID'];
   /** Shop cart belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Cart token, if anonymous */
-  token?: InputMaybe<Scalars["String"]>;
+  token?: InputMaybe<Scalars['String']>;
 };
 
 /** Response from the `removeDiscountCodeFromCart` mutation */
 export type RemoveDiscountCodeFromCartPayload = {
-  __typename?: "RemoveDiscountCodeFromCartPayload";
+  __typename?: 'RemoveDiscountCodeFromCartPayload';
   /** The updated cart with discount code removed */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for `removeTag` mutation */
 export type RemoveTagInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of tag to delete */
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   /** The shop that owns the tag */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for `removeTag` mutation */
 export type RemoveTagPayload = {
-  __typename?: "RemoveTagPayload";
+  __typename?: 'RemoveTagPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The deleted tag */
   tag: Tag;
 };
@@ -6471,47 +6470,47 @@ export type RemoveTagPayload = {
 /** Restriction type */
 export enum RestrictionTypeEnum {
   /** Allow */
-  Allow = "allow",
+  Allow = 'allow',
   /** Deny */
-  Deny = "deny"
+  Deny = 'deny'
 }
 
 /** Input for `retryFailedEmail` mutation */
 export type RetryFailedEmailInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of Email Job to retry */
-  jobId: Scalars["ID"];
+  jobId: Scalars['ID'];
   /** Shop ID of Email Job */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for `retryFailedEmail` mutation */
 export type RetryFailedEmailPayload = {
-  __typename?: "RetryFailedEmailPayload";
+  __typename?: 'RetryFailedEmailPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Email retry status */
-  emailSent: Scalars["Boolean"];
+  emailSent: Scalars['Boolean'];
 };
 
 /** Valid payment risk levels */
 export enum RiskLevel {
   /** An elevated risk level for a payment */
-  Elevated = "elevated",
+  Elevated = 'elevated',
   /** The highest risk level for a payment */
-  Highest = "highest",
+  Highest = 'highest',
   /** A normal risk level for a payment */
-  Normal = "normal"
+  Normal = 'normal'
 }
 
 /** Represents a named role */
 export type Role = Node & {
-  __typename?: "Role";
+  __typename?: 'Role';
   /** The role ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** A unique name for the role */
-  name: Scalars["String"];
+  name: Scalars['String'];
 };
 
 /**
@@ -6523,7 +6522,7 @@ export type Role = Node & {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type RoleConnection = {
-  __typename?: "RoleConnection";
+  __typename?: 'RoleConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<RoleEdge>>>;
   /**
@@ -6534,14 +6533,14 @@ export type RoleConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `Role` object */
 export type RoleEdge = NodeEdge & {
-  __typename?: "RoleEdge";
+  __typename?: 'RoleEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The role */
   node?: Maybe<Role>;
 };
@@ -6549,92 +6548,92 @@ export type RoleEdge = NodeEdge & {
 /** The fields by which you are allowed to sort any query that returns an `RoleConnection` */
 export enum RoleSortByField {
   /** Role ID */
-  Id = "_id",
+  Id = '_id',
   /** Role name */
-  Name = "name"
+  Name = 'name'
 }
 
 /** Input needed to select a fulfillment option for a single fulfillment group on a cart */
 export type SelectFulfillmentOptionForGroupInput = {
   /** The cart to select this option for */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** The token for the cart, required if it is an anonymous cart */
-  cartToken?: InputMaybe<Scalars["String"]>;
+  cartToken?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The group to select this option for */
-  fulfillmentGroupId: Scalars["ID"];
+  fulfillmentGroupId: Scalars['ID'];
   /** The fulfillment method ID from the option the shopper selected */
-  fulfillmentMethodId: Scalars["ID"];
+  fulfillmentMethodId: Scalars['ID'];
 };
 
 /** The response from the `selectFulfillmentOptionForGroup` mutation */
 export type SelectFulfillmentOptionForGroupPayload = {
-  __typename?: "SelectFulfillmentOptionForGroupPayload";
+  __typename?: 'SelectFulfillmentOptionForGroupPayload';
   /** The updated Cart */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Describes which email should be sent a password reset link */
 export type SendResetAccountPasswordEmailInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The email address of the account to send reset email to */
-  email: Scalars["String"];
+  email: Scalars['String'];
 };
 
 /** The response from the `sendResetAccountPasswordEmail` mutation */
 export type SendResetAccountPasswordEmailPayload = {
-  __typename?: "SendResetAccountPasswordEmailPayload";
+  __typename?: 'SendResetAccountPasswordEmailPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The email address of the account to send reset email to */
-  email: Scalars["String"];
+  email: Scalars['String'];
 };
 
 /** Defines which email address should be set as the default for which account */
 export type SetAccountDefaultEmailInput = {
   /** The account ID, which defaults to the viewer account */
-  accountId?: InputMaybe<Scalars["ID"]>;
+  accountId?: InputMaybe<Scalars['ID']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The email address to set as default */
-  email: Scalars["Email"];
+  email: Scalars['Email'];
 };
 
 /** The response from the `setAccountDefaultEmail` mutation */
 export type SetAccountDefaultEmailPayload = {
-  __typename?: "SetAccountDefaultEmailPayload";
+  __typename?: 'SetAccountDefaultEmailPayload';
   /** The account, with updated `emailRecords` */
   account?: Maybe<Account>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the `setEmailOnAnonymousCart` mutation call */
 export type SetEmailOnAnonymousCartInput = {
   /** An anonymous cart ID */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** Provide the `cartToken` that was returned in the `CreateCartPayload` */
-  cartToken: Scalars["String"];
+  cartToken: Scalars['String'];
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /**
    * The email address to associate with this cart. This address is used for order communication and
    * other fulfillment purposes.
    */
-  email: Scalars["String"];
+  email: Scalars['String'];
 };
 
 /** The payload returned from the `setEmailOnAnonymousCart` mutation call */
 export type SetEmailOnAnonymousCartPayload = {
-  __typename?: "SetEmailOnAnonymousCartPayload";
+  __typename?: 'SetEmailOnAnonymousCartPayload';
   /** The modified cart */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input needed when setting the shipping address on a cart */
@@ -6642,84 +6641,84 @@ export type SetShippingAddressOnCartInput = {
   /** The shipping address */
   address: AddressInput;
   /** If set, this will be saved as the Address._id. Otherwise an ID will be generated. */
-  addressId?: InputMaybe<Scalars["String"]>;
+  addressId?: InputMaybe<Scalars['String']>;
   /** The cart to set shipping address on */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** The token for the cart, required if it is an anonymous cart */
-  cartToken?: InputMaybe<Scalars["String"]>;
+  cartToken?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
 };
 
 /** The response from the `setShippingAddressOnCart` mutation */
 export type SetShippingAddressOnCartPayload = {
-  __typename?: "SetShippingAddressOnCartPayload";
+  __typename?: 'SetShippingAddressOnCartPayload';
   /** The updated Cart */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for `setTagHeroMedia` mutation */
 export type SetTagHeroMediaInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** File record document */
-  fileRecord?: InputMaybe<Scalars["JSONObject"]>;
+  fileRecord?: InputMaybe<Scalars['JSONObject']>;
   /** ID of tag to add the hero image record to */
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   /** The shop that owns the tag */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for `setTagHeroMedia` mutation */
 export type SetTagHeroMediaPayload = {
-  __typename?: "SetTagHeroMediaPayload";
+  __typename?: 'SetTagHeroMediaPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Tag the hero image was added to */
   tag: Tag;
 };
 
 /** Extra data for an order fulfillment group with type `shipping` */
 export type ShippingOrderFulfillmentGroupData = {
-  __typename?: "ShippingOrderFulfillmentGroupData";
+  __typename?: 'ShippingOrderFulfillmentGroupData';
   /** The address to ship to */
   shippingAddress: Address;
 };
 
 /** A shipping parcel */
 export type ShippingParcel = {
-  __typename?: "ShippingParcel";
+  __typename?: 'ShippingParcel';
   /** Containers */
-  containers?: Maybe<Scalars["String"]>;
+  containers?: Maybe<Scalars['String']>;
   /** Distance unit */
   distanceUnit?: Maybe<DistanceUnit>;
   /** Height */
-  height?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars['Float']>;
   /** Length */
-  length?: Maybe<Scalars["Float"]>;
+  length?: Maybe<Scalars['Float']>;
   /** Mass unit */
   massUnit?: Maybe<MassUnit>;
   /** Weight */
-  weight?: Maybe<Scalars["Float"]>;
+  weight?: Maybe<Scalars['Float']>;
   /** Width */
-  width?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars['Float']>;
 };
 
 /** Represents a Reaction shop */
 export type Shop = Node & {
-  __typename?: "Shop";
+  __typename?: 'Shop';
   /** The shop ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** An the shop's default address */
   addressBook?: Maybe<Array<Maybe<Address>>>;
   /** Whether to allow user to checkout without creating an account */
-  allowGuestCheckout?: Maybe<Scalars["Boolean"]>;
+  allowGuestCheckout?: Maybe<Scalars['Boolean']>;
   /** The base unit of length */
-  baseUOL?: Maybe<Scalars["String"]>;
+  baseUOL?: Maybe<Scalars['String']>;
   /** The base unit of Measure */
-  baseUOM?: Maybe<Scalars["String"]>;
+  baseUOM?: Maybe<Scalars['String']>;
   /** URLs for various shop assets in various sizes */
   brandAssets?: Maybe<ShopBrandAssets>;
   /** The default shop currency */
@@ -6727,35 +6726,35 @@ export type Shop = Node & {
   /** The default navigation tree for this shop */
   defaultNavigationTree?: Maybe<NavigationTree>;
   /** The ID of the shop's default navigation tree */
-  defaultNavigationTreeId?: Maybe<Scalars["String"]>;
+  defaultNavigationTreeId?: Maybe<Scalars['String']>;
   /** Default parcel size for this shop */
   defaultParcelSize?: Maybe<ShopParcelSize>;
   /** Shop description */
-  description?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars['String']>;
   /** The shop's default email record */
   emails?: Maybe<Array<Maybe<EmailRecord>>>;
   /** Returns a list of groups for this shop, as a Relay-compatible connection. */
   groups?: Maybe<GroupConnection>;
   /** Shop's keywords */
-  keywords?: Maybe<Scalars["String"]>;
+  keywords?: Maybe<Scalars['String']>;
   /** Shop default language */
-  language: Scalars["String"];
+  language: Scalars['String'];
   /** Shop name */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** Returns a list of roles for this shop, as a Relay-compatible connection. */
   roles?: Maybe<RoleConnection>;
   /** Returns URLs for shop logos */
   shopLogoUrls?: Maybe<ShopLogoUrls>;
   /** Shop's type */
-  shopType?: Maybe<Scalars["String"]>;
+  shopType?: Maybe<Scalars['String']>;
   /** Shop's slug */
-  slug?: Maybe<Scalars["String"]>;
+  slug?: Maybe<Scalars['String']>;
   /** Returns URLs for various storefront routes */
   storefrontUrls?: Maybe<StorefrontUrls>;
   /** Returns a paged list of tags for this shop */
   tags?: Maybe<TagConnection>;
   /** Shop default timezone */
-  timezone?: Maybe<Scalars["String"]>;
+  timezone?: Maybe<Scalars['String']>;
   /** The shop's units of length */
   unitsOfLength?: Maybe<Array<Maybe<UnitOfLength>>>;
   /** The shop's units of measure */
@@ -6765,18 +6764,18 @@ export type Shop = Node & {
 
 /** Represents a Reaction shop */
 export type ShopDefaultNavigationTreeArgs = {
-  language: Scalars["String"];
-  shouldIncludeSecondary?: InputMaybe<Scalars["Boolean"]>;
+  language: Scalars['String'];
+  shouldIncludeSecondary?: InputMaybe<Scalars['Boolean']>;
 };
 
 
 /** Represents a Reaction shop */
 export type ShopGroupsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<GroupSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -6784,11 +6783,11 @@ export type ShopGroupsArgs = {
 
 /** Represents a Reaction shop */
 export type ShopRolesArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<RoleSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -6796,24 +6795,24 @@ export type ShopRolesArgs = {
 
 /** Represents a Reaction shop */
 export type ShopTagsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  isTopLevel?: InputMaybe<Scalars["Boolean"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  shouldIncludeDeleted?: InputMaybe<Scalars["Boolean"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  isTopLevel?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shouldIncludeDeleted?: InputMaybe<Scalars['Boolean']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
 
 /** URLs for various shop assets in various sizes */
 export type ShopBrandAssets = {
-  __typename?: "ShopBrandAssets";
+  __typename?: 'ShopBrandAssets';
   /** URLs for the navigation bar brand logo image */
   navbarBrandImage?: Maybe<ImageSizes>;
   /** Internal navigation bar brand logo image ID */
-  navbarBrandImageId?: Maybe<Scalars["String"]>;
+  navbarBrandImageId?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -6825,7 +6824,7 @@ export type ShopBrandAssets = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type ShopConnection = {
-  __typename?: "ShopConnection";
+  __typename?: 'ShopConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<ShopEdge>>>;
   /**
@@ -6836,54 +6835,54 @@ export type ShopConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is an `Shop` object */
 export type ShopEdge = NodeEdge & {
-  __typename?: "ShopEdge";
+  __typename?: 'ShopEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The Shop */
   node?: Maybe<Shop>;
 };
 
 /** Shop logo URLs */
 export type ShopLogoUrls = {
-  __typename?: "ShopLogoUrls";
+  __typename?: 'ShopLogoUrls';
   /** The primary logo URL for this shop. Setting this overrides any uploaded logo. */
-  primaryShopLogoUrl?: Maybe<Scalars["String"]>;
+  primaryShopLogoUrl?: Maybe<Scalars['String']>;
 };
 
 /** Shop Logo URLs to provide for the updateShop mutation */
 export type ShopLogoUrlsInput = {
   /** The primary logo URL for this shop. Setting this overrides any uploaded logo. */
-  primaryShopLogoUrl?: InputMaybe<Scalars["String"]>;
+  primaryShopLogoUrl?: InputMaybe<Scalars['String']>;
 };
 
 /** Parcel size */
 export type ShopParcelSize = {
-  __typename?: "ShopParcelSize";
+  __typename?: 'ShopParcelSize';
   /** Parcel height */
-  height?: Maybe<Scalars["Float"]>;
+  height?: Maybe<Scalars['Float']>;
   /** Parcel length */
-  length?: Maybe<Scalars["Float"]>;
+  length?: Maybe<Scalars['Float']>;
   /** Parcel weight */
-  weight?: Maybe<Scalars["Float"]>;
+  weight?: Maybe<Scalars['Float']>;
   /** Parcel width */
-  width?: Maybe<Scalars["Float"]>;
+  width?: Maybe<Scalars['Float']>;
 };
 
 /** Parcel size input */
 export type ShopParcelSizeInput = {
   /** Parcel height */
-  height?: InputMaybe<Scalars["Float"]>;
+  height?: InputMaybe<Scalars['Float']>;
   /** Parcel length */
-  length?: InputMaybe<Scalars["Float"]>;
+  length?: InputMaybe<Scalars['Float']>;
   /** Parcel weight */
-  weight?: InputMaybe<Scalars["Float"]>;
+  weight?: InputMaybe<Scalars['Float']>;
   /** Parcel width */
-  width?: InputMaybe<Scalars["Float"]>;
+  width?: InputMaybe<Scalars['Float']>;
 };
 
 /**
@@ -6891,51 +6890,51 @@ export type ShopParcelSizeInput = {
  * whatever settings they need.
  */
 export type ShopSettings = {
-  __typename?: "ShopSettings";
+  __typename?: 'ShopSettings';
   /**
    * If there is no known inventory for a product configuration, this setting determines
    * whether that product configuration can be sold and should appear to be available.
    */
-  canSellVariantWithoutInventory: Scalars["Boolean"];
+  canSellVariantWithoutInventory: Scalars['Boolean'];
   /** The default value to use for `taxCode` property of a product */
-  defaultTaxCode?: Maybe<Scalars["String"]>;
+  defaultTaxCode?: Maybe<Scalars['String']>;
   /** A fake setting necessary until some plugin extends this with a real setting */
-  doNotUse?: Maybe<Scalars["String"]>;
+  doNotUse?: Maybe<Scalars['String']>;
   /**
    * The name of the tax service to fall back to if the primary tax service is down.
    * This will match the `name` field of one of the services returned by the `taxServices`
    * query.
    */
-  fallbackTaxServiceName?: Maybe<Scalars["String"]>;
+  fallbackTaxServiceName?: Maybe<Scalars['String']>;
   /**
    * If `false` no defined shipping rates will be used when fulfillment
    * quotes are requested for a cart or order. A quick way to disable the entire
    * `reaction-shipping-rates` plugin temporarily.
    */
-  isShippingRatesFulfillmentEnabled?: Maybe<Scalars["Boolean"]>;
+  isShippingRatesFulfillmentEnabled?: Maybe<Scalars['Boolean']>;
   /**
    * The name of the tax service to use for calculating taxes on carts and orders.
    * This will match the `name` field of one of the services returned by the `taxServices`
    * query.
    */
-  primaryTaxServiceName?: Maybe<Scalars["String"]>;
+  primaryTaxServiceName?: Maybe<Scalars['String']>;
   /**
    * Whether a navigation item added to the navigation tree should be visible only to
    * admins by default.
    */
-  shouldNavigationTreeItemsBeAdminOnly: Scalars["Boolean"];
+  shouldNavigationTreeItemsBeAdminOnly: Scalars['Boolean'];
   /**
    * Whether a navigation item added to the navigation tree should be
    * public API/Storefront visible by default.
    */
-  shouldNavigationTreeItemsBePubliclyVisible: Scalars["Boolean"];
+  shouldNavigationTreeItemsBePubliclyVisible: Scalars['Boolean'];
   /**
    * Whether a navigation item added to the navigation tree should be a secondary
    * navigation item by default.
    */
-  shouldNavigationTreeItemsBeSecondaryNavOnly: Scalars["Boolean"];
+  shouldNavigationTreeItemsBeSecondaryNavOnly: Scalars['Boolean'];
   /** This setting controls how often the sitemaps for the shop will be rebuilt */
-  sitemapRefreshPeriod: Scalars["String"];
+  sitemapRefreshPeriod: Scalars['String'];
 };
 
 /**
@@ -6948,88 +6947,88 @@ export type ShopSettingsUpdates = {
    * If there is no known inventory for a product configuration, this setting determines
    * whether that product configuration can be sold and should appear to be available.
    */
-  canSellVariantWithoutInventory?: InputMaybe<Scalars["Boolean"]>;
+  canSellVariantWithoutInventory?: InputMaybe<Scalars['Boolean']>;
   /** The default value to use for `taxCode` property of a product */
-  defaultTaxCode?: InputMaybe<Scalars["String"]>;
+  defaultTaxCode?: InputMaybe<Scalars['String']>;
   /** Do not use this field */
-  doNotUse?: InputMaybe<Scalars["String"]>;
+  doNotUse?: InputMaybe<Scalars['String']>;
   /**
    * Optionally, set the name of the tax service to fall back to if the primary tax service is down.
    * This must match the `name` field of one of the services returned by the `taxServices` query.
    */
-  fallbackTaxServiceName?: InputMaybe<Scalars["String"]>;
+  fallbackTaxServiceName?: InputMaybe<Scalars['String']>;
   /**
    * Set to `false` to prevent any defined shipping rates from being used when fulfillment
    * quotes are requested for a cart or order. A quick way to disable the entire
    * `reaction-shipping-rates` plugin temporarily.
    */
-  isShippingRatesFulfillmentEnabled?: InputMaybe<Scalars["Boolean"]>;
+  isShippingRatesFulfillmentEnabled?: InputMaybe<Scalars['Boolean']>;
   /**
    * Set the name of the tax service to use for calculating taxes on carts and orders.
    * This will match the `name` field of one of the services returned by the `taxServices`
    * query. There will be no taxes charged for any carts or orders if this is not set.
    */
-  primaryTaxServiceName?: InputMaybe<Scalars["String"]>;
+  primaryTaxServiceName?: InputMaybe<Scalars['String']>;
   /**
    * Whether a navigation item added to the navigation tree should be visible only to
    * admins by default.
    */
-  shouldNavigationTreeItemsBeAdminOnly?: InputMaybe<Scalars["Boolean"]>;
+  shouldNavigationTreeItemsBeAdminOnly?: InputMaybe<Scalars['Boolean']>;
   /**
    * Whether a navigation item added to the navigation tree should be
    * public API/Storefront visible by default.
    */
-  shouldNavigationTreeItemsBePubliclyVisible?: InputMaybe<Scalars["Boolean"]>;
+  shouldNavigationTreeItemsBePubliclyVisible?: InputMaybe<Scalars['Boolean']>;
   /**
    * Whether a navigation item added to the navigation tree should be a secondary
    * navigation item by default.
    */
-  shouldNavigationTreeItemsBeSecondaryNavOnly?: InputMaybe<Scalars["Boolean"]>;
+  shouldNavigationTreeItemsBeSecondaryNavOnly?: InputMaybe<Scalars['Boolean']>;
   /** This setting controls how often the sitemaps for the shop will be rebuilt */
-  sitemapRefreshPeriod?: InputMaybe<Scalars["String"]>;
+  sitemapRefreshPeriod?: InputMaybe<Scalars['String']>;
 };
 
 /** Inventory info for a specific product configuration. For inventory managed by the SimpleInventory plugin. */
 export type SimpleInventoryInfo = {
-  __typename?: "SimpleInventoryInfo";
+  __typename?: 'SimpleInventoryInfo';
   /** Whether to allow ordering this product configuration when there is insufficient quantity available */
-  canBackorder?: Maybe<Scalars["Boolean"]>;
+  canBackorder?: Maybe<Scalars['Boolean']>;
   /** Current quantity of this product configuration in stock */
-  inventoryInStock?: Maybe<Scalars["Int"]>;
+  inventoryInStock?: Maybe<Scalars['Int']>;
   /**
    * Current quantity of this product configuration unavailable for ordering. This value is calculated
    * by the system based on this product variant being in not-yet-approved orders.
    */
-  inventoryReserved?: Maybe<Scalars["Int"]>;
+  inventoryReserved?: Maybe<Scalars['Int']>;
   /** Whether the SimpleInventory plugin should manage inventory for this product configuration */
-  isEnabled?: Maybe<Scalars["Boolean"]>;
+  isEnabled?: Maybe<Scalars['Boolean']>;
   /**
    * The "low quantity" flag will be applied to this product configuration when the available quantity
    * is at or below this threshold
    */
-  lowInventoryWarningThreshold?: Maybe<Scalars["Int"]>;
+  lowInventoryWarningThreshold?: Maybe<Scalars['Int']>;
   /** The product and chosen options this info applies to */
   productConfiguration: ProductConfiguration;
 };
 
 /** Generated sitemap XML for a single shop */
 export type Sitemap = {
-  __typename?: "Sitemap";
+  __typename?: 'Sitemap';
   /** Date created */
-  createdAt: Scalars["Date"];
+  createdAt: Scalars['Date'];
   /** The sitemap handle */
-  handle: Scalars["String"];
+  handle: Scalars['String'];
   /** The shop ID */
-  shopId: Scalars["String"];
+  shopId: Scalars['String'];
   /** The Sitemap XML content */
-  xml: Scalars["String"];
+  xml: Scalars['String'];
 };
 
 /** Holds metadata specific to a specific social network service */
 export type SocialMetadata = {
-  __typename?: "SocialMetadata";
+  __typename?: 'SocialMetadata';
   /** Default share message to use when sharing this product on this social network */
-  message?: Maybe<Scalars["String"]>;
+  message?: Maybe<Scalars['String']>;
   /** Which social network is this metadata for */
   service?: Maybe<SocialNetwork>;
 };
@@ -7037,179 +7036,179 @@ export type SocialMetadata = {
 /** The list of currently supported social network identifiers */
 export enum SocialNetwork {
   /** Facebook */
-  Facebook = "facebook",
+  Facebook = 'facebook',
   /** Google+ */
-  Googleplus = "googleplus",
+  Googleplus = 'googleplus',
   /** Pinterest */
-  Pinterest = "pinterest",
+  Pinterest = 'pinterest',
   /** Twitter */
-  Twitter = "twitter"
+  Twitter = 'twitter'
 }
 
 /** The order in which the connection results should be sorted, based on the sortBy field. */
 export enum SortOrder {
   /** ascending */
-  Asc = "asc",
+  Asc = 'asc',
   /** descending */
-  Desc = "desc"
+  Desc = 'desc'
 }
 
 /** Input for the splitOrderItem mutation */
 export type SplitOrderItemInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of the item order you want to split */
-  itemId: Scalars["ID"];
+  itemId: Scalars['ID'];
   /** The quantity that will be transferred to a new order item on the same fulfillment group. */
-  newItemQuantity: Scalars["Int"];
+  newItemQuantity: Scalars['Int'];
   /** ID of the order that has the item you want to split */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
 };
 
 /** Response payload for the splitOrderItem mutation */
 export type SplitOrderItemPayload = {
-  __typename?: "SplitOrderItemPayload";
+  __typename?: 'SplitOrderItemPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the new order item that was created */
-  newItemId: Scalars["ID"];
+  newItemId: Scalars['ID'];
   /** The updated order */
   order: Order;
 };
 
 export type Stackability = {
-  __typename?: "Stackability";
+  __typename?: 'Stackability';
   /** The key that defines this stackability */
-  key: Scalars["String"];
+  key: Scalars['String'];
   /** Parameters to be passed to the stackability */
-  parameters?: Maybe<Scalars["JSONObject"]>;
+  parameters?: Maybe<Scalars['JSONObject']>;
 };
 
 export type StackabilityInput = {
   /** The key that defines this stackability */
-  key: Scalars["String"];
+  key: Scalars['String'];
   /** Parameters to be passed to the stackability */
-  parameters?: InputMaybe<Scalars["JSONObject"]>;
+  parameters?: InputMaybe<Scalars['JSONObject']>;
 };
 
 /** Storefront route URLs */
 export type StorefrontUrls = {
-  __typename?: "StorefrontUrls";
+  __typename?: 'StorefrontUrls';
   /** Storefront Account Profile URL (can include `:accountId` in string) */
-  storefrontAccountProfileUrl?: Maybe<Scalars["String"]>;
+  storefrontAccountProfileUrl?: Maybe<Scalars['String']>;
   /** Storefront Home URL */
-  storefrontHomeUrl?: Maybe<Scalars["String"]>;
+  storefrontHomeUrl?: Maybe<Scalars['String']>;
   /** Storefront login URL */
-  storefrontLoginUrl?: Maybe<Scalars["String"]>;
+  storefrontLoginUrl?: Maybe<Scalars['String']>;
   /** Storefront single order URL (can include `:orderReferenceId` and `:orderToken` in string) */
-  storefrontOrderUrl?: Maybe<Scalars["String"]>;
+  storefrontOrderUrl?: Maybe<Scalars['String']>;
   /** Storefront orders URL (can include `:accountId` in string) */
-  storefrontOrdersUrl?: Maybe<Scalars["String"]>;
+  storefrontOrdersUrl?: Maybe<Scalars['String']>;
 };
 
 /** Storefront route URLs to provide for the updateShop mutation */
 export type StorefrontUrlsInput = {
   /** Storefront Account Profile URL (can include `:accountId` in string) */
-  storefrontAccountProfileUrl?: InputMaybe<Scalars["String"]>;
+  storefrontAccountProfileUrl?: InputMaybe<Scalars['String']>;
   /** Storefront Home URL */
-  storefrontHomeUrl?: InputMaybe<Scalars["String"]>;
+  storefrontHomeUrl?: InputMaybe<Scalars['String']>;
   /** Storefront login URL */
-  storefrontLoginUrl?: InputMaybe<Scalars["String"]>;
+  storefrontLoginUrl?: InputMaybe<Scalars['String']>;
   /** Storefront single order URL (can include `:orderReferenceId` and `:orderToken` in string) */
-  storefrontOrderUrl?: InputMaybe<Scalars["String"]>;
+  storefrontOrderUrl?: InputMaybe<Scalars['String']>;
   /** Storefront orders URL (can include `:accountId` in string) */
-  storefrontOrdersUrl?: InputMaybe<Scalars["String"]>;
+  storefrontOrdersUrl?: InputMaybe<Scalars['String']>;
 };
 
 /** Data for a Stripe payment intent */
 export type StripePaymentIntentData = {
-  __typename?: "StripePaymentIntentData";
+  __typename?: 'StripePaymentIntentData';
   /** The Stripe charge ID */
-  chargeId: Scalars["String"];
+  chargeId: Scalars['String'];
   /** The Stripe customer ID, if a Stripe customer exists for this charge */
-  customerId?: Maybe<Scalars["String"]>;
+  customerId?: Maybe<Scalars['String']>;
 };
 
 /** Subscriptions allow you to request to get updated data whenever it changes */
 export type Subscription = {
-  __typename?: "Subscription";
+  __typename?: 'Subscription';
   /** A test subscription that returns an incremented number every 1 second for 10 seconds */
-  tick: Scalars["Int"];
+  tick: Scalars['Int'];
 };
 
 /** An address suggestion returned from an address validation service */
 export type SuggestedAddress = {
-  __typename?: "SuggestedAddress";
+  __typename?: 'SuggestedAddress';
   /** The street address / first line */
-  address1: Scalars["String"];
+  address1: Scalars['String'];
   /** Optional second line */
-  address2?: Maybe<Scalars["String"]>;
+  address2?: Maybe<Scalars['String']>;
   /** City */
-  city: Scalars["String"];
+  city: Scalars['String'];
   /** Country */
-  country: Scalars["String"];
+  country: Scalars['String'];
   /** Postal code */
-  postal: Scalars["String"];
+  postal: Scalars['String'];
   /** Region. For example, a U.S. state */
-  region: Scalars["String"];
+  region: Scalars['String'];
 };
 
 /** Defines a surcharge for surchargeById and surcharges query. */
 export type Surcharge = Node & {
-  __typename?: "Surcharge";
+  __typename?: 'Surcharge';
   /** The surcharge ID. */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Amount. */
   amount: Money;
   /** Attribute restrictions. */
   attributes?: Maybe<Array<Maybe<SurchargeAttributeRestrictions>>>;
   /** The date and time at which this surcharge was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** Destination restrictions. */
   destination?: Maybe<SurchargeDestinationRestrictions>;
   /** Message translated into provided / default language. */
-  message: Scalars["String"];
+  message: Scalars['String'];
   /** Messages provided with content and all languages */
   messagesByLanguage?: Maybe<Array<Maybe<SurchargeMessagesByLanguage>>>;
   /** Method IDs to apply this surcharge to. */
-  methodIds?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  methodIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** The shop ID */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The type of this surcharge. Allowed types `surcharge`. */
   type: SurchargeTypeEnum;
   /** The date and time at which this surcharge was last updated */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 
 /** Defines a surcharge for surchargeById and surcharges query. */
 export type SurchargeMessageArgs = {
-  language: Scalars["String"];
+  language: Scalars['String'];
 };
 
 /** Attribute Restrictions attached to a Surcharge */
 export type SurchargeAttributeRestrictions = {
-  __typename?: "SurchargeAttributeRestrictions";
+  __typename?: 'SurchargeAttributeRestrictions';
   /** The operator to use for value comparison */
-  operator?: Maybe<Scalars["String"]>;
+  operator?: Maybe<Scalars['String']>;
   /** The property to check */
-  property?: Maybe<Scalars["String"]>;
+  property?: Maybe<Scalars['String']>;
   /** The type of this property */
   propertyType?: Maybe<SurchargePropertyType>;
   /** The value to check for */
-  value?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars['String']>;
 };
 
 /** Input to add a surcharge attribute restriction */
 export type SurchargeAttributeRestrictionsInput = {
   /** The operator to use for value comparison */
-  operator?: InputMaybe<Scalars["String"]>;
+  operator?: InputMaybe<Scalars['String']>;
   /** The property to check */
-  property?: InputMaybe<Scalars["String"]>;
+  property?: InputMaybe<Scalars['String']>;
   /** The type of this property */
   propertyType?: InputMaybe<SurchargePropertyType>;
   /** The value to check for */
-  value?: InputMaybe<Scalars["String"]>;
+  value?: InputMaybe<Scalars['String']>;
 };
 
 /**
@@ -7221,7 +7220,7 @@ export type SurchargeAttributeRestrictionsInput = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type SurchargeConnection = {
-  __typename?: "SurchargeConnection";
+  __typename?: 'SurchargeConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<SurchargeEdge>>>;
   /**
@@ -7232,7 +7231,7 @@ export type SurchargeConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** Total count for all pages */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /**
@@ -7240,30 +7239,30 @@ export type SurchargeConnection = {
  * `region`, and `postal` are set, there is an AND relationship.
  */
 export type SurchargeDestinationRestrictions = {
-  __typename?: "SurchargeDestinationRestrictions";
+  __typename?: 'SurchargeDestinationRestrictions';
   /** Restrict for any of these destination countries */
-  country?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  country?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Restrict for any of these destination postal codes */
-  postal?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  postal?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Restrict for any of these destination regions */
-  region?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  region?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 /** Input to add a surcharge destination restriction */
 export type SurchargeDestinationRestrictionsInput = {
   /** Restrict for any of these destination countries */
-  country?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  country?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Restrict for any of these destination postal codes */
-  postal?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  postal?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Restrict for any of these destination regions */
-  region?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  region?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /** A connection edge in which each node is a `Surcharge` object */
 export type SurchargeEdge = {
-  __typename?: "SurchargeEdge";
+  __typename?: 'SurchargeEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The surcharge */
   node?: Maybe<Surcharge>;
 };
@@ -7271,7 +7270,7 @@ export type SurchargeEdge = {
 /** Defines a surcharge. */
 export type SurchargeInput = {
   /** Amount. */
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
   /** Attribute restrictions. */
   attributes?: InputMaybe<Array<InputMaybe<SurchargeAttributeRestrictionsInput>>>;
   /** Destination restrictions. */
@@ -7279,49 +7278,49 @@ export type SurchargeInput = {
   /** Messages by language. */
   messagesByLanguage: Array<InputMaybe<MessagesByLanguageInput>>;
   /** Method IDs to apply this surcharge to. */
-  methodIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  methodIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** The type of this surcharge. Allowed types are `surcharge`. */
   type: SurchargeTypeEnum;
 };
 
 /** Object that includes translated content and language of translation */
 export type SurchargeMessagesByLanguage = {
-  __typename?: "SurchargeMessagesByLanguage";
+  __typename?: 'SurchargeMessagesByLanguage';
   /** The message for this language */
-  content: Scalars["String"];
+  content: Scalars['String'];
   /** The language code */
-  language: Scalars["String"];
+  language: Scalars['String'];
 };
 
 /** A list of the possible property types for surcharges */
 export enum SurchargePropertyType {
   /** Boolean */
-  Bool = "bool",
+  Bool = 'bool',
   /** Float */
-  Float = "float",
+  Float = 'float',
   /** Integer */
-  Int = "int",
+  Int = 'int',
   /** String */
-  String = "string"
+  String = 'string'
 }
 
 /** Allowed values for surcharge `sortBy` parameter */
 export enum SurchargeSortByField {
   /** The date the surcharge definition was created */
-  CreatedAt = "createdAt"
+  CreatedAt = 'createdAt'
 }
 
 /** Allowed values for surcharge type */
 export enum SurchargeTypeEnum {
   /** Surcharge */
-  Surcharge = "surcharge"
+  Surcharge = 'surcharge'
 }
 
 /** Represents Reaction System Infomation */
 export type SystemInformation = {
-  __typename?: "SystemInformation";
+  __typename?: 'SystemInformation';
   /** Core api version */
-  apiVersion: Scalars["String"];
+  apiVersion: Scalars['String'];
   /** Mongo version */
   mongoVersion: DatabaseInformation;
   /** Plugins installed with name, version information */
@@ -7330,52 +7329,52 @@ export type SystemInformation = {
 
 /** Represents a single tag */
 export type Tag = Deletable & Node & {
-  __typename?: "Tag";
+  __typename?: 'Tag';
   /** The tag ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time at which this tag was created */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** A string of the title to be displayed on a Tag Listing Page */
-  displayTitle?: Maybe<Scalars["String"]>;
+  displayTitle?: Maybe<Scalars['String']>;
   /** A list of the IDs of top products in this tag */
-  featuredProductIds?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  featuredProductIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
   /** A string containing the hero image url for a Tag Listing Page */
-  heroMediaUrl?: Maybe<Scalars["String"]>;
+  heroMediaUrl?: Maybe<Scalars['String']>;
   /**
    * If `true`, this object should be considered deleted. Soft deleted objects are not
    * returned in query results unless you explicitly ask for them.
    */
-  isDeleted: Scalars["Boolean"];
+  isDeleted: Scalars['Boolean'];
   /** If `true`, this tag should be shown at the top level of the tag hierarchy */
-  isTopLevel: Scalars["Boolean"];
+  isTopLevel: Scalars['Boolean'];
   /** If `true`, this tag's Tag Listing Page should be visible to the public */
-  isVisible: Scalars["Boolean"];
+  isVisible: Scalars['Boolean'];
   /** Arbitrary additional metadata about this tag */
   metafields?: Maybe<Array<Maybe<Metafield>>>;
   /** The display name for the tag. This is unique within a given shop. */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** The tag's position relative to other tags at the same level of the tag hierarchy */
-  position?: Maybe<Scalars["Int"]>;
+  position?: Maybe<Scalars['Int']>;
   /** The shop to which this tag belongs */
   shop: Shop;
   /** A unique URL-safe string representing this tag for links */
-  slug?: Maybe<Scalars["String"]>;
+  slug?: Maybe<Scalars['String']>;
   /** A list of the IDs of tags that have this tag as their parent in the tag hierarchy, in the user-defined order */
-  subTagIds: Array<Maybe<Scalars["ID"]>>;
+  subTagIds: Array<Maybe<Scalars['ID']>>;
   /** A paged list of tags that have this tag as their parent in the tag hierarchy. Currently only three levels are supported. */
   subTags?: Maybe<TagConnection>;
   /** The date and time at which this tag was last updated */
-  updatedAt: Scalars["DateTime"];
+  updatedAt: Scalars['DateTime'];
 };
 
 
 /** Represents a single tag */
 export type TagSubTagsArgs = {
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortBy?: InputMaybe<TagSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -7389,7 +7388,7 @@ export type TagSubTagsArgs = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type TagConnection = {
-  __typename?: "TagConnection";
+  __typename?: 'TagConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<TagEdge>>>;
   /**
@@ -7400,49 +7399,49 @@ export type TagConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** Operators for filtering on a DateTime field */
 export type TagDateOperators = {
   /** The value must be greater than or equal to the given value */
-  after?: InputMaybe<Scalars["DateTime"]>;
+  after?: InputMaybe<Scalars['DateTime']>;
   /** The value must be greater than the given value */
-  before?: InputMaybe<Scalars["DateTime"]>;
+  before?: InputMaybe<Scalars['DateTime']>;
   /** The value must be between the given values */
   between?: InputMaybe<ProductDateRange>;
   /** The value must be equal to the given value */
-  eq?: InputMaybe<Scalars["DateTime"]>;
+  eq?: InputMaybe<Scalars['DateTime']>;
 };
 
 /** Range operator for DateTime fields */
 export type TagDateRange = {
   /** The end of the date range */
-  end: Scalars["DateTime"];
+  end: Scalars['DateTime'];
   /** The start of the date range */
-  start: Scalars["DateTime"];
+  start: Scalars['DateTime'];
 };
 
 /** A connection edge in which each node is a `Tag` object */
 export type TagEdge = NodeEdge & {
-  __typename?: "TagEdge";
+  __typename?: 'TagEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The tag */
   node?: Maybe<Tag>;
 };
 
 /** A tag product */
 export type TagProduct = {
-  __typename?: "TagProduct";
+  __typename?: 'TagProduct';
   /** The product id */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** The date and time at which this CatalogProduct was created, which is when the related product was first published */
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   /** Position of the product */
-  position?: Maybe<Scalars["Int"]>;
+  position?: Maybe<Scalars['Int']>;
   /** The title of the product */
-  title?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -7454,7 +7453,7 @@ export type TagProduct = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type TagProductConnection = {
-  __typename?: "TagProductConnection";
+  __typename?: 'TagProductConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<TagProductEdge>>>;
   /**
@@ -7465,14 +7464,14 @@ export type TagProductConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `TagProduct` object */
 export type TagProductEdge = {
-  __typename?: "TagProductEdge";
+  __typename?: 'TagProductEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The tag product */
   node?: Maybe<TagProduct>;
 };
@@ -7480,45 +7479,45 @@ export type TagProductEdge = {
 /** The fields by which you are allowed to sort any query that returns a `TagConnection` */
 export enum TagSortByField {
   /** Tag ID */
-  Id = "_id",
+  Id = '_id',
   /** Date and time the tag was created */
-  CreatedAt = "createdAt",
+  CreatedAt = 'createdAt',
   /** Tag name */
-  Name = "name",
+  Name = 'name',
   /** Tag position */
-  Position = "position",
+  Position = 'position',
   /** Date and time the tag was last updated */
-  UpdatedAt = "updatedAt"
+  UpdatedAt = 'updatedAt'
 }
 
 /** A tax code that may be used on a product to indicate proper taxation category */
 export type TaxCode = {
-  __typename?: "TaxCode";
+  __typename?: 'TaxCode';
   /** The code */
-  code: Scalars["String"];
+  code: Scalars['String'];
   /** Short description of what types of products the code is for */
-  label: Scalars["String"];
+  label: Scalars['String'];
 };
 
 /** A single calculated tax for a cart, order group, cart item, or order item */
 export type TaxRate = {
-  __typename?: "TaxRate";
+  __typename?: 'TaxRate';
   /** Tax rate ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** An optional country code to limit where this tax is applied, in conjunction with `sourcing` field */
-  country?: Maybe<Scalars["String"]>;
+  country?: Maybe<Scalars['String']>;
   /** An optional postal code to limit where this tax is applied, in conjunction with `sourcing` field */
-  postal?: Maybe<Scalars["String"]>;
+  postal?: Maybe<Scalars['String']>;
   /** The tax rate. For example, 0.05 for a 5% sales tax. */
-  rate: Scalars["Float"];
+  rate: Scalars['Float'];
   /** An optional region (e.g., state) to limit where this tax is applied, in conjunction with `sourcing` field */
-  region?: Maybe<Scalars["String"]>;
+  region?: Maybe<Scalars['String']>;
   /** The shop to which this TaxRate belongs */
   shop: Shop;
   /** Whether the `country`, `postal`, and `region` filters apply to the origin address or the destination address */
   sourcing: TaxSource;
   /** An optional tax code, to apply this tax rate to only products that have this tax code */
-  taxCode?: Maybe<Scalars["String"]>;
+  taxCode?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -7530,7 +7529,7 @@ export type TaxRate = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type TaxRateConnection = {
-  __typename?: "TaxRateConnection";
+  __typename?: 'TaxRateConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<TaxRateEdge>>>;
   /**
@@ -7541,46 +7540,46 @@ export type TaxRateConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `TaxRate` object */
 export type TaxRateEdge = {
-  __typename?: "TaxRateEdge";
+  __typename?: 'TaxRateEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The tax rate */
   node?: Maybe<TaxRate>;
 };
 
 /** A service registered by a tax plugin, that provides tax codes and calculations */
 export type TaxService = {
-  __typename?: "TaxService";
+  __typename?: 'TaxService';
   /** Human-readable display name */
-  displayName: Scalars["String"];
+  displayName: Scalars['String'];
   /** The tax service name. Any valid name that has been registered by a tax plugin. */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** Name of the plugin that added the tax service */
-  pluginName: Scalars["String"];
+  pluginName: Scalars['String'];
 };
 
 /** Tax sources */
 export enum TaxSource {
   /** Tax is applied when the destination matches the tax jurisdiction */
-  Destination = "destination",
+  Destination = 'destination',
   /** Tax is applied when the origin matches the tax jurisdiction */
-  Origin = "origin"
+  Origin = 'origin'
 }
 
 /** A summary of tax-related calculations for a cart or order group */
 export type TaxSummary = {
-  __typename?: "TaxSummary";
+  __typename?: 'TaxSummary';
   /** The time at which taxes were last calculated for the cart or order group */
-  calculatedAt: Scalars["DateTime"];
+  calculatedAt: Scalars['DateTime'];
   /** The name of the tax service that last calculated taxes for the cart or order group */
-  calculatedByTaxServiceName?: Maybe<Scalars["String"]>;
+  calculatedByTaxServiceName?: Maybe<Scalars['String']>;
   /** A reference ID for the external system that calculated the taxes */
-  referenceId?: Maybe<Scalars["String"]>;
+  referenceId?: Maybe<Scalars['String']>;
   /** Total tax calculated by the active tax service */
   tax: Money;
   /** Amount that was deemed subject to any taxes by the active tax service */
@@ -7591,21 +7590,21 @@ export type TaxSummary = {
 
 /** Represents a Template */
 export type Template = Node & {
-  __typename?: "Template";
+  __typename?: 'Template';
   /** The shop ID */
-  _id: Scalars["ID"];
+  _id: Scalars['ID'];
   /** Email template language */
-  language?: Maybe<Scalars["String"]>;
+  language?: Maybe<Scalars['String']>;
   /** Email template name */
-  name?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars['String']>;
   /** The shop that owns the template */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Email template string */
-  subject?: Maybe<Scalars["String"]>;
+  subject?: Maybe<Scalars['String']>;
   /** Email template body or html text */
-  template?: Maybe<Scalars["String"]>;
+  template?: Maybe<Scalars['String']>;
   /** Email template title */
-  title?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -7617,7 +7616,7 @@ export type Template = Node & {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type TemplateConnection = {
-  __typename?: "TemplateConnection";
+  __typename?: 'TemplateConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<TemplateEdge>>>;
   /**
@@ -7628,99 +7627,99 @@ export type TemplateConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a `Template` object */
 export type TemplateEdge = {
-  __typename?: "TemplateEdge";
+  __typename?: 'TemplateEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The email template */
   node?: Maybe<Template>;
 };
 
 export type Tokens = {
-  __typename?: "Tokens";
-  accessToken?: Maybe<Scalars["String"]>;
-  refreshToken?: Maybe<Scalars["String"]>;
+  __typename?: 'Tokens';
+  accessToken?: Maybe<Scalars['String']>;
+  refreshToken?: Maybe<Scalars['String']>;
 };
 
 /** The trigger that will set a promotion into motion */
 export type Trigger = {
-  __typename?: "Trigger";
+  __typename?: 'Trigger';
   /** The key that defines this action */
-  triggerKey: Scalars["String"];
+  triggerKey: Scalars['String'];
   /** Parameters that define the trigger */
-  triggerParameters?: Maybe<Scalars["JSONObject"]>;
+  triggerParameters?: Maybe<Scalars['JSONObject']>;
 };
 
 /** The trigger that will set a promotion into motion */
 export type TriggerInput = {
   /** The key that defines this action */
-  triggerKey: Scalars["String"];
+  triggerKey: Scalars['String'];
   /** Parameters that define the trigger */
-  triggerParameters?: InputMaybe<Scalars["JSONObject"]>;
+  triggerParameters?: InputMaybe<Scalars['JSONObject']>;
 };
 
 export enum TriggerType {
-  Explicit = "explicit",
-  Implicit = "implicit"
+  Explicit = 'explicit',
+  Implicit = 'implicit'
 }
 
 export type TwoFactorSecretKey = {
-  __typename?: "TwoFactorSecretKey";
-  ascii?: Maybe<Scalars["String"]>;
-  base32?: Maybe<Scalars["String"]>;
-  google_auth_qr?: Maybe<Scalars["String"]>;
-  hex?: Maybe<Scalars["String"]>;
-  otpauth_url?: Maybe<Scalars["String"]>;
-  qr_code_ascii?: Maybe<Scalars["String"]>;
-  qr_code_base32?: Maybe<Scalars["String"]>;
-  qr_code_hex?: Maybe<Scalars["String"]>;
+  __typename?: 'TwoFactorSecretKey';
+  ascii?: Maybe<Scalars['String']>;
+  base32?: Maybe<Scalars['String']>;
+  google_auth_qr?: Maybe<Scalars['String']>;
+  hex?: Maybe<Scalars['String']>;
+  otpauth_url?: Maybe<Scalars['String']>;
+  qr_code_ascii?: Maybe<Scalars['String']>;
+  qr_code_base32?: Maybe<Scalars['String']>;
+  qr_code_hex?: Maybe<Scalars['String']>;
 };
 
 export type TwoFactorSecretKeyInput = {
-  ascii?: InputMaybe<Scalars["String"]>;
-  base32?: InputMaybe<Scalars["String"]>;
-  google_auth_qr?: InputMaybe<Scalars["String"]>;
-  hex?: InputMaybe<Scalars["String"]>;
-  otpauth_url?: InputMaybe<Scalars["String"]>;
-  qr_code_ascii?: InputMaybe<Scalars["String"]>;
-  qr_code_base32?: InputMaybe<Scalars["String"]>;
-  qr_code_hex?: InputMaybe<Scalars["String"]>;
+  ascii?: InputMaybe<Scalars['String']>;
+  base32?: InputMaybe<Scalars['String']>;
+  google_auth_qr?: InputMaybe<Scalars['String']>;
+  hex?: InputMaybe<Scalars['String']>;
+  otpauth_url?: InputMaybe<Scalars['String']>;
+  qr_code_ascii?: InputMaybe<Scalars['String']>;
+  qr_code_base32?: InputMaybe<Scalars['String']>;
+  qr_code_hex?: InputMaybe<Scalars['String']>;
 };
 
 /** Units of length */
 export type UnitOfLength = {
-  __typename?: "UnitOfLength";
+  __typename?: 'UnitOfLength';
   /** Whether this unit of length is the default */
-  default?: Maybe<Scalars["Boolean"]>;
+  default?: Maybe<Scalars['Boolean']>;
   /** The name of the unit of length */
-  label?: Maybe<Scalars["String"]>;
+  label?: Maybe<Scalars['String']>;
   /** Unit of length */
-  uol?: Maybe<Scalars["String"]>;
+  uol?: Maybe<Scalars['String']>;
 };
 
 /** Units of measure */
 export type UnitOfMeasure = {
-  __typename?: "UnitOfMeasure";
+  __typename?: 'UnitOfMeasure';
   /** Whether this unit of measure is the default */
-  default?: Maybe<Scalars["Boolean"]>;
+  default?: Maybe<Scalars['Boolean']>;
   /** The name of the unit of measure */
-  label?: Maybe<Scalars["String"]>;
+  label?: Maybe<Scalars['String']>;
   /** Unit of measure */
-  uom?: Maybe<Scalars["String"]>;
+  uom?: Maybe<Scalars['String']>;
 };
 
 /** Describes changes that should be applied to one of the addresses for an account */
 export type UpdateAccountAddressBookEntryInput = {
   /** The account ID */
-  accountId: Scalars["ID"];
+  accountId: Scalars['ID'];
   /** The address ID */
-  addressId: Scalars["ID"];
+  addressId: Scalars['ID'];
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** If present, make this address the default address of this type */
   type?: InputMaybe<AddressType>;
   /** The address changes to apply */
@@ -7729,30 +7728,30 @@ export type UpdateAccountAddressBookEntryInput = {
 
 /** The response from the `updateAccountAddressBookEntry` mutation */
 export type UpdateAccountAddressBookEntryPayload = {
-  __typename?: "UpdateAccountAddressBookEntryPayload";
+  __typename?: 'UpdateAccountAddressBookEntryPayload';
   /** The updated address */
   address?: Maybe<Address>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** The details for updating a group */
 export type UpdateAccountGroupInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The changes to apply to the group */
   group: UpdateGroupInput;
   /** The group ID */
-  groupId: Scalars["ID"];
+  groupId: Scalars['ID'];
   /** The ID of the shop this group belongs to */
-  shopId?: InputMaybe<Scalars["ID"]>;
+  shopId?: InputMaybe<Scalars['ID']>;
 };
 
 /** The response from the `updateAccountGroup` mutation */
 export type UpdateAccountGroupPayload = {
-  __typename?: "UpdateAccountGroupPayload";
+  __typename?: 'UpdateAccountGroupPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated group */
   group?: Maybe<Group>;
 };
@@ -7760,127 +7759,127 @@ export type UpdateAccountGroupPayload = {
 /** Describes an account update */
 export type UpdateAccountInput = {
   /** The account ID, which defaults to the viewer account */
-  accountId?: InputMaybe<Scalars["ID"]>;
+  accountId?: InputMaybe<Scalars['ID']>;
   /** Bio to display on profile */
-  bio?: InputMaybe<Scalars["String"]>;
+  bio?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The preferred currency code used by this account */
-  currencyCode?: InputMaybe<Scalars["String"]>;
+  currencyCode?: InputMaybe<Scalars['String']>;
   /** The first name of the person this account represents */
-  firstName?: InputMaybe<Scalars["String"]>;
+  firstName?: InputMaybe<Scalars['String']>;
   /** The preferred language (code) used by this account */
-  language?: InputMaybe<Scalars["String"]>;
+  language?: InputMaybe<Scalars['String']>;
   /** The last name of the person this account represents */
-  lastName?: InputMaybe<Scalars["String"]>;
+  lastName?: InputMaybe<Scalars['String']>;
   /** The full name of the person this account represents */
-  name?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars['String']>;
   /** Some note about this account */
-  note?: InputMaybe<Scalars["String"]>;
+  note?: InputMaybe<Scalars['String']>;
   /** URL of picture to display on profile */
-  picture?: InputMaybe<Scalars["String"]>;
+  picture?: InputMaybe<Scalars['String']>;
   /** Username */
-  username?: InputMaybe<Scalars["String"]>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 /** The response from the `updateAccount` mutation */
 export type UpdateAccountPayload = {
-  __typename?: "UpdateAccountPayload";
+  __typename?: 'UpdateAccountPayload';
   /** The updated account */
   account: Account;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the `updateAddressValidationRule` mutation */
 export type UpdateAddressValidationRuleInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Country codes for which this service is enabled. `null` means all, while an empty array means none. */
-  countryCodes?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  countryCodes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** ID of the rule you want to update */
-  ruleId: Scalars["ID"];
+  ruleId: Scalars['ID'];
   /**
    * The name of one of the installed validation services. Use `addressValidationServices`
    * query to get a list, and then use the `name` field value from one of them.
    */
-  serviceName: Scalars["String"];
+  serviceName: Scalars['String'];
   /** Shop ID of the rule you want to update. This is not something you can modify. */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Payload for the `updateAddressValidationRule` mutation */
 export type UpdateAddressValidationRulePayload = {
-  __typename?: "UpdateAddressValidationRulePayload";
+  __typename?: 'UpdateAddressValidationRulePayload';
   /** Updated address validation rule */
   addressValidationRule: AddressValidationRule;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 export type UpdateAdminUiAccessInput = {
   /** The account IDs to update */
-  accountIds: Array<InputMaybe<Scalars["String"]>>;
+  accountIds: Array<InputMaybe<Scalars['String']>>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The shop IDs to unassign or assign to the accounts */
-  shopIds: Array<InputMaybe<Scalars["String"]>>;
+  shopIds: Array<InputMaybe<Scalars['String']>>;
 };
 
 export type UpdateAdminUiAccessPayload = {
-  __typename?: "UpdateAdminUIAccessPayload";
+  __typename?: 'UpdateAdminUIAccessPayload';
   /** The up to date account objects */
   accounts?: Maybe<Array<Maybe<Account>>>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the `updateCartItem` mutation */
 export type UpdateCartItemInput = {
   /** The cart item ID */
-  cartItemId: Scalars["ID"];
+  cartItemId: Scalars['ID'];
   /** New absolute value for specified cart item's quantity. Not an incremental value. */
-  quantity: Scalars["Int"];
+  quantity: Scalars['Int'];
 };
 
 /** Input for the `updateCartItemsQuantity` mutation */
 export type UpdateCartItemsQuantityInput = {
   /** The cart ID */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** If this cart is anonymous, provide the `cartToken` that was returned in the `CreateCartPayload` */
-  cartToken?: InputMaybe<Scalars["String"]>;
+  cartToken?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Array of cart item quantities to update. */
   items: Array<InputMaybe<UpdateCartItemInput>>;
 };
 
 /** The payload returned from the `updateCartItemsQuantity` mutation call */
 export type UpdateCartItemsQuantityPayload = {
-  __typename?: "UpdateCartItemsQuantityPayload";
+  __typename?: 'UpdateCartItemsQuantityPayload';
   /** The modified cart */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Describes the input for updating a discount code */
 export type UpdateDiscountCodeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The discount code to update */
   discountCode?: InputMaybe<DiscountCodeInput>;
   /** The ID of the discount code to update */
-  discountCodeId: Scalars["ID"];
+  discountCodeId: Scalars['ID'];
   /** The shop ID of the discount code to update */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** The response from the `updateDiscountCode` mutation */
 export type UpdateDiscountCodePayload = {
-  __typename?: "UpdateDiscountCodePayload";
+  __typename?: 'UpdateDiscountCodePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated discount code */
   discountCode?: Maybe<DiscountCode>;
 };
@@ -7888,20 +7887,20 @@ export type UpdateDiscountCodePayload = {
 /** Input for the `updateFlatRateFulfillmentMethod` mutation */
 export type UpdateFlatRateFulfillmentMethodInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The updated method. Pass the whole updated method object without the ID. */
   method: FlatRateFulfillmentMethodInput;
   /** The ID of the flat rate fulfillment method you want to update */
-  methodId: Scalars["ID"];
+  methodId: Scalars['ID'];
   /** The shop that owns the method */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response from the `updateFlatRateFulfillmentMethod` mutation */
 export type UpdateFlatRateFulfillmentMethodPayload = {
-  __typename?: "UpdateFlatRateFulfillmentMethodPayload";
+  __typename?: 'UpdateFlatRateFulfillmentMethodPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated fulfillment method */
   method: FlatRateFulfillmentMethod;
 };
@@ -7909,20 +7908,20 @@ export type UpdateFlatRateFulfillmentMethodPayload = {
 /** Input for the `updateFlatRateFulfillmentRestriction` mutation */
 export type UpdateFlatRateFulfillmentRestrictionInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The updated flat rate fulfillment method restriction. Pass the whole updated restriction object without the ID. */
   restriction: FlatRateFulfillmentRestrictionInput;
   /** The ID of the flat rate fulfillment method restriction you want to update */
-  restrictionId: Scalars["ID"];
+  restrictionId: Scalars['ID'];
   /** The shop that owns the flat rate fulfillment method restriction */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response from the `updateFlatRateFulfillmentMethod` mutation */
 export type UpdateFlatRateFulfillmentRestrictionPayload = {
-  __typename?: "UpdateFlatRateFulfillmentRestrictionPayload";
+  __typename?: 'UpdateFlatRateFulfillmentRestrictionPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated flat rate fulfillment method restriction */
   restriction: FlatRateFulfillmentRestriction;
 };
@@ -7930,37 +7929,37 @@ export type UpdateFlatRateFulfillmentRestrictionPayload = {
 /** A request to update the available fulfillment options for a single fulfillment group */
 export type UpdateFulfillmentOptionsForGroupInput = {
   /** The cart to update fulfillment options for */
-  cartId: Scalars["ID"];
+  cartId: Scalars['ID'];
   /** The token for the cart, required if it is an anonymous cart */
-  cartToken?: InputMaybe<Scalars["String"]>;
+  cartToken?: InputMaybe<Scalars['String']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The group to update fulfillment options for */
-  fulfillmentGroupId: Scalars["ID"];
+  fulfillmentGroupId: Scalars['ID'];
 };
 
 /** The response from the `updateFulfillmentOptionsForGroup` mutation */
 export type UpdateFulfillmentOptionsForGroupPayload = {
-  __typename?: "UpdateFulfillmentOptionsForGroupPayload";
+  __typename?: 'UpdateFulfillmentOptionsForGroupPayload';
   /** The updated Cart */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the `updateGlobalSettings` mutation */
 export type UpdateGlobalSettingsInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Updated settings values. Only includes settings to be changed. */
   settingsUpdates: GlobalSettingsUpdates;
 };
 
 /** Response payload for the `updateGlobalSettings` mutation */
 export type UpdateGlobalSettingsPayload = {
-  __typename?: "UpdateGlobalSettingsPayload";
+  __typename?: 'UpdateGlobalSettingsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Updated global settings */
   globalSettings: GlobalSettings;
 };
@@ -7968,49 +7967,49 @@ export type UpdateGlobalSettingsPayload = {
 /** Fields to update for an existing account group */
 export type UpdateGroupInput = {
   /** A free text description of this group */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars['String']>;
   /** A unique name for the group */
-  name?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars['String']>;
   /** A list of the account permissions implied by membership in this group */
-  permissions?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  permissions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** A unique URL-safe string representing this group */
-  slug?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateGroupsForAccountsInput = {
   /** The account IDs */
-  accountIds: Array<InputMaybe<Scalars["ID"]>>;
+  accountIds: Array<InputMaybe<Scalars['ID']>>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The group IDs */
-  groupIds: Array<InputMaybe<Scalars["ID"]>>;
+  groupIds: Array<InputMaybe<Scalars['ID']>>;
 };
 
 export type UpdateGroupsForAccountsPayload = {
-  __typename?: "UpdateGroupsForAccountsPayload";
+  __typename?: 'UpdateGroupsForAccountsPayload';
   /** The accounts that were modified */
   accounts: Array<Maybe<Account>>;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the updateMediaRecordPriority mutation */
 export type UpdateMediaRecordPriorityInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of MediaRecord to update */
-  mediaRecordId: Scalars["ID"];
+  mediaRecordId: Scalars['ID'];
   /** New priority value */
-  priority: Scalars["Int"];
+  priority: Scalars['Int'];
   /** ID of shop that owns this MediaRecord */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the updateMediaRecordPriority mutation */
 export type UpdateMediaRecordPriorityPayload = {
-  __typename?: "UpdateMediaRecordPriorityPayload";
+  __typename?: 'UpdateMediaRecordPriorityPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated MediaRecord */
   mediaRecord: MediaRecord;
 };
@@ -8018,20 +8017,20 @@ export type UpdateMediaRecordPriorityPayload = {
 /** Input for the `updateNavigationItem` mutation */
 export type UpdateNavigationItemInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the navigation item to update */
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   /** The field updates to apply */
   navigationItem: NavigationItemInput;
   /** The ID of the shop navigation item belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `updateNavigationItem` mutation */
 export type UpdateNavigationItemPayload = {
-  __typename?: "UpdateNavigationItemPayload";
+  __typename?: 'UpdateNavigationItemPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated navigation item */
   navigationItem?: Maybe<NavigationItem>;
 };
@@ -8039,20 +8038,20 @@ export type UpdateNavigationItemPayload = {
 /** Input for the `updateNavigationTree` mutation */
 export type UpdateNavigationTreeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The ID of the navigation tree to update */
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   /** The field updates to apply */
   navigationTree: NavigationTreeInput;
   /** The ID of the shop navigation item belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `updateNavigationTree` mutation */
 export type UpdateNavigationTreePayload = {
-  __typename?: "UpdateNavigationTreePayload";
+  __typename?: 'UpdateNavigationTreePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated navigation tree */
   navigationTree?: Maybe<NavigationTree>;
 };
@@ -8060,24 +8059,24 @@ export type UpdateNavigationTreePayload = {
 /** Input for the updateOrderFulfillmentGroup mutation */
 export type UpdateOrderFulfillmentGroupInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of the order fulfillment group to update */
-  orderFulfillmentGroupId: Scalars["ID"];
+  orderFulfillmentGroupId: Scalars['ID'];
   /** ID of the order to update */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
   /** Set the current order fulfillment group status to this */
-  status?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Scalars['String']>;
   /** Set this as the current order fulfillment group shipment tracking reference */
-  tracking?: InputMaybe<Scalars["String"]>;
+  tracking?: InputMaybe<Scalars['String']>;
   /** Set this as the current order fulfillment group shipment tracking URL */
-  trackingUrl?: InputMaybe<Scalars["String"]>;
+  trackingUrl?: InputMaybe<Scalars['String']>;
 };
 
 /** Response payload for the updateOrderFulfillmentGroup mutation */
 export type UpdateOrderFulfillmentGroupPayload = {
-  __typename?: "UpdateOrderFulfillmentGroupPayload";
+  __typename?: 'UpdateOrderFulfillmentGroupPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
 };
@@ -8085,20 +8084,20 @@ export type UpdateOrderFulfillmentGroupPayload = {
 /** Input for the updateOrder mutation */
 export type UpdateOrderInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Set the order email to this */
-  email?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars['String']>;
   /** ID of the order to update */
-  orderId: Scalars["ID"];
+  orderId: Scalars['ID'];
   /** Set the current order status to this */
-  status?: InputMaybe<Scalars["String"]>;
+  status?: InputMaybe<Scalars['String']>;
 };
 
 /** Response payload for the updateOrder mutation */
 export type UpdateOrderPayload = {
-  __typename?: "UpdateOrderPayload";
+  __typename?: 'UpdateOrderPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
 };
@@ -8108,16 +8107,16 @@ export type UpdateProductInput = {
   /** Product input */
   product: ProductInput;
   /** ID of product to update */
-  productId: Scalars["ID"];
+  productId: Scalars['ID'];
   /** ID of shop that owns the product to update */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload of `updateProduct` mutation */
 export type UpdateProductPayload = {
-  __typename?: "UpdateProductPayload";
+  __typename?: 'UpdateProductPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Updated product */
   product: Product;
 };
@@ -8125,18 +8124,18 @@ export type UpdateProductPayload = {
 /** Input for the `updateProductVariantField` mutation */
 export type UpdateProductVariantInput = {
   /** ID of shop that owns the variant to update */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Variant input */
   variant: ProductVariantInput;
   /** ID of variant to update */
-  variantId: Scalars["ID"];
+  variantId: Scalars['ID'];
 };
 
 /** Response payload of `updateProductVariantField` mutation */
 export type UpdateProductVariantPayload = {
-  __typename?: "UpdateProductVariantPayload";
+  __typename?: 'UpdateProductVariantPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Updated variant */
   variant: ProductVariant;
 };
@@ -8146,16 +8145,16 @@ export type UpdateProductVariantPricesInput = {
   /** Prices to update */
   prices: ProductVariantPricesInput;
   /** ID of shop that owns the variant to update */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** ID of variant to update */
-  variantId: Scalars["ID"];
+  variantId: Scalars['ID'];
 };
 
 /** Response payload of `updateProductVariantPricesField` mutation */
 export type UpdateProductVariantPricesPayload = {
-  __typename?: "UpdateProductVariantPricesPayload";
+  __typename?: 'UpdateProductVariantPricesPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Updated variant */
   variant: ProductVariant;
 };
@@ -8163,20 +8162,20 @@ export type UpdateProductVariantPricesPayload = {
 /** Input for the `updateProductsVisibility` mutation */
 export type UpdateProductsVisibilityInput = {
   /** The desired visibility */
-  isVisible: Scalars["Boolean"];
+  isVisible: Scalars['Boolean'];
   /** Array of product ids to update */
-  productIds: Array<InputMaybe<Scalars["ID"]>>;
+  productIds: Array<InputMaybe<Scalars['ID']>>;
   /** ID of shop the products belong to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for `updateProductsVisibility` mutation */
 export type UpdateProductsVisibilityPayload = {
-  __typename?: "UpdateProductsVisibilityPayload";
+  __typename?: 'UpdateProductsVisibilityPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The number of products that were updated successfully */
-  updatedCount?: Maybe<Scalars["Int"]>;
+  updatedCount?: Maybe<Scalars['Int']>;
 };
 
 /** Input parameters for the updateShop mutation */
@@ -8184,46 +8183,46 @@ export type UpdateShopInput = {
   /** An address book entry to set the primary shop's address */
   addressBook?: InputMaybe<Array<InputMaybe<AddressInput>>>;
   /** Whether to allow user to checkout without creating an account */
-  allowGuestCheckout?: InputMaybe<Scalars["Boolean"]>;
+  allowGuestCheckout?: InputMaybe<Scalars['Boolean']>;
   /** The base unit of length */
-  baseUOL?: InputMaybe<Scalars["String"]>;
+  baseUOL?: InputMaybe<Scalars['String']>;
   /** The base unit of Measure */
-  baseUOM?: InputMaybe<Scalars["String"]>;
+  baseUOM?: InputMaybe<Scalars['String']>;
   /** ID of media record to be used as the brand asset */
-  brandAssets?: InputMaybe<Scalars["ID"]>;
+  brandAssets?: InputMaybe<Scalars['ID']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The shop's currency */
-  currency?: InputMaybe<Scalars["String"]>;
+  currency?: InputMaybe<Scalars['String']>;
   /** Default parcel size used for this shop */
   defaultParcelSize?: InputMaybe<ShopParcelSizeInput>;
   /** The shop's description */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars['String']>;
   /** The shops primary email address */
   emails?: InputMaybe<Array<InputMaybe<EmailRecordInput>>>;
   /** The shop's keywords */
-  keywords?: InputMaybe<Scalars["String"]>;
+  keywords?: InputMaybe<Scalars['String']>;
   /** The shop's language */
-  language?: InputMaybe<Scalars["String"]>;
+  language?: InputMaybe<Scalars['String']>;
   /** The shop's name */
-  name?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars['String']>;
   /** The ID of the shop to update */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Object of shop logo urls  */
   shopLogoUrls?: InputMaybe<ShopLogoUrlsInput>;
   /** Shop's slug */
-  slug?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars['String']>;
   /** Object of storefront routes urls */
   storefrontUrls?: InputMaybe<StorefrontUrlsInput>;
   /** The shop's timezone */
-  timezone?: InputMaybe<Scalars["String"]>;
+  timezone?: InputMaybe<Scalars['String']>;
 };
 
 /** The response from the `updateShop` mutation */
 export type UpdateShopPayload = {
-  __typename?: "UpdateShopPayload";
+  __typename?: 'UpdateShopPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The shop which was updated */
   shop: Shop;
 };
@@ -8231,18 +8230,18 @@ export type UpdateShopPayload = {
 /** Input for the `updateShopSettings` mutation */
 export type UpdateShopSettingsInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Updated settings values. Only includes settings to be changed. */
   settingsUpdates: ShopSettingsUpdates;
   /** The ID of the shop to update some settings for */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `updateShopSettings` mutation */
 export type UpdateShopSettingsPayload = {
-  __typename?: "UpdateShopSettingsPayload";
+  __typename?: 'UpdateShopSettingsPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Updated shop settings */
   shopSettings: ShopSettings;
 };
@@ -8253,32 +8252,32 @@ export type UpdateSimpleInventoryInput = {
    * Whether to allow ordering this product configuration when there is insufficient quantity available.
    * Set this to `true` or `false` if you want to update it.
    */
-  canBackorder?: InputMaybe<Scalars["Boolean"]>;
+  canBackorder?: InputMaybe<Scalars['Boolean']>;
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Current quantity of this product configuration in stock. Set this to an integer if you want to update it. */
-  inventoryInStock?: InputMaybe<Scalars["Int"]>;
+  inventoryInStock?: InputMaybe<Scalars['Int']>;
   /**
    * Whether the SimpleInventory plugin should manage inventory for this product configuration.
    * Set this to `true` or `false` if you want to update it.
    */
-  isEnabled?: InputMaybe<Scalars["Boolean"]>;
+  isEnabled?: InputMaybe<Scalars['Boolean']>;
   /**
    * The "low quantity" flag will be applied to this product configuration when the available quantity
    * is at or below this threshold. Set this to an integer if you want to update it.
    */
-  lowInventoryWarningThreshold?: InputMaybe<Scalars["Int"]>;
+  lowInventoryWarningThreshold?: InputMaybe<Scalars['Int']>;
   /** The product and chosen options this info applies to */
   productConfiguration: ProductConfigurationInput;
   /** Shop that owns the product */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the `updateSimpleInventory` mutation */
 export type UpdateSimpleInventoryPayload = {
-  __typename?: "UpdateSimpleInventoryPayload";
+  __typename?: 'UpdateSimpleInventoryPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated inventory info */
   inventoryInfo: SimpleInventoryInfo;
 };
@@ -8286,20 +8285,20 @@ export type UpdateSimpleInventoryPayload = {
 /** Input for the `updateSurcharge` mutation */
 export type UpdateSurchargeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The shop that owns the method */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The updated surcharge. Pass the whole updated surcharge object without the ID. */
   surcharge: SurchargeInput;
   /** The ID of the flat rate fulfillment surcharge you want to update */
-  surchargeId: Scalars["ID"];
+  surchargeId: Scalars['ID'];
 };
 
 /** Response from the `updateFlatRateFulfillmentMethod` mutation */
 export type UpdateSurchargePayload = {
-  __typename?: "UpdateSurchargePayload";
+  __typename?: 'UpdateSurchargePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated fulfillment surcharge */
   surcharge: Surcharge;
 };
@@ -8307,32 +8306,32 @@ export type UpdateSurchargePayload = {
 /** Input for `updateTag` mutation */
 export type UpdateTagInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** Title to display to customers */
-  displayTitle?: InputMaybe<Scalars["String"]>;
+  displayTitle?: InputMaybe<Scalars['String']>;
   /** A list of the IDs of top products in this tag */
-  featuredProductIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  featuredProductIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   /** Hero media URL */
-  heroMediaUrl?: InputMaybe<Scalars["String"]>;
+  heroMediaUrl?: InputMaybe<Scalars['String']>;
   /** ID of rule to modify */
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   /** Whether the tag is visible */
-  isVisible: Scalars["Boolean"];
+  isVisible: Scalars['Boolean'];
   /** Tag metafields */
   metafields?: InputMaybe<Array<InputMaybe<MetafieldInput>>>;
   /** Unique name of the tag */
-  name: Scalars["String"];
+  name: Scalars['String'];
   /** The shop that owns the tag */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** The tag slug. If left blank, the name will be slugified and saved as the slug */
-  slug?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** Response payload for `updateTag` mutation */
 export type UpdateTagPayload = {
-  __typename?: "UpdateTagPayload";
+  __typename?: 'UpdateTagPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated tag */
   tag: Tag;
 };
@@ -8343,30 +8342,30 @@ export type UpdateTagPayload = {
  */
 export type UpdateTaxRateInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** An optional country code to limit where this tax is applied based on destination address */
-  country?: InputMaybe<Scalars["String"]>;
+  country?: InputMaybe<Scalars['String']>;
   /** An optional postal code to limit where this tax is applied based on destination address */
-  postal?: InputMaybe<Scalars["String"]>;
+  postal?: InputMaybe<Scalars['String']>;
   /** The tax rate. For example, 0.05 for a 5% sales tax. */
-  rate: Scalars["Float"];
+  rate: Scalars['Float'];
   /** An optional region (e.g., state) to limit where this tax is applied based on destination address */
-  region?: InputMaybe<Scalars["String"]>;
+  region?: InputMaybe<Scalars['String']>;
   /** Shop ID */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Whether the `country`, `postal`, and `region` filters apply to the origin address or the destination address */
   sourcing?: InputMaybe<TaxSource>;
   /** An optional tax code, to apply this tax rate to only products that have this tax code */
-  taxCode?: InputMaybe<Scalars["String"]>;
+  taxCode?: InputMaybe<Scalars['String']>;
   /** ID of the tax rate you want to update */
-  taxRateId: Scalars["ID"];
+  taxRateId: Scalars['ID'];
 };
 
 /** The response from the `updateTaxRate` mutation */
 export type UpdateTaxRatePayload = {
-  __typename?: "UpdateTaxRatePayload";
+  __typename?: 'UpdateTaxRatePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated tax rate */
   taxRate: TaxRate;
 };
@@ -8374,45 +8373,45 @@ export type UpdateTaxRatePayload = {
 /** Input for `updateTemplate` mutation */
 export type UpdateTemplateInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** ID of template to modify */
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   /** The shop that owns the template */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
   /** Email template string */
-  subject?: InputMaybe<Scalars["String"]>;
+  subject?: InputMaybe<Scalars['String']>;
   /** Email template body or html text */
-  template?: InputMaybe<Scalars["String"]>;
+  template?: InputMaybe<Scalars['String']>;
   /** Email template title */
-  title?: InputMaybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 /** Response payload for `updateTemplate` mutation */
 export type UpdateTemplatePayload = {
-  __typename?: "UpdateTemplatePayload";
+  __typename?: 'UpdateTemplatePayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The updated template */
   template: Template;
 };
 
 export type User = {
-  __typename?: "User";
+  __typename?: 'User';
   emails?: Maybe<Array<EmailRecord>>;
-  id: Scalars["ID"];
-  username?: Maybe<Scalars["String"]>;
+  id: Scalars['ID'];
+  username?: Maybe<Scalars['String']>;
 };
 
 export type UserInput = {
-  email?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["ID"]>;
-  username?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 export type Vendor = {
-  __typename?: "Vendor";
+  __typename?: 'Vendor';
   /** The name of the vendor */
-  name?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -8424,7 +8423,7 @@ export type Vendor = {
  * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
  */
 export type VendorConnection = {
-  __typename?: "VendorConnection";
+  __typename?: 'VendorConnection';
   /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
   edges?: Maybe<Array<Maybe<VendorEdge>>>;
   /**
@@ -8435,14 +8434,14 @@ export type VendorConnection = {
   /** Information to help a client request the next or previous page */
   pageInfo: PageInfo;
   /** The total number of nodes that match your query */
-  totalCount: Scalars["Int"];
+  totalCount: Scalars['Int'];
 };
 
 /** A connection edge in which each node is a String representing a vendor */
 export type VendorEdge = {
-  __typename?: "VendorEdge";
+  __typename?: 'VendorEdge';
   /** The cursor that represents this node in the paginated results */
-  cursor: Scalars["ConnectionCursor"];
+  cursor: Scalars['ConnectionCursor'];
   /** The vendor */
   node?: Maybe<Vendor>;
 };
@@ -8450,117 +8449,96 @@ export type VendorEdge = {
 /** Input for an `VerifySMTPEmailSettingsInput` */
 export type VerifySmtpEmailSettingsInput = {
   /** The ID of the shop this setting belongs to */
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 };
 
 /** Response payload for the verifySMTPEmailSettings mutation */
 export type VerifySmtpEmailSettingsInputPayload = {
-  __typename?: "VerifySMTPEmailSettingsInputPayload";
+  __typename?: 'VerifySMTPEmailSettingsInputPayload';
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars['String']>;
   /** True if the SMTP connection was made and authentication was successful. */
-  isVerified: Scalars["Boolean"];
+  isVerified: Scalars['Boolean'];
 };
 
 /** A bulk write error type */
 export type WriteError = {
-  __typename?: "WriteError";
+  __typename?: 'WriteError';
   /** The documentId(_id) on which the error occurred */
-  documentId?: Maybe<Scalars["Int"]>;
+  documentId?: Maybe<Scalars['Int']>;
   /** Error message for a documentId */
-  errorMsg?: Maybe<Scalars["String"]>;
+  errorMsg?: Maybe<Scalars['String']>;
 };
 
 export type SystemInformationQueryVariables = Exact<{
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 }>;
 
 
-export type SystemInformationQuery = { __typename?: "Query", systemInformation: { __typename?: "SystemInformation", apiVersion: string, mongoVersion: { __typename?: "DatabaseInformation", version: string }, plugins?: Array<{ __typename?: "Plugin", name: string, version?: string | null } | null> | null } };
+export type SystemInformationQuery = { __typename?: 'Query', systemInformation: { __typename?: 'SystemInformation', apiVersion: string, mongoVersion: { __typename?: 'DatabaseInformation', version: string }, plugins?: Array<{ __typename?: 'Plugin', name: string, version?: string | null } | null> | null } };
 
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetViewerQuery = { __typename?: "Query", viewer?: { __typename?: "Account", _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: "Shop", _id: string, name: string, slug?: string | null, shopType?: string | null, language: string, brandAssets?: { __typename?: "ShopBrandAssets", navbarBrandImage?: { __typename?: "ImageSizes", large?: string | null } | null } | null, storefrontUrls?: { __typename?: "StorefrontUrls", storefrontHomeUrl?: string | null } | null, shopLogoUrls?: { __typename?: "ShopLogoUrls", primaryShopLogoUrl?: string | null } | null, currency: { __typename?: "Currency", _id: string, code: string, format: string, symbol: string } } | null> | null, groups?: { __typename?: "GroupConnection", nodes?: Array<{ __typename?: "Group", _id: string, name: string, permissions?: Array<string | null> | null } | null> | null } | null } | null };
+export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, slug?: string | null, shopType?: string | null, language: string, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, name: string, permissions?: Array<string | null> | null } | null> | null } | null } | null };
 
 export type CreateShopMutationVariables = Exact<{
   input: CreateShopInput;
 }>;
 
 
-export type CreateShopMutation = { __typename?: "Mutation", createShop: { __typename?: "CreateShopPayload", shop: { __typename?: "Shop", _id: string, language: string, name: string, currency: { __typename?: "Currency", _id: string, code: string, format: string, symbol: string } } } };
+export type CreateShopMutation = { __typename?: 'Mutation', createShop: { __typename?: 'CreateShopPayload', shop: { __typename?: 'Shop', _id: string, language: string, name: string, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } } };
 
 export type GetCustomersQueryVariables = Exact<{
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortOrder?: InputMaybe<SortOrder>;
   sortBy?: InputMaybe<AccountSortByField>;
 }>;
 
 
-export type GetCustomersQuery = { __typename?: "Query", customers: { __typename?: "AccountConnection", totalCount: number, nodes?: Array<{ __typename?: "Account", _id: string, userId: string, createdAt: any, primaryEmailAddress: any, name?: string | null, emailRecords?: Array<{ __typename?: "EmailRecord", address?: string | null } | null> | null } | null> | null } };
+export type GetCustomersQuery = { __typename?: 'Query', customers: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, userId: string, createdAt: any, primaryEmailAddress: any, name?: string | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null } | null> | null } };
 
 export type AuthenticateMutationVariables = Exact<{
-  serviceName: Scalars["String"];
+  serviceName: Scalars['String'];
   params: AuthenticateParamsInput;
 }>;
 
 
-export type AuthenticateMutation = { __typename?: "Mutation", authenticate?: { __typename?: "LoginResult", sessionId?: string | null, tokens?: { __typename?: "Tokens", accessToken?: string | null, refreshToken?: string | null } | null, user?: { __typename?: "User", id: string, username?: string | null, emails?: Array<{ __typename?: "EmailRecord", address?: string | null, verified?: boolean | null }> | null } | null } | null };
+export type AuthenticateMutation = { __typename?: 'Mutation', authenticate?: { __typename?: 'LoginResult', sessionId?: string | null, tokens?: { __typename?: 'Tokens', accessToken?: string | null, refreshToken?: string | null } | null, user?: { __typename?: 'User', id: string, username?: string | null, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, verified?: boolean | null }> | null } | null } | null };
 
 export type ResetPasswordMutationVariables = Exact<{
-  newPassword: Scalars["String"];
-  token: Scalars["String"];
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
 }>;
 
 
-export type ResetPasswordMutation = { __typename?: "Mutation", resetPassword?: { __typename?: "LoginResult", user?: { __typename?: "User", id: string } | null } | null };
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword?: { __typename?: 'LoginResult', user?: { __typename?: 'User', id: string } | null } | null };
 
 export type SendResetPasswordEmailMutationVariables = Exact<{
-  email: Scalars["String"];
+  email: Scalars['String'];
 }>;
 
 
-export type SendResetPasswordEmailMutation = { __typename?: "Mutation", sendResetPasswordEmail?: boolean | null };
+export type SendResetPasswordEmailMutation = { __typename?: 'Mutation', sendResetPasswordEmail?: boolean | null };
 
 export type GetPromotionsQueryVariables = Exact<{
-  shopId: Scalars["ID"];
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<PromotionFilter>;
-  sortBy?: InputMaybe<Scalars["String"]>;
-  sortOrder?: InputMaybe<Scalars["String"]>;
+  sortBy?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetPromotionsQuery = { __typename?: "Query", promotions: { __typename?: "PromotionConnection", totalCount: number, nodes?: Array<{ __typename?: "Promotion", _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: "Trigger", triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: "Action", actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: "Stackability", key: string, parameters?: any | null } | null } | null> | null } };
-
-export type GetPromotionQueryVariables = Exact<{
-  input?: InputMaybe<PromotionQueryInput>;
-}>;
-
-
-export type GetPromotionQuery = { __typename?: "Query", promotion?: { __typename?: "Promotion", _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: "Trigger", triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: "Action", actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: "Stackability", key: string, parameters?: any | null } | null } | null };
-
-export type UpdatePromotionMutationVariables = Exact<{
-  input?: InputMaybe<PromotionUpdateInput>;
-}>;
-
-
-export type UpdatePromotionMutation = { __typename?: "Mutation", updatePromotion?: { __typename?: "PromotionUpdatedPayload", success: boolean, promotion?: { __typename?: "Promotion", _id: string } | null } | null };
-
-export type CreatePromotionMutationVariables = Exact<{
-  input?: InputMaybe<PromotionCreateInput>;
-}>;
-
-
-export type CreatePromotionMutation = { __typename?: "Mutation", createPromotion?: { __typename?: "PromotionUpdatedPayload", success: boolean, promotion?: { __typename?: "Promotion", _id: string } | null } | null };
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
 
 export type GetPromotionQueryVariables = Exact<{
   input?: InputMaybe<PromotionQueryInput>;
@@ -8593,371 +8571,371 @@ export type ArchivePromotionMutation = { __typename?: 'Mutation', archivePromoti
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAddressValidationServiceQuery = { __typename?: "Query", addressValidationServices: Array<{ __typename?: "AddressValidationService", displayName: string, name: string, supportedCountryCodes?: Array<string | null> | null } | null> };
+export type GetAddressValidationServiceQuery = { __typename?: 'Query', addressValidationServices: Array<{ __typename?: 'AddressValidationService', displayName: string, name: string, supportedCountryCodes?: Array<string | null> | null } | null> };
 
 export type GetAddressValidationRulesQueryVariables = Exact<{
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
-  serviceNames?: InputMaybe<Array<InputMaybe<Scalars["String"]>> | InputMaybe<Scalars["String"]>>;
-  shopId: Scalars["ID"];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  serviceNames?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  shopId: Scalars['ID'];
   sortOrder?: InputMaybe<SortOrder>;
   sortBy?: InputMaybe<AddressValidationRuleSortByField>;
 }>;
 
 
-export type GetAddressValidationRulesQuery = { __typename?: "Query", addressValidationRules: { __typename?: "AddressValidationRuleConnection", totalCount: number, nodes?: Array<{ __typename?: "AddressValidationRule", _id: string, countryCodes?: Array<string | null> | null, serviceName: string } | null> | null } };
+export type GetAddressValidationRulesQuery = { __typename?: 'Query', addressValidationRules: { __typename?: 'AddressValidationRuleConnection', totalCount: number, nodes?: Array<{ __typename?: 'AddressValidationRule', _id: string, countryCodes?: Array<string | null> | null, serviceName: string } | null> | null } };
 
 export type CreateAddressValidationRuleMutationVariables = Exact<{
   input: CreateAddressValidationRuleInput;
 }>;
 
 
-export type CreateAddressValidationRuleMutation = { __typename?: "Mutation", createAddressValidationRule: { __typename?: "CreateAddressValidationRulePayload", addressValidationRule: { __typename?: "AddressValidationRule", _id: string } } };
+export type CreateAddressValidationRuleMutation = { __typename?: 'Mutation', createAddressValidationRule: { __typename?: 'CreateAddressValidationRulePayload', addressValidationRule: { __typename?: 'AddressValidationRule', _id: string } } };
 
 export type UpdateAddressValidationRuleMutationVariables = Exact<{
   input: UpdateAddressValidationRuleInput;
 }>;
 
 
-export type UpdateAddressValidationRuleMutation = { __typename?: "Mutation", updateAddressValidationRule: { __typename?: "UpdateAddressValidationRulePayload", addressValidationRule: { __typename?: "AddressValidationRule", _id: string } } };
+export type UpdateAddressValidationRuleMutation = { __typename?: 'Mutation', updateAddressValidationRule: { __typename?: 'UpdateAddressValidationRulePayload', addressValidationRule: { __typename?: 'AddressValidationRule', _id: string } } };
 
 export type GetPaymentMethodsQueryVariables = Exact<{
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 }>;
 
 
-export type GetPaymentMethodsQuery = { __typename?: "Query", paymentMethods: Array<{ __typename?: "PaymentMethod", displayName: string, isEnabled: boolean, name: string, pluginName: string } | null> };
+export type GetPaymentMethodsQuery = { __typename?: 'Query', paymentMethods: Array<{ __typename?: 'PaymentMethod', displayName: string, isEnabled: boolean, name: string, pluginName: string } | null> };
 
 export type UpdatePaymentMethodMutationVariables = Exact<{
   input: EnablePaymentMethodForShopInput;
 }>;
 
 
-export type UpdatePaymentMethodMutation = { __typename?: "Mutation", enablePaymentMethodForShop: { __typename?: "EnablePaymentMethodForShopPayload", paymentMethods: Array<{ __typename?: "PaymentMethod", name: string, isEnabled: boolean, pluginName: string, displayName: string } | null> } };
+export type UpdatePaymentMethodMutation = { __typename?: 'Mutation', enablePaymentMethodForShop: { __typename?: 'EnablePaymentMethodForShopPayload', paymentMethods: Array<{ __typename?: 'PaymentMethod', name: string, isEnabled: boolean, pluginName: string, displayName: string } | null> } };
 
 export type GetTaxServicesQueryVariables = Exact<{
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 }>;
 
 
-export type GetTaxServicesQuery = { __typename?: "Query", taxServices: Array<{ __typename?: "TaxService", displayName: string, name: string, pluginName: string } | null> };
+export type GetTaxServicesQuery = { __typename?: 'Query', taxServices: Array<{ __typename?: 'TaxService', displayName: string, name: string, pluginName: string } | null> };
 
 export type UpdateTaxServiceMutationVariables = Exact<{
   input: UpdateShopSettingsInput;
 }>;
 
 
-export type UpdateTaxServiceMutation = { __typename?: "Mutation", updateShopSettings: { __typename?: "UpdateShopSettingsPayload", shopSettings: { __typename?: "ShopSettings", fallbackTaxServiceName?: string | null, primaryTaxServiceName?: string | null } } };
+export type UpdateTaxServiceMutation = { __typename?: 'Mutation', updateShopSettings: { __typename?: 'UpdateShopSettingsPayload', shopSettings: { __typename?: 'ShopSettings', fallbackTaxServiceName?: string | null, primaryTaxServiceName?: string | null } } };
 
 export type GetShopTaxesSettingQueryVariables = Exact<{
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 }>;
 
 
-export type GetShopTaxesSettingQuery = { __typename?: "Query", shopSettings: { __typename?: "ShopSettings", primaryTaxServiceName?: string | null, fallbackTaxServiceName?: string | null, defaultTaxCode?: string | null } };
+export type GetShopTaxesSettingQuery = { __typename?: 'Query', shopSettings: { __typename?: 'ShopSettings', primaryTaxServiceName?: string | null, fallbackTaxServiceName?: string | null, defaultTaxCode?: string | null } };
 
 export type GetTaxRatesQueryVariables = Exact<{
-  shopId: Scalars["ID"];
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type GetTaxRatesQuery = { __typename?: "Query", taxRates?: { __typename?: "TaxRateConnection", totalCount: number, nodes?: Array<{ __typename?: "TaxRate", _id: string, country?: string | null, postal?: string | null, rate: number, region?: string | null, sourcing: TaxSource, taxCode?: string | null } | null> | null } | null };
+export type GetTaxRatesQuery = { __typename?: 'Query', taxRates?: { __typename?: 'TaxRateConnection', totalCount: number, nodes?: Array<{ __typename?: 'TaxRate', _id: string, country?: string | null, postal?: string | null, rate: number, region?: string | null, sourcing: TaxSource, taxCode?: string | null } | null> | null } | null };
 
 export type UpdateTaxRateMutationVariables = Exact<{
   input: UpdateTaxRateInput;
 }>;
 
 
-export type UpdateTaxRateMutation = { __typename?: "Mutation", updateTaxRate?: { __typename?: "UpdateTaxRatePayload", taxRate: { __typename?: "TaxRate", _id: string } } | null };
+export type UpdateTaxRateMutation = { __typename?: 'Mutation', updateTaxRate?: { __typename?: 'UpdateTaxRatePayload', taxRate: { __typename?: 'TaxRate', _id: string } } | null };
 
 export type CreateTaxRateMutationVariables = Exact<{
   input: CreateTaxRateInput;
 }>;
 
 
-export type CreateTaxRateMutation = { __typename?: "Mutation", createTaxRate?: { __typename?: "CreateTaxRatePayload", taxRate: { __typename?: "TaxRate", _id: string } } | null };
+export type CreateTaxRateMutation = { __typename?: 'Mutation', createTaxRate?: { __typename?: 'CreateTaxRatePayload', taxRate: { __typename?: 'TaxRate', _id: string } } | null };
 
 export type DeleteTaxRateMutationVariables = Exact<{
   input: DeleteTaxRateInput;
 }>;
 
 
-export type DeleteTaxRateMutation = { __typename?: "Mutation", deleteTaxRate?: { __typename?: "DeleteTaxRatePayload", taxRate: { __typename?: "TaxRate", _id: string } } | null };
+export type DeleteTaxRateMutation = { __typename?: 'Mutation', deleteTaxRate?: { __typename?: 'DeleteTaxRatePayload', taxRate: { __typename?: 'TaxRate', _id: string } } | null };
 
 export type GetTaxCodesQueryVariables = Exact<{
-  shopId: Scalars["ID"];
+  shopId: Scalars['ID'];
 }>;
 
 
-export type GetTaxCodesQuery = { __typename?: "Query", taxCodes: Array<{ __typename?: "TaxCode", code: string, label: string } | null> };
+export type GetTaxCodesQuery = { __typename?: 'Query', taxCodes: Array<{ __typename?: 'TaxCode', code: string, label: string } | null> };
 
 export type GetEmailLogsQueryVariables = Exact<{
-  shopIds: Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>;
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopIds: Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type GetEmailLogsQuery = { __typename?: "Query", emailJobs: { __typename?: "EmailJobConnection", totalCount: number, nodes?: Array<{ __typename?: "EmailJob", _id: string, updated: any, status: string, data: { __typename?: "EmailJobData", to: string, subject: string } } | null> | null } };
+export type GetEmailLogsQuery = { __typename?: 'Query', emailJobs: { __typename?: 'EmailJobConnection', totalCount: number, nodes?: Array<{ __typename?: 'EmailJob', _id: string, updated: any, status: string, data: { __typename?: 'EmailJobData', to: string, subject: string } } | null> | null } };
 
 export type GetEmailTemplatesQueryVariables = Exact<{
-  shopId: Scalars["ID"];
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type GetEmailTemplatesQuery = { __typename?: "Query", emailTemplates?: { __typename?: "TemplateConnection", totalCount: number, nodes?: Array<{ __typename?: "Template", _id: string, language?: string | null, name?: string | null, subject?: string | null, template?: string | null, title?: string | null } | null> | null } | null };
+export type GetEmailTemplatesQuery = { __typename?: 'Query', emailTemplates?: { __typename?: 'TemplateConnection', totalCount: number, nodes?: Array<{ __typename?: 'Template', _id: string, language?: string | null, name?: string | null, subject?: string | null, template?: string | null, title?: string | null } | null> | null } | null };
 
 export type UpdateEmailTemplateMutationVariables = Exact<{
   input: UpdateTemplateInput;
 }>;
 
 
-export type UpdateEmailTemplateMutation = { __typename?: "Mutation", updateTemplate: { __typename?: "UpdateTemplatePayload", template: { __typename?: "Template", _id: string } } };
+export type UpdateEmailTemplateMutation = { __typename?: 'Mutation', updateTemplate: { __typename?: 'UpdateTemplatePayload', template: { __typename?: 'Template', _id: string } } };
 
 export type GetEmailVariablesQueryVariables = Exact<{
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 }>;
 
 
-export type GetEmailVariablesQuery = { __typename?: "Query", shop?: { __typename?: "Shop", storefrontUrls?: { __typename?: "StorefrontUrls", storefrontAccountProfileUrl?: string | null, storefrontHomeUrl?: string | null, storefrontLoginUrl?: string | null, storefrontOrderUrl?: string | null, storefrontOrdersUrl?: string | null } | null } | null };
+export type GetEmailVariablesQuery = { __typename?: 'Query', shop?: { __typename?: 'Shop', storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontAccountProfileUrl?: string | null, storefrontHomeUrl?: string | null, storefrontLoginUrl?: string | null, storefrontOrderUrl?: string | null, storefrontOrdersUrl?: string | null } | null } | null };
 
 export type UpdateEmailVariablesMutationVariables = Exact<{
   input: UpdateShopInput;
 }>;
 
 
-export type UpdateEmailVariablesMutation = { __typename?: "Mutation", updateShop: { __typename?: "UpdateShopPayload", shop: { __typename?: "Shop", _id: string } } };
+export type UpdateEmailVariablesMutation = { __typename?: 'Mutation', updateShop: { __typename?: 'UpdateShopPayload', shop: { __typename?: 'Shop', _id: string } } };
 
 export type GetShippingMethodsQueryVariables = Exact<{
-  shopId: Scalars["ID"];
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopId: Scalars['ID'];
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type GetShippingMethodsQuery = { __typename?: "Query", flatRateFulfillmentMethods: { __typename?: "FlatRateFulfillmentMethodConnection", nodes?: Array<{ __typename?: "FlatRateFulfillmentMethod", _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number, shop: { __typename?: "Shop", _id: string } } | null> | null } };
+export type GetShippingMethodsQuery = { __typename?: 'Query', flatRateFulfillmentMethods: { __typename?: 'FlatRateFulfillmentMethodConnection', nodes?: Array<{ __typename?: 'FlatRateFulfillmentMethod', _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number, shop: { __typename?: 'Shop', _id: string } } | null> | null } };
 
 export type CreateFlatRateFulfillmentMethodMutationVariables = Exact<{
   input: CreateFlatRateFulfillmentMethodInput;
 }>;
 
 
-export type CreateFlatRateFulfillmentMethodMutation = { __typename?: "Mutation", createFlatRateFulfillmentMethod: { __typename?: "CreateFlatRateFulfillmentMethodPayload", method: { __typename?: "FlatRateFulfillmentMethod", _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number } } };
+export type CreateFlatRateFulfillmentMethodMutation = { __typename?: 'Mutation', createFlatRateFulfillmentMethod: { __typename?: 'CreateFlatRateFulfillmentMethodPayload', method: { __typename?: 'FlatRateFulfillmentMethod', _id: string, cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, handling: number, isEnabled: boolean, label: string, name: string, rate: number } } };
 
 export type UpdateFlatRateFulfillmentMethodMutationMutationVariables = Exact<{
   input: UpdateFlatRateFulfillmentMethodInput;
 }>;
 
 
-export type UpdateFlatRateFulfillmentMethodMutationMutation = { __typename?: "Mutation", updateFlatRateFulfillmentMethod: { __typename?: "UpdateFlatRateFulfillmentMethodPayload", method: { __typename?: "FlatRateFulfillmentMethod", cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, isEnabled: boolean, handling: number, label: string, name: string, rate: number, _id: string } } };
+export type UpdateFlatRateFulfillmentMethodMutationMutation = { __typename?: 'Mutation', updateFlatRateFulfillmentMethod: { __typename?: 'UpdateFlatRateFulfillmentMethodPayload', method: { __typename?: 'FlatRateFulfillmentMethod', cost?: number | null, fulfillmentTypes: Array<FulfillmentType | null>, group: string, isEnabled: boolean, handling: number, label: string, name: string, rate: number, _id: string } } };
 
 export type DeleteFlatRateFulfillmentMethodMutationMutationVariables = Exact<{
   input: DeleteFlatRateFulfillmentMethodInput;
 }>;
 
 
-export type DeleteFlatRateFulfillmentMethodMutationMutation = { __typename?: "Mutation", deleteFlatRateFulfillmentMethod: { __typename?: "DeleteFlatRateFulfillmentMethodPayload", method: { __typename?: "FlatRateFulfillmentMethod", _id: string } } };
+export type DeleteFlatRateFulfillmentMethodMutationMutation = { __typename?: 'Mutation', deleteFlatRateFulfillmentMethod: { __typename?: 'DeleteFlatRateFulfillmentMethodPayload', method: { __typename?: 'FlatRateFulfillmentMethod', _id: string } } };
 
 export type GetShippingRestrictionsQueryVariables = Exact<{
-  shopId: Scalars["ID"];
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortOrder?: InputMaybe<SortOrder>;
   sortBy?: InputMaybe<FlatRateFulfillmentRestrictionSortByField>;
 }>;
 
 
-export type GetShippingRestrictionsQuery = { __typename?: "Query", getFlatRateFulfillmentRestrictions: { __typename?: "FlatRateFulfillmentRestrictionConnection", totalCount: number, nodes?: Array<{ __typename?: "FlatRateFulfillmentRestriction", _id: string, methodIds?: Array<string | null> | null, type: RestrictionTypeEnum, attributes?: Array<{ __typename?: "AttributeRestrictions", operator: string, property: string, value: string, propertyType: string } | null> | null, destination?: { __typename?: "DestinationRestrictions", country?: Array<string | null> | null, postal?: Array<string | null> | null, region?: Array<string | null> | null } | null } | null> | null } };
+export type GetShippingRestrictionsQuery = { __typename?: 'Query', getFlatRateFulfillmentRestrictions: { __typename?: 'FlatRateFulfillmentRestrictionConnection', totalCount: number, nodes?: Array<{ __typename?: 'FlatRateFulfillmentRestriction', _id: string, methodIds?: Array<string | null> | null, type: RestrictionTypeEnum, attributes?: Array<{ __typename?: 'AttributeRestrictions', operator: string, property: string, value: string, propertyType: string } | null> | null, destination?: { __typename?: 'DestinationRestrictions', country?: Array<string | null> | null, postal?: Array<string | null> | null, region?: Array<string | null> | null } | null } | null> | null } };
 
 export type CreateShippingRestrictionMutationVariables = Exact<{
   input: CreateFlatRateFulfillmentRestrictionInput;
 }>;
 
 
-export type CreateShippingRestrictionMutation = { __typename?: "Mutation", createFlatRateFulfillmentRestriction: { __typename?: "CreateFlatRateFulfillmentRestrictionPayload", restriction: { __typename?: "FlatRateFulfillmentRestriction", _id: string } } };
+export type CreateShippingRestrictionMutation = { __typename?: 'Mutation', createFlatRateFulfillmentRestriction: { __typename?: 'CreateFlatRateFulfillmentRestrictionPayload', restriction: { __typename?: 'FlatRateFulfillmentRestriction', _id: string } } };
 
 export type UpdateShippingRestrictionMutationVariables = Exact<{
   input: UpdateFlatRateFulfillmentRestrictionInput;
 }>;
 
 
-export type UpdateShippingRestrictionMutation = { __typename?: "Mutation", updateFlatRateFulfillmentRestriction: { __typename?: "UpdateFlatRateFulfillmentRestrictionPayload", restriction: { __typename?: "FlatRateFulfillmentRestriction", _id: string } } };
+export type UpdateShippingRestrictionMutation = { __typename?: 'Mutation', updateFlatRateFulfillmentRestriction: { __typename?: 'UpdateFlatRateFulfillmentRestrictionPayload', restriction: { __typename?: 'FlatRateFulfillmentRestriction', _id: string } } };
 
 export type DeleteShippingRestrictionMutationVariables = Exact<{
   input: DeleteFlatRateFulfillmentRestrictionInput;
 }>;
 
 
-export type DeleteShippingRestrictionMutation = { __typename?: "Mutation", deleteFlatRateFulfillmentRestriction: { __typename?: "DeleteFlatRateFulfillmentRestrictionPayload", restriction: { __typename?: "FlatRateFulfillmentRestriction", _id: string } } };
+export type DeleteShippingRestrictionMutation = { __typename?: 'Mutation', deleteFlatRateFulfillmentRestriction: { __typename?: 'DeleteFlatRateFulfillmentRestrictionPayload', restriction: { __typename?: 'FlatRateFulfillmentRestriction', _id: string } } };
 
 export type GetShippingSurchargesQueryVariables = Exact<{
-  shopId: Scalars["ID"];
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortOrder?: InputMaybe<SortOrder>;
   sortBy?: InputMaybe<SurchargeSortByField>;
 }>;
 
 
-export type GetShippingSurchargesQuery = { __typename?: "Query", surcharges: { __typename?: "SurchargeConnection", totalCount: number, nodes?: Array<{ __typename?: "Surcharge", _id: string, methodIds?: Array<string | null> | null, destination?: { __typename?: "SurchargeDestinationRestrictions", country?: Array<string | null> | null, postal?: Array<string | null> | null, region?: Array<string | null> | null } | null, amount: { __typename?: "Money", amount: number, displayAmount: string, currency: { __typename?: "Currency", code: string, _id: string, format: string, symbol: string } }, attributes?: Array<{ __typename?: "SurchargeAttributeRestrictions", operator?: string | null, property?: string | null, value?: string | null, propertyType?: SurchargePropertyType | null } | null> | null, messagesByLanguage?: Array<{ __typename?: "SurchargeMessagesByLanguage", content: string, language: string } | null> | null } | null> | null } };
+export type GetShippingSurchargesQuery = { __typename?: 'Query', surcharges: { __typename?: 'SurchargeConnection', totalCount: number, nodes?: Array<{ __typename?: 'Surcharge', _id: string, methodIds?: Array<string | null> | null, destination?: { __typename?: 'SurchargeDestinationRestrictions', country?: Array<string | null> | null, postal?: Array<string | null> | null, region?: Array<string | null> | null } | null, amount: { __typename?: 'Money', amount: number, displayAmount: string, currency: { __typename?: 'Currency', code: string, _id: string, format: string, symbol: string } }, attributes?: Array<{ __typename?: 'SurchargeAttributeRestrictions', operator?: string | null, property?: string | null, value?: string | null, propertyType?: SurchargePropertyType | null } | null> | null, messagesByLanguage?: Array<{ __typename?: 'SurchargeMessagesByLanguage', content: string, language: string } | null> | null } | null> | null } };
 
 export type CreateShippingSurchargeMutationVariables = Exact<{
   input: CreateSurchargeInput;
 }>;
 
 
-export type CreateShippingSurchargeMutation = { __typename?: "Mutation", createSurcharge: { __typename?: "CreateSurchargePayload", surcharge: { __typename?: "Surcharge", _id: string } } };
+export type CreateShippingSurchargeMutation = { __typename?: 'Mutation', createSurcharge: { __typename?: 'CreateSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
 
 export type UpdateShippingSurchargeMutationVariables = Exact<{
   input: UpdateSurchargeInput;
 }>;
 
 
-export type UpdateShippingSurchargeMutation = { __typename?: "Mutation", updateSurcharge: { __typename?: "UpdateSurchargePayload", surcharge: { __typename?: "Surcharge", _id: string } } };
+export type UpdateShippingSurchargeMutation = { __typename?: 'Mutation', updateSurcharge: { __typename?: 'UpdateSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
 
 export type DeleteShippingSurchargeMutationVariables = Exact<{
   input: DeleteSurchargeInput;
 }>;
 
 
-export type DeleteShippingSurchargeMutation = { __typename?: "Mutation", deleteSurcharge: { __typename?: "DeleteSurchargePayload", surcharge: { __typename?: "Surcharge", _id: string } } };
+export type DeleteShippingSurchargeMutation = { __typename?: 'Mutation', deleteSurcharge: { __typename?: 'DeleteSurchargePayload', surcharge: { __typename?: 'Surcharge', _id: string } } };
 
 export type GetShopQueryVariables = Exact<{
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 }>;
 
 
-export type GetShopQuery = { __typename?: "Query", shop?: { __typename?: "Shop", _id: string, allowGuestCheckout?: boolean | null, description?: string | null, language: string, name: string, shopType?: string | null, slug?: string | null, timezone?: string | null, baseUOM?: string | null, baseUOL?: string | null, currency: { __typename?: "Currency", _id: string, code: string, format: string, symbol: string }, emails?: Array<{ __typename?: "EmailRecord", address?: string | null, provides?: string | null } | null> | null, shopLogoUrls?: { __typename?: "ShopLogoUrls", primaryShopLogoUrl?: string | null } | null, storefrontUrls?: { __typename?: "StorefrontUrls", storefrontHomeUrl?: string | null } | null, unitsOfLength?: Array<{ __typename?: "UnitOfLength", default?: boolean | null, label?: string | null, uol?: string | null } | null> | null, unitsOfMeasure?: Array<{ __typename?: "UnitOfMeasure", default?: boolean | null, label?: string | null, uom?: string | null } | null> | null, addressBook?: Array<{ __typename?: "Address", _id?: string | null, address1: string, address2?: string | null, city: string, company?: string | null, country: string, fullName: string, phone: string, postal: string, region: string } | null> | null } | null };
+export type GetShopQuery = { __typename?: 'Query', shop?: { __typename?: 'Shop', _id: string, allowGuestCheckout?: boolean | null, description?: string | null, language: string, name: string, shopType?: string | null, slug?: string | null, timezone?: string | null, baseUOM?: string | null, baseUOL?: string | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string }, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, provides?: string | null } | null> | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, unitsOfLength?: Array<{ __typename?: 'UnitOfLength', default?: boolean | null, label?: string | null, uol?: string | null } | null> | null, unitsOfMeasure?: Array<{ __typename?: 'UnitOfMeasure', default?: boolean | null, label?: string | null, uom?: string | null } | null> | null, addressBook?: Array<{ __typename?: 'Address', _id?: string | null, address1: string, address2?: string | null, city: string, company?: string | null, country: string, fullName: string, phone: string, postal: string, region: string } | null> | null } | null };
 
 export type UpdateShopMutationVariables = Exact<{
   input: UpdateShopInput;
 }>;
 
 
-export type UpdateShopMutation = { __typename?: "Mutation", updateShop: { __typename?: "UpdateShopPayload", shop: { __typename?: "Shop", _id: string, language: string, name: string, currency: { __typename?: "Currency", _id: string, code: string, format: string, symbol: string }, storefrontUrls?: { __typename?: "StorefrontUrls", storefrontHomeUrl?: string | null } | null } } };
+export type UpdateShopMutation = { __typename?: 'Mutation', updateShop: { __typename?: 'UpdateShopPayload', shop: { __typename?: 'Shop', _id: string, language: string, name: string, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string }, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null } } };
 
 export type GetGroupsQueryVariables = Exact<{
-  shopId: Scalars["ID"];
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortOrder?: InputMaybe<SortOrder>;
   sortBy?: InputMaybe<GroupSortByField>;
 }>;
 
 
-export type GetGroupsQuery = { __typename?: "Query", groups?: { __typename?: "GroupConnection", totalCount: number, nodes?: Array<{ __typename?: "Group", _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any, permissions?: Array<string | null> | null } | null> | null } | null };
+export type GetGroupsQuery = { __typename?: 'Query', groups?: { __typename?: 'GroupConnection', totalCount: number, nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any, permissions?: Array<string | null> | null } | null> | null } | null };
 
 export type UpdateGroupMutationVariables = Exact<{
   input: UpdateAccountGroupInput;
 }>;
 
 
-export type UpdateGroupMutation = { __typename?: "Mutation", updateAccountGroup?: { __typename?: "UpdateAccountGroupPayload", group?: { __typename?: "Group", _id: string } | null } | null };
+export type UpdateGroupMutation = { __typename?: 'Mutation', updateAccountGroup?: { __typename?: 'UpdateAccountGroupPayload', group?: { __typename?: 'Group', _id: string } | null } | null };
 
 export type GetRolesQueryVariables = Exact<{
-  shopId: Scalars["ID"];
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopId: Scalars['ID'];
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortOrder?: InputMaybe<SortOrder>;
   sortBy?: InputMaybe<RoleSortByField>;
 }>;
 
 
-export type GetRolesQuery = { __typename?: "Query", roles?: { __typename?: "RoleConnection", nodes?: Array<{ __typename?: "Role", name: string } | null> | null } | null };
+export type GetRolesQuery = { __typename?: 'Query', roles?: { __typename?: 'RoleConnection', nodes?: Array<{ __typename?: 'Role', name: string } | null> | null } | null };
 
 export type CreateGroupMutationVariables = Exact<{
   input: CreateAccountGroupInput;
 }>;
 
 
-export type CreateGroupMutation = { __typename?: "Mutation", createAccountGroup?: { __typename?: "CreateAccountGroupPayload", group?: { __typename?: "Group", _id: string } | null } | null };
+export type CreateGroupMutation = { __typename?: 'Mutation', createAccountGroup?: { __typename?: 'CreateAccountGroupPayload', group?: { __typename?: 'Group', _id: string } | null } | null };
 
 export type GetPendingInvitationsQueryVariables = Exact<{
-  shopIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>>;
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortOrder?: InputMaybe<SortOrder>;
   sortBy?: InputMaybe<AccountSortByField>;
 }>;
 
 
-export type GetPendingInvitationsQuery = { __typename?: "Query", invitations: { __typename?: "InvitationConnection", totalCount: number, nodes?: Array<{ __typename?: "Invitation", _id: string, email: string, groups: Array<{ __typename?: "Group", _id: string, name: string } | null>, invitedBy?: { __typename?: "Account", _id: string, primaryEmailAddress: any } | null } | null> | null } };
+export type GetPendingInvitationsQuery = { __typename?: 'Query', invitations: { __typename?: 'InvitationConnection', totalCount: number, nodes?: Array<{ __typename?: 'Invitation', _id: string, email: string, groups: Array<{ __typename?: 'Group', _id: string, name: string } | null>, invitedBy?: { __typename?: 'Account', _id: string, primaryEmailAddress: any } | null } | null> | null } };
 
 export type GetUsersQueryVariables = Exact<{
-  groupIds?: InputMaybe<Array<InputMaybe<Scalars["ID"]>> | InputMaybe<Scalars["ID"]>>;
-  notInAnyGroups?: InputMaybe<Scalars["Boolean"]>;
-  after?: InputMaybe<Scalars["ConnectionCursor"]>;
-  before?: InputMaybe<Scalars["ConnectionCursor"]>;
-  first?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  last?: InputMaybe<Scalars["ConnectionLimitInt"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  groupIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  notInAnyGroups?: InputMaybe<Scalars['Boolean']>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
   sortOrder?: InputMaybe<SortOrder>;
   sortBy?: InputMaybe<AccountSortByField>;
 }>;
 
 
-export type GetUsersQuery = { __typename?: "Query", accounts: { __typename?: "AccountConnection", totalCount: number, nodes?: Array<{ __typename?: "Account", _id: string, createdAt: any, primaryEmailAddress: any, userId: string, name?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, adminUIShops?: Array<{ __typename?: "Shop", _id: string, name: string, shopType?: string | null, language: string, currency: { __typename?: "Currency", _id: string, code: string, format: string, symbol: string } } | null> | null, emailRecords?: Array<{ __typename?: "EmailRecord", address?: string | null } | null> | null, groups?: { __typename?: "GroupConnection", nodes?: Array<{ __typename?: "Group", _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any } | null> | null } | null } | null> | null } };
+export type GetUsersQuery = { __typename?: 'Query', accounts: { __typename?: 'AccountConnection', totalCount: number, nodes?: Array<{ __typename?: 'Account', _id: string, createdAt: any, primaryEmailAddress: any, userId: string, name?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, shopType?: string | null, language: string, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null, emailRecords?: Array<{ __typename?: 'EmailRecord', address?: string | null } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, createdAt: any, description?: string | null, name: string, slug: string, updatedAt: any } | null> | null } | null } | null> | null } };
 
 export type InviteUserMutationVariables = Exact<{
   input: InviteShopMemberInput;
 }>;
 
 
-export type InviteUserMutation = { __typename?: "Mutation", inviteShopMember?: { __typename?: "InviteShopMemberPayload", account?: { __typename?: "Account", _id: string, name?: string | null, primaryEmailAddress: any } | null } | null };
+export type InviteUserMutation = { __typename?: 'Mutation', inviteShopMember?: { __typename?: 'InviteShopMemberPayload', account?: { __typename?: 'Account', _id: string, name?: string | null, primaryEmailAddress: any } | null } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   input: UpdateAccountInput;
 }>;
 
 
-export type UpdateUserMutation = { __typename?: "Mutation", updateAccount?: { __typename?: "UpdateAccountPayload", account: { __typename?: "Account", _id: string } } | null };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateAccount?: { __typename?: 'UpdateAccountPayload', account: { __typename?: 'Account', _id: string } } | null };
 
 export type UpdateGroupsForAccountsMutationVariables = Exact<{
   input: UpdateGroupsForAccountsInput;
 }>;
 
 
-export type UpdateGroupsForAccountsMutation = { __typename?: "Mutation", updateGroupsForAccounts?: { __typename?: "UpdateGroupsForAccountsPayload", accounts: Array<{ __typename?: "Account", _id: string } | null> } | null };
+export type UpdateGroupsForAccountsMutation = { __typename?: 'Mutation', updateGroupsForAccounts?: { __typename?: 'UpdateGroupsForAccountsPayload', accounts: Array<{ __typename?: 'Account', _id: string } | null> } | null };
 
 export type CreateUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: "Mutation", createUser?: { __typename?: "CreateUserResult", userId?: string | null, loginResult?: { __typename?: "LoginResult", sessionId?: string | null, tokens?: { __typename?: "Tokens", refreshToken?: string | null, accessToken?: string | null } | null, user?: { __typename?: "User", id: string, username?: string | null, emails?: Array<{ __typename?: "EmailRecord", address?: string | null, verified?: boolean | null }> | null } | null } | null } | null };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'CreateUserResult', userId?: string | null, loginResult?: { __typename?: 'LoginResult', sessionId?: string | null, tokens?: { __typename?: 'Tokens', refreshToken?: string | null, accessToken?: string | null } | null, user?: { __typename?: 'User', id: string, username?: string | null, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, verified?: boolean | null }> | null } | null } | null } | null };
 
-export type UserFieldsFragment = { __typename?: "User", id: string, username?: string | null, emails?: Array<{ __typename?: "EmailRecord", address?: string | null, verified?: boolean | null }> | null };
+export type UserFieldsFragment = { __typename?: 'User', id: string, username?: string | null, emails?: Array<{ __typename?: 'EmailRecord', address?: string | null, verified?: boolean | null }> | null };
 
 export const UserFieldsFragmentDoc = `
     fragment userFields on User {
@@ -8987,13 +8965,13 @@ export const useSystemInformationQuery = <
       TData = SystemInformationQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: SystemInformationQueryVariables,
-    options?: UseQueryOptions<SystemInformationQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: SystemInformationQueryVariables,
+      options?: UseQueryOptions<SystemInformationQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<SystemInformationQuery, TError, TData>(
-      ["systemInformation", variables],
+      ['systemInformation', variables],
       fetcher<SystemInformationQuery, SystemInformationQueryVariables>(client, SystemInformationDocument, variables, headers),
       options
     );
@@ -9044,13 +9022,13 @@ export const useGetViewerQuery = <
       TData = GetViewerQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables?: GetViewerQueryVariables,
-    options?: UseQueryOptions<GetViewerQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables?: GetViewerQueryVariables,
+      options?: UseQueryOptions<GetViewerQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetViewerQuery, TError, TData>(
-      variables === undefined ? ["getViewer"] : ["getViewer", variables],
+      variables === undefined ? ['getViewer'] : ['getViewer', variables],
       fetcher<GetViewerQuery, GetViewerQueryVariables>(client, GetViewerDocument, variables, headers),
       options
     );
@@ -9075,12 +9053,12 @@ export const useCreateShopMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<CreateShopMutation, TError, CreateShopMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateShopMutation, TError, CreateShopMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateShopMutation, TError, CreateShopMutationVariables, TContext>(
-      ["createShop"],
+      ['createShop'],
       (variables?: CreateShopMutationVariables) => fetcher<CreateShopMutation, CreateShopMutationVariables>(client, CreateShopDocument, variables, headers)(),
       options
     );
@@ -9113,13 +9091,13 @@ export const useGetCustomersQuery = <
       TData = GetCustomersQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables?: GetCustomersQueryVariables,
-    options?: UseQueryOptions<GetCustomersQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables?: GetCustomersQueryVariables,
+      options?: UseQueryOptions<GetCustomersQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetCustomersQuery, TError, TData>(
-      variables === undefined ? ["getCustomers"] : ["getCustomers", variables],
+      variables === undefined ? ['getCustomers'] : ['getCustomers', variables],
       fetcher<GetCustomersQuery, GetCustomersQueryVariables>(client, GetCustomersDocument, variables, headers),
       options
     );
@@ -9146,12 +9124,12 @@ export const useAuthenticateMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<AuthenticateMutation, TError, AuthenticateMutationVariables, TContext>(
-      ["authenticate"],
+      ['authenticate'],
       (variables?: AuthenticateMutationVariables) => fetcher<AuthenticateMutation, AuthenticateMutationVariables>(client, AuthenticateDocument, variables, headers)(),
       options
     );
@@ -9168,12 +9146,12 @@ export const useResetPasswordMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>(
-      ["resetPassword"],
+      ['resetPassword'],
       (variables?: ResetPasswordMutationVariables) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(client, ResetPasswordDocument, variables, headers)(),
       options
     );
@@ -9186,12 +9164,12 @@ export const useSendResetPasswordEmailMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<SendResetPasswordEmailMutation, TError, SendResetPasswordEmailMutationVariables, TContext>(
-      ["sendResetPasswordEmail"],
+      ['sendResetPasswordEmail'],
       (variables?: SendResetPasswordEmailMutationVariables) => fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(client, SendResetPasswordEmailDocument, variables, headers)(),
       options
     );
@@ -9244,13 +9222,13 @@ export const useGetPromotionsQuery = <
       TData = GetPromotionsQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetPromotionsQueryVariables,
-    options?: UseQueryOptions<GetPromotionsQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetPromotionsQueryVariables,
+      options?: UseQueryOptions<GetPromotionsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetPromotionsQuery, TError, TData>(
-      ["getPromotions", variables],
+      ['getPromotions', variables],
       fetcher<GetPromotionsQuery, GetPromotionsQueryVariables>(client, GetPromotionsDocument, variables, headers),
       options
     );
@@ -9290,13 +9268,13 @@ export const useGetPromotionQuery = <
       TData = GetPromotionQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables?: GetPromotionQueryVariables,
-    options?: UseQueryOptions<GetPromotionQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables?: GetPromotionQueryVariables,
+      options?: UseQueryOptions<GetPromotionQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetPromotionQuery, TError, TData>(
-      variables === undefined ? ["getPromotion"] : ["getPromotion", variables],
+      variables === undefined ? ['getPromotion'] : ['getPromotion', variables],
       fetcher<GetPromotionQuery, GetPromotionQueryVariables>(client, GetPromotionDocument, variables, headers),
       options
     );
@@ -9314,12 +9292,12 @@ export const useUpdatePromotionMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdatePromotionMutation, TError, UpdatePromotionMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePromotionMutation, TError, UpdatePromotionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdatePromotionMutation, TError, UpdatePromotionMutationVariables, TContext>(
-      ["updatePromotion"],
+      ['updatePromotion'],
       (variables?: UpdatePromotionMutationVariables) => fetcher<UpdatePromotionMutation, UpdatePromotionMutationVariables>(client, UpdatePromotionDocument, variables, headers)(),
       options
     );
@@ -9382,13 +9360,13 @@ export const useGetAddressValidationServiceQuery = <
       TData = GetAddressValidationServiceQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables?: GetAddressValidationServiceQueryVariables,
-    options?: UseQueryOptions<GetAddressValidationServiceQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables?: GetAddressValidationServiceQueryVariables,
+      options?: UseQueryOptions<GetAddressValidationServiceQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetAddressValidationServiceQuery, TError, TData>(
-      variables === undefined ? ["getAddressValidationService"] : ["getAddressValidationService", variables],
+      variables === undefined ? ['getAddressValidationService'] : ['getAddressValidationService', variables],
       fetcher<GetAddressValidationServiceQuery, GetAddressValidationServiceQueryVariables>(client, GetAddressValidationServiceDocument, variables, headers),
       options
     );
@@ -9418,13 +9396,13 @@ export const useGetAddressValidationRulesQuery = <
       TData = GetAddressValidationRulesQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetAddressValidationRulesQueryVariables,
-    options?: UseQueryOptions<GetAddressValidationRulesQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetAddressValidationRulesQueryVariables,
+      options?: UseQueryOptions<GetAddressValidationRulesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetAddressValidationRulesQuery, TError, TData>(
-      ["getAddressValidationRules", variables],
+      ['getAddressValidationRules', variables],
       fetcher<GetAddressValidationRulesQuery, GetAddressValidationRulesQueryVariables>(client, GetAddressValidationRulesDocument, variables, headers),
       options
     );
@@ -9441,12 +9419,12 @@ export const useCreateAddressValidationRuleMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<CreateAddressValidationRuleMutation, TError, CreateAddressValidationRuleMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateAddressValidationRuleMutation, TError, CreateAddressValidationRuleMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateAddressValidationRuleMutation, TError, CreateAddressValidationRuleMutationVariables, TContext>(
-      ["createAddressValidationRule"],
+      ['createAddressValidationRule'],
       (variables?: CreateAddressValidationRuleMutationVariables) => fetcher<CreateAddressValidationRuleMutation, CreateAddressValidationRuleMutationVariables>(client, CreateAddressValidationRuleDocument, variables, headers)(),
       options
     );
@@ -9463,12 +9441,12 @@ export const useUpdateAddressValidationRuleMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateAddressValidationRuleMutation, TError, UpdateAddressValidationRuleMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateAddressValidationRuleMutation, TError, UpdateAddressValidationRuleMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateAddressValidationRuleMutation, TError, UpdateAddressValidationRuleMutationVariables, TContext>(
-      ["updateAddressValidationRule"],
+      ['updateAddressValidationRule'],
       (variables?: UpdateAddressValidationRuleMutationVariables) => fetcher<UpdateAddressValidationRuleMutation, UpdateAddressValidationRuleMutationVariables>(client, UpdateAddressValidationRuleDocument, variables, headers)(),
       options
     );
@@ -9486,13 +9464,13 @@ export const useGetPaymentMethodsQuery = <
       TData = GetPaymentMethodsQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetPaymentMethodsQueryVariables,
-    options?: UseQueryOptions<GetPaymentMethodsQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetPaymentMethodsQueryVariables,
+      options?: UseQueryOptions<GetPaymentMethodsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetPaymentMethodsQuery, TError, TData>(
-      ["getPaymentMethods", variables],
+      ['getPaymentMethods', variables],
       fetcher<GetPaymentMethodsQuery, GetPaymentMethodsQueryVariables>(client, GetPaymentMethodsDocument, variables, headers),
       options
     );
@@ -9512,12 +9490,12 @@ export const useUpdatePaymentMethodMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdatePaymentMethodMutation, TError, UpdatePaymentMethodMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdatePaymentMethodMutation, TError, UpdatePaymentMethodMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdatePaymentMethodMutation, TError, UpdatePaymentMethodMutationVariables, TContext>(
-      ["updatePaymentMethod"],
+      ['updatePaymentMethod'],
       (variables?: UpdatePaymentMethodMutationVariables) => fetcher<UpdatePaymentMethodMutation, UpdatePaymentMethodMutationVariables>(client, UpdatePaymentMethodDocument, variables, headers)(),
       options
     );
@@ -9534,13 +9512,13 @@ export const useGetTaxServicesQuery = <
       TData = GetTaxServicesQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetTaxServicesQueryVariables,
-    options?: UseQueryOptions<GetTaxServicesQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetTaxServicesQueryVariables,
+      options?: UseQueryOptions<GetTaxServicesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetTaxServicesQuery, TError, TData>(
-      ["getTaxServices", variables],
+      ['getTaxServices', variables],
       fetcher<GetTaxServicesQuery, GetTaxServicesQueryVariables>(client, GetTaxServicesDocument, variables, headers),
       options
     );
@@ -9558,12 +9536,12 @@ export const useUpdateTaxServiceMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateTaxServiceMutation, TError, UpdateTaxServiceMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateTaxServiceMutation, TError, UpdateTaxServiceMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateTaxServiceMutation, TError, UpdateTaxServiceMutationVariables, TContext>(
-      ["updateTaxService"],
+      ['updateTaxService'],
       (variables?: UpdateTaxServiceMutationVariables) => fetcher<UpdateTaxServiceMutation, UpdateTaxServiceMutationVariables>(client, UpdateTaxServiceDocument, variables, headers)(),
       options
     );
@@ -9580,13 +9558,13 @@ export const useGetShopTaxesSettingQuery = <
       TData = GetShopTaxesSettingQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetShopTaxesSettingQueryVariables,
-    options?: UseQueryOptions<GetShopTaxesSettingQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetShopTaxesSettingQueryVariables,
+      options?: UseQueryOptions<GetShopTaxesSettingQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetShopTaxesSettingQuery, TError, TData>(
-      ["getShopTaxesSetting", variables],
+      ['getShopTaxesSetting', variables],
       fetcher<GetShopTaxesSettingQuery, GetShopTaxesSettingQueryVariables>(client, GetShopTaxesSettingDocument, variables, headers),
       options
     );
@@ -9617,13 +9595,13 @@ export const useGetTaxRatesQuery = <
       TData = GetTaxRatesQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetTaxRatesQueryVariables,
-    options?: UseQueryOptions<GetTaxRatesQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetTaxRatesQueryVariables,
+      options?: UseQueryOptions<GetTaxRatesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetTaxRatesQuery, TError, TData>(
-      ["getTaxRates", variables],
+      ['getTaxRates', variables],
       fetcher<GetTaxRatesQuery, GetTaxRatesQueryVariables>(client, GetTaxRatesDocument, variables, headers),
       options
     );
@@ -9640,12 +9618,12 @@ export const useUpdateTaxRateMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateTaxRateMutation, TError, UpdateTaxRateMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateTaxRateMutation, TError, UpdateTaxRateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateTaxRateMutation, TError, UpdateTaxRateMutationVariables, TContext>(
-      ["updateTaxRate"],
+      ['updateTaxRate'],
       (variables?: UpdateTaxRateMutationVariables) => fetcher<UpdateTaxRateMutation, UpdateTaxRateMutationVariables>(client, UpdateTaxRateDocument, variables, headers)(),
       options
     );
@@ -9662,12 +9640,12 @@ export const useCreateTaxRateMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<CreateTaxRateMutation, TError, CreateTaxRateMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateTaxRateMutation, TError, CreateTaxRateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateTaxRateMutation, TError, CreateTaxRateMutationVariables, TContext>(
-      ["createTaxRate"],
+      ['createTaxRate'],
       (variables?: CreateTaxRateMutationVariables) => fetcher<CreateTaxRateMutation, CreateTaxRateMutationVariables>(client, CreateTaxRateDocument, variables, headers)(),
       options
     );
@@ -9684,12 +9662,12 @@ export const useDeleteTaxRateMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<DeleteTaxRateMutation, TError, DeleteTaxRateMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteTaxRateMutation, TError, DeleteTaxRateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<DeleteTaxRateMutation, TError, DeleteTaxRateMutationVariables, TContext>(
-      ["deleteTaxRate"],
+      ['deleteTaxRate'],
       (variables?: DeleteTaxRateMutationVariables) => fetcher<DeleteTaxRateMutation, DeleteTaxRateMutationVariables>(client, DeleteTaxRateDocument, variables, headers)(),
       options
     );
@@ -9705,13 +9683,13 @@ export const useGetTaxCodesQuery = <
       TData = GetTaxCodesQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetTaxCodesQueryVariables,
-    options?: UseQueryOptions<GetTaxCodesQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetTaxCodesQueryVariables,
+      options?: UseQueryOptions<GetTaxCodesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetTaxCodesQuery, TError, TData>(
-      ["getTaxCodes", variables],
+      ['getTaxCodes', variables],
       fetcher<GetTaxCodesQuery, GetTaxCodesQueryVariables>(client, GetTaxCodesDocument, variables, headers),
       options
     );
@@ -9742,13 +9720,13 @@ export const useGetEmailLogsQuery = <
       TData = GetEmailLogsQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetEmailLogsQueryVariables,
-    options?: UseQueryOptions<GetEmailLogsQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetEmailLogsQueryVariables,
+      options?: UseQueryOptions<GetEmailLogsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetEmailLogsQuery, TError, TData>(
-      ["getEmailLogs", variables],
+      ['getEmailLogs', variables],
       fetcher<GetEmailLogsQuery, GetEmailLogsQueryVariables>(client, GetEmailLogsDocument, variables, headers),
       options
     );
@@ -9778,13 +9756,13 @@ export const useGetEmailTemplatesQuery = <
       TData = GetEmailTemplatesQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetEmailTemplatesQueryVariables,
-    options?: UseQueryOptions<GetEmailTemplatesQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetEmailTemplatesQueryVariables,
+      options?: UseQueryOptions<GetEmailTemplatesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetEmailTemplatesQuery, TError, TData>(
-      ["getEmailTemplates", variables],
+      ['getEmailTemplates', variables],
       fetcher<GetEmailTemplatesQuery, GetEmailTemplatesQueryVariables>(client, GetEmailTemplatesDocument, variables, headers),
       options
     );
@@ -9801,12 +9779,12 @@ export const useUpdateEmailTemplateMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateEmailTemplateMutation, TError, UpdateEmailTemplateMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateEmailTemplateMutation, TError, UpdateEmailTemplateMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateEmailTemplateMutation, TError, UpdateEmailTemplateMutationVariables, TContext>(
-      ["updateEmailTemplate"],
+      ['updateEmailTemplate'],
       (variables?: UpdateEmailTemplateMutationVariables) => fetcher<UpdateEmailTemplateMutation, UpdateEmailTemplateMutationVariables>(client, UpdateEmailTemplateDocument, variables, headers)(),
       options
     );
@@ -9827,13 +9805,13 @@ export const useGetEmailVariablesQuery = <
       TData = GetEmailVariablesQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetEmailVariablesQueryVariables,
-    options?: UseQueryOptions<GetEmailVariablesQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetEmailVariablesQueryVariables,
+      options?: UseQueryOptions<GetEmailVariablesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetEmailVariablesQuery, TError, TData>(
-      ["getEmailVariables", variables],
+      ['getEmailVariables', variables],
       fetcher<GetEmailVariablesQuery, GetEmailVariablesQueryVariables>(client, GetEmailVariablesDocument, variables, headers),
       options
     );
@@ -9850,12 +9828,12 @@ export const useUpdateEmailVariablesMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateEmailVariablesMutation, TError, UpdateEmailVariablesMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateEmailVariablesMutation, TError, UpdateEmailVariablesMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateEmailVariablesMutation, TError, UpdateEmailVariablesMutationVariables, TContext>(
-      ["updateEmailVariables"],
+      ['updateEmailVariables'],
       (variables?: UpdateEmailVariablesMutationVariables) => fetcher<UpdateEmailVariablesMutation, UpdateEmailVariablesMutationVariables>(client, UpdateEmailVariablesDocument, variables, headers)(),
       options
     );
@@ -9883,13 +9861,13 @@ export const useGetShippingMethodsQuery = <
       TData = GetShippingMethodsQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetShippingMethodsQueryVariables,
-    options?: UseQueryOptions<GetShippingMethodsQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetShippingMethodsQueryVariables,
+      options?: UseQueryOptions<GetShippingMethodsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetShippingMethodsQuery, TError, TData>(
-      ["getShippingMethods", variables],
+      ['getShippingMethods', variables],
       fetcher<GetShippingMethodsQuery, GetShippingMethodsQueryVariables>(client, GetShippingMethodsDocument, variables, headers),
       options
     );
@@ -9914,12 +9892,12 @@ export const useCreateFlatRateFulfillmentMethodMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<CreateFlatRateFulfillmentMethodMutation, TError, CreateFlatRateFulfillmentMethodMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateFlatRateFulfillmentMethodMutation, TError, CreateFlatRateFulfillmentMethodMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateFlatRateFulfillmentMethodMutation, TError, CreateFlatRateFulfillmentMethodMutationVariables, TContext>(
-      ["createFlatRateFulfillmentMethod"],
+      ['createFlatRateFulfillmentMethod'],
       (variables?: CreateFlatRateFulfillmentMethodMutationVariables) => fetcher<CreateFlatRateFulfillmentMethodMutation, CreateFlatRateFulfillmentMethodMutationVariables>(client, CreateFlatRateFulfillmentMethodDocument, variables, headers)(),
       options
     );
@@ -9944,12 +9922,12 @@ export const useUpdateFlatRateFulfillmentMethodMutationMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateFlatRateFulfillmentMethodMutationMutation, TError, UpdateFlatRateFulfillmentMethodMutationMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateFlatRateFulfillmentMethodMutationMutation, TError, UpdateFlatRateFulfillmentMethodMutationMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateFlatRateFulfillmentMethodMutationMutation, TError, UpdateFlatRateFulfillmentMethodMutationMutationVariables, TContext>(
-      ["updateFlatRateFulfillmentMethodMutation"],
+      ['updateFlatRateFulfillmentMethodMutation'],
       (variables?: UpdateFlatRateFulfillmentMethodMutationMutationVariables) => fetcher<UpdateFlatRateFulfillmentMethodMutationMutation, UpdateFlatRateFulfillmentMethodMutationMutationVariables>(client, UpdateFlatRateFulfillmentMethodMutationDocument, variables, headers)(),
       options
     );
@@ -9966,12 +9944,12 @@ export const useDeleteFlatRateFulfillmentMethodMutationMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<DeleteFlatRateFulfillmentMethodMutationMutation, TError, DeleteFlatRateFulfillmentMethodMutationMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteFlatRateFulfillmentMethodMutationMutation, TError, DeleteFlatRateFulfillmentMethodMutationMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<DeleteFlatRateFulfillmentMethodMutationMutation, TError, DeleteFlatRateFulfillmentMethodMutationMutationVariables, TContext>(
-      ["deleteFlatRateFulfillmentMethodMutation"],
+      ['deleteFlatRateFulfillmentMethodMutation'],
       (variables?: DeleteFlatRateFulfillmentMethodMutationMutationVariables) => fetcher<DeleteFlatRateFulfillmentMethodMutationMutation, DeleteFlatRateFulfillmentMethodMutationMutationVariables>(client, DeleteFlatRateFulfillmentMethodMutationDocument, variables, headers)(),
       options
     );
@@ -10011,13 +9989,13 @@ export const useGetShippingRestrictionsQuery = <
       TData = GetShippingRestrictionsQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetShippingRestrictionsQueryVariables,
-    options?: UseQueryOptions<GetShippingRestrictionsQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetShippingRestrictionsQueryVariables,
+      options?: UseQueryOptions<GetShippingRestrictionsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetShippingRestrictionsQuery, TError, TData>(
-      ["getShippingRestrictions", variables],
+      ['getShippingRestrictions', variables],
       fetcher<GetShippingRestrictionsQuery, GetShippingRestrictionsQueryVariables>(client, GetShippingRestrictionsDocument, variables, headers),
       options
     );
@@ -10034,12 +10012,12 @@ export const useCreateShippingRestrictionMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<CreateShippingRestrictionMutation, TError, CreateShippingRestrictionMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateShippingRestrictionMutation, TError, CreateShippingRestrictionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateShippingRestrictionMutation, TError, CreateShippingRestrictionMutationVariables, TContext>(
-      ["createShippingRestriction"],
+      ['createShippingRestriction'],
       (variables?: CreateShippingRestrictionMutationVariables) => fetcher<CreateShippingRestrictionMutation, CreateShippingRestrictionMutationVariables>(client, CreateShippingRestrictionDocument, variables, headers)(),
       options
     );
@@ -10056,12 +10034,12 @@ export const useUpdateShippingRestrictionMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateShippingRestrictionMutation, TError, UpdateShippingRestrictionMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateShippingRestrictionMutation, TError, UpdateShippingRestrictionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateShippingRestrictionMutation, TError, UpdateShippingRestrictionMutationVariables, TContext>(
-      ["updateShippingRestriction"],
+      ['updateShippingRestriction'],
       (variables?: UpdateShippingRestrictionMutationVariables) => fetcher<UpdateShippingRestrictionMutation, UpdateShippingRestrictionMutationVariables>(client, UpdateShippingRestrictionDocument, variables, headers)(),
       options
     );
@@ -10078,12 +10056,12 @@ export const useDeleteShippingRestrictionMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<DeleteShippingRestrictionMutation, TError, DeleteShippingRestrictionMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteShippingRestrictionMutation, TError, DeleteShippingRestrictionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<DeleteShippingRestrictionMutation, TError, DeleteShippingRestrictionMutationVariables, TContext>(
-      ["deleteShippingRestriction"],
+      ['deleteShippingRestriction'],
       (variables?: DeleteShippingRestrictionMutationVariables) => fetcher<DeleteShippingRestrictionMutation, DeleteShippingRestrictionMutationVariables>(client, DeleteShippingRestrictionDocument, variables, headers)(),
       options
     );
@@ -10136,13 +10114,13 @@ export const useGetShippingSurchargesQuery = <
       TData = GetShippingSurchargesQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetShippingSurchargesQueryVariables,
-    options?: UseQueryOptions<GetShippingSurchargesQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetShippingSurchargesQueryVariables,
+      options?: UseQueryOptions<GetShippingSurchargesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetShippingSurchargesQuery, TError, TData>(
-      ["getShippingSurcharges", variables],
+      ['getShippingSurcharges', variables],
       fetcher<GetShippingSurchargesQuery, GetShippingSurchargesQueryVariables>(client, GetShippingSurchargesDocument, variables, headers),
       options
     );
@@ -10159,12 +10137,12 @@ export const useCreateShippingSurchargeMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<CreateShippingSurchargeMutation, TError, CreateShippingSurchargeMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateShippingSurchargeMutation, TError, CreateShippingSurchargeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateShippingSurchargeMutation, TError, CreateShippingSurchargeMutationVariables, TContext>(
-      ["createShippingSurcharge"],
+      ['createShippingSurcharge'],
       (variables?: CreateShippingSurchargeMutationVariables) => fetcher<CreateShippingSurchargeMutation, CreateShippingSurchargeMutationVariables>(client, CreateShippingSurchargeDocument, variables, headers)(),
       options
     );
@@ -10181,12 +10159,12 @@ export const useUpdateShippingSurchargeMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateShippingSurchargeMutation, TError, UpdateShippingSurchargeMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateShippingSurchargeMutation, TError, UpdateShippingSurchargeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateShippingSurchargeMutation, TError, UpdateShippingSurchargeMutationVariables, TContext>(
-      ["updateShippingSurcharge"],
+      ['updateShippingSurcharge'],
       (variables?: UpdateShippingSurchargeMutationVariables) => fetcher<UpdateShippingSurchargeMutation, UpdateShippingSurchargeMutationVariables>(client, UpdateShippingSurchargeDocument, variables, headers)(),
       options
     );
@@ -10203,12 +10181,12 @@ export const useDeleteShippingSurchargeMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<DeleteShippingSurchargeMutation, TError, DeleteShippingSurchargeMutationVariables, TContext>(
-      ["deleteShippingSurcharge"],
+      ['deleteShippingSurcharge'],
       (variables?: DeleteShippingSurchargeMutationVariables) => fetcher<DeleteShippingSurchargeMutation, DeleteShippingSurchargeMutationVariables>(client, DeleteShippingSurchargeDocument, variables, headers)(),
       options
     );
@@ -10270,13 +10248,13 @@ export const useGetShopQuery = <
       TData = GetShopQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetShopQueryVariables,
-    options?: UseQueryOptions<GetShopQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetShopQueryVariables,
+      options?: UseQueryOptions<GetShopQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetShopQuery, TError, TData>(
-      ["getShop", variables],
+      ['getShop', variables],
       fetcher<GetShopQuery, GetShopQueryVariables>(client, GetShopDocument, variables, headers),
       options
     );
@@ -10304,12 +10282,12 @@ export const useUpdateShopMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateShopMutation, TError, UpdateShopMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateShopMutation, TError, UpdateShopMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateShopMutation, TError, UpdateShopMutationVariables, TContext>(
-      ["updateShop"],
+      ['updateShop'],
       (variables?: UpdateShopMutationVariables) => fetcher<UpdateShopMutation, UpdateShopMutationVariables>(client, UpdateShopDocument, variables, headers)(),
       options
     );
@@ -10342,13 +10320,13 @@ export const useGetGroupsQuery = <
       TData = GetGroupsQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetGroupsQueryVariables,
-    options?: UseQueryOptions<GetGroupsQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetGroupsQueryVariables,
+      options?: UseQueryOptions<GetGroupsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetGroupsQuery, TError, TData>(
-      ["getGroups", variables],
+      ['getGroups', variables],
       fetcher<GetGroupsQuery, GetGroupsQueryVariables>(client, GetGroupsDocument, variables, headers),
       options
     );
@@ -10365,12 +10343,12 @@ export const useUpdateGroupMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateGroupMutation, TError, UpdateGroupMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateGroupMutation, TError, UpdateGroupMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateGroupMutation, TError, UpdateGroupMutationVariables, TContext>(
-      ["updateGroup"],
+      ['updateGroup'],
       (variables?: UpdateGroupMutationVariables) => fetcher<UpdateGroupMutation, UpdateGroupMutationVariables>(client, UpdateGroupDocument, variables, headers)(),
       options
     );
@@ -10396,13 +10374,13 @@ export const useGetRolesQuery = <
       TData = GetRolesQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables: GetRolesQueryVariables,
-    options?: UseQueryOptions<GetRolesQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables: GetRolesQueryVariables,
+      options?: UseQueryOptions<GetRolesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetRolesQuery, TError, TData>(
-      ["getRoles", variables],
+      ['getRoles', variables],
       fetcher<GetRolesQuery, GetRolesQueryVariables>(client, GetRolesDocument, variables, headers),
       options
     );
@@ -10419,12 +10397,12 @@ export const useCreateGroupMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<CreateGroupMutation, TError, CreateGroupMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateGroupMutation, TError, CreateGroupMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateGroupMutation, TError, CreateGroupMutationVariables, TContext>(
-      ["createGroup"],
+      ['createGroup'],
       (variables?: CreateGroupMutationVariables) => fetcher<CreateGroupMutation, CreateGroupMutationVariables>(client, CreateGroupDocument, variables, headers)(),
       options
     );
@@ -10460,13 +10438,13 @@ export const useGetPendingInvitationsQuery = <
       TData = GetPendingInvitationsQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables?: GetPendingInvitationsQueryVariables,
-    options?: UseQueryOptions<GetPendingInvitationsQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables?: GetPendingInvitationsQueryVariables,
+      options?: UseQueryOptions<GetPendingInvitationsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetPendingInvitationsQuery, TError, TData>(
-      variables === undefined ? ["getPendingInvitations"] : ["getPendingInvitations", variables],
+      variables === undefined ? ['getPendingInvitations'] : ['getPendingInvitations', variables],
       fetcher<GetPendingInvitationsQuery, GetPendingInvitationsQueryVariables>(client, GetPendingInvitationsDocument, variables, headers),
       options
     );
@@ -10526,13 +10504,13 @@ export const useGetUsersQuery = <
       TData = GetUsersQuery,
       TError = unknown
     >(
-    client: GraphQLClient,
-    variables?: GetUsersQueryVariables,
-    options?: UseQueryOptions<GetUsersQuery, TError, TData>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      variables?: GetUsersQueryVariables,
+      options?: UseQueryOptions<GetUsersQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
     useQuery<GetUsersQuery, TError, TData>(
-      variables === undefined ? ["getUsers"] : ["getUsers", variables],
+      variables === undefined ? ['getUsers'] : ['getUsers', variables],
       fetcher<GetUsersQuery, GetUsersQueryVariables>(client, GetUsersDocument, variables, headers),
       options
     );
@@ -10551,12 +10529,12 @@ export const useInviteUserMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<InviteUserMutation, TError, InviteUserMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<InviteUserMutation, TError, InviteUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<InviteUserMutation, TError, InviteUserMutationVariables, TContext>(
-      ["inviteUser"],
+      ['inviteUser'],
       (variables?: InviteUserMutationVariables) => fetcher<InviteUserMutation, InviteUserMutationVariables>(client, InviteUserDocument, variables, headers)(),
       options
     );
@@ -10573,12 +10551,12 @@ export const useUpdateUserMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
-      ["updateUser"],
+      ['updateUser'],
       (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(client, UpdateUserDocument, variables, headers)(),
       options
     );
@@ -10595,12 +10573,12 @@ export const useUpdateGroupsForAccountsMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<UpdateGroupsForAccountsMutation, TError, UpdateGroupsForAccountsMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateGroupsForAccountsMutation, TError, UpdateGroupsForAccountsMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<UpdateGroupsForAccountsMutation, TError, UpdateGroupsForAccountsMutationVariables, TContext>(
-      ["updateGroupsForAccounts"],
+      ['updateGroupsForAccounts'],
       (variables?: UpdateGroupsForAccountsMutationVariables) => fetcher<UpdateGroupsForAccountsMutation, UpdateGroupsForAccountsMutationVariables>(client, UpdateGroupsForAccountsDocument, variables, headers)(),
       options
     );
@@ -10625,12 +10603,12 @@ export const useCreateUserMutation = <
       TError = unknown,
       TContext = unknown
     >(
-    client: GraphQLClient,
-    options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>,
-    headers?: RequestInit["headers"]
-  ) =>
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
-      ["createUser"],
+      ['createUser'],
       (variables?: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(client, CreateUserDocument, variables, headers)(),
       options
     );
