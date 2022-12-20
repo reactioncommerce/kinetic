@@ -1,13 +1,15 @@
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { noop } from "lodash-es";
+import { useNavigate } from "react-router-dom";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
 import { Promotion } from "types/promotions";
 import { useDisablePromotion, useEnablePromotion, useArchivePromotions } from "../hooks";
-import { PromotionState } from "@graphql/generates";
+import { PromotionState, useDuplicatePromotionMutation } from "@graphql/generates";
 import { usePermission } from "@components/PermissionGuard";
+import { client } from "@graphql/graphql-request-client";
+import { useShop } from "@containers/ShopProvider";
 
 type ActionButtonsProps = {
   loading: boolean
@@ -19,10 +21,26 @@ type ActionButtonsProps = {
 }
 
 export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCancel, onSuccess }: ActionButtonsProps) => {
+  const { shopId } = useShop();
+  const navigate = useNavigate();
+  const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
+  const canCreate = usePermission(["reaction:legacy:promotions/create"]);
+
   const { enablePromotions } = useEnablePromotion(onSuccess);
   const { disablePromotions } = useDisablePromotion(onSuccess);
-  const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
   const { archivePromotions } = useArchivePromotions(onSuccess);
+  const { mutate: duplicatePromotion } = useDuplicatePromotionMutation(client);
+
+  const handleDuplicatePromotion = (promotionId: string) => {
+    duplicatePromotion(
+      { input: { shopId: shopId!, promotionId } },
+      {
+        onSuccess: (response) => {
+          navigate(`/promotions/${response.duplicatePromotion?.promotion?._id}`);
+        }
+      }
+    );
+  };
 
   return (
     !promotion || !disabled ?
@@ -58,11 +76,11 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
               onClick: () => disablePromotions([promotion]),
               hidden: !canUpdate || !promotion.enabled
             },
-            { label: "Duplicate", onClick: noop },
+            { label: "Duplicate", onClick: () => handleDuplicatePromotion(promotion._id), hidden: !canCreate },
             {
               label: "Archive",
               onClick: () => archivePromotions([promotion._id], promotion.shopId),
-              hidden: !canUpdate || promotion.state === PromotionState.Active
+              hidden: !canUpdate || promotion.state === PromotionState.Active || promotion.state === PromotionState.Archived
             }
           ]
         }

@@ -51,3 +51,4 @@ export const useArchivePromotions = (onSuccess?: () => void) => {
   };
   return { archivePromotions };
 };
+

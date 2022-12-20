@@ -5,7 +5,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { AppLayout } from "@containers/Layouts";
-import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, within } from "@utils/testUtils";
+import { renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved, within } from "@utils/testUtils";
 import { DATE_FORMAT } from "../constants";
 
 import PromotionDetails from ".";
@@ -94,5 +94,28 @@ describe("Promotion Details", () => {
     expect(screen.getByLabelText("Available From")).toBeDisabled();
     expect(screen.getByLabelText("Promotion Type")).toHaveAttribute("aria-disabled", "true");
     expect(screen.getByLabelText("Available To")).not.toBeDisabled();
+  }, 50000);
+
+  it("should duplicate a promotion successfully", async () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${promotion._id}`] }
+    );
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+    expect(screen.getByLabelText("Promotion Name")).toHaveValue(promotion.name);
+
+    const user = userEvent.setup();
+    await user.click(screen.getByText("Actions"));
+    await user.click(within(screen.getByRole("menu")).getByText("Duplicate"));
+    await waitFor(() => {
+      expect(screen.getByLabelText("Promotion Name")).toHaveValue(enabledPromotions[0].name);
+    });
   }, 50000);
 });

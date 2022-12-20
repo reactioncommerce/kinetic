@@ -82,4 +82,8 @@ const updatePromotionHandler = graphql.mutation("updatePromotion", (req, res, ct
   return res(ctx.data({ input }));
 });
 
-export const handlers = [getPromotionsHandler, getPromotionHandler, createPromotionHandler, updatePromotionHandler];
+const duplicatePromotionHandler =
+graphql.mutation("duplicatePromotion", (req, res, ctx) => res(ctx.data({ duplicatePromotion: { promotion: { _id: enabledPromotions[0]._id } } })));
+
+
+export const handlers = [getPromotionsHandler, getPromotionHandler, createPromotionHandler, updatePromotionHandler, duplicatePromotionHandler];
