@@ -71,7 +71,7 @@ describe("Promotion Details", () => {
     await user.click(within(screen.getByRole("listbox")).getByText("Vendor"));
     await user.click(screen.getByLabelText("Operator"));
     await user.click(within(screen.getByRole("listbox")).getByText("Is"));
-    await user.type(screen.getByPlaceholderText("Value"), "value");
+    await user.type(screen.getByPlaceholderText("Enter Values"), "value");
     await user.keyboard("{Enter}");
     await user.click(screen.getByText("Save Changes"));
     expect(screen.queryByText("Save Changes")).not.toBeInTheDocument();
