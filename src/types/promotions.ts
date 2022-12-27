@@ -22,7 +22,8 @@ export enum TriggerType {
 
 export enum Stackability {
   None = "none",
-  All = "all"
+  All = "all",
+  Any = "any"
 }
 
 export type RuleCondition = {
