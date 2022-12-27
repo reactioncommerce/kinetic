@@ -58,6 +58,10 @@ const Groups = () => {
       accessorKey: "name",
       header: "Name",
       cell: (info) => startCase(info.getValue())
+    },
+    {
+      accessorKey: "description",
+      header: "Description"
     }
   ], []);
 

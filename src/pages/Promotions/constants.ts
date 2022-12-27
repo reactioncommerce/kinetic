@@ -23,7 +23,8 @@ export const DATE_FORMAT = "yyyy-MM-dd";
 
 export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = [
   { label: "Never Stackable", value: Stackability.None },
-  { label: "Stack All", value: Stackability.All }
+  { label: "Stack All", value: Stackability.All },
+  { label: "Stack with Any", value: Stackability.Any }
 ];
 
 export const TRIGGER_TYPE_OPTIONS = [
