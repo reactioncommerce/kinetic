@@ -76,5 +76,7 @@ export const promotionSchema = Yup.object().shape({
     })
   })).min(1, "Promotion should have at least 1 trigger"),
   startDate: Yup.date().nullable().required("This field is required"),
-  endDate: Yup.date().nullable().min(Yup.ref("startDate"), "End date should be after start date")
+  endDate: Yup.date().nullable().min(Yup.ref("startDate"), "End date should be after start date"),
+  maxUsagePerOrder: Yup.number().moreThan(0, "This field must be greater than 0"),
+  maxUsagePerCustomer: Yup.number().moreThan(0, "This field must be greater than 0")
 });
