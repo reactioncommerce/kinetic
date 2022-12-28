@@ -17,8 +17,7 @@ export enum CalculationType {
 
 export enum Stackability {
   None = "none",
-  All = "all",
-  Any = "any"
+  All = "all"
 }
 
 export type RuleCondition = {
