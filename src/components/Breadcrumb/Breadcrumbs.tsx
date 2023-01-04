@@ -25,7 +25,7 @@ export const Breadcrumbs = ({ items = BREADCRUMB_ITEMS, sx }: BreadcrumbsProps) 
   const { shop } = useShop();
   return (
     <MuiBreadcrumbs
-      maxItems={2}
+      maxItems={3}
       itemsAfterCollapse={2}
       aria-label="breadcrumb"
       separator={<NavigateNextIcon fontSize="small" />} sx={{ lineHeight: 1, color: "grey.600", ...sx }}>

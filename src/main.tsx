@@ -4,6 +4,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter } from "react-router-dom";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { ToastProvider } from "@containers/ToastProvider";
 import { ErrorBoundary } from "@components/ErrorBoundary";
@@ -30,13 +32,15 @@ ReactDOM.createRoot(document.getElementById("root")!).render(<React.StrictMode>
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <ToastProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <ErrorBoundary>
-            <App />
-          </ErrorBoundary>
-        </BrowserRouter>
-      </QueryClientProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </LocalizationProvider>
     </ToastProvider>
   </ThemeProvider>
 </React.StrictMode>);

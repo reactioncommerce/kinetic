@@ -4,6 +4,7 @@ import { afterEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 
+
 import { ShopProvider } from "@containers/ShopProvider";
 import { AccountProvider } from "@containers/AccountProvider";
 import { ToastProvider } from "@containers/ToastProvider";
@@ -30,7 +31,6 @@ const renderWithProviders = (ui: React.ReactElement, options = { initialEntries:
               </AccountProvider>
             </ShopProvider>
           </ToastProvider>
-
         </MemoryRouter>
       </QueryClientProvider>;
     },

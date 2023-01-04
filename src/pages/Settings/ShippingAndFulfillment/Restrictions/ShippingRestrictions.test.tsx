@@ -35,7 +35,6 @@ describe("Shipping Restrictions", () => {
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     const user = userEvent.setup();
 
-
     const drawer = screen.getByRole("presentation");
     await user.click(within(drawer).getByText("Add"));
 

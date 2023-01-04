@@ -1,5 +1,5 @@
 import { alpha, createTheme, ThemeOptions } from "@mui/material/styles";
-
+import type {} from "@mui/x-date-pickers/themeAugmentation";
 
 declare module "@mui/material/styles" {
   interface TypeBackground {
@@ -392,6 +392,13 @@ const theme = createTheme(baseTheme, {
         root: {
           padding: "0 15px",
           minWidth: "unset"
+        }
+      }
+    },
+    MuiCardHeader: {
+      defaultProps: {
+        titleTypographyProps: {
+          variant: "subtitle1"
         }
       }
     }

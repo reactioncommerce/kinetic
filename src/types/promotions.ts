@@ -1,7 +1,11 @@
 import { Promotion as APIPromotion } from "@graphql/generates";
 
 export type PromotionStatus = "active" | "upcoming" | "disabled" | "past"
-export type PromotionType = "order-discount" | "item-discount" | "shipping-discount"
+export enum PromotionType {
+  OrderDiscount = "order-discount",
+  ItemDiscount = "item-discount",
+  ShippingDiscount = "shipping-discount"
+}
 export type PromotionTabs = PromotionStatus | "viewAll"
 
 export enum CalculationType {
@@ -15,16 +19,51 @@ export enum Stackability {
   All = "all"
 }
 
-export interface Promotion extends Omit<APIPromotion, "__typename" | "actions" | "promotionType"> {
-  promotionType: PromotionType
-  actions: {
-    actionKey: string
-    actionParameters?: {
-      discountType: string
-      discountValue: number
-      discountCalculationType: CalculationType
+export type RuleCondition = {
+  fact: string,
+  operator: string,
+  value: string[],
+  path: string
+}
+
+export type Rule = {
+  conditions: {
+    all?: RuleCondition[]
+    any?: RuleCondition[]
+  }
+}
+
+export type Trigger = {
+  triggerKey: string
+  triggerParameters?: {
+    name: string
+    conditions: {
+      all: {
+        fact: string
+        operator: string
+        value: number
+        triggerType?: string
+      }[]
     }
-  }[]
+    inclusionRules?: Rule
+    exclusionRules?: Rule
+  }
+}
+
+export type Action = {
+  actionKey: string
+  actionParameters?: {
+    discountType: string
+    discountValue: number
+    discountCalculationType: CalculationType
+    inclusionRules?: Rule
+    exclusionRules?: Rule
+  }
+}
+export interface Promotion extends Omit<APIPromotion, "__typename" | "actions" | "promotionType" | "triggers"> {
+  promotionType: PromotionType
+  actions: Action[]
+  triggers?: Trigger[]
 }
 
 

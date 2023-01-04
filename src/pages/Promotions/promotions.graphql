@@ -41,3 +41,52 @@ query getPromotions(
       totalCount
     }
 }
+
+query getPromotion($input: PromotionQueryInput) {
+  promotion(input: $input) {
+     _id
+      triggerType
+      promotionType
+      label
+      description
+      enabled
+      name
+      state
+      triggers {
+        triggerKey
+        triggerParameters
+      }
+      actions {
+        actionKey
+        actionParameters
+      }
+      referenceId
+      shopId
+      startDate
+      endDate
+      stackability {
+        key
+        parameters
+      }
+      createdAt
+      updatedAt
+  }
+}
+
+mutation updatePromotion($input: PromotionUpdateInput) {
+  updatePromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}
+
+mutation createPromotion($input: PromotionCreateInput) {
+  createPromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}

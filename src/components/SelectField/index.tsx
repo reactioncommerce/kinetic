@@ -1,5 +1,5 @@
 import FormControl, { FormControlProps } from "@mui/material/FormControl";
-import Select, { SelectProps } from "@mui/material/Select";
+import Select, { SelectChangeEvent, SelectProps } from "@mui/material/Select";
 import FormHelperText from "@mui/material/FormHelperText";
 import Collapse from "@mui/material/Collapse";
 import FormLabel from "@mui/material/FormLabel";
@@ -15,13 +15,13 @@ type CustomSelectFieldProps = {
 };
 
 type SelectFieldProps = FieldProps &
-  FormControlProps &
+  Omit<FormControlProps, "onChange"> &
   Omit<SelectProps, "name" | "value" | "error" | "margin"> &
   CustomSelectFieldProps;
 
 export const SelectField = ({
-  field: { onBlur: fieldOnBlur, ...restFieldProps },
-  form: { isSubmitting, touched, errors },
+  field,
+  form: { isSubmitting, touched, errors, setFieldValue },
   fullWidth = true,
   size = "small",
   margin = "normal",
@@ -32,8 +32,11 @@ export const SelectField = ({
   helperText,
   hiddenLabel,
   ariaLabel,
+  placeholder,
+  onChange,
   ...props
 }: SelectFieldProps) => {
+  const { onChange: fieldOnChange, onBlur: fieldOnBlur, ...restFieldProps } = field;
   const fieldError = getIn(errors, restFieldProps.name) as string;
   const showError = getIn(touched, restFieldProps.name) && !!fieldError;
   const _helperText = showError ? fieldError : helperText;
@@ -43,6 +46,8 @@ export const SelectField = ({
 
   const _onBlur =
     onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
+  const _onChange =
+    onChange ?? ((event: SelectChangeEvent<string | number>) => setFieldValue(restFieldProps.name, event.target.value));
 
   return (
     <FormControl
@@ -54,18 +59,22 @@ export const SelectField = ({
       disabled={props.disabled ?? isSubmitting}
     >
       {!hiddenLabel && (
-        <FormLabel htmlFor={fieldId}>
+        <FormLabel id={fieldId}>
           {label}
         </FormLabel>
       )}
       <Select
-        id={fieldId}
         onBlur={_onBlur}
         aria-describedby={helperTextId}
+        labelId={fieldId}
         inputProps={{ "aria-label": ariaLabel }}
+        onChange={_onChange}
         {...props}
         {...restFieldProps}
       >
+        <MenuItem disabled value="">
+          {placeholder}
+        </MenuItem>
         {options.map((opt) => (
           <MenuItem key={opt.value} value={opt.value}>
             {opt.label}
