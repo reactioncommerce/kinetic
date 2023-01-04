@@ -1,10 +1,11 @@
 import { Component } from "react";
 import Typography from "@mui/material/Typography";
 
-import { formatErrorResponse } from "@utils/errorHandlers";
+import { formatErrorResponse, isNetworkError } from "@utils/errorHandlers";
 import { ErrorCode } from "types/common";
 
 import { AccessDenied } from "./AccessDenied";
+import { GeneralError } from "./GeneralError";
 
 type Props = {
    children: JSX.Element,
@@ -29,9 +30,19 @@ export class ErrorBoundary extends Component<Props, {hasError: boolean, errorEle
   }
 
   componentDidCatch(error: Error) {
+    this.props.setHasError(true);
+    if (isNetworkError(error)) {
+      this.setState({
+        errorElement:
+        <GeneralError
+          title="Network Error"
+          description="There is an issue when connecting to the API. Please check your API server and try again."
+        />
+      });
+      return;
+    }
     const { code } = formatErrorResponse(error);
 
-    this.props.setHasError(true);
 
     if (this.props.fallback) {
       this.setState({ errorElement: this.props.fallback });
