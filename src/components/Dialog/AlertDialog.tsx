@@ -20,7 +20,7 @@ type AlertDialogProps = DialogProps & {
 
 export const AlertDialog = ({ title, content, handleClose, cancelText, confirmText, onConfirm, icon, ...props }: AlertDialogProps) => (
   <Dialog onClose={handleClose} {...props}>
-    <DialogTitle>
+    <DialogTitle component="div">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
         <IconButton color="error">
           {icon}
