@@ -6,6 +6,7 @@ export enum PromotionType {
   ItemDiscount = "item-discount",
   ShippingDiscount = "shipping-discount"
 }
+export type PromotionTabs = PromotionStatus | "viewAll"
 
 export enum CalculationType {
   Percentage = "percentage",

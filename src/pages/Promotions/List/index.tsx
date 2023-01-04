@@ -151,7 +151,7 @@ const Promotions = () => {
 
   const disabledActionItem = Object.keys(rowSelection).length === 0;
   return (
-    <Container sx={{ padding: "20px 30px" }} maxWidth={false}>
+    <Container sx={{ py: 2 }} maxWidth={false}>
       <Typography variant="h5" gutterBottom>Promotions</Typography>
       <Box sx={{ borderBottom: 1, borderColor: "grey.200", marginBottom: 3 }}>
         <Tabs value={activeTab} onChange={(_, value) => handleChangeTab(value)}>
