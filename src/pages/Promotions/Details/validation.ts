@@ -15,11 +15,15 @@ export const promotionSchema = Yup.object().shape({
   actions: Yup.array().of(Yup.object({
     actionKey: Yup.string(),
     actionParameters: Yup.object({
-      discountValue: Yup.number().moreThan(0, "Discount value must be greater than 0").required("This field is required")
+      discountValue: Yup.number()
         .when("discountCalculationType", {
           is: "percentage",
           then: (schema) => schema.max(100, "This field must be less than or equal to 100%"),
           otherwise: (schema) => schema
+        }).when("discountCalculationType", {
+          is: "flat",
+          then: (schema) => schema.notRequired(),
+          otherwise: (schema) => schema.required("This field is required").moreThan(0, "Discount value must be greater than 0")
         }),
       discountCalculationType: Yup.string().required("This field is required"),
       discountType: Yup.string().required(),
