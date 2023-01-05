@@ -15,7 +15,7 @@ export const useEnablePromotion = (onSuccess?: () => void) => {
     promotions.forEach((promotion) => update({ input: { ...getUpdatePromotionInput(promotion), enabled: true } }, {
       onSuccess: () => {
         onSuccess?.();
-        success(promotions.length === 1 ? "Enable promotion successfully" : "Enable promotions successfully");
+        success(promotions.length === 1 ? "Enabled promotion successfully" : "Enabled promotions successfully");
       }
     }));
   };
@@ -31,7 +31,7 @@ export const useDisablePromotion = (onSuccess?: () => void) => {
     promotions.forEach((promotion) => update({ input: { ...getUpdatePromotionInput(promotion), enabled: false } }, {
       onSuccess: () => {
         onSuccess?.();
-        success(promotions.length === 1 ? "Disable promotion successfully" : "Disable promotions successfully");
+        success(promotions.length === 1 ? "Disabled promotion successfully" : "Disabled promotions successfully");
       }
     }));
   };

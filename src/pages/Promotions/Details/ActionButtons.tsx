@@ -51,7 +51,7 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
             {
               label: "Enable",
               onClick: () => enablePromotions([promotion]),
-              hidden: !canUpdate || promotion.enabled || promotion.state === PromotionState.Active
+              hidden: !canUpdate || promotion.enabled
             },
             {
               label: "Disable",
