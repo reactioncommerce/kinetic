@@ -62,7 +62,7 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
             {
               label: "Archive",
               onClick: () => archivePromotions([promotion._id], promotion.shopId),
-              hidden: !canUpdate || promotion.state === PromotionState.Active
+              hidden: !canUpdate || promotion.state === PromotionState.Archived
             }
           ]
         }
