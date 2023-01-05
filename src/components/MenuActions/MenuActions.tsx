@@ -9,6 +9,7 @@ type MenuActionsProps = {
     label: string
     onClick: () => void
     disabled?: boolean
+    hidden?: boolean
   }[]
   renderTriggerButton?: (onClick: (event: MouseEvent<HTMLElement>) => void) => JSX.Element
 }
@@ -68,7 +69,7 @@ export const MenuActions = ({ options, renderTriggerButton }: MenuActionsProps) 
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {options.map((option) => (
+        {options.filter(({ hidden }) => !hidden).map((option) => (
           <MenuItem
             key={option.label}
             onClick={(event) => handleMenuItemClick(event, option.onClick)}

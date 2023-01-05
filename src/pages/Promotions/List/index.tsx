@@ -8,25 +8,25 @@ import { useMemo } from "react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { format } from "date-fns";
 import Checkbox from "@mui/material/Checkbox";
-import { noop } from "lodash-es";
 
-import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
 import { PromotionState, useGetPromotionsQuery } from "@graphql/generates";
 import { useShop } from "@containers/ShopProvider";
 import { client } from "@graphql/graphql-request-client";
 import { Table, TableContainer, useTableState } from "@components/Table";
 import { filterNodes, formatDate } from "@utils/common";
-import { CalculationType, Promotion, PromotionStatus, PromotionType } from "types/promotions";
+import { CalculationType, Promotion, PromotionTabs, PromotionType } from "types/promotions";
 import { SortOrder } from "@graphql/types";
 import { CALCULATION_TYPE_OPTIONS, DATE_FORMAT, PROMOTION_TYPE_OPTIONS, TODAY } from "../constants";
 import { StatusChip } from "../components/StatusChip";
 
-type PromotionFilterKey = PromotionStatus | "viewAll"
-const TAB_VALUES: Record<PromotionFilterKey, {label: string}> = {
+import { Actions } from "./Actions";
+
+const TAB_VALUES: Record<PromotionTabs, {label: string}> = {
   active: { label: "Active" },
   upcoming: { label: "Upcoming" },
   disabled: { label: "Disabled" },
   past: { label: "Past" },
+  archived: { label: "Archived" },
   viewAll: { label: "View All" }
 };
 
@@ -36,13 +36,13 @@ const Promotions = () => {
   const { shopId } = useShop();
   const navigate = useNavigate();
 
-  const activeTab = (searchParams.get("type") || "active") as PromotionFilterKey;
+  const activeTab = (searchParams.get("type") || "active") as PromotionTabs;
   const defaultSortingState: SortingState = [{ id: "label", desc: false }];
 
   const { pagination, handlePaginationChange, sorting, onSortingChange, rowSelection, onRowSelectionChange } = useTableState(defaultSortingState);
 
   const formattedToday = format(TODAY, DATE_FORMAT);
-  const { data, isLoading } = useGetPromotionsQuery(client, {
+  const { data, isLoading, refetch } = useGetPromotionsQuery(client, {
     shopId: shopId!,
     first: pagination.pageSize,
     offset: pagination.pageIndex * pagination.pageSize,
@@ -52,7 +52,8 @@ const Promotions = () => {
       ...(activeTab === "active" ? { enabled: true, state: PromotionState.Active } : {}),
       ...(activeTab === "upcoming" ? { startDate: { after: formattedToday } } : {}),
       ...(activeTab === "disabled" ? { enabled: false } : {}),
-      ...(activeTab === "past" ? { endDate: { before: formattedToday } } : {})
+      ...(activeTab === "past" ? { endDate: { before: formattedToday } } : {}),
+      ...(activeTab === "archived" ? { state: PromotionState.Archived } : {})
     }
   }, {
     keepPreviousData: true,
@@ -91,6 +92,7 @@ const Promotions = () => {
           {...{
             checked: row.getIsSelected(),
             indeterminate: row.getIsSomeSelected(),
+            onClick: (event) => event.stopPropagation(),
             onChange: row.getToggleSelectedHandler()
           }}
         />
@@ -149,28 +151,35 @@ const Promotions = () => {
     handlePaginationChange({ pageIndex: 0, pageSize: pagination.pageSize });
   };
 
-  const disabledActionItem = Object.keys(rowSelection).length === 0;
+
+  const onHandleActionsSuccess = () => {
+    onRowSelectionChange({});
+    refetch();
+  };
+
+  const selectedPromotions = data?.promotions.filter(({ _id }) => !!rowSelection[_id]) || [];
+
   return (
     <Container sx={{ py: 2 }} maxWidth={false}>
       <Typography variant="h5" gutterBottom>Promotions</Typography>
       <Box sx={{ borderBottom: 1, borderColor: "grey.200", marginBottom: 3 }}>
         <Tabs value={activeTab} onChange={(_, value) => handleChangeTab(value)}>
-          {Object.keys(TAB_VALUES).map((key) => <Tab disableRipple key={key} value={key} label={TAB_VALUES[key as PromotionFilterKey].label}/>)}
+          {Object.keys(TAB_VALUES).map((key) =>
+            <Tab
+              disableRipple
+              key={key} value={key}
+              label={TAB_VALUES[key as PromotionTabs].label}
+            />)
+          }
         </Tabs>
       </Box>
       <TableContainer>
         <TableContainer.Header
           title="Promotions"
-          action={<MenuActions
-            options={
-              [
-                { label: "Create New", onClick: () => navigate("create") },
-                { label: "Duplicate", onClick: noop, disabled: disabledActionItem },
-                { label: "Enable", onClick: noop, disabled: disabledActionItem },
-                { label: "Disable", onClick: noop, disabled: disabledActionItem }
-              ]
-            }
-            renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}
+          action={<Actions
+            selectedPromotions={selectedPromotions}
+            onSuccess={onHandleActionsSuccess}
+            activeTab={activeTab}
           />}
         />
         <Table

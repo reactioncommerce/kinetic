@@ -26,6 +26,7 @@ query getPromotions(
           actionKey
           actionParameters
         }
+        state
         referenceId
         shopId
         startDate
@@ -34,7 +35,6 @@ query getPromotions(
           key
           parameters
         }
-        state
         createdAt
         updatedAt
       }
@@ -84,6 +84,15 @@ mutation updatePromotion($input: PromotionUpdateInput) {
 
 mutation createPromotion($input: PromotionCreateInput) {
   createPromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}
+
+mutation archivePromotion($input: PromotionDuplicateArchiveInput) {
+  archivePromotion(input: $input) {
     success
     promotion {
       _id

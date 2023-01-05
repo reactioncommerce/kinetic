@@ -12,10 +12,12 @@ const checkStatus: Record<PromotionTabs, (promotion: Promotion) => boolean> = {
   upcoming: (promotion) => isAfter(new Date(promotion.startDate), TODAY),
   disabled: (promotion) => !promotion.enabled,
   past: (promotion) => promotion.endDate && isBefore(new Date(promotion.endDate), TODAY),
+  archived: (promotion) => promotion.state === PromotionState.Archived,
   viewAll: () => true
 };
 
 const getStatusText = (promotion: Promotion) => {
+  if (checkStatus.archived(promotion)) return "archived";
   if (checkStatus.active(promotion)) return "active";
   if (checkStatus.disabled(promotion)) return "disabled";
   if (checkStatus.past(promotion)) return "past";

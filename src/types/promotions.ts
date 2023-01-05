@@ -1,12 +1,13 @@
 import { Promotion as APIPromotion } from "@graphql/generates";
 
-export type PromotionStatus = "active" | "upcoming" | "disabled" | "past"
+export type PromotionStatus = "active" | "upcoming" | "disabled" | "past" | "archived"
+export type PromotionTabs = PromotionStatus | "viewAll"
+
 export enum PromotionType {
   OrderDiscount = "order-discount",
   ItemDiscount = "item-discount",
   ShippingDiscount = "shipping-discount"
 }
-export type PromotionTabs = PromotionStatus | "viewAll"
 
 export enum CalculationType {
   Percentage = "percentage",
