@@ -64,7 +64,6 @@ describe("Promotion Details", () => {
     await user.click(within(screen.getByRole("listbox")).getByText("Shipping Discount"));
     await user.click(screen.getByLabelText("Calculate Type"));
     await user.click(within(screen.getByRole("listbox")).getByText("Free Shipping"));
-    await user.clear(screen.getByLabelText("Trigger Value"));
     await user.type(screen.getByLabelText("Trigger Value"), "12");
     await user.click(screen.getAllByText("Add Condition")[0]);
     await user.click(screen.getByLabelText("Property"));

@@ -394,6 +394,13 @@ const theme = createTheme(baseTheme, {
           minWidth: "unset"
         }
       }
+    },
+    MuiCardHeader: {
+      defaultProps: {
+        titleTypographyProps: {
+          variant: "subtitle1"
+        }
+      }
     }
   }
 } as ThemeOptions);

@@ -24,7 +24,6 @@ const getSymbolBasedOnType = (action: Action) => {
   return calculationType ? CALCULATION_TYPE_OPTIONS[calculationType].symbol : null;
 };
 
-
 export const PromotionActions = () => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);

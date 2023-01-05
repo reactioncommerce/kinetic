@@ -7,6 +7,7 @@ import { Promotion, PromotionTabs } from "types/promotions";
 import { useDisablePromotion, useEnablePromotion, useArchivePromotions } from "../hooks";
 import { useDuplicatePromotionMutation } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
+import { useToast } from "@containers/ToastProvider";
 
 type ActionsProps = {
   selectedPromotions: Promotion[]
@@ -18,7 +19,7 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
   const selectedPromotionIds = selectedPromotions.map(({ _id }) => _id);
   const navigate = useNavigate();
   const { shopId } = useShop();
-
+  const { success } = useToast();
   const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
   const canCreate = usePermission(["reaction:legacy:promotions/create"]);
 
@@ -41,7 +42,14 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
 
   const onClickDuplicatePromotion = () => {
     selectedPromotionIds.forEach((id) => {
-      duplicatePromotion({ input: { promotionId: id, shopId: shopId! } }, { onSuccess });
+      duplicatePromotion({ input: { promotionId: id, shopId: shopId! } }, {
+        onSuccess: (response) => {
+          if (response.duplicatePromotion?.success) {
+            onSuccess();
+            success(selectedPromotionIds.length === 1 ? "Duplicated promotion successfully" : "Duplicated promotions successfully");
+          }
+        }
+      });
     });
   };
 
