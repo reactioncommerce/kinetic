@@ -26,7 +26,7 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
   const navigate = useNavigate();
   const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
   const canCreate = usePermission(["reaction:legacy:promotions/create"]);
-  const { success } = useToast();
+  const { success, error } = useToast();
 
   const { enablePromotions } = useEnablePromotion(onSuccess);
   const { disablePromotions } = useDisablePromotion(onSuccess);
@@ -38,7 +38,12 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
       { input: { shopId: shopId!, promotionId } },
       {
         onSuccess: (response) => {
+          if (!response.duplicatePromotion?.success) {
+            error("Failed to duplicate promotion");
+            return;
+          }
           const duplicatedPromotionId = response.duplicatePromotion?.promotion?._id;
+
           if (duplicatedPromotionId) {
             navigate(`/promotions/${duplicatedPromotionId}`);
           } else {
