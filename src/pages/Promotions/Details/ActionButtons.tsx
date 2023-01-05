@@ -69,7 +69,7 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
             {
               label: "Enable",
               onClick: () => enablePromotions([promotion]),
-              hidden: !canUpdate || promotion.enabled || promotion.state === PromotionState.Active
+              hidden: !canUpdate || promotion.enabled
             },
             {
               label: "Disable",
@@ -80,7 +80,7 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
             {
               label: "Archive",
               onClick: () => archivePromotions([promotion._id], promotion.shopId),
-              hidden: !canUpdate || promotion.state === PromotionState.Active || promotion.state === PromotionState.Archived
+              hidden: !canUpdate || promotion.state === PromotionState.Archived
             }
           ]
         }
