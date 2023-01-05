@@ -31,7 +31,7 @@ describe("Promotion Details", () => {
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
     expect(screen.queryByText("Add Action")).not.toBeInTheDocument();
-    expect(screen.getByText("Add Trigger")).toBeInTheDocument();
+    expect(screen.queryByText("Add Trigger")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Discount Value")).toHaveValue(promotion.actions[0].actionParameters?.discountValue);
     expect(screen.getByLabelText("Stack All")).toBeInTheDocument();
     expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DATE_FORMAT));
@@ -64,7 +64,6 @@ describe("Promotion Details", () => {
     await user.click(within(screen.getByRole("listbox")).getByText("Shipping Discount"));
     await user.click(screen.getByLabelText("Calculate Type"));
     await user.click(within(screen.getByRole("listbox")).getByText("Free Shipping"));
-    await user.click(screen.getByText("Add Trigger"));
     await user.type(screen.getByLabelText("Trigger Value"), "12");
     await user.click(screen.getAllByText("Add Condition")[0]);
     await user.click(screen.getByLabelText("Property"));
