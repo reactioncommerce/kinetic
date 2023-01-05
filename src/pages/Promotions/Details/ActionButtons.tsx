@@ -10,6 +10,7 @@ import { PromotionState, useDuplicatePromotionMutation } from "@graphql/generate
 import { usePermission } from "@components/PermissionGuard";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
+import { useToast } from "@containers/ToastProvider";
 
 type ActionButtonsProps = {
   loading: boolean
@@ -25,6 +26,7 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
   const navigate = useNavigate();
   const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
   const canCreate = usePermission(["reaction:legacy:promotions/create"]);
+  const { success } = useToast();
 
   const { enablePromotions } = useEnablePromotion(onSuccess);
   const { disablePromotions } = useDisablePromotion(onSuccess);
@@ -36,7 +38,12 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
       { input: { shopId: shopId!, promotionId } },
       {
         onSuccess: (response) => {
-          navigate(`/promotions/${response.duplicatePromotion?.promotion?._id}`);
+          const duplicatedPromotionId = response.duplicatePromotion?.promotion?._id;
+          if (duplicatedPromotionId) {
+            navigate(`/promotions/${duplicatedPromotionId}`);
+          } else {
+            success("Duplicated promotion successfully");
+          }
         }
       }
     );
