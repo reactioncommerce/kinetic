@@ -27,7 +27,8 @@ export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = 
 ];
 
 export const TRIGGER_TYPE_OPTIONS = [
-  { label: "Cart Value is greater than", value: "totalItemAmount-greaterThanInclusive" }
+  { label: "Cart Value is greater than", value: "totalItemAmount-greaterThanInclusive" },
+  { label: "Item is in cart", value: "totalItemCount-greaterThanExclusive" }
 ];
 
 
