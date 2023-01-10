@@ -15,7 +15,10 @@ export const normalizeTriggersData = (triggers?: Trigger[]) => triggers?.map((tr
     ...trigger.triggerParameters,
     inclusionRules: normalizeRule(trigger.triggerParameters?.inclusionRules),
     exclusionRules: normalizeRule(trigger.triggerParameters?.exclusionRules),
-    conditions: { all: trigger.triggerParameters?.conditions.all.map(({ triggerType, ...condition }) => condition) }
+    conditions: {
+      all: trigger.triggerParameters?.conditions.all
+        .map(({ triggerType, value }) => ({ fact: triggerType?.split("-")[0], operator: triggerType?.split("-")[1], value }))
+    }
   }
 }));
 
