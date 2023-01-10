@@ -58,7 +58,7 @@ export const promotionSchema = Yup.object().shape({
     triggerParameters: Yup.object({
       conditions: Yup.object({
         all: Yup.array().of(Yup.object({
-          value: Yup.number().moreThan(0, "Cart value must be greater than 0").required("This field is required")
+          value: Yup.number().moreThan(0, "This field must be greater than 0").required("This field is required")
         }))
       }),
       inclusionRules: Yup.object({
