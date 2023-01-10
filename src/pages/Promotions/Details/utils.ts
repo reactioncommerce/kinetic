@@ -1,4 +1,4 @@
-import { Action, Rule, Trigger, TriggerKeys } from "types/promotions";
+import { Action, Rule, Trigger, TriggerKeys, TriggerType } from "types/promotions";
 
 const normalizeRule = (rule?: Rule) => {
   const newRule = { ...rule };
@@ -45,13 +45,22 @@ const formatOffersTrigger = (trigger: Trigger<TriggerKeys.Offers>, promotionName
   }
 });
 
+const formatCouponsTrigger = (trigger: Trigger<TriggerKeys.Coupons>) => ({
+  ...trigger,
+  triggerParameters: {
+    name: trigger.triggerParameters.name,
+    conditions: { all: [{ triggerType: TriggerType.CouponStandard }] },
+    couponCode: trigger.triggerParameters.couponCode
+  }
+});
+
 export const formatTriggers = (triggers: Trigger[], promotionName: string) =>
   triggers.map((trigger) => {
     const { triggerKey } = trigger;
 
     const formatFn = {
       [TriggerKeys.Offers]: formatOffersTrigger,
-      [TriggerKeys.Coupons]: () => {}
+      [TriggerKeys.Coupons]: formatCouponsTrigger
     };
 
     return formatFn[triggerKey](trigger, promotionName);

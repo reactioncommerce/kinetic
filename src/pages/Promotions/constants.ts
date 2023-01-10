@@ -1,5 +1,5 @@
 import { SelectOptionType } from "types/common";
-import { CalculationType, PromotionType, Stackability, TriggerType } from "types/promotions";
+import { CalculationType, PromotionType, Stackability, TriggerType, TriggerKeys } from "types/promotions";
 
 export const CALCULATION_TYPE_OPTIONS: Record<CalculationType, SelectOptionType<CalculationType> & {symbol?: string}> = {
   percentage: { label: "% Off", value: CalculationType.Percentage, symbol: "%" },
@@ -26,9 +26,10 @@ export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = 
   { label: "Stack All", value: Stackability.All }
 ];
 
-export const TRIGGER_TYPE_MAP: Record<TriggerType, SelectOptionType> = {
-  totalItemAmount: { label: "Cart Value is greater than", value: "totalItemAmount-greaterThanInclusive" },
-  totalItemCount: { label: "Item is in cart", value: "totalItemCount-greaterThanExclusive" }
+export const TRIGGER_TYPE_MAP: Record<TriggerType, SelectOptionType & {triggerKey: TriggerKeys}> = {
+  totalItemAmount: { label: "Cart Value is greater than", value: "totalItemAmount-greaterThanInclusive", triggerKey: TriggerKeys.Offers },
+  totalItemCount: { label: "Item is in cart", value: "totalItemCount-greaterThanExclusive", triggerKey: TriggerKeys.Offers },
+  couponStandard: { label: "Coupon is used (Standard)", value: "couponStandard", triggerKey: TriggerKeys.Coupons }
 };
 
 export const TRIGGER_TYPE_OPTIONS = Object.values(TRIGGER_TYPE_MAP);

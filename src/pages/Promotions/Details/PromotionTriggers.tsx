@@ -1,5 +1,5 @@
 import Stack from "@mui/material/Stack";
-import { Field, FieldArray } from "formik";
+import { FieldArray } from "formik";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -8,13 +8,14 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 
-import { SelectField } from "@components/SelectField";
 import { TRIGGER_TYPE_OPTIONS } from "../constants";
 import { AlertDialog } from "@components/Dialog";
 import { Trigger, TriggerKeys } from "types/promotions";
 
 import { EligibleItems } from "./EligibleItems";
 import { TriggerValuesField } from "./TriggerValuesField";
+import { TriggerTypeField } from "./TriggerTypeField";
+import { CouponsField } from "./CouponsField";
 
 
 export const PromotionTriggers = () => {
@@ -35,16 +36,7 @@ export const PromotionTriggers = () => {
                     name={`triggers[${index}].triggerParameters.conditions.all`}
                     render={() =>
                       <Grid container spacing={1} width="70%">
-                        <Grid item>
-                          <Field
-                            name={`triggers[${index}].triggerParameters.conditions.all[0].triggerType`}
-                            component={SelectField}
-                            hiddenLabel
-                            label="Select Trigger Type"
-                            options={TRIGGER_TYPE_OPTIONS}
-                            autoWidth
-                          />
-                        </Grid>
+                        <TriggerTypeField trigger={values.triggers[index]} index={index}/>
                         <TriggerValuesField trigger={values.triggers[index]} index={index}/>
                       </Grid>
                     }
@@ -53,6 +45,7 @@ export const PromotionTriggers = () => {
                 Remove Trigger
                   </Button>
                 </Stack>
+                <CouponsField index={index}/>
                 <EligibleItems
                   inclusionFieldName={
                     `triggers[${index}].triggerParameters.inclusionRules.conditions`

@@ -17,12 +17,13 @@ export enum TriggerKeys {
 export enum CalculationType {
   Percentage = "percentage",
   Fixed = "fixed",
-  Flat = "flat"
+  Flat = "flat",
 }
 
 export enum TriggerType {
   ItemAmount = "totalItemAmount",
-  ItemCount = "totalItemCount"
+  ItemCount = "totalItemCount",
+  CouponStandard = "couponStandard"
 }
 
 export enum Stackability {
@@ -65,7 +66,7 @@ export type CouponsTriggerParameters = {
 
 export type Trigger<Key extends TriggerKeys = TriggerKeys.Offers> = {
   triggerKey: Key
-  triggerParameters?: Key extends TriggerKeys.Offers ? OffersTriggerParameters : CouponsTriggerParameters
+  triggerParameters: Key extends TriggerKeys.Offers ? OffersTriggerParameters | undefined : CouponsTriggerParameters
 }
 
 export type Action = {

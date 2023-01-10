@@ -6,6 +6,7 @@ import FormLabel from "@mui/material/FormLabel";
 import Collapse from "@mui/material/Collapse";
 import { uniqueId } from "lodash-es";
 import { forwardRef, useRef } from "react";
+import { Typography } from "@mui/material";
 
 type CustomTextFieldProps = {
   helperText?: string
@@ -52,7 +53,7 @@ export const TextField = forwardRef(({
       variant="standard"
     >
       {!hiddenLabel && (
-        <FormLabel htmlFor={fieldId}>
+        <FormLabel htmlFor={fieldId} component={Typography} noWrap>
           {label}
         </FormLabel>
       )}

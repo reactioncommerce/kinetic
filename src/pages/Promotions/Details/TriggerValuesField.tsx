@@ -3,14 +3,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Field } from "formik";
 
 import { TextField } from "@components/TextField";
-import { Trigger, TriggerType } from "types/promotions";
+import { Trigger, TriggerKeys, TriggerType } from "types/promotions";
 
 type TriggerValuesFieldProps = {
   trigger: Trigger
   index: number
 }
 export const TriggerValuesField = ({ trigger, index }: TriggerValuesFieldProps) => {
-  const triggerType = trigger.triggerParameters?.conditions.all?.[0].triggerType?.split("-")[0];
+  const triggerType = trigger.triggerKey === TriggerKeys.Offers ? trigger.triggerParameters?.conditions.all?.[0].triggerType?.split("-")[0] : null;
 
   const fieldComponentMap: Record<string, JSX.Element> = {
     [TriggerType.ItemAmount]: <Field
