@@ -12,7 +12,7 @@ import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { PromotionState, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
 import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
-import { Promotion, PromotionType, Trigger } from "types/promotions";
+import { Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
@@ -27,7 +27,7 @@ import { PromotionTriggers } from "./PromotionTriggers";
 import { promotionSchema } from "./validation";
 import { AvailableDateField } from "./AvailableDateField";
 import { PromotionTypeField } from "./PromotionTypeField";
-import { normalizeActionsData, normalizeTriggersData } from "./utils";
+import { formatTriggers, normalizeActionsData, normalizeTriggersData } from "./utils";
 
 type PromotionFormValue = {
   name: string
@@ -42,19 +42,6 @@ type PromotionFormValue = {
   enabled: boolean
 }
 
-
-const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
-  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
-
-const formatTriggers = (triggers: Trigger[], promotionName: string) =>
-  triggers.map((trigger) => ({
-    ...trigger,
-    triggerParameters: {
-      ...trigger.triggerParameters,
-      name: trigger.triggerParameters?.name || promotionName,
-      conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
-    }
-  }));
 
 const normalizeFormValues = (values: PromotionFormValue) =>
   ({

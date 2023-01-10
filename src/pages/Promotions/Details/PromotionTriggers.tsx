@@ -11,7 +11,7 @@ import Alert from "@mui/material/Alert";
 import { SelectField } from "@components/SelectField";
 import { TRIGGER_TYPE_OPTIONS } from "../constants";
 import { AlertDialog } from "@components/Dialog";
-import { Trigger } from "types/promotions";
+import { Trigger, TriggerKeys } from "types/promotions";
 
 import { EligibleItems } from "./EligibleItems";
 import { TriggerValuesField } from "./TriggerValuesField";
@@ -81,7 +81,7 @@ export const PromotionTriggers = () => {
               color="secondary"
               variant="outlined"
               onClick={() => push({
-                triggerKey: "offers",
+                triggerKey: TriggerKeys.Offers,
                 triggerParameters: {
                   name: values.name,
                   conditions: {

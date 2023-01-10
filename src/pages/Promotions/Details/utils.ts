@@ -1,4 +1,4 @@
-import { Action, Rule, Trigger } from "types/promotions";
+import { Action, Rule, Trigger, TriggerKeys } from "types/promotions";
 
 const normalizeRule = (rule?: Rule) => {
   const newRule = { ...rule };
@@ -30,3 +30,29 @@ export const normalizeActionsData = (actions?: Action[]) => actions?.map((action
     exclusionRules: normalizeRule(action.actionParameters?.exclusionRules)
   }
 }));
+
+
+const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
+  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
+
+
+const formatOffersTrigger = (trigger: Trigger<TriggerKeys.Offers>, promotionName: string) => ({
+  ...trigger,
+  triggerParameters: {
+    ...trigger.triggerParameters,
+    name: trigger.triggerParameters?.name || promotionName,
+    conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
+  }
+});
+
+export const formatTriggers = (triggers: Trigger[], promotionName: string) =>
+  triggers.map((trigger) => {
+    const { triggerKey } = trigger;
+
+    const formatFn = {
+      [TriggerKeys.Offers]: formatOffersTrigger,
+      [TriggerKeys.Coupons]: () => {}
+    };
+
+    return formatFn[triggerKey](trigger, promotionName);
+  });

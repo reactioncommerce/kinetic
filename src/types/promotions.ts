@@ -9,6 +9,11 @@ export enum PromotionType {
   ShippingDiscount = "shipping-discount"
 }
 
+export enum TriggerKeys {
+  Offers = "offers",
+  Coupons = "coupons",
+}
+
 export enum CalculationType {
   Percentage = "percentage",
   Fixed = "fixed",
@@ -39,21 +44,28 @@ export type Rule = {
   }
 }
 
-export type Trigger = {
-  triggerKey: string
-  triggerParameters?: {
-    name: string
-    conditions: {
-      all: {
-        fact: string
-        operator: string
-        value: number
-        triggerType?: string
-      }[]
-    }
-    inclusionRules?: Rule
-    exclusionRules?: Rule
+export type OffersTriggerParameters = {
+  name: string
+  conditions: {
+    all: {
+      fact: string
+      operator: string
+      value: number
+      triggerType?: string
+    }[]
   }
+  inclusionRules?: Rule
+  exclusionRules?: Rule
+}
+
+export type CouponsTriggerParameters = {
+  name: string
+  couponCode: string
+}
+
+export type Trigger<Key extends TriggerKeys = TriggerKeys.Offers> = {
+  triggerKey: Key
+  triggerParameters?: Key extends TriggerKeys.Offers ? OffersTriggerParameters : CouponsTriggerParameters
 }
 
 export type Action = {
