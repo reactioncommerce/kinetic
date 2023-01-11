@@ -11,7 +11,7 @@ import Alert from "@mui/material/Alert";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { Promotion, PromotionType } from "types/promotions";
-import { CALCULATION_TYPE_OPTIONS, DISCOUNT_TYPES_MAP } from "../constants";
+import { CALCULATION_TYPE_OPTIONS, DISCOUNT_TYPES_MAP, NOOP_ACTION } from "../constants";
 import { AlertDialog } from "@components/Dialog";
 
 import { EligibleItems } from "./EligibleItems";
@@ -46,7 +46,7 @@ export const PromotionActions = () => {
             <Typography variant="subtitle2">Select an action for your promotion</Typography>
             {values.actions.map((_: Action, index: number) =>
               <Paper key={index} variant="outlined" sx={{ padding: 2 }}>
-                {values.actions[index].actionKey === "noop" ?
+                {values.actions[index].actionKey === NOOP_ACTION ?
                   <Typography>Noop Action</Typography> :
                   <>
                     <Stack direction="row" alignItems="center" justifyContent="space-between">

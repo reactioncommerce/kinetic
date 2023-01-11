@@ -36,7 +36,7 @@ export const PromotionTriggers = () => {
                     name={`triggers[${index}].triggerParameters.conditions.all`}
                     render={() =>
                       <Grid container spacing={1} width="70%">
-                        <TriggerTypeField trigger={values.triggers[index]} index={index}/>
+                        <TriggerTypeField fieldName={`triggers[${index}].triggerParameters.conditions.all[0].triggerType`} index={index}/>
                         <TriggerValuesField trigger={values.triggers[index]} index={index}/>
                       </Grid>
                     }
@@ -45,7 +45,7 @@ export const PromotionTriggers = () => {
                 Remove Trigger
                   </Button>
                 </Stack>
-                <CouponsField index={index}/>
+                {values.triggers[index].triggerKey === TriggerKeys.Coupons ? <CouponsField index={index}/> : null}
                 <EligibleItems
                   inclusionFieldName={
                     `triggers[${index}].triggerParameters.inclusionRules.conditions`

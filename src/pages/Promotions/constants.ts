@@ -53,3 +53,5 @@ export const CONDITION_OPERATORS: Record<string, SelectOptionType & {fieldPrefix
   all: { label: "all", value: "all", fieldPrefix: "and" },
   any: { label: "any of", value: "any", fieldPrefix: "or" }
 };
+
+export const NOOP_ACTION = "noop";

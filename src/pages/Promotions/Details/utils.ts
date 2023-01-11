@@ -9,16 +9,25 @@ const normalizeRule = (rule?: Rule) => {
   return newRule.conditions ? newRule : undefined;
 };
 
+const normalizeTriggerCondition = (trigger: Trigger) => {
+  const handler = {
+    [TriggerKeys.Offers]: {
+      all: trigger.triggerParameters?.conditions.all
+        .map(({ triggerType, value }) => ({ fact: triggerType?.split("-")[0], operator: triggerType?.split("-")[1], value }))
+    },
+    [TriggerKeys.Coupons]: undefined
+  };
+
+  return handler[trigger.triggerKey];
+};
+
 export const normalizeTriggersData = (triggers?: Trigger[]) => triggers?.map((trigger) => ({
   ...trigger,
   triggerParameters: {
     ...trigger.triggerParameters,
     inclusionRules: normalizeRule(trigger.triggerParameters?.inclusionRules),
     exclusionRules: normalizeRule(trigger.triggerParameters?.exclusionRules),
-    conditions: {
-      all: trigger.triggerParameters?.conditions.all
-        .map(({ triggerType, value }) => ({ fact: triggerType?.split("-")[0], operator: triggerType?.split("-")[1], value }))
-    }
+    conditions: normalizeTriggerCondition(trigger)
   }
 }));
 
