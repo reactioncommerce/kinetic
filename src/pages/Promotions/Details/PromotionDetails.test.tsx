@@ -115,4 +115,27 @@ describe("Promotion Details", () => {
       expect(screen.getByLabelText("Promotion Name")).toHaveValue(enabledPromotions[0].name);
     });
   }, 50000);
+
+  it("should change trigger value field based on trigger type", async () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${promotion._id}`] }
+    );
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+    const user = userEvent.setup();
+    await user.click(screen.getByText("Add Trigger"));
+    expect(screen.getByText("Cart Value is greater than")).toBeInTheDocument();
+    await user.type(screen.getByLabelText("Trigger Value"), "12");
+
+    await user.click(screen.getByLabelText("Select Trigger Type"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Item is in cart"));
+    expect(screen.getByText("Minimum number of items required to trigger promotion")).toBeInTheDocument();
+  }, 50000);
 });

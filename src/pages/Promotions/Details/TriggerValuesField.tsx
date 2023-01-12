@@ -35,6 +35,7 @@ export const TriggerValuesField = ({ trigger, index }: TriggerValuesFieldProps) 
       endAdornment={
         <InputAdornment position="end">items</InputAdornment>
       }
+      helperText="Minimum number of items required to trigger promotion"
       sx={{ width: "130px" }}
     />
   };

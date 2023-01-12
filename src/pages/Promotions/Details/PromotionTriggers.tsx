@@ -41,6 +41,7 @@ export const PromotionTriggers = () => {
                             component={SelectField}
                             hiddenLabel
                             label="Select Trigger Type"
+                            ariaLabel="Select Trigger Type"
                             options={TRIGGER_TYPE_OPTIONS}
                             autoWidth
                           />
