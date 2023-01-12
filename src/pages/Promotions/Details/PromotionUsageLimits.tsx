@@ -3,10 +3,13 @@ import { Field } from "formik";
 
 import { TextField } from "@components/TextField";
 
-export const PromotionUsageLimits = () => (
-  <Stack direction="row" gap={2} mt={1} sx={{ width: { md: "80%", xs: "100%" } }}>
-    <Field name="maxUsagePerOrder" component={TextField} type="number" label="Max # uses per Order"/>
-    <Field name="maxDiscountPerOrder" component={TextField} type="number" label="Max $ discount on an Order"/>
-    <Field name="maxUsagePerCustomer" component={TextField} type="number" label="Max # uses per Customer"/>
+type PromotionUsageLimitsProps = {
+  actionParametersFieldName: string
+}
+
+export const PromotionUsageLimits = ({ actionParametersFieldName }: PromotionUsageLimitsProps) => (
+  <Stack sx={{ width: { lg: "50%", md: "100%" }, flexDirection: { lg: "row", md: "column" }, gap: { lg: 2, md: 0 } }} alignItems="center">
+    <Field name={`${actionParametersFieldName}.discountMaxUnits`} component={TextField} type="number" label="Max # uses per Order" />
+    <Field name={`${actionParametersFieldName}.discountMaxValue`} component={TextField} type="number" label="Max $ discount on an Order" />
   </Stack>
 );

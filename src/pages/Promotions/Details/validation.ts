@@ -29,6 +29,8 @@ export const promotionSchema = Yup.object().shape({
           then: (schema) => schema.notRequired(),
           otherwise: (schema) => schema.required("This field is required").moreThan(0, "Discount value must be greater than 0")
         }),
+      discountMaxUnits: Yup.number().min(0, "This field must be greater than or equal to 0"),
+      discountMaxValue: Yup.number().min(0, "This field must be greater than or equal to 0"),
       discountCalculationType: Yup.string().required("This field is required"),
       discountType: Yup.string().required(),
       inclusionRules: Yup.object().when("discountType", {
@@ -76,8 +78,5 @@ export const promotionSchema = Yup.object().shape({
     })
   })).min(1, "Promotion should have at least 1 trigger"),
   startDate: Yup.date().nullable().required("This field is required"),
-  endDate: Yup.date().nullable().min(Yup.ref("startDate"), "End date should be after start date"),
-  maxUsagePerOrder: Yup.number().moreThan(0, "This field must be greater than 0"),
-  maxDiscountPerOrder: Yup.number().moreThan(0, "This field must be greater than 0"),
-  maxUsagePerCustomer: Yup.number().moreThan(0, "This field must be greater than 0")
+  endDate: Yup.date().nullable().min(Yup.ref("startDate"), "End date should be after start date")
 });
