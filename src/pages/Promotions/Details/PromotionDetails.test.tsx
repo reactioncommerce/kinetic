@@ -31,7 +31,7 @@ describe("Promotion Details", () => {
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
     expect(screen.queryByText("Add Action")).not.toBeInTheDocument();
-    expect(screen.queryByText("Add Trigger")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Add Trigger" })).not.toBeInTheDocument();
     expect(screen.getByLabelText("Discount Value")).toHaveValue(promotion.actions[0].actionParameters?.discountValue);
     expect(screen.getByLabelText("Stack with Any")).toBeInTheDocument();
     expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DATE_FORMAT));
@@ -130,7 +130,6 @@ describe("Promotion Details", () => {
     );
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
     const user = userEvent.setup();
-    await user.click(screen.getByText("Add Trigger"));
     expect(screen.getByText("Cart Value is greater than")).toBeInTheDocument();
     await user.type(screen.getByLabelText("Trigger Value"), "12");
 
