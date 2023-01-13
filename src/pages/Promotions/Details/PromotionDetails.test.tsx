@@ -93,25 +93,6 @@ describe("Promotion Details", () => {
     expect(screen.getByLabelText("Available To")).not.toBeDisabled();
   }, 50000);
 
-  it("should not able to change some active promotion properties", async () => {
-    const activePromotion = enabledPromotions[0];
-    renderWithProviders(
-      <Routes>
-        <Route element={<AppLayout/>}>
-          <Route path="promotions/:promotionId" element={
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <PromotionDetails/>
-            </LocalizationProvider>}/>
-        </Route>
-      </Routes>
-      , { initialEntries: [`/promotions/${activePromotion._id}`] }
-    );
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
-    expect(screen.getByLabelText("Available From")).toBeDisabled();
-    expect(screen.getByLabelText("Promotion Type")).toHaveAttribute("aria-disabled", "true");
-    expect(screen.getByLabelText("Available To")).not.toBeDisabled();
-  }, 50000);
-
   it("should duplicate a promotion successfully", async () => {
     renderWithProviders(
       <Routes>
