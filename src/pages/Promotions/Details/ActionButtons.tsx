@@ -1,13 +1,17 @@
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { noop } from "lodash-es";
+import { useNavigate } from "react-router-dom";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
 import { Promotion } from "types/promotions";
 import { useDisablePromotion, useEnablePromotion, useArchivePromotions } from "../hooks";
-import { PromotionState } from "@graphql/generates";
+import { PromotionState, useDuplicatePromotionMutation } from "@graphql/generates";
 import { usePermission } from "@components/PermissionGuard";
+import { client } from "@graphql/graphql-request-client";
+import { useShop } from "@containers/ShopProvider";
+import { useToast } from "@containers/ToastProvider";
+import { formatErrorResponse } from "@utils/errorHandlers";
 
 type ActionButtonsProps = {
   loading: boolean
@@ -19,10 +23,41 @@ type ActionButtonsProps = {
 }
 
 export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCancel, onSuccess }: ActionButtonsProps) => {
+  const { shopId } = useShop();
+  const navigate = useNavigate();
+  const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
+  const canCreate = usePermission(["reaction:legacy:promotions/create"]);
+  const { success, error } = useToast();
+
   const { enablePromotions } = useEnablePromotion(onSuccess);
   const { disablePromotions } = useDisablePromotion(onSuccess);
-  const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
   const { archivePromotions } = useArchivePromotions(onSuccess);
+  const { mutate: duplicatePromotion } = useDuplicatePromotionMutation(client);
+
+  const handleDuplicatePromotion = (promotionId: string) => {
+    duplicatePromotion(
+      { input: { shopId: shopId!, promotionId } },
+      {
+        onSuccess: (response) => {
+          if (!response.duplicatePromotion?.success) {
+            error("Failed to duplicate promotion");
+            return;
+          }
+          const duplicatedPromotionId = response.duplicatePromotion?.promotion?._id;
+
+          if (duplicatedPromotionId) {
+            navigate(`/promotions/${duplicatedPromotionId}`);
+          } else {
+            success("Duplicated promotion successfully");
+          }
+        },
+        onError: (responseError) => {
+          const { message } = formatErrorResponse(responseError);
+          error(message || "Failed to duplicate promotion");
+        }
+      }
+    );
+  };
 
   return (
     !promotion || !disabled ?
@@ -58,7 +93,7 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
               onClick: () => disablePromotions([promotion]),
               hidden: !canUpdate || !promotion.enabled
             },
-            { label: "Duplicate", onClick: noop },
+            { label: "Duplicate", onClick: () => handleDuplicatePromotion(promotion._id), hidden: !canCreate },
             {
               label: "Archive",
               onClick: () => archivePromotions([promotion._id], promotion.shopId),

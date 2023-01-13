@@ -8570,6 +8570,13 @@ export type ArchivePromotionMutationVariables = Exact<{
 
 export type ArchivePromotionMutation = { __typename?: 'Mutation', archivePromotion?: { __typename?: 'PromotionUpdatedPayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
 
+export type DuplicatePromotionMutationVariables = Exact<{
+  input?: InputMaybe<PromotionDuplicateArchiveInput>;
+}>;
+
+
+export type DuplicatePromotionMutation = { __typename?: 'Mutation', duplicatePromotion?: { __typename?: 'PromotionUpdatedPayload', success: boolean, promotion?: { __typename?: 'Promotion', _id: string } | null } | null };
+
 export type GetAddressValidationServiceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -9347,6 +9354,29 @@ export const useArchivePromotionMutation = <
     useMutation<ArchivePromotionMutation, TError, ArchivePromotionMutationVariables, TContext>(
       ['archivePromotion'],
       (variables?: ArchivePromotionMutationVariables) => fetcher<ArchivePromotionMutation, ArchivePromotionMutationVariables>(client, ArchivePromotionDocument, variables, headers)(),
+      options
+    );
+export const DuplicatePromotionDocument = `
+    mutation duplicatePromotion($input: PromotionDuplicateArchiveInput) {
+  duplicatePromotion(input: $input) {
+    success
+    promotion {
+      _id
+    }
+  }
+}
+    `;
+export const useDuplicatePromotionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<DuplicatePromotionMutation, TError, DuplicatePromotionMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<DuplicatePromotionMutation, TError, DuplicatePromotionMutationVariables, TContext>(
+      ['duplicatePromotion'],
+      (variables?: DuplicatePromotionMutationVariables) => fetcher<DuplicatePromotionMutation, DuplicatePromotionMutationVariables>(client, DuplicatePromotionDocument, variables, headers)(),
       options
     );
 export const GetAddressValidationServiceDocument = `

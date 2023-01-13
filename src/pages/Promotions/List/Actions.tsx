@@ -1,4 +1,3 @@
-import { noop } from "lodash-es";
 import { useNavigate } from "react-router-dom";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
@@ -6,6 +5,10 @@ import { useShop } from "@containers/ShopProvider";
 import { usePermission } from "@components/PermissionGuard";
 import { Promotion, PromotionTabs } from "types/promotions";
 import { useDisablePromotion, useEnablePromotion, useArchivePromotions } from "../hooks";
+import { useDuplicatePromotionMutation } from "@graphql/generates";
+import { client } from "@graphql/graphql-request-client";
+import { useToast } from "@containers/ToastProvider";
+import { formatErrorResponse } from "@utils/errorHandlers";
 
 type ActionsProps = {
   selectedPromotions: Promotion[]
@@ -14,9 +17,10 @@ type ActionsProps = {
 }
 export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProps) => {
   const disabled = selectedPromotions.length === 0;
+  const selectedPromotionIds = selectedPromotions.map(({ _id }) => _id);
   const navigate = useNavigate();
   const { shopId } = useShop();
-
+  const { success, error } = useToast();
   const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
   const canCreate = usePermission(["reaction:legacy:promotions/create"]);
 
@@ -24,9 +28,27 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
   const { enablePromotions } = useEnablePromotion(onSuccess);
   const { disablePromotions } = useDisablePromotion(onSuccess);
   const { archivePromotions } = useArchivePromotions(onSuccess);
+  const { mutate: duplicatePromotion } = useDuplicatePromotionMutation(client);
 
   const handleArchivePromotions = () => {
-    archivePromotions(selectedPromotions.map(({ _id }) => _id), shopId!);
+    archivePromotions(selectedPromotionIds, shopId!);
+  };
+
+  const onClickDuplicatePromotion = () => {
+    selectedPromotionIds.forEach((id) => {
+      duplicatePromotion({ input: { promotionId: id, shopId: shopId! } }, {
+        onSuccess: (response) => {
+          if (response.duplicatePromotion?.success) {
+            onSuccess();
+            success(selectedPromotionIds.length === 1 ? "Duplicated promotion successfully" : "Duplicated promotions successfully");
+          }
+        },
+        onError: (responseError) => {
+          const { message } = formatErrorResponse(responseError);
+          error(message || "Failed to duplicate promotion");
+        }
+      });
+    });
   };
   const onClickEnablePromotion = () => {
     enablePromotions(selectedPromotions);
@@ -46,7 +68,7 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
         options={
           [
             { label: "Create New", onClick: () => navigate("create"), hidden: !canCreate },
-            { label: "Duplicate", onClick: noop, disabled },
+            { label: "Duplicate", onClick: onClickDuplicatePromotion, disabled, hidden: !canCreate },
             { label: "Enable", onClick: onClickEnablePromotion, disabled, hidden: hideEnableAction },
             { label: "Disable", onClick: onClickDisablePromotion, disabled, hidden: hideDisableAction },
             { label: "Archive", onClick: handleArchivePromotions, disabled, hidden: hideArchivedAction }

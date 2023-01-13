@@ -232,7 +232,6 @@ const PromotionDetails = () => {
             </Card>
           </Stack>
         </Stack>
-
       }
     </Formik>
   );
