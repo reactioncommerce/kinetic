@@ -11,6 +11,7 @@ import { usePermission } from "@components/PermissionGuard";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { useToast } from "@containers/ToastProvider";
+import { formatErrorResponse } from "@utils/errorHandlers";
 
 type ActionButtonsProps = {
   loading: boolean
@@ -49,6 +50,10 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
           } else {
             success("Duplicated promotion successfully");
           }
+        },
+        onError: (responseError) => {
+          const { message } = formatErrorResponse(responseError);
+          error(message || "Failed to duplicate promotion");
         }
       }
     );
