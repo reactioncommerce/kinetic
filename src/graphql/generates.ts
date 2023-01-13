@@ -5588,6 +5588,8 @@ export type PromotionUpdateInput = {
   stackability?: InputMaybe<StackabilityInput>;
   /** The date that the promotion begins */
   startDate: Scalars['Date'];
+  /** What is the current state of the promotion */
+  state?: InputMaybe<PromotionState>;
   /** What type of trigger this uses */
   triggerType: TriggerType;
   /** The triggers for this Promotion */

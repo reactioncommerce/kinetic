@@ -6,7 +6,10 @@ import { DatePickerField } from "@components/DatePickerField";
 import { DATE_FORMAT } from "../constants";
 import { Promotion } from "types/promotions";
 
-export const AvailableDateField = () => {
+type AvailableDateFieldProps = {
+  disabled?: boolean
+}
+export const AvailableDateField = ({ disabled }: AvailableDateFieldProps) => {
   const { setFieldValue, values } = useFormikContext<Promotion>();
 
   const onStartDateAccept = (value: Date | null) => {
@@ -17,13 +20,14 @@ export const AvailableDateField = () => {
   };
 
   return (
-    <Stack direction="row" gap={2} mt={1} position="relative" sx={{ width: { md: "50%", xs: "100%" } }} >
+    <Stack direction="row" gap={2} mt={1} position="relative" sx={{ width: { md: "50%", xs: "100%" } }}>
       <Field
         name="startDate"
         component={DatePickerField}
         label="Available From"
         inputFormat={DATE_FORMAT}
         onAccept={onStartDateAccept}
+        disabled={disabled}
       />
       <Field
         name="endDate"

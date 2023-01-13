@@ -28,10 +28,10 @@ export const DatePickerField = ({
   const helperText = fieldError ?? undefined;
 
   const _onChange =
-  onChange ?? ((value) => (
-    value && isValid(value) ?
-      setFieldValue(restFieldProps.name, format(value, inputFormat))
-      : setFieldValue(restFieldProps.name, value)));
+    onChange ?? ((value) => (
+      value && isValid(value) ?
+        setFieldValue(restFieldProps.name, format(value, inputFormat))
+        : setFieldValue(restFieldProps.name, value)));
 
   const _onAccept = (value: Date | null) => {
     onAccept?.(value) ?? setFieldValue(restFieldProps.name, value ? format(value, inputFormat) : null);

@@ -4,7 +4,11 @@ import { SelectField } from "@components/SelectField";
 import { DISCOUNT_TYPES_MAP, PROMOTION_TYPE_OPTIONS } from "../constants";
 import { CalculationType, Promotion, PromotionType } from "types/promotions";
 
-export const PromotionTypeField = () => {
+type PromotionTypeFieldProps = {
+  disabled?: boolean
+}
+
+export const PromotionTypeField = ({ disabled }: PromotionTypeFieldProps) => {
   const { setFieldValue, values } = useFormikContext<Promotion>();
   const onPromotionTypeChange = (value: string) => {
     setFieldValue("promotionType", value);
@@ -28,6 +32,7 @@ export const PromotionTypeField = () => {
           label="Promotion Type"
           options={Object.values(PROMOTION_TYPE_OPTIONS)}
           onChange={(event) => onPromotionTypeChange(event.target.value as string)}
+          disabled={disabled}
         />}
     </Field>
   );

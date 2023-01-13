@@ -1,4 +1,4 @@
-import { enabledPromotions } from "@mocks/handlers/promotionsHandlers";
+import { disabledPromotions, enabledPromotions } from "@mocks/handlers/promotionsHandlers";
 import { Route, Routes } from "react-router-dom";
 import { format } from "date-fns";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -10,7 +10,7 @@ import { DATE_FORMAT } from "../constants";
 
 import PromotionDetails from ".";
 
-const promotion = enabledPromotions[0];
+const promotion = disabledPromotions[0];
 
 describe("Promotion Details", () => {
   it("should display promotion details", async () => {
@@ -31,7 +31,7 @@ describe("Promotion Details", () => {
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
     expect(screen.queryByText("Add Action")).not.toBeInTheDocument();
-    expect(screen.getByText("Add Trigger")).toBeInTheDocument();
+    expect(screen.queryByText("Add Trigger")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Discount Value")).toHaveValue(promotion.actions[0].actionParameters?.discountValue);
     expect(screen.getByLabelText("Stack All")).toBeInTheDocument();
     expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DATE_FORMAT));
@@ -64,16 +64,32 @@ describe("Promotion Details", () => {
     await user.click(within(screen.getByRole("listbox")).getByText("Shipping Discount"));
     await user.click(screen.getByLabelText("Calculate Type"));
     await user.click(within(screen.getByRole("listbox")).getByText("Free Shipping"));
-    await user.click(screen.getByText("Add Trigger"));
     await user.type(screen.getByLabelText("Trigger Value"), "12");
     await user.click(screen.getAllByText("Add Condition")[0]);
     await user.click(screen.getByLabelText("Property"));
     await user.click(within(screen.getByRole("listbox")).getByText("Vendor"));
     await user.click(screen.getByLabelText("Operator"));
     await user.click(within(screen.getByRole("listbox")).getByText("Is"));
-    await user.type(screen.getByPlaceholderText("Enter Values"), "value");
-    await user.keyboard("{Enter}");
+    await user.type(screen.getByPlaceholderText("Enter Values"), "value{enter}");
     await user.click(screen.getByText("Save Changes"));
-    expect(screen.queryByText("Save Changes")).not.toBeInTheDocument();
+  }, 50000);
+
+  it("should not able to change some active promotion properties", async () => {
+    const activePromotion = enabledPromotions[0];
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${activePromotion._id}`] }
+    );
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+    expect(screen.getByLabelText("Available From")).toBeDisabled();
+    expect(screen.getByLabelText("Promotion Type")).toHaveAttribute("aria-disabled", "true");
+    expect(screen.getByLabelText("Available To")).not.toBeDisabled();
   }, 50000);
 });

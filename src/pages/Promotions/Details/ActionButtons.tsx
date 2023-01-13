@@ -4,10 +4,10 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { noop } from "lodash-es";
 
 import { ActionsTriggerButton, MenuActions } from "@components/MenuActions";
-import { usePermission } from "@components/PermissionGuard";
 import { Promotion } from "types/promotions";
+import { useDisablePromotion, useEnablePromotion, useArchivePromotions } from "../hooks";
 import { PromotionState } from "@graphql/generates";
-import { useArchivePromotions } from "../hooks";
+import { usePermission } from "@components/PermissionGuard";
 
 type ActionButtonsProps = {
   loading: boolean
@@ -19,6 +19,8 @@ type ActionButtonsProps = {
 }
 
 export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCancel, onSuccess }: ActionButtonsProps) => {
+  const { enablePromotions } = useEnablePromotion(onSuccess);
+  const { disablePromotions } = useDisablePromotion(onSuccess);
   const canUpdate = usePermission(["reaction:legacy:promotions/update"]);
   const { archivePromotions } = useArchivePromotions(onSuccess);
 
@@ -46,7 +48,16 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
       <MenuActions
         options={
           [
-            { label: "Enable", onClick: noop },
+            {
+              label: "Enable",
+              onClick: () => enablePromotions([promotion]),
+              hidden: !canUpdate || promotion.enabled
+            },
+            {
+              label: "Disable",
+              onClick: () => disablePromotions([promotion]),
+              hidden: !canUpdate || !promotion.enabled
+            },
             { label: "Duplicate", onClick: noop },
             {
               label: "Archive",
