@@ -5,8 +5,8 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { AppLayout } from "@containers/Layouts";
-import { renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved, within } from "@utils/testUtils";
-import { DATE_FORMAT } from "../constants";
+import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, within } from "@utils/testUtils";
+import { DEFAULT_DATE_TIME_FORMAT } from "@components/DateTimePickerField";
 
 import PromotionDetails from ".";
 
@@ -33,9 +33,9 @@ describe("Promotion Details", () => {
     expect(screen.queryByText("Add Action")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Add Trigger" })).not.toBeInTheDocument();
     expect(screen.getByLabelText("Discount Value")).toHaveValue(promotion.actions[0].actionParameters?.discountValue);
-    expect(screen.getByLabelText("Stack with Any")).toBeInTheDocument();
-    expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DATE_FORMAT));
-    expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, DATE_FORMAT));
+    expect(screen.getByLabelText("Stack All")).toBeInTheDocument();
+    expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DEFAULT_DATE_TIME_FORMAT));
+    expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, DEFAULT_DATE_TIME_FORMAT));
     expect(screen.getByLabelText("Checkout Label")).toHaveValue(promotion.label);
   }, 50000);
 
