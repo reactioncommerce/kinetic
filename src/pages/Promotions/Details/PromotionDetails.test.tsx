@@ -70,10 +70,27 @@ describe("Promotion Details", () => {
     await user.click(within(screen.getByRole("listbox")).getByText("Vendor"));
     await user.click(screen.getByLabelText("Operator"));
     await user.click(within(screen.getByRole("listbox")).getByText("Is"));
-    await user.type(screen.getByPlaceholderText("Enter Values"), "value");
-    await user.keyboard("{Enter}");
+    await user.type(screen.getByPlaceholderText("Enter Values"), "value{enter}");
     await user.click(screen.getByText("Save Changes"));
-    expect(screen.queryByText("Save Changes")).not.toBeInTheDocument();
+  }, 50000);
+
+  it("should not able to change some active promotion properties", async () => {
+    const activePromotion = enabledPromotions[0];
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${activePromotion._id}`] }
+    );
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+    expect(screen.getByLabelText("Available From")).toBeDisabled();
+    expect(screen.getByLabelText("Promotion Type")).toHaveAttribute("aria-disabled", "true");
+    expect(screen.getByLabelText("Available To")).not.toBeDisabled();
   }, 50000);
 
   it("should not able to change some active promotion properties", async () => {

@@ -32,13 +32,6 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
   const handleArchivePromotions = () => {
     archivePromotions(selectedPromotionIds, shopId!);
   };
-  const onClickEnablePromotion = () => {
-    enablePromotions(selectedPromotions);
-  };
-
-  const onClickDisablePromotion = () => {
-    disablePromotions(selectedPromotions);
-  };
 
   const onClickDuplicatePromotion = () => {
     selectedPromotionIds.forEach((id) => {
@@ -51,6 +44,13 @@ export const Actions = ({ selectedPromotions, onSuccess, activeTab }:ActionsProp
         }
       });
     });
+  };
+  const onClickEnablePromotion = () => {
+    enablePromotions(selectedPromotions);
+  };
+
+  const onClickDisablePromotion = () => {
+    disablePromotions(selectedPromotions);
   };
 
   const hideArchivedAction = !canUpdate || activeTab === "archived";

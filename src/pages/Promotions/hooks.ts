@@ -1,5 +1,5 @@
 import { useToast } from "@containers/ToastProvider";
-import { useUpdatePromotionMutation, useArchivePromotionMutation } from "@graphql/generates";
+import { useUpdatePromotionMutation, useArchivePromotionMutation, PromotionState } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { Promotion } from "types/promotions";
 
@@ -28,7 +28,14 @@ export const useDisablePromotion = (onSuccess?: () => void) => {
   const { success } = useToast();
 
   const disablePromotions = (promotions: Promotion[]) => {
-    promotions.forEach((promotion) => update({ input: { ...getUpdatePromotionInput(promotion), enabled: false } }, {
+    promotions.forEach((promotion) => update({
+      input:
+      {
+        ...getUpdatePromotionInput(promotion),
+        enabled: false,
+        state: promotion.state === PromotionState.Active ? PromotionState.Created : promotion.state
+      }
+    }, {
       onSuccess: () => {
         onSuccess?.();
         success(promotions.length === 1 ? "Disabled promotion successfully" : "Disabled promotions successfully");
