@@ -127,7 +127,7 @@ const PromotionDetails = () => {
   };
 
   const showActionButtons = promotionId ? canUpdate : canCreate;
-  const shouldDisableField = data?.promotion.enabled && data?.promotion.state === PromotionState.Active;
+  const shouldDisableField = !!(data?.promotion.enabled && data?.promotion.state === PromotionState.Active);
 
 
   if (isLoading) return <Loader/>;
@@ -194,7 +194,7 @@ const PromotionDetails = () => {
             </Card>
             <Card title="Promotion Builder" divider>
               <PromotionActions/>
-              <PromotionTriggers />
+              <PromotionTriggers disabled={shouldDisableField}/>
             </Card>
             <Card title="Promotion Stackability" divider>
               <Box mt={1} width="50%">

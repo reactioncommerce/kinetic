@@ -17,8 +17,11 @@ import { TriggerValuesField } from "./TriggerValuesField";
 import { TriggerTypeField } from "./TriggerTypeField";
 import { CouponsField } from "./CouponsField";
 
+type PromotionTriggersProps = {
+  disabled: boolean
+}
 
-export const PromotionTriggers = () => {
+export const PromotionTriggers = ({ disabled }: PromotionTriggersProps) => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
 
@@ -45,7 +48,7 @@ export const PromotionTriggers = () => {
                 Remove Trigger
                   </Button>
                 </Stack>
-                {values.triggers[index].triggerKey === TriggerKeys.Coupons ? <CouponsField index={index}/> : null}
+                {values.triggers[index].triggerKey === TriggerKeys.Coupons ? <CouponsField index={index} disabled={disabled}/> : null}
                 <EligibleItems
                   inclusionFieldName={
                     `triggers[${index}].triggerParameters.inclusionRules.conditions`

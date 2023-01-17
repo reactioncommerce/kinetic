@@ -6,9 +6,10 @@ import { TextField } from "@components/TextField";
 
 export type CouponsFieldProps = {
   index: number
+  disabled: boolean
 }
 
-export const CouponsField = ({ index }: CouponsFieldProps) => {
+export const CouponsField = ({ index, disabled }: CouponsFieldProps) => {
   const { setFieldValue } = useFormikContext();
 
   const onChangeCouponCode: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -16,7 +17,7 @@ export const CouponsField = ({ index }: CouponsFieldProps) => {
   };
 
   return (
-    <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 3 } }}>
+    <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 3 }, alignItems: { md: "flex-end" } }}>
       <FastField
         component={TextField}
         name={`triggers[${index}].triggerParameters.name`}
@@ -27,6 +28,7 @@ export const CouponsField = ({ index }: CouponsFieldProps) => {
         onChange={onChangeCouponCode}
         name={`triggers[${index}].triggerParameters.couponCode`}
         label="Enter the coupon code (avoid characters like I, L, 0, and O)"
+        disabled={disabled}
       />
     </Stack>
   );
