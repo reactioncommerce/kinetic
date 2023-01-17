@@ -39,8 +39,8 @@ export const PromotionTriggers = ({ disabled }: PromotionTriggersProps) => {
                     name={`triggers[${index}].triggerParameters.conditions.all`}
                     render={() =>
                       <Grid container spacing={1} width="70%">
-                        <TriggerTypeField fieldName={`triggers[${index}].triggerParameters.conditions.all[0].triggerType`} index={index}/>
-                        <TriggerValuesField trigger={values.triggers[index]} index={index}/>
+                        <TriggerTypeField fieldName={`triggers[${index}].triggerParameters.conditions.all[0].triggerType`} index={index} disabled={disabled}/>
+                        <TriggerValuesField trigger={values.triggers[index]} index={index} disabled={disabled}/>
                       </Grid>
                     }
                   />

@@ -115,4 +115,28 @@ describe("Promotion Details", () => {
       expect(screen.getByLabelText("Promotion Name")).toHaveValue(enabledPromotions[0].name);
     });
   }, 50000);
+
+  it("should be able to create a coupon promotion", async () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${promotion._id}`] }
+    );
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+    const user = userEvent.setup();
+    await user.click(screen.getByText("Remove Trigger"));
+    await user.click(within(screen.getByRole("dialog")).getByText("Delete"));
+    await user.click(screen.getByText("Add Trigger"));
+    await user.click(screen.getByLabelText("Select Trigger Type"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Coupon is used (Standard)"));
+    expect(screen.getByLabelText("Give your coupon a name")).toBeInTheDocument();
+    await user.type(screen.getByLabelText("Enter the coupon code (avoid characters like I, L, 0, and O)"), "TET2023");
+    await user.click(screen.getByText("Save Changes"));
+  }, 50000);
 });

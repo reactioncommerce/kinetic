@@ -8,8 +8,10 @@ import { Trigger, TriggerKeys, TriggerType } from "types/promotions";
 type TriggerValuesFieldProps = {
   trigger: Trigger
   index: number
+  disabled: boolean
 }
-export const TriggerValuesField = ({ trigger, index }: TriggerValuesFieldProps) => {
+
+export const TriggerValuesField = ({ trigger, index, disabled }: TriggerValuesFieldProps) => {
   const triggerType = trigger.triggerKey === TriggerKeys.Offers ? trigger.triggerParameters?.conditions.all?.[0].triggerType?.split("-")[0] : null;
 
   const fieldComponentMap: Record<string, JSX.Element> = {
@@ -24,6 +26,7 @@ export const TriggerValuesField = ({ trigger, index }: TriggerValuesFieldProps) 
         <InputAdornment position="start">$</InputAdornment>
       }
       sx={{ width: "100px" }}
+      disabled={disabled}
     />,
     [TriggerType.ItemCount]: <Field
       component={TextField}
@@ -36,6 +39,7 @@ export const TriggerValuesField = ({ trigger, index }: TriggerValuesFieldProps) 
         <InputAdornment position="end">items</InputAdornment>
       }
       sx={{ width: "130px" }}
+      disabled={disabled}
     />
   };
 

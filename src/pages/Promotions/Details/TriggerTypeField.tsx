@@ -8,14 +8,16 @@ import { Promotion, TriggerKeys, TriggerType } from "types/promotions";
 type TriggerTypeFieldProps = {
   fieldName: string
   index: number
+  disabled: boolean
 }
 
-export const TriggerTypeField = ({ fieldName, index }: TriggerTypeFieldProps) => {
+export const TriggerTypeField = ({ fieldName, index, disabled }: TriggerTypeFieldProps) => {
   const { setFieldValue } = useFormikContext<Promotion>();
   const onTriggerTypeChange = (value: string) => {
     setFieldValue(fieldName, value);
     if (value.split("-")[0] === TriggerType.CouponStandard) {
       setFieldValue(`triggers[${index}].triggerKey`, TriggerKeys.Coupons);
+      setFieldValue(`triggers[${index}].triggerParameters.couponCode`, "");
     } else {
       setFieldValue(`triggers[${index}].triggerKey`, TriggerKeys.Offers);
       setFieldValue(`triggers[${index}].triggerParameters.couponCode`, undefined);
@@ -31,9 +33,11 @@ export const TriggerTypeField = ({ fieldName, index }: TriggerTypeFieldProps) =>
             {...props}
             hiddenLabel
             label="Select Trigger Type"
+            ariaLabel="Select Trigger Type"
             options={TRIGGER_TYPE_OPTIONS}
             onChange={(event) => onTriggerTypeChange(event.target.value as string)}
             autoWidth
+            disabled={disabled}
           />}
       </Field>
 
