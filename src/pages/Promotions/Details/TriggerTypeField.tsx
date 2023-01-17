@@ -18,6 +18,7 @@ export const TriggerTypeField = ({ fieldName, index, disabled }: TriggerTypeFiel
     if (value.split("-")[0] === TriggerType.CouponStandard) {
       setFieldValue(`triggers[${index}].triggerKey`, TriggerKeys.Coupons);
       setFieldValue(`triggers[${index}].triggerParameters.couponCode`, "");
+      setFieldValue(`triggers[${index}].triggerParameters.canUseInStore`, false);
     } else {
       setFieldValue(`triggers[${index}].triggerKey`, TriggerKeys.Offers);
       setFieldValue(`triggers[${index}].triggerParameters.couponCode`, undefined);

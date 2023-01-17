@@ -54,4 +54,9 @@ export const CONDITION_OPERATORS: Record<string, SelectOptionType & {fieldPrefix
   any: { label: "any of", value: "any", fieldPrefix: "or" }
 };
 
+export const COUPON_USAGE: SelectOptionType<boolean>[] = [
+  { label: "Online Only", value: false },
+  { label: "Online and In Store", value: true }
+];
+
 export const NOOP_ACTION = "noop";

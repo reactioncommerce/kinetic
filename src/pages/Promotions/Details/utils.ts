@@ -59,7 +59,8 @@ const formatCouponsTrigger = (trigger: Trigger<TriggerKeys.Coupons>) => ({
   triggerParameters: {
     name: trigger.triggerParameters.name,
     conditions: { all: [{ triggerType: TriggerType.CouponStandard }] },
-    couponCode: trigger.triggerParameters.couponCode
+    couponCode: trigger.triggerParameters.couponCode,
+    canUseInStore: trigger.triggerParameters.canUseInStore || false
   }
 });
 
