@@ -20,6 +20,8 @@ import { usePermission } from "@components/PermissionGuard";
 import { Loader } from "@components/Loader";
 import { StatusChip } from "../components/StatusChip";
 import { Card } from "@components/Card";
+import { useToast } from "@containers/ToastProvider";
+import { formatErrorResponse } from "@utils/errorHandlers";
 
 import { ActionButtons } from "./ActionButtons";
 import { PromotionActions } from "./PromotionActions";
@@ -58,6 +60,7 @@ const PromotionDetails = () => {
   const canCreate = usePermission(["reaction:legacy:promotions/create"]);
 
   const [, setBreadcrumbs] = useGlobalBreadcrumbs();
+  const { error } = useToast();
 
   const { data, isLoading, refetch } = useGetPromotionQuery(client, { input: { _id: promotionId || "id", shopId: shopId! } }, {
     enabled: !!promotionId,
@@ -76,6 +79,11 @@ const PromotionDetails = () => {
   const { mutate: createPromotion } = useCreatePromotionMutation(client);
   const { mutate: updatePromotion } = useUpdatePromotionMutation(client);
 
+  const onError = (errorResponse: unknown) => {
+    const { message } = formatErrorResponse(errorResponse);
+    error(message || `Failed to ${promotionId ? "update" : "create"} a promotion.`);
+  };
+
   const onSubmit: FormikConfig<PromotionFormValue>["onSubmit"] = (
     values,
     { setSubmitting }
@@ -91,7 +99,8 @@ const PromotionDetails = () => {
             refetch();
             setBreadcrumbs((currentBreadcrumbs) =>
               ({ ...currentBreadcrumbs, [`/promotions/${promotionId}`]: updatedPromotion.name }));
-          }
+          },
+          onError
         }
       );
     } else {
@@ -105,7 +114,8 @@ const PromotionDetails = () => {
         onSuccess: (responseData) => {
           const newPromotionId = responseData.createPromotion?.promotion?._id;
           newPromotionId ? navigate(`/promotions/${newPromotionId}`) : navigate("/promotions");
-        }
+        },
+        onError
       });
     }
   };
