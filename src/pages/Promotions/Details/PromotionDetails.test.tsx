@@ -33,7 +33,7 @@ describe("Promotion Details", () => {
     expect(screen.queryByText("Add Action")).not.toBeInTheDocument();
     expect(screen.queryByText("Add Trigger")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Discount Value")).toHaveValue(promotion.actions[0].actionParameters?.discountValue);
-    expect(screen.getByLabelText("Stack All")).toBeInTheDocument();
+    expect(screen.getByLabelText("Stack with Any")).toBeInTheDocument();
     expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DATE_FORMAT));
     expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, DATE_FORMAT));
     expect(screen.getByLabelText("Checkout Label")).toHaveValue(promotion.label);
