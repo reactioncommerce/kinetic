@@ -31,7 +31,7 @@ describe("Promotion Details", () => {
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
     expect(screen.queryByText("Add Action")).not.toBeInTheDocument();
-    expect(screen.queryByText("Add Trigger")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Add Trigger" })).not.toBeInTheDocument();
     expect(screen.getByLabelText("Discount Value")).toHaveValue(promotion.actions[0].actionParameters?.discountValue);
     expect(screen.getByLabelText("Stack with Any")).toBeInTheDocument();
     expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DATE_FORMAT));
@@ -114,5 +114,27 @@ describe("Promotion Details", () => {
     await waitFor(() => {
       expect(screen.getByLabelText("Promotion Name")).toHaveValue(enabledPromotions[0].name);
     });
+  }, 50000);
+
+  it("should change trigger value field based on trigger type", async () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${promotion._id}`] }
+    );
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+    const user = userEvent.setup();
+    expect(screen.getByText("Cart Value is greater than")).toBeInTheDocument();
+    await user.type(screen.getByLabelText("Trigger Value"), "12");
+
+    await user.click(screen.getByLabelText("Select Trigger Type"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Item is in cart"));
+    expect(screen.getByText("Minimum number of items required to trigger promotion")).toBeInTheDocument();
   }, 50000);
 });

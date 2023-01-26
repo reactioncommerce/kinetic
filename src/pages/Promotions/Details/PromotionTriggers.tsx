@@ -1,4 +1,3 @@
-import InputAdornment from "@mui/material/InputAdornment";
 import Stack from "@mui/material/Stack";
 import { Field, FieldArray } from "formik";
 import Grid from "@mui/material/Grid";
@@ -9,18 +8,19 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 
-import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { TRIGGER_TYPE_OPTIONS } from "../constants";
 import { AlertDialog } from "@components/Dialog";
 import { Trigger } from "types/promotions";
 
 import { EligibleItems } from "./EligibleItems";
+import { TriggerValuesField } from "./TriggerValuesField";
 
 
 export const PromotionTriggers = () => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
+
   return (
     <Stack direction="column" mt={2} gap={2}>
       <FieldArray
@@ -41,24 +41,12 @@ export const PromotionTriggers = () => {
                             component={SelectField}
                             hiddenLabel
                             label="Select Trigger Type"
+                            ariaLabel="Select Trigger Type"
                             options={TRIGGER_TYPE_OPTIONS}
                             autoWidth
                           />
                         </Grid>
-                        <Grid item>
-                          <Field
-                            component={TextField}
-                            name={`triggers[${index}].triggerParameters.conditions.all[0].value`}
-                            label="Value"
-                            ariaLabel="Trigger Value"
-                            type="number"
-                            hiddenLabel
-                            startAdornment={
-                              <InputAdornment position="start">$</InputAdornment>
-                            }
-                            sx={{ width: "100px" }}
-                          />
-                        </Grid>
+                        <TriggerValuesField trigger={values.triggers[index]} index={index}/>
                       </Grid>
                     }
                   />
