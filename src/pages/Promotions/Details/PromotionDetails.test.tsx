@@ -5,7 +5,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { AppLayout } from "@containers/Layouts";
-import { renderWithProviders, screen, userEvent, waitForElementToBeRemoved, within } from "@utils/testUtils";
+import { renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved, within } from "@utils/testUtils";
 import { DEFAULT_DATE_TIME_FORMAT } from "@components/DateTimePickerField";
 
 import PromotionDetails from ".";
