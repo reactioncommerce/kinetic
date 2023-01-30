@@ -23,7 +23,7 @@ export const DATE_FORMAT = "yyyy-MM-dd";
 
 export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = [
   { label: "Never Stackable", value: Stackability.None },
-  { label: "Stack All", value: Stackability.All }
+  { label: "Stack with Any", value: Stackability.All }
 ];
 
 export const TRIGGER_TYPE_MAP: Record<TriggerType, SelectOptionType & {triggerKey: TriggerKeys}> = {
@@ -33,7 +33,6 @@ export const TRIGGER_TYPE_MAP: Record<TriggerType, SelectOptionType & {triggerKe
 };
 
 export const TRIGGER_TYPE_OPTIONS = Object.values(TRIGGER_TYPE_MAP);
-
 
 export const OPERATOR_OPTIONS: SelectOptionType[] = [
   { label: "Is", value: "equal" },

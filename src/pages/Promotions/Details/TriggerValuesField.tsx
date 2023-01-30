@@ -40,6 +40,7 @@ export const TriggerValuesField = ({ trigger, index, disabled }: TriggerValuesFi
       }
       sx={{ width: "130px" }}
       disabled={disabled}
+      helperText="Minimum number of items required to trigger promotion"
     />
   };
 

@@ -26,6 +26,11 @@ export enum TriggerType {
   CouponStandard = "couponStandard"
 }
 
+export enum TriggerType {
+  ItemAmount = "totalItemAmount",
+  ItemCount = "totalItemCount"
+}
+
 export enum Stackability {
   None = "none",
   All = "all"

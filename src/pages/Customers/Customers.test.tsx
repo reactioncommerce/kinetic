@@ -22,7 +22,7 @@ describe("Customers", () => {
       expect(screen.getByText(formatDate(customer.createdAt))).toBeInTheDocument();
     });
     expect(screen.getByRole("columnheader", { name: "Registered" })).toHaveAttribute("aria-sort", "ascending");
-    userEvent.click(screen.getByText("Registered"));
+    await userEvent.click(screen.getByText("Registered"));
     await waitFor(() => {
       expect(screen.getByRole("columnheader", { name: "Registered" })).toHaveAttribute("aria-sort", "descending");
     });

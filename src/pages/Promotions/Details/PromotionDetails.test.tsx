@@ -6,7 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { AppLayout } from "@containers/Layouts";
 import { renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved, within } from "@utils/testUtils";
-import { DATE_FORMAT } from "../constants";
+import { DEFAULT_DATE_TIME_FORMAT } from "@components/DateTimePickerField";
 
 import PromotionDetails from ".";
 
@@ -31,11 +31,11 @@ describe("Promotion Details", () => {
     expect(screen.getAllByText("Order Discount")).toHaveLength(2);
     expect(screen.getByText("% Off")).toBeInTheDocument();
     expect(screen.queryByText("Add Action")).not.toBeInTheDocument();
-    expect(screen.queryByText("Add Trigger")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Add Trigger" })).not.toBeInTheDocument();
     expect(screen.getByLabelText("Discount Value")).toHaveValue(promotion.actions[0].actionParameters?.discountValue);
-    expect(screen.getByLabelText("Stack All")).toBeInTheDocument();
-    expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DATE_FORMAT));
-    expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, DATE_FORMAT));
+    expect(screen.getByLabelText("Stack with Any")).toBeInTheDocument();
+    expect(screen.getByLabelText("Available From")).toHaveValue(format(promotion.startDate, DEFAULT_DATE_TIME_FORMAT));
+    expect(screen.getByLabelText("Available To")).toHaveValue(format(promotion.endDate, DEFAULT_DATE_TIME_FORMAT));
     expect(screen.getByLabelText("Checkout Label")).toHaveValue(promotion.label);
   }, 50000);
 
@@ -138,5 +138,28 @@ describe("Promotion Details", () => {
     expect(screen.getByLabelText("Give your coupon a name")).toBeInTheDocument();
     await user.type(screen.getByLabelText("Enter the coupon code (avoid characters like I, L, 0, and O)"), "TET2023");
     await user.click(screen.getByText("Save Changes"));
+  }, 50000);
+
+
+  it("should change trigger value field based on trigger type", async () => {
+    renderWithProviders(
+      <Routes>
+        <Route element={<AppLayout/>}>
+          <Route path="promotions/:promotionId" element={
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <PromotionDetails/>
+            </LocalizationProvider>}/>
+        </Route>
+      </Routes>
+      , { initialEntries: [`/promotions/${promotion._id}`] }
+    );
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+    const user = userEvent.setup();
+    expect(screen.getByText("Cart Value is greater than")).toBeInTheDocument();
+    await user.type(screen.getByLabelText("Trigger Value"), "12");
+
+    await user.click(screen.getByLabelText("Select Trigger Type"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Item is in cart"));
+    expect(screen.getByText("Minimum number of items required to trigger promotion")).toBeInTheDocument();
   }, 50000);
 });
