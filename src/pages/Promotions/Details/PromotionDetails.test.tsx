@@ -160,6 +160,7 @@ describe("Promotion Details", () => {
 
     await user.click(screen.getByLabelText("Select Trigger Type"));
     await user.click(within(screen.getByRole("listbox")).getByText("Item is in cart"));
-    expect(screen.getByText("Minimum number of items required to trigger promotion")).toBeInTheDocument();
+    expect(screen.getByText("items")).toBeInTheDocument();
+    expect(screen.getByLabelText("Number of items required in cart")).toBeInTheDocument();
   }, 50000);
 });
