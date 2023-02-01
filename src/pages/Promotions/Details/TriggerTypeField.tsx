@@ -17,11 +17,11 @@ export const TriggerTypeField = ({ fieldName, index, disabled }: TriggerTypeFiel
     setFieldValue(fieldName, value);
     if (value.split("-")[0] === TriggerType.CouponStandard) {
       setFieldValue(`triggers[${index}].triggerKey`, TriggerKeys.Coupons);
-      setFieldValue(`triggers[${index}].triggerParameters.couponCode`, "");
+      setFieldValue(`triggers[${index}].triggerParameters.code`, "");
       setFieldValue(`triggers[${index}].triggerParameters.canUseInStore`, false);
     } else {
       setFieldValue(`triggers[${index}].triggerKey`, TriggerKeys.Offers);
-      setFieldValue(`triggers[${index}].triggerParameters.couponCode`, undefined);
+      setFieldValue(`triggers[${index}].triggerParameters.code`, undefined);
       setFieldValue(`triggers[${index}].triggerParameters.conditions.all[0].value`, 0);
     }
   };

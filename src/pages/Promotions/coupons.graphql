@@ -1,0 +1,8 @@
+mutation createStandardCoupon($input: CreateStandardCouponInput) {
+  createStandardCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}

@@ -16,7 +16,7 @@ export const CouponsField = ({ index, disabled }: CouponsFieldProps) => {
   const { setFieldValue } = useFormikContext();
 
   const onChangeCouponCode: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setFieldValue(`triggers[${index}].triggerParameters.couponCode`, event.target.value.toUpperCase());
+    setFieldValue(`triggers[${index}].triggerParameters.code`, event.target.value.toUpperCase());
   };
 
   return (
@@ -30,7 +30,7 @@ export const CouponsField = ({ index, disabled }: CouponsFieldProps) => {
         <FastField
           component={TextField}
           onChange={onChangeCouponCode}
-          name={`triggers[${index}].triggerParameters.couponCode`}
+          name={`triggers[${index}].triggerParameters.code`}
           label="Enter the coupon code (avoid characters like I, L, 0, and O)"
           disabled={disabled}
         />

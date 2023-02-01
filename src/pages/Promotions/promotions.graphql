@@ -70,6 +70,12 @@ query getPromotion($input: PromotionQueryInput) {
       }
       createdAt
       updatedAt
+      coupon {
+        _id
+        name
+        code
+        canUseInStore
+      }
   }
 }
 

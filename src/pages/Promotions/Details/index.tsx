@@ -10,7 +10,8 @@ import Box from "@mui/material/Box";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
-import { PromotionState, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
+import { PromotionState, useCreatePromotionMutation, useCreateStandardCouponMutation, useGetPromotionQuery,
+  useUpdatePromotionMutation } from "@graphql/generates";
 import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
 import { Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
@@ -45,12 +46,16 @@ type PromotionFormValue = {
 }
 
 
-const normalizeFormValues = (values: PromotionFormValue) =>
-  ({
+const normalizeFormValues = (values: PromotionFormValue) => {
+  const { triggers, coupons } = normalizeTriggersData(values.triggers);
+  const normalizedValues = {
     ...values,
-    triggers: normalizeTriggersData(values.triggers),
+    triggers,
     actions: normalizeActionsData(values.actions)
-  });
+  };
+
+  return { values: normalizedValues, coupons };
+};
 
 const PromotionDetails = () => {
   const { promotionId } = useParams();
@@ -78,6 +83,7 @@ const PromotionDetails = () => {
 
   const { mutate: createPromotion } = useCreatePromotionMutation(client);
   const { mutate: updatePromotion } = useUpdatePromotionMutation(client);
+  const { mutate: createCoupon } = useCreateStandardCouponMutation(client);
 
   const onError = (errorResponse: unknown) => {
     const { message } = formatErrorResponse(errorResponse);
@@ -88,9 +94,11 @@ const PromotionDetails = () => {
     values,
     { setSubmitting }
   ) => {
+    const { values: normalizedValues, coupons } = normalizeFormValues(values);
+
     if (promotionId && data?.promotion) {
       const { triggerType, shopId: promotionShopId } = data.promotion;
-      const updatedPromotion = { _id: promotionId, shopId: promotionShopId, triggerType, ...normalizeFormValues(values) };
+      const updatedPromotion = { _id: promotionId, shopId: promotionShopId, triggerType, ...normalizedValues };
       updatePromotion(
         { input: updatedPromotion },
         {
@@ -106,13 +114,18 @@ const PromotionDetails = () => {
     } else {
       createPromotion({
         input: {
-          ...normalizeFormValues(values),
+          ...normalizedValues,
           shopId: shopId!
         }
       }, {
         onSettled: () => setSubmitting(false),
         onSuccess: (responseData) => {
           const newPromotionId = responseData.createPromotion?.promotion?._id;
+          if (coupons.length && newPromotionId) {
+            coupons.forEach((coupon) => {
+              createCoupon({ input: { ...coupon, shopId: shopId!, promotionId: newPromotionId } });
+            });
+          }
           newPromotionId ? navigate(`/promotions/${newPromotionId}`) : navigate("/promotions");
         },
         onError
@@ -127,7 +140,8 @@ const PromotionDetails = () => {
     actions: data?.promotion?.actions || [],
     triggers: data?.promotion?.triggers ? formatTriggers(
       data.promotion.triggers,
-      data?.promotion?.name || "trigger name"
+      data?.promotion?.name || "trigger name",
+      data?.promotion?.coupon
     ) : [],
     stackability: data?.promotion?.stackability || { key: "none", parameters: {} },
     label: data?.promotion?.label || "",

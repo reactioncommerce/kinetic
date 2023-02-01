@@ -61,7 +61,7 @@ export type OffersTriggerParameters = {
 
 export type CouponsTriggerParameters = {
   name: string
-  couponCode: string
+  code: string
   canUseInStore: boolean
 }
 
