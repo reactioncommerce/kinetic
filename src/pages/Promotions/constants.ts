@@ -28,7 +28,7 @@ export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = 
 
 export const TRIGGER_TYPE_MAP: Record<TriggerType, SelectOptionType & {triggerKey: TriggerKeys}> = {
   totalItemAmount: { label: "Cart Value is greater than", value: "totalItemAmount-greaterThanInclusive", triggerKey: TriggerKeys.Offers },
-  totalItemCount: { label: "Item is in cart", value: "totalItemCount-greaterThanExclusive", triggerKey: TriggerKeys.Offers },
+  totalItemCount: { label: "Item is in cart", value: "totalItemCount-greaterThanInclusive", triggerKey: TriggerKeys.Offers },
   couponStandard: { label: "Coupon is used (Standard)", value: "couponStandard", triggerKey: TriggerKeys.Coupons }
 };
 
