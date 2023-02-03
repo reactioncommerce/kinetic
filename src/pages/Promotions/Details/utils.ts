@@ -1,4 +1,4 @@
-import { Coupon, CouponCreateInput } from "types/coupons";
+import { Coupon, CouponInput } from "types/coupons";
 import { Action, Rule, Trigger, TriggerKeys, TriggerType } from "types/promotions";
 
 const normalizeRule = (rule?: Rule) => {
@@ -11,12 +11,12 @@ const normalizeRule = (rule?: Rule) => {
 };
 
 export const normalizeTriggersData = (triggers?: Trigger[]) => {
-  const coupons: CouponCreateInput[] = [];
+  const coupons: CouponInput[] = [];
 
   const handler = {
     [TriggerKeys.Coupons]: (trigger: Trigger<TriggerKeys.Coupons>) => {
-      const { code, name, canUseInStore } = trigger.triggerParameters;
-      coupons.push({ code, name, canUseInStore });
+      const { code, name, canUseInStore, _id } = trigger.triggerParameters;
+      coupons.push({ code, name, canUseInStore, _id });
       return {
         triggerKey: trigger.triggerKey,
         triggerParameters: {
@@ -75,7 +75,8 @@ export const formatTriggers = (triggers: Trigger[], promotionName: string, coupo
           name: coupon.name,
           conditions: { all: [{ triggerType: TriggerType.CouponStandard }] },
           code: coupon.code,
-          canUseInStore: coupon.canUseInStore
+          canUseInStore: coupon.canUseInStore,
+          _id: coupon._id
         }
       } : trigger
     };

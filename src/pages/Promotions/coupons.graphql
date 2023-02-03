@@ -6,3 +6,12 @@ mutation createStandardCoupon($input: CreateStandardCouponInput) {
     }
   }
 }
+
+mutation updateStandardCoupon($input: UpdateStandardCouponInput) {
+  updateStandardCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}

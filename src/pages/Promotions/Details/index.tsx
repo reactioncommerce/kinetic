@@ -11,7 +11,8 @@ import Box from "@mui/material/Box";
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { PromotionState, useCreatePromotionMutation, useCreateStandardCouponMutation, useGetPromotionQuery,
-  useUpdatePromotionMutation } from "@graphql/generates";
+  useUpdatePromotionMutation,
+  useUpdateStandardCouponMutation } from "@graphql/generates";
 import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
 import { Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
@@ -84,6 +85,7 @@ const PromotionDetails = () => {
   const { mutate: createPromotion } = useCreatePromotionMutation(client);
   const { mutate: updatePromotion } = useUpdatePromotionMutation(client);
   const { mutate: createCoupon } = useCreateStandardCouponMutation(client);
+  const { mutate: updateCoupon } = useUpdateStandardCouponMutation(client);
 
   const onError = (errorResponse: unknown) => {
     const { message } = formatErrorResponse(errorResponse);
@@ -99,6 +101,15 @@ const PromotionDetails = () => {
     if (promotionId && data?.promotion) {
       const { triggerType, shopId: promotionShopId } = data.promotion;
       const updatedPromotion = { _id: promotionId, shopId: promotionShopId, triggerType, ...normalizedValues };
+      if (coupons.length) {
+        coupons.forEach((coupon) => {
+          if (coupon._id) {
+            updateCoupon({ input: { ...coupon, shopId: shopId!, _id: coupon._id } });
+          } else {
+            createCoupon({ input: { ...coupon, shopId: shopId!, promotionId } });
+          }
+        });
+      }
       updatePromotion(
         { input: updatedPromotion },
         {

@@ -3592,6 +3592,8 @@ export type Mutation = {
   updateShopSettings: UpdateShopSettingsPayload;
   /** Update the SimpleInventory info for a product configuration */
   updateSimpleInventory: UpdateSimpleInventoryPayload;
+  /** Update a standard coupon mutation */
+  updateStandardCoupon?: Maybe<StandardCouponPayload>;
   /** Update a flat rate fulfillment surcharge */
   updateSurcharge: UpdateSurchargePayload;
   /** Updates an existing tag */
@@ -4282,6 +4284,12 @@ export type MutationUpdateShopSettingsArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationUpdateSimpleInventoryArgs = {
   input: UpdateSimpleInventoryInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationUpdateStandardCouponArgs = {
+  input?: InputMaybe<UpdateStandardCouponInput>;
 };
 
 
@@ -8651,6 +8659,24 @@ export type UpdateSimpleInventoryPayload = {
   inventoryInfo: SimpleInventoryInfo;
 };
 
+/** Input for the updateStandardCoupon mutation */
+export type UpdateStandardCouponInput = {
+  /** The coupon ID */
+  _id: Scalars['ID'];
+  /** Can use this coupon in the store */
+  canUseInStore?: InputMaybe<Scalars['Boolean']>;
+  /** The coupon code */
+  code?: InputMaybe<Scalars['String']>;
+  /** The number of times this coupon can be used */
+  maxUsageTimes?: InputMaybe<Scalars['Int']>;
+  /** The number of times this coupon can be used per user */
+  maxUsageTimesPerUser?: InputMaybe<Scalars['Int']>;
+  /** The coupon name */
+  name?: InputMaybe<Scalars['String']>;
+  /** The shop ID */
+  shopId: Scalars['ID'];
+};
+
 /** Input for the `updateSurcharge` mutation */
 export type UpdateSurchargeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -8900,6 +8926,13 @@ export type CreateStandardCouponMutationVariables = Exact<{
 
 
 export type CreateStandardCouponMutation = { __typename?: 'Mutation', createStandardCoupon?: { __typename?: 'StandardCouponPayload', success: boolean, coupon: { __typename?: 'Coupon', _id: string } } | null };
+
+export type UpdateStandardCouponMutationVariables = Exact<{
+  input?: InputMaybe<UpdateStandardCouponInput>;
+}>;
+
+
+export type UpdateStandardCouponMutation = { __typename?: 'Mutation', updateStandardCoupon?: { __typename?: 'StandardCouponPayload', success: boolean, coupon: { __typename?: 'Coupon', _id: string } } | null };
 
 export type GetPromotionsQueryVariables = Exact<{
   shopId: Scalars['ID'];
@@ -9577,6 +9610,29 @@ export const useCreateStandardCouponMutation = <
     useMutation<CreateStandardCouponMutation, TError, CreateStandardCouponMutationVariables, TContext>(
       ['createStandardCoupon'],
       (variables?: CreateStandardCouponMutationVariables) => fetcher<CreateStandardCouponMutation, CreateStandardCouponMutationVariables>(client, CreateStandardCouponDocument, variables, headers)(),
+      options
+    );
+export const UpdateStandardCouponDocument = `
+    mutation updateStandardCoupon($input: UpdateStandardCouponInput) {
+  updateStandardCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateStandardCouponMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateStandardCouponMutation, TError, UpdateStandardCouponMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateStandardCouponMutation, TError, UpdateStandardCouponMutationVariables, TContext>(
+      ['updateStandardCoupon'],
+      (variables?: UpdateStandardCouponMutationVariables) => fetcher<UpdateStandardCouponMutation, UpdateStandardCouponMutationVariables>(client, UpdateStandardCouponDocument, variables, headers)(),
       options
     );
 export const GetPromotionsDocument = `
