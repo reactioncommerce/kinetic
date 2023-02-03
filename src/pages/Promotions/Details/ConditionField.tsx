@@ -48,6 +48,7 @@ export const ConditionField = memo(({ name, index, operator }: ConditionFieldPro
           freeSolo
           multiple
           options={[]}
+          autoSelect
           renderInput={(params: AutocompleteRenderInputParams) => (
             <InputWithLabel
               {...params}
