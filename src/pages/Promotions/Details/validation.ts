@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-import { TriggerType } from "types/promotions";
+import { TriggerKeys, TriggerType } from "types/promotions";
 import { NOOP_ACTION } from "../constants";
 
 const ruleSchema = Yup.object({
@@ -15,6 +15,20 @@ const ruleSchema = Yup.object({
 
 const shippingRuleSchema = Yup.object({ value: Yup.array().min(1, "This field must have at least 1 item") });
 
+const inclusionExclusionValidation = {
+  inclusionRules: Yup.object({
+    conditions: Yup.object({
+      any: Yup.array().of(ruleSchema),
+      all: Yup.array().of(ruleSchema)
+    })
+  }),
+  exclusionRules: Yup.object({
+    conditions: Yup.object({
+      any: Yup.array().of(ruleSchema),
+      all: Yup.array().of(ruleSchema)
+    })
+  })
+};
 export const promotionSchema = Yup.object().shape({
   name: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
   label: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
@@ -73,18 +87,15 @@ export const promotionSchema = Yup.object().shape({
           })
         }))
       }),
-      inclusionRules: Yup.object({
-        conditions: Yup.object({
-          any: Yup.array().of(ruleSchema),
-          all: Yup.array().of(ruleSchema)
-        })
+      ...inclusionExclusionValidation
+    }).when("triggerKey", {
+      is: TriggerKeys.Coupons,
+      then: () => Yup.object({
+        code: Yup.string().trim().required("This field is required"),
+        name: Yup.string().trim().required("This field is required"),
+        ...inclusionExclusionValidation
       }),
-      exclusionRules: Yup.object({
-        conditions: Yup.object({
-          any: Yup.array().of(ruleSchema),
-          all: Yup.array().of(ruleSchema)
-        })
-      })
+      otherwise: (schema) => schema
     })
   })).min(1, "Promotion should have at least 1 trigger"),
   startDate: Yup.date().nullable().required("This field is required"),
