@@ -92,6 +92,11 @@ const PromotionDetails = () => {
     error(message || `Failed to ${promotionId ? "update" : "create"} a promotion.`);
   };
 
+  const handleCouponError = (errorResponse: unknown) => {
+    const { message } = formatErrorResponse(errorResponse);
+    error(message || `Failed to ${promotionId ? "update" : "create"} a coupon.`);
+  };
+
   const onSubmit: FormikConfig<PromotionFormValue>["onSubmit"] = (
     values,
     { setSubmitting }
@@ -104,9 +109,9 @@ const PromotionDetails = () => {
       if (coupons.length) {
         coupons.forEach((coupon) => {
           if (coupon._id) {
-            updateCoupon({ input: { ...coupon, shopId: shopId!, _id: coupon._id } });
+            updateCoupon({ input: { ...coupon, shopId: shopId!, _id: coupon._id } }, { onError: handleCouponError });
           } else {
-            createCoupon({ input: { ...coupon, shopId: shopId!, promotionId } });
+            createCoupon({ input: { ...coupon, shopId: shopId!, promotionId } }, { onError: handleCouponError });
           }
         });
       }
@@ -134,7 +139,7 @@ const PromotionDetails = () => {
           const newPromotionId = responseData.createPromotion?.promotion?._id;
           if (coupons.length && newPromotionId) {
             coupons.forEach((coupon) => {
-              createCoupon({ input: { ...coupon, shopId: shopId!, promotionId: newPromotionId } });
+              createCoupon({ input: { ...coupon, shopId: shopId!, promotionId: newPromotionId } }, { onError: handleCouponError });
             });
           }
           newPromotionId ? navigate(`/promotions/${newPromotionId}`) : navigate("/promotions");
