@@ -29,6 +29,8 @@ export const promotionSchema = Yup.object().shape({
           then: (schema) => schema.notRequired(),
           otherwise: (schema) => schema.required("This field is required").moreThan(0, "Discount value must be greater than 0")
         }),
+      discountMaxUnits: Yup.number().min(0, "This field must be greater than or equal to 0"),
+      discountMaxValue: Yup.number().min(0, "This field must be greater than or equal to 0"),
       discountCalculationType: Yup.string().required("This field is required"),
       discountType: Yup.string().required(),
       inclusionRules: Yup.object().when("discountType", {

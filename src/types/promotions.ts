@@ -58,12 +58,14 @@ export type Trigger = {
 
 export type Action = {
   actionKey: string
-  actionParameters?: {
+  actionParameters: {
     discountType: string
     discountValue: number
     discountCalculationType: CalculationType
     inclusionRules?: Rule
     exclusionRules?: Rule
+    discountMaxValue?: number
+    discountMaxUnits?: number
   }
 }
 export interface Promotion extends Omit<APIPromotion, "__typename" | "actions" | "promotionType" | "triggers"> {

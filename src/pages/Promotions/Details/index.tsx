@@ -12,7 +12,7 @@ import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { PromotionState, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
 import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
-import { Promotion, PromotionType, Trigger } from "types/promotions";
+import { Action, Promotion, PromotionType, Trigger } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
@@ -33,7 +33,7 @@ type PromotionFormValue = {
   name: string
   description: string
   promotionType: PromotionType
-  actions: Promotion["actions"]
+  actions: Action[]
   triggers: Promotion["triggers"]
   stackability: Promotion["stackability"]
   label: string
@@ -62,6 +62,16 @@ const normalizeFormValues = (values: PromotionFormValue) =>
     triggers: normalizeTriggersData(values.triggers),
     actions: normalizeActionsData(values.actions)
   });
+
+const formatActions = (actions: Action[]): Action[] => actions.map((action) =>
+  ({
+    ...action,
+    actionParameters: {
+      ...action.actionParameters,
+      discountMaxUnits: action.actionParameters?.discountMaxUnits || 0,
+      discountMaxValue: action.actionParameters?.discountMaxValue || 0
+    }
+  }));
 
 const PromotionDetails = () => {
   const { promotionId } = useParams();
@@ -127,7 +137,7 @@ const PromotionDetails = () => {
     name: data?.promotion?.name || "",
     description: data?.promotion?.description || "",
     promotionType: (data?.promotion?.promotionType || "order-discount") as PromotionType,
-    actions: data?.promotion?.actions || [],
+    actions: data?.promotion?.actions ? formatActions(data.promotion.actions) : [],
     triggers: data?.promotion?.triggers ? formatTriggers(
       data.promotion.triggers,
       data?.promotion?.name || "trigger name"
