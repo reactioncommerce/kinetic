@@ -6,6 +6,7 @@ export type CouponInput = {
   name: string
   canUseInStore: boolean
   _id?: string
+  maxUsageTimesPerUser: number
 }
 
 export type Coupon = APICoupon

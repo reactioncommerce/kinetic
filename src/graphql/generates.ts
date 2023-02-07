@@ -8954,7 +8954,7 @@ export type GetPromotionQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null, coupon?: { __typename?: 'Coupon', _id: string, name: string, code: string, canUseInStore?: boolean | null } | null } | null };
+export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null, coupon?: { __typename?: 'Coupon', _id: string, name: string, code: string, canUseInStore?: boolean | null, maxUsageTimesPerUser?: number | null } | null } | null };
 
 export type UpdatePromotionMutationVariables = Exact<{
   input?: InputMaybe<PromotionUpdateInput>;
@@ -9728,6 +9728,7 @@ export const GetPromotionDocument = `
       name
       code
       canUseInStore
+      maxUsageTimesPerUser
     }
   }
 }

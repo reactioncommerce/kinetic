@@ -1,7 +1,6 @@
 import { FastField, useFormikContext } from "formik";
 import Stack from "@mui/material/Stack";
 import { ChangeEventHandler, KeyboardEventHandler } from "react";
-import Box from "@mui/material/Box";
 
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
@@ -43,7 +42,7 @@ export const CouponsField = ({ index, disabled }: CouponsFieldProps) => {
           onKeyDown={handleKeyDown}
         />
       </Stack>
-      <Box sx={{ width: { md: "300px" } }}>
+      <Stack sx={{ width: { lg: "50%", md: "100%" }, flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 2 }, alignItems: { md: "flex-start" } }}>
         <FastField
           component={SelectField}
           name={`triggers[${index}].triggerParameters.canUseInStore`}
@@ -51,7 +50,8 @@ export const CouponsField = ({ index, disabled }: CouponsFieldProps) => {
           options={COUPON_USAGE}
           disabled={disabled}
         />
-      </Box>
+        <FastField name={`triggers[${index}].triggerParameters.maxUsageTimesPerUser`} component={TextField} type="number" label="Max # uses per Customer" />
+      </Stack>
     </Stack>
   );
 };

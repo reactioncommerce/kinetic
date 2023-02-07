@@ -75,6 +75,7 @@ query getPromotion($input: PromotionQueryInput) {
         name
         code
         canUseInStore
+        maxUsageTimesPerUser
       }
   }
 }

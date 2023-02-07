@@ -15,8 +15,8 @@ export const normalizeTriggersData = (triggers?: Trigger[]) => {
 
   const handler = {
     [TriggerKeys.Coupons]: (trigger: Trigger<TriggerKeys.Coupons>) => {
-      const { code, name, canUseInStore, _id } = trigger.triggerParameters;
-      coupons.push({ code, name, canUseInStore, _id });
+      const { code, name, canUseInStore, _id, maxUsageTimesPerUser } = trigger.triggerParameters;
+      coupons.push({ code, name, canUseInStore, _id, maxUsageTimesPerUser });
       return {
         triggerKey: trigger.triggerKey,
         triggerParameters: {
@@ -76,7 +76,8 @@ export const formatTriggers = (triggers: Trigger[], promotionName: string, coupo
           conditions: { all: [{ triggerType: TriggerType.CouponStandard }] },
           code: coupon.code,
           canUseInStore: coupon.canUseInStore,
-          _id: coupon._id
+          _id: coupon._id,
+          maxUsageTimesPerUser: coupon.maxUsageTimesPerUser || 0
         }
       } : trigger
     };

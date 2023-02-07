@@ -64,6 +64,7 @@ export type CouponsTriggerParameters = {
   code: string
   canUseInStore: boolean
   _id: string
+  maxUsageTimesPerUser: number
 }
 
 export type Trigger<Key extends TriggerKeys = TriggerKeys.Offers> = {
