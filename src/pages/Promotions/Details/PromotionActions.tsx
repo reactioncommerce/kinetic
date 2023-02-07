@@ -16,6 +16,7 @@ import { AlertDialog } from "@components/Dialog";
 
 import { EligibleItems } from "./EligibleItems";
 import { EligibleShippingMethods } from "./EligibleShippingMethods";
+import { PromotionUsageLimits } from "./PromotionUsageLimits";
 
 type Action = Promotion["actions"][0]
 
@@ -76,6 +77,10 @@ export const PromotionActions = () => {
                       <Button variant="text" color="error" onClick={() => setActiveField(index)}>
                  Remove Action
                       </Button>
+                    </Stack>
+                    <Stack my={1}>
+                      <Typography variant="subtitle2">Promotion Usage Limits</Typography>
+                      <PromotionUsageLimits actionParametersFieldName={`actions[${index}].actionParameters`}/>
                     </Stack>
                     {isShippingDiscount ?
                       <EligibleShippingMethods
