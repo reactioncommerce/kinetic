@@ -27,7 +27,7 @@ export const normalizeTriggersData = (triggers?: Trigger[]) => {
     [TriggerKeys.Offers]: (trigger: Trigger) => ({
       ...trigger,
       triggerParameters: {
-        ...trigger.triggerParameters,
+        name: trigger.triggerParameters?.name,
         inclusionRules: normalizeRule(trigger.triggerParameters?.inclusionRules),
         exclusionRules: normalizeRule(trigger.triggerParameters?.exclusionRules),
         conditions: {
