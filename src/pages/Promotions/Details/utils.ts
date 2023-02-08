@@ -79,7 +79,16 @@ export const formatTriggers = (triggers: Trigger[], promotionName: string, coupo
           _id: coupon._id,
           maxUsageTimesPerUser: coupon.maxUsageTimesPerUser || 0
         }
-      } : trigger
+      } : {
+        ...trigger,
+        triggerParameters: {
+          name: trigger.triggerParameters?.name || promotionName,
+          conditions: { all: [{ triggerType: TriggerType.CouponStandard }] },
+          code: "",
+          canUseInStore: false,
+          maxUsageTimesPerUser: 0
+        }
+      }
     };
 
     return formatFn[triggerKey];
