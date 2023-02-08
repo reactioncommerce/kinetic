@@ -43,7 +43,8 @@ export const CONDITION_PROPERTIES_OPTIONS: SelectOptionType[] = [
   { label: "Vendor", value: "$.productVendor" },
   { label: "Product ID", value: "$.productId" },
   { label: "Title", value: "$.title" },
-  { label: "Tag (Category)", value: "$.productTagIds" }
+  { label: "Tag (Category)", value: "$.productTagIds" },
+  { label: "Price Type", value: "$.priceType" }
 ];
 
 export const TODAY = new Date();
