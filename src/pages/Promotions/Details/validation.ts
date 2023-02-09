@@ -93,7 +93,7 @@ export const promotionSchema = Yup.object().shape({
     }).when("triggerKey", {
       is: TriggerKeys.Coupons,
       then: () => Yup.object({
-        code: Yup.string().trim().required("This field is required"),
+        code: Yup.string().trim().required("This field is required").matches(/^[a-zA-Z0-9]+$/, "Please enter an alphanumeric coupon code"),
         name: Yup.string().trim().required("This field is required"),
         maxUsageTimesPerUser: Yup.number().min(0, "This field must be greater than or equal to 0"),
         ...inclusionExclusionValidation
