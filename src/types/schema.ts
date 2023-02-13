@@ -8,15 +8,15 @@ export enum Type {
   Integer = "integer"
 }
 
-export type FieldProperty = {
-  type: Type
+export type FieldProperty<FieldType extends Type = Type> = {
+  type: FieldType
   path: string
   format?: string
-  items: FieldProperty["type"] extends Type.Array ? Array<FieldProperty> : undefined
-  properties: FieldProperty["type"] extends Type.Object ? {[key: string]: FieldProperty} : undefined
+  items: FieldProperty<FieldType>["type"] extends Type.Array ? Array<FieldProperty<FieldType>> : undefined
+  properties: FieldProperty<FieldType>["type"] extends Type.Object ? {[key: string]: FieldProperty<FieldType>} : undefined
   required: string[]
 }
 
-export type SchemaProperties = {
-  [key: string]: FieldProperty
+export type SchemaProperties<FieldType extends Type = Type> = {
+  [key: string]: FieldProperty<FieldType>
 }

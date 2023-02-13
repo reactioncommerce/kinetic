@@ -22,9 +22,13 @@ type ConditionFieldProps = {
 export const ConditionField = memo(({ name, index, operator }: ConditionFieldProps) => {
   const { schemaProperties, isLoading } = useIntrospectSchema({ schemaName: "CartItem", filterFn: ({ type }) => type !== Type.Array });
   const { setFieldValue } = useFormikContext<Promotion>();
-
   const onPathChange = (_: SyntheticEvent, selectedOption: SelectOptionType | null) => {
     setFieldValue(`${name}.path`, selectedOption ? selectedOption.value : null);
+  };
+
+  const getOptionLabel = (optionValue: string | SelectOptionType) => {
+    if (typeof optionValue === "string") return schemaProperties.find((option) => option.value === optionValue)?.label || "";
+    return optionValue.label;
   };
 
   return (
@@ -40,12 +44,9 @@ export const ConditionField = memo(({ name, index, operator }: ConditionFieldPro
           component={AutocompleteField}
           options={schemaProperties}
           loading={isLoading}
-          isOptionEqualToValue={(option: SelectOptionType, value: string) => option.value === value}
+          isOptionEqualToValue={(option: SelectOptionType, value: string) => (value ? option.value === value : false)}
           onChange={onPathChange}
-          getOptionLabel={(optionValue: string | SelectOptionType) => {
-            if (typeof optionValue === "string") return schemaProperties.find((option) => option.value === optionValue)?.label || "Unknown";
-            return optionValue.label;
-          }}
+          getOptionLabel={getOptionLabel}
           renderInput={(params: AutocompleteRenderInputParams) => (
             <InputWithLabel
               {...params}
