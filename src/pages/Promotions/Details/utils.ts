@@ -1,16 +1,15 @@
-import { Action, Rule, Trigger } from "types/promotions";
+import { Action, Rule, RuleCondition, Trigger } from "types/promotions";
 import { Operator } from "../constants";
 
 
 const normalizeRuleCondition = (conditions: Rule["conditions"]) => {
-  const newAllConditions = conditions.all?.map((condition) => {
+  const normalize = (condition: RuleCondition) => {
     if (condition.operator === Operator.Equal) return { ...condition, value: condition.value[0] };
     return condition;
-  });
-  const newAnyConditions = conditions.any?.map((condition) => {
-    if (condition.operator === Operator.Equal) return { ...condition, value: condition.value[0] };
-    return condition;
-  });
+  };
+
+  const newAllConditions = conditions.all?.map(normalize);
+  const newAnyConditions = conditions.any?.map(normalize);
 
   return { all: newAllConditions, any: newAnyConditions };
 };
@@ -48,17 +47,16 @@ export const normalizeActionsData = (actions?: Action[]) => actions?.map((action
 }));
 
 export const formatRule = (rule?: Rule) => {
+  const formatFn = (condition: RuleCondition) => {
+    if (condition.operator === Operator.Equal) return { ...condition, value: !Array.isArray(condition.value) ? [condition.value] : condition.value };
+    return condition;
+  };
+
   if (rule?.conditions) {
     return {
       conditions: {
-        all: rule.conditions.all?.map((condition) => {
-          if (condition.operator === Operator.Equal) return { ...condition, value: !Array.isArray(condition.value) ? [condition.value] : condition.value };
-          return condition;
-        }),
-        any: rule.conditions.any?.map((condition) => {
-          if (condition.operator === Operator.Equal) return { ...condition, value: !Array.isArray(condition.value) ? [condition.value] : condition.value };
-          return condition;
-        })
+        all: rule.conditions.all?.map(formatFn),
+        any: rule.conditions.any?.map(formatFn)
       }
     };
   }
