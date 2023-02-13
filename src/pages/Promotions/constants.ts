@@ -33,10 +33,14 @@ export const TRIGGER_TYPE_MAP: Record<TriggerType, SelectOptionType> = {
 
 export const TRIGGER_TYPE_OPTIONS = Object.values(TRIGGER_TYPE_MAP);
 
+export enum Operator {
+  Equal = "equal",
+  IsAnyOf = "in"
+}
 
 export const OPERATOR_OPTIONS: SelectOptionType[] = [
-  { label: "Is", value: "equal" },
-  { label: "Is Any Of", value: "in" }
+  { label: "Is", value: Operator.Equal },
+  { label: "Is Any Of", value: Operator.IsAnyOf }
 ];
 
 export const CONDITION_PROPERTIES_OPTIONS: SelectOptionType[] = [

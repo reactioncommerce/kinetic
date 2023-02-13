@@ -27,7 +27,7 @@ import { PromotionTriggers } from "./PromotionTriggers";
 import { promotionSchema } from "./validation";
 import { AvailableDateField } from "./AvailableDateField";
 import { PromotionTypeField } from "./PromotionTypeField";
-import { normalizeActionsData, normalizeTriggersData } from "./utils";
+import { formatRule, normalizeActionsData, normalizeTriggersData } from "./utils";
 
 type PromotionFormValue = {
   name: string
@@ -51,6 +51,8 @@ const formatTriggers = (triggers: Trigger[], promotionName: string) =>
     ...trigger,
     triggerParameters: {
       ...trigger.triggerParameters,
+      inclusionRules: formatRule(trigger.triggerParameters?.inclusionRules),
+      exclusionRules: formatRule(trigger.triggerParameters?.exclusionRules),
       name: trigger.triggerParameters?.name || promotionName,
       conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
     }
@@ -69,6 +71,8 @@ const formatActions = (actions: Action[]): Action[] => actions.map((action) =>
     ...(action.actionParameters ? {
       actionParameters: {
         ...action.actionParameters,
+        inclusionRules: formatRule(action.actionParameters?.inclusionRules),
+        exclusionRules: formatRule(action.actionParameters?.exclusionRules),
         discountMaxUnits: action.actionParameters?.discountMaxUnits || 0,
         discountMaxValue: action.actionParameters?.discountMaxValue || 0
       }
