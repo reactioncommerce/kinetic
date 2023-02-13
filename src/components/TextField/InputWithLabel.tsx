@@ -22,8 +22,9 @@ export const InputWithLabel = forwardRef((
     InputProps,
     inputProps,
     placeholder,
-    name
-  }: TextFieldProps,
+    name,
+    ariaLabel
+  }: TextFieldProps & {ariaLabel?: string},
   ref
 ) => {
   const labelId = useRef(uniqueId("label")).current;
@@ -45,7 +46,7 @@ export const InputWithLabel = forwardRef((
         error={error}
         disabled={disabled}
         ref={ref}
-        inputProps={{ ...inputProps, "aria-labelledby": labelId }}
+        inputProps={{ ...inputProps, "aria-labelledby": labelId, "aria-label": ariaLabel }}
         placeholder={placeholder}
         name={name}
         {...InputProps}

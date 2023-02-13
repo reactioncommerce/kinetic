@@ -17,7 +17,7 @@ type EligibleItemsProps = {
   exclusionFieldName: string
 }
 
-const initialValue = { fact: "item", path: "", value: [], operator: "" };
+const initialValue = { fact: "item", path: null, value: [], operator: "" };
 export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: EligibleItemsProps) => {
   const { setFieldValue, values } = useFormikContext<Promotion>();
 

@@ -1,7 +1,10 @@
 import * as Yup from "yup";
 
 const ruleSchema = Yup.object({
-  path: Yup.string().required("This field is required"),
+  path: Yup.object({
+    value: Yup.string().required("This field is required"),
+    label: Yup.string()
+  }),
   operator: Yup.string().required("This field is required"),
   value: Yup.array().min(1, "This field must have at least 1 value").when("operator", {
     is: "equal",

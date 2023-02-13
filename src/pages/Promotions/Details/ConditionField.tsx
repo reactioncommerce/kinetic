@@ -1,13 +1,15 @@
 import Stack from "@mui/material/Stack";
-import { FastField } from "formik";
+import { FastField, Field } from "formik";
 import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 import Typography from "@mui/material/Typography";
 import { memo } from "react";
 
 import { SelectField } from "@components/SelectField";
-import { CONDITION_OPERATORS, CONDITION_PROPERTIES_OPTIONS, OPERATOR_OPTIONS } from "../constants";
+import { CONDITION_OPERATORS, OPERATOR_OPTIONS } from "../constants";
 import { InputWithLabel } from "@components/TextField";
-import { AutocompleteField } from "@components/AutocompleteField";
+import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
+import { useIntrospectSchema } from "@hooks/useIntrospectSchema";
+import { Type } from "types/schema";
 
 type ConditionFieldProps = {
   name: string
@@ -15,8 +17,10 @@ type ConditionFieldProps = {
   operator: string
 }
 
-export const ConditionField = memo(({ name, index, operator }: ConditionFieldProps) =>
-  (
+export const ConditionField = memo(({ name, index, operator }: ConditionFieldProps) => {
+  const { schemaProperties, isLoading } = useIntrospectSchema({ schemaName: "CartItem", filterFn: ({ type }) => type !== Type.Array });
+
+  return (
     <Stack direction="row" gap={1} alignItems="center" pl={1}>
       <Stack flexBasis="30px">
         {index > 0 ? <Typography color="grey.700" variant="caption">
@@ -24,14 +28,21 @@ export const ConditionField = memo(({ name, index, operator }: ConditionFieldPro
         </Typography> : null}
       </Stack>
       <Stack sx={{ flexDirection: { sm: "column", md: "row" }, gap: { sm: 0, md: 3 } }} flexGrow={1}>
-        <FastField
-          component={SelectField}
+        <Field
           name={`${name}.path`}
-          placeholder="Property"
-          ariaLabel="Property"
-          hiddenLabel
-          options={CONDITION_PROPERTIES_OPTIONS}
-          displayEmpty
+          component={AutocompleteField}
+          options={schemaProperties}
+          loading={isLoading}
+          isOptionEqualToValue={isOptionEqualToValue}
+          renderInput={(params: AutocompleteRenderInputParams) => (
+            <InputWithLabel
+              {...params}
+              name={`${name}.path`}
+              placeholder="Property"
+              ariaLabel="Property"
+              hiddenLabel
+            />
+          )}
         />
         <FastField
           component={SelectField}
@@ -60,5 +71,6 @@ export const ConditionField = memo(({ name, index, operator }: ConditionFieldPro
         />
       </Stack>
     </Stack>
-  ));
+  );
+});
 
