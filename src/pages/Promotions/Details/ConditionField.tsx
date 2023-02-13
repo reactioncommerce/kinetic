@@ -1,15 +1,17 @@
 import Stack from "@mui/material/Stack";
-import { FastField, Field } from "formik";
+import { FastField, Field, useFormikContext } from "formik";
 import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 import Typography from "@mui/material/Typography";
-import { memo } from "react";
+import { memo, SyntheticEvent } from "react";
 
 import { SelectField } from "@components/SelectField";
 import { CONDITION_OPERATORS, OPERATOR_OPTIONS } from "../constants";
 import { InputWithLabel } from "@components/TextField";
-import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
+import { AutocompleteField } from "@components/AutocompleteField";
 import { useIntrospectSchema } from "@hooks/useIntrospectSchema";
 import { Type } from "types/schema";
+import { Promotion } from "types/promotions";
+import { SelectOptionType } from "types/common";
 
 type ConditionFieldProps = {
   name: string
@@ -19,6 +21,11 @@ type ConditionFieldProps = {
 
 export const ConditionField = memo(({ name, index, operator }: ConditionFieldProps) => {
   const { schemaProperties, isLoading } = useIntrospectSchema({ schemaName: "CartItem", filterFn: ({ type }) => type !== Type.Array });
+  const { setFieldValue } = useFormikContext<Promotion>();
+
+  const onPathChange = (_: SyntheticEvent, selectedOption: SelectOptionType | null) => {
+    setFieldValue(`${name}.path`, selectedOption ? selectedOption.value : null);
+  };
 
   return (
     <Stack direction="row" gap={1} alignItems="center" pl={1}>
@@ -33,7 +40,12 @@ export const ConditionField = memo(({ name, index, operator }: ConditionFieldPro
           component={AutocompleteField}
           options={schemaProperties}
           loading={isLoading}
-          isOptionEqualToValue={isOptionEqualToValue}
+          isOptionEqualToValue={(option: SelectOptionType, value: string) => option.value === value}
+          onChange={onPathChange}
+          getOptionLabel={(optionValue: string | SelectOptionType) => {
+            if (typeof optionValue === "string") return schemaProperties.find((option) => option.value === optionValue)?.label || "Unknown";
+            return optionValue.label;
+          }}
           renderInput={(params: AutocompleteRenderInputParams) => (
             <InputWithLabel
               {...params}
