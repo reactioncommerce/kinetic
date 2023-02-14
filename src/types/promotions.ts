@@ -58,7 +58,7 @@ export type Trigger = {
 
 export type Action = {
   actionKey: string
-  actionParameters: {
+  actionParameters?: {
     discountType: string
     discountValue: number
     discountCalculationType: CalculationType
