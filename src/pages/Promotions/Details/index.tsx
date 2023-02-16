@@ -10,9 +10,8 @@ import Box from "@mui/material/Box";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
-import { PromotionState, useCreatePromotionMutation, useCreateStandardCouponMutation, useGetPromotionQuery,
-  useUpdatePromotionMutation,
-  useUpdateStandardCouponMutation } from "@graphql/generates";
+import { PromotionState, useCreatePromotionMutation, useGetPromotionQuery,
+  useUpdatePromotionMutation } from "@graphql/generates";
 import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
 import { Action, Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
@@ -24,6 +23,7 @@ import { StatusChip } from "../components/StatusChip";
 import { Card } from "@components/Card";
 import { useToast } from "@containers/ToastProvider";
 import { formatErrorResponse } from "@utils/errorHandlers";
+import { useUpdateCouponInPromotion } from "../hooks";
 
 import { ActionButtons } from "./ActionButtons";
 import { PromotionActions } from "./PromotionActions";
@@ -94,17 +94,12 @@ const PromotionDetails = () => {
 
   const { mutate: createPromotion } = useCreatePromotionMutation(client);
   const { mutate: updatePromotion } = useUpdatePromotionMutation(client);
-  const { mutate: createCoupon } = useCreateStandardCouponMutation(client);
-  const { mutate: updateCoupon } = useUpdateStandardCouponMutation(client);
+
+  const { updateCouponInPromotion, createCoupon } = useUpdateCouponInPromotion();
 
   const onError = (errorResponse: unknown) => {
     const { message } = formatErrorResponse(errorResponse);
     error(message || `Failed to ${promotionId ? "update" : "create"} a promotion.`);
-  };
-
-  const handleCouponError = (errorResponse: unknown) => {
-    const { message } = formatErrorResponse(errorResponse);
-    error(message || `Failed to ${promotionId ? "update" : "create"} a coupon.`);
   };
 
   const onSubmit: FormikConfig<PromotionFormValue>["onSubmit"] = (
@@ -116,15 +111,9 @@ const PromotionDetails = () => {
     if (promotionId && data?.promotion) {
       const { triggerType, shopId: promotionShopId } = data.promotion;
       const updatedPromotion = { _id: promotionId, shopId: promotionShopId, triggerType, ...normalizedValues };
-      if (coupons.length) {
-        coupons.forEach((coupon) => {
-          if (coupon._id) {
-            updateCoupon({ input: { ...coupon, shopId: shopId!, _id: coupon._id } }, { onError: handleCouponError });
-          } else {
-            createCoupon({ input: { ...coupon, shopId: shopId!, promotionId } }, { onError: handleCouponError });
-          }
-        });
-      }
+
+      updateCouponInPromotion(data.promotion, coupons);
+
       updatePromotion(
         { input: updatedPromotion },
         {
@@ -147,11 +136,7 @@ const PromotionDetails = () => {
         onSettled: () => setSubmitting(false),
         onSuccess: (responseData) => {
           const newPromotionId = responseData.createPromotion?.promotion?._id;
-          if (coupons.length && newPromotionId) {
-            coupons.forEach((coupon) => {
-              createCoupon({ input: { ...coupon, shopId: shopId!, promotionId: newPromotionId } }, { onError: handleCouponError });
-            });
-          }
+          createCoupon({ newCoupons: coupons, promotionId: newPromotionId, shopId: shopId! });
           newPromotionId ? navigate(`/promotions/${newPromotionId}`) : navigate("/promotions");
         },
         onError

@@ -15,3 +15,12 @@ mutation updateStandardCoupon($input: UpdateStandardCouponInput) {
     }
   }
 }
+
+mutation archiveCoupon($input: ArchiveCouponInput) {
+  archiveCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}

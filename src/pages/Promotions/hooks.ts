@@ -1,7 +1,13 @@
 import { useToast } from "@containers/ToastProvider";
-import { useUpdatePromotionMutation, useArchivePromotionMutation, PromotionState } from "@graphql/generates";
+import { useUpdatePromotionMutation,
+  useArchivePromotionMutation,
+  PromotionState,
+  useCreateStandardCouponMutation,
+  useUpdateStandardCouponMutation,
+  useArchiveCouponMutation } from "@graphql/generates";
 import { client } from "@graphql/graphql-request-client";
 import { formatErrorResponse } from "@utils/errorHandlers";
+import { CouponInput } from "types/coupons";
 import { Promotion } from "types/promotions";
 
 const getUpdatePromotionInput = (promotion: Promotion) => {
@@ -67,4 +73,47 @@ export const useArchivePromotions = (onSuccess?: () => void) => {
       ));
   };
   return { archivePromotions };
+};
+
+export const useUpdateCouponInPromotion = () => {
+  const { mutate: create } = useCreateStandardCouponMutation(client);
+  const { mutate: updateCoupon } = useUpdateStandardCouponMutation(client);
+  const { mutate: archiveCoupon } = useArchiveCouponMutation(client);
+  const { error } = useToast();
+
+  const handleCouponError = (couponId?: string) => (errorResponse: unknown) => {
+    const { message } = formatErrorResponse(errorResponse);
+    error(message || `Failed to ${couponId ? "update" : "create"} a coupon.`);
+  };
+
+  const updateCouponInPromotion = (promotion: Promotion, newCoupons: CouponInput[]) => {
+    const { shopId, _id, coupon } = promotion;
+    if (coupon && !newCoupons.length) {
+      archiveCoupon({ input: { couponId: coupon._id, shopId } }, {
+        onError: (errorResponse: unknown) => {
+          const { message } = formatErrorResponse(errorResponse);
+          error(message || "Failed to delete a coupon.");
+        }
+      });
+    }
+
+    if (newCoupons.length) {
+      newCoupons.forEach((newCoupon) => {
+        if (newCoupon._id) {
+          updateCoupon({ input: { ...newCoupon, shopId, _id: newCoupon._id } }, { onError: handleCouponError(newCoupon._id) });
+        } else {
+          create({ input: { ...newCoupon, shopId, promotionId: _id } }, { onError: handleCouponError() });
+        }
+      });
+    }
+  };
+
+  const createCoupon = ({ promotionId, shopId, newCoupons }: {promotionId?: string, newCoupons: CouponInput[], shopId: string}) => {
+    if (newCoupons.length && promotionId) {
+      newCoupons.forEach((coupon) => {
+        create({ input: { ...coupon, shopId, promotionId } }, { onError: handleCouponError() });
+      });
+    }
+  };
+  return { updateCouponInPromotion, createCoupon };
 };

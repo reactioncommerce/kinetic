@@ -656,6 +656,14 @@ export type ApproveOrderPaymentsPayload = {
   order: Order;
 };
 
+/** The input for the archiveCoupon mutation */
+export type ArchiveCouponInput = {
+  /** The coupon ID */
+  couponId: Scalars['ID'];
+  /** The shop ID */
+  shopId: Scalars['ID'];
+};
+
 /** Input for the archiveMediaRecord mutation */
 export type ArchiveMediaRecordInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -849,10 +857,14 @@ export type Cart = Node & {
    * Every account has exactly one cart per shop.
    */
   account?: Maybe<Account>;
+  /** The promotions that have been applied to this cart */
+  appliedPromotions?: Maybe<Array<Maybe<CartPromotionItem>>>;
   /** Holds all information collected for a cart during checkout */
   checkout?: Maybe<Checkout>;
   /** The date and time at which the cart was created, which is when the first item was added to it. */
   createdAt: Scalars['DateTime'];
+  /** The array of discounts applied to the cart. */
+  discounts?: Maybe<Array<Maybe<CartDiscount>>>;
   /** An email address that has been associated with the cart */
   email?: Maybe<Scalars['String']>;
   /** The date and time at which the cart will expire. Account carts usually do not expire, so they will have a null value here. */
@@ -904,6 +916,42 @@ export type CartItemsArgs = {
   sortOrder?: InputMaybe<SortOrder>;
 };
 
+export type CartDiscount = {
+  __typename?: 'CartDiscount';
+  /** The date and time when the discount was applied. */
+  dateApplied: Scalars['DateTime'];
+  /** The date and time when the discount expires. */
+  dateExpires?: Maybe<Scalars['DateTime']>;
+  /** The type of calculation used to determine the discount amount. Such as `percentage` or `fixed` or `flat` */
+  discountCalculationType: Scalars['String'];
+  /** The maximum number of units that can be discounted. For percentage discounts, this is the maximum number of percentage units. For fixed discounts, this is the maximum number of fixed units. For flat discounts, this is the maximum number of flat units. */
+  discountMaxUnits?: Maybe<Scalars['Int']>;
+  /** The maximum value of the discount. For percentage discounts, this is the maximum percentage. For fixed discounts, this is the maximum fixed amount. For flat discounts, this is the maximum flat amount. */
+  discountMaxValue?: Maybe<Scalars['Float']>;
+  /** The type of discount. Such as `shipping`, `item`, `order` */
+  discountType: Scalars['String'];
+  /** The value of the discount. For percentage discounts, this is the percentage. For fixed discounts, this is the fixed amount. For flat discounts, this is the flat amount. */
+  discountValue: Scalars['Float'];
+  /** The amount of the discount that was applied to the order. */
+  discountedAmount?: Maybe<Scalars['Float']>;
+  /** The discount item type. Such as `order` or `item` or `shipping` */
+  discountedItemType?: Maybe<Scalars['String']>;
+  /**  The items that were discounted. Only available if `discountedItemType` is `item`. */
+  discountedItems?: Maybe<Array<Maybe<CartDiscountedItem>>>;
+  /** Should this discount be applied before other discounts? */
+  neverStackWithOtherItemLevelDiscounts?: Maybe<Scalars['Boolean']>;
+  /**  The ID of the promotion that created this discount */
+  promotionId: Scalars['ID'];
+};
+
+export type CartDiscountedItem = {
+  __typename?: 'CartDiscountedItem';
+  /** The ID of the item that was discounted */
+  _id?: Maybe<Scalars['String']>;
+  /** The amount of the discount that was applied to this item */
+  amount?: Maybe<Scalars['Int']>;
+};
+
 /** A single item in a cart. The item contains information about an intended purchase. */
 export type CartItem = Node & {
   __typename?: 'CartItem';
@@ -929,6 +977,8 @@ export type CartItem = Node & {
    * the original item is destroyed and this field will reflect the time it was created for the most recent addition.
    */
   createdAt: Scalars['DateTime'];
+  /** The array of discounts applied to the cart item. */
+  discounts?: Maybe<Array<Maybe<CartDiscount>>>;
   /** The URLs for a picture of the item in various sizes */
   imageURLs?: Maybe<ImageSizes>;
   /**
@@ -1105,6 +1155,21 @@ export enum CartMessageSeverity {
   Warning = 'warning'
 }
 
+/** A applied promotion on the cart */
+export type CartPromotionItem = {
+  __typename?: 'CartPromotionItem';
+  /** The unique ID of the promotion */
+  _id: Scalars['ID'];
+  /** A longer detailed description of the promotion */
+  description: Scalars['String'];
+  /** The short description of the promotion */
+  label: Scalars['String'];
+  /** The short description of the promotion */
+  name: Scalars['String'];
+  /** What type of trigger this promotion uses */
+  triggerType: TriggerType;
+};
+
 /** Supported cart reconciliation modes */
 export enum CartReconciliationMode {
   /** Delete the anonymous cart and use the account cart. */
@@ -1153,6 +1218,16 @@ export type CartSummary = {
   taxableAmount: Money;
   /** The sum of `itemTotal`, `fulfillmentTotal`, and `taxTotal`, minus `discountTotal` */
   total: Money;
+};
+
+/** The input for the cartUpdated subscription */
+export type CartUpdatedInput = {
+  /** The cart account ID */
+  accountId?: InputMaybe<Scalars['ID']>;
+  /** The cart ID */
+  cartId: Scalars['ID'];
+  /** The cart anonymous token */
+  cartToken?: InputMaybe<Scalars['String']>;
 };
 
 /** One product catalog for a particular shop */
@@ -1577,6 +1652,10 @@ export type Coupon = {
   code: Scalars['String'];
   /** Coupon created time */
   createdAt: Scalars['Date'];
+  /** Related discount ID */
+  discountId?: Maybe<Scalars['ID']>;
+  /** The coupon is archived */
+  isArchived?: Maybe<Scalars['Boolean']>;
   /** The number of times this coupon can be used */
   maxUsageTimes?: Maybe<Scalars['Int']>;
   /** The number of times this coupon can be used per user */
@@ -1624,6 +1703,8 @@ export type CouponFilter = {
   code?: InputMaybe<Scalars['String']>;
   /** The expiration date of the coupon */
   expirationDate?: InputMaybe<Scalars['Date']>;
+  /** The coupon is archived */
+  isArchived?: InputMaybe<Scalars['Boolean']>;
   /** The related promotion ID */
   promotionId?: InputMaybe<Scalars['ID']>;
   /** The coupon name */
@@ -3073,6 +3154,15 @@ export type IncorrectPriceFailureDetails = {
   providedPrice: Money;
 };
 
+/** The response from the `introspectSchema` query */
+export type IntrospectSchemaPayload = {
+  __typename?: 'IntrospectSchemaPayload';
+  /** The JSONObject schema for the schema */
+  schema?: Maybe<Scalars['JSONObject']>;
+  /** The schema name */
+  schemaName: Scalars['String'];
+};
+
 /** Represents a single staff member invitation */
 export type Invitation = Node & {
   __typename?: 'Invitation';
@@ -3306,8 +3396,12 @@ export type Money = {
   amount: Scalars['Float'];
   /** The currency, for interpreting the `amount` */
   currency: Currency;
+  /** The discount amount will be applied to the amount. */
+  discount?: Maybe<Scalars['Float']>;
   /** The display amount, with any currency symbols and decimal places already added */
   displayAmount: Scalars['String'];
+  /** The total amount before discounts are applied. */
+  undiscountedAmount?: Maybe<Scalars['Float']>;
 };
 
 /** Represents input for some amount of a single currency */
@@ -3370,6 +3464,8 @@ export type Mutation = {
   applyDiscountCodeToCart: ApplyDiscountCodeToCartPayload;
   /** Approve one or more payments for an order */
   approveOrderPayments: ApproveOrderPaymentsPayload;
+  /** Archive coupon mutation */
+  archiveCoupon?: Maybe<StandardCouponPayload>;
   /** Archive a MediaRecord to hide it without deleting the backing file data */
   archiveMediaRecord: ArchiveMediaRecordPayload;
   /** Archive product variants */
@@ -3678,6 +3774,12 @@ export type MutationApplyDiscountCodeToCartArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationApproveOrderPaymentsArgs = {
   input: ApproveOrderPaymentsInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationArchiveCouponArgs = {
+  input?: InputMaybe<ArchiveCouponInput>;
 };
 
 
@@ -4534,12 +4636,18 @@ export type Order = Node & {
   _id: Scalars['ID'];
   /** The account that placed the order. Some orders are created for anonymous users. Anonymous orders have a null account. */
   account?: Maybe<Account>;
+  /** The array of promotions applied to the order. */
+  appliedPromotions?: Maybe<Array<Maybe<CartPromotionItem>>>;
   /** Full name(s) involved with payment. Payment can be made by one or more than one person */
   billingName?: Maybe<Scalars['String']>;
   /** The ID of the cart that created this order. Carts are deleted after becoming orders, so this is just a reference. */
   cartId?: Maybe<Scalars['ID']>;
   /** The date and time at which the cart was created, which is when the first item was added to it. */
   createdAt: Scalars['DateTime'];
+  /** The total discount amount of the order.  */
+  discount?: Maybe<Scalars['Float']>;
+  /** The array of discounts applied to the order. */
+  discounts?: Maybe<Array<Maybe<CartDiscount>>>;
   /** The order status for display in UI */
   displayStatus: Scalars['String'];
   /** An email address that has been associated with the cart */
@@ -4570,6 +4678,8 @@ export type Order = Node & {
   surcharges: Array<Maybe<AppliedSurcharge>>;
   /** Total quantity of all items in the order */
   totalItemQuantity: Scalars['Int'];
+  /** The total undiscounted amount of the order.  */
+  undiscountedAmount?: Maybe<Scalars['Float']>;
   /** The date and time at which this order was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -4633,6 +4743,8 @@ export type OrderFulfillmentGroup = Node & {
   _id: Scalars['ID'];
   /** Information needed by the selected fulfillment method to properly fulfill the order */
   data?: Maybe<OrderFulfillmentGroupData>;
+  /** The array of discounts applied to the fulfillment group. */
+  discounts?: Maybe<Array<Maybe<CartDiscount>>>;
   /** The order status for display in UI */
   displayStatus: Scalars['String'];
   /** The items that are part of this fulfillment group */
@@ -4814,6 +4926,10 @@ export type OrderItem = Node & {
   cancelReason?: Maybe<Scalars['String']>;
   /** The date and time at which the order item was created */
   createdAt: Scalars['DateTime'];
+  /** The total discount amount of the order item.  */
+  discount?: Maybe<Scalars['Float']>;
+  /** The array of discounts applied to the order item. */
+  discounts?: Maybe<Array<Maybe<CartDiscount>>>;
   /** The URLs for a picture of the item in various sizes */
   imageURLs?: Maybe<ImageSizes>;
   /** Is this a taxable item? */
@@ -4854,6 +4970,8 @@ export type OrderItem = Node & {
   taxes: Array<Maybe<CalculatedTax>>;
   /** A title for use in orders that conveys the selected product's title + chosen options */
   title: Scalars['String'];
+  /** The total undiscounted amount of the order item.  */
+  undiscountedAmount?: Maybe<Scalars['Float']>;
   /** The date and time at which this item was last updated */
   updatedAt: Scalars['DateTime'];
   /** The selected variant title */
@@ -5650,12 +5768,14 @@ export type Promotion = {
   _id: Scalars['String'];
   /** The actions to be taken when the promotion is triggered */
   actions?: Maybe<Array<Action>>;
+  /** Call to Action message a customer sees in the storefront PDP to encourage customers to use the promotion */
+  callToActionMessage?: Maybe<Scalars['String']>;
   /** The coupon code */
   coupon?: Maybe<Coupon>;
   /** When was this record created */
   createdAt: Scalars['Date'];
   /** A longer detailed description of the promotion */
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   /** Whether the promotion is current active */
   enabled: Scalars['Boolean'];
   /** The date that the promotion end (empty means it never ends) */
@@ -5676,6 +5796,8 @@ export type Promotion = {
   startDate: Scalars['DateTime'];
   /** What is the current state of the promotion */
   state: PromotionState;
+  /** URL to the Terms and Conditions so that customers can get more information about the promotion */
+  termsAndConditionsUrl?: Maybe<Scalars['String']>;
   /** What type of trigger this promotion uses */
   triggerType: TriggerType;
   /** The triggers for this Promotion */
@@ -5702,8 +5824,10 @@ export type PromotionConnection = {
 export type PromotionCreateInput = {
   /** The actions to be taken when the promotion is triggered */
   actions?: InputMaybe<Array<ActionInput>>;
+  /** Call to Action message a customer sees in the storefront PDP to encourage customers to use the promotion */
+  callToActionMessage?: InputMaybe<Scalars['String']>;
   /** A longer detailed description of the promotion */
-  description: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
   /** Whether the promotion is current active */
   enabled: Scalars['Boolean'];
   /** The date that the promotion end (empty means it never ends) */
@@ -5720,6 +5844,8 @@ export type PromotionCreateInput = {
   stackability?: InputMaybe<StackabilityInput>;
   /** The date that the promotion begins */
   startDate: Scalars['DateTime'];
+  /** URL to the Terms and Conditions so that customers can get more information about the promotion */
+  termsAndConditionsUrl?: InputMaybe<Scalars['String']>;
   /** The triggers for this Promotion */
   triggers?: InputMaybe<Array<TriggerInput>>;
 };
@@ -5763,6 +5889,24 @@ export type PromotionQueryInput = {
   shopId: Scalars['String'];
 };
 
+/** The fields by which you are allowed to sort any query that returns an `PromotionConnection` */
+export enum PromotionSortByField {
+  /** What type of promotion is this */
+  PromotionType = 'PromotionType',
+  /** What type of trigger this promotion uses */
+  TriggerType = 'TriggerType',
+  /** Promotion ID */
+  Id = '_id',
+  /** Date and time at which this Promotion was created */
+  CreatedAt = 'createdAt',
+  /** Whether the promotion is current active */
+  Enabled = 'enabled',
+  /** The short description of the promotion */
+  Label = 'label',
+  /** Date and time at which this Promotion was last updated */
+  UpdatedAt = 'updatedAt'
+}
+
 export enum PromotionState {
   Active = 'active',
   Archived = 'archived',
@@ -5776,8 +5920,10 @@ export type PromotionUpdateInput = {
   _id: Scalars['String'];
   /** The actions to be taken when the promotion is triggered */
   actions?: InputMaybe<Array<ActionInput>>;
+  /** Call to Action message a customer sees in the storefront PDP to encourage customers to use the promotion */
+  callToActionMessage?: InputMaybe<Scalars['String']>;
   /** A longer detailed description of the promotion */
-  description: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
   /** Whether the promotion is current active */
   enabled: Scalars['Boolean'];
   /** The date that the promotion end (empty means it never ends) */
@@ -5796,6 +5942,8 @@ export type PromotionUpdateInput = {
   startDate: Scalars['DateTime'];
   /** What is the current state of the promotion */
   state?: InputMaybe<PromotionState>;
+  /** URL to the Terms and Conditions so that customers can get more information about the promotion */
+  termsAndConditionsUrl?: InputMaybe<Scalars['String']>;
   /** What type of trigger this uses */
   triggerType: TriggerType;
   /** The triggers for this Promotion */
@@ -5880,6 +6028,8 @@ export type Query = {
   filterOrders?: Maybe<OrderConnection>;
   /** Query to get a filtered list of Products */
   filterProducts?: Maybe<ProductConnection>;
+  /** Query to get a filtered list of Accounts */
+  filterPromotions?: Maybe<PromotionConnection>;
   /** Get a flat rate fulfillment method */
   flatRateFulfillmentMethod: FlatRateFulfillmentMethod;
   /** Get a flat rate fulfillment methods */
@@ -5898,6 +6048,8 @@ export type Query = {
   group?: Maybe<Group>;
   /** Returns a list of groups for the shop with ID `shopId`, as a Relay-compatible connection. */
   groups?: Maybe<GroupConnection>;
+  /** Query the fields of a schema */
+  introspectSchema: IntrospectSchemaPayload;
   /** Returns all pending staff member invitations */
   invitations: InvitationConnection;
   /** Returns the navigation items for a shop */
@@ -6183,6 +6335,20 @@ export type QueryFilterProductsArgs = {
 
 
 /** Queries return all requested data, without any side effects */
+export type QueryFilterPromotionsArgs = {
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  conditions?: InputMaybe<FilterConditionsInput>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
+  sortBy?: InputMaybe<PromotionSortByField>;
+  sortOrder?: InputMaybe<SortOrder>;
+};
+
+
+/** Queries return all requested data, without any side effects */
 export type QueryFlatRateFulfillmentMethodArgs = {
   methodId: Scalars['ID'];
   shopId: Scalars['ID'];
@@ -6236,6 +6402,13 @@ export type QueryGroupsArgs = {
   shopId: Scalars['ID'];
   sortBy?: InputMaybe<GroupSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
+};
+
+
+/** Queries return all requested data, without any side effects */
+export type QueryIntrospectSchemaArgs = {
+  schemaName: Scalars['String'];
+  shopId?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -7507,8 +7680,16 @@ export type StripePaymentIntentData = {
 /** Subscriptions allow you to request to get updated data whenever it changes */
 export type Subscription = {
   __typename?: 'Subscription';
+  /** Subscribe to changes to cart */
+  cartUpdated: Cart;
   /** A test subscription that returns an incremented number every 1 second for 10 seconds */
   tick: Scalars['Int'];
+};
+
+
+/** Subscriptions allow you to request to get updated data whenever it changes */
+export type SubscriptionCartUpdatedArgs = {
+  input: CartUpdatedInput;
 };
 
 /** An address suggestion returned from an address validation service */
@@ -8934,6 +9115,13 @@ export type UpdateStandardCouponMutationVariables = Exact<{
 
 export type UpdateStandardCouponMutation = { __typename?: 'Mutation', updateStandardCoupon?: { __typename?: 'StandardCouponPayload', success: boolean, coupon: { __typename?: 'Coupon', _id: string } } | null };
 
+export type ArchiveCouponMutationVariables = Exact<{
+  input?: InputMaybe<ArchiveCouponInput>;
+}>;
+
+
+export type ArchiveCouponMutation = { __typename?: 'Mutation', archiveCoupon?: { __typename?: 'StandardCouponPayload', success: boolean, coupon: { __typename?: 'Coupon', _id: string } } | null };
+
 export type GetPromotionsQueryVariables = Exact<{
   shopId: Scalars['ID'];
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -8947,14 +9135,14 @@ export type GetPromotionsQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description?: string | null, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
 
 export type GetPromotionQueryVariables = Exact<{
   input?: InputMaybe<PromotionQueryInput>;
 }>;
 
 
-export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description: string, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null, coupon?: { __typename?: 'Coupon', _id: string, name: string, code: string, canUseInStore?: boolean | null, maxUsageTimesPerUser?: number | null } | null } | null };
+export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description?: string | null, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null, coupon?: { __typename?: 'Coupon', _id: string, name: string, code: string, canUseInStore?: boolean | null, maxUsageTimesPerUser?: number | null } | null } | null };
 
 export type UpdatePromotionMutationVariables = Exact<{
   input?: InputMaybe<PromotionUpdateInput>;
@@ -9633,6 +9821,29 @@ export const useUpdateStandardCouponMutation = <
     useMutation<UpdateStandardCouponMutation, TError, UpdateStandardCouponMutationVariables, TContext>(
       ['updateStandardCoupon'],
       (variables?: UpdateStandardCouponMutationVariables) => fetcher<UpdateStandardCouponMutation, UpdateStandardCouponMutationVariables>(client, UpdateStandardCouponDocument, variables, headers)(),
+      options
+    );
+export const ArchiveCouponDocument = `
+    mutation archiveCoupon($input: ArchiveCouponInput) {
+  archiveCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}
+    `;
+export const useArchiveCouponMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<ArchiveCouponMutation, TError, ArchiveCouponMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<ArchiveCouponMutation, TError, ArchiveCouponMutationVariables, TContext>(
+      ['archiveCoupon'],
+      (variables?: ArchiveCouponMutationVariables) => fetcher<ArchiveCouponMutation, ArchiveCouponMutationVariables>(client, ArchiveCouponDocument, variables, headers)(),
       options
     );
 export const GetPromotionsDocument = `
