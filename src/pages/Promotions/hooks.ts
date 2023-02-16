@@ -86,14 +86,16 @@ export const useUpdateCouponInPromotion = () => {
     error(message || `Failed to ${couponId ? "update" : "create"} a coupon.`);
   };
 
+  const handleArchiveCouponError = (errorResponse: unknown) => {
+    const { message } = formatErrorResponse(errorResponse);
+    error(message || "Failed to delete a coupon.");
+  };
+
   const updateCouponInPromotion = (promotion: Promotion, newCoupons: CouponInput[]) => {
     const { shopId, _id, coupon } = promotion;
     if (coupon && !newCoupons.length) {
       archiveCoupon({ input: { couponId: coupon._id, shopId } }, {
-        onError: (errorResponse: unknown) => {
-          const { message } = formatErrorResponse(errorResponse);
-          error(message || "Failed to delete a coupon.");
-        }
+        onError: handleArchiveCouponError
       });
     }
 
@@ -101,6 +103,13 @@ export const useUpdateCouponInPromotion = () => {
       newCoupons.forEach((newCoupon) => {
         if (newCoupon._id) {
           updateCoupon({ input: { ...newCoupon, shopId, _id: newCoupon._id } }, { onError: handleCouponError(newCoupon._id) });
+        } else if (coupon) {
+          archiveCoupon({ input: { couponId: coupon._id, shopId } }, {
+            onError: handleArchiveCouponError,
+            onSuccess: () => {
+              create({ input: { ...newCoupon, shopId, promotionId: _id } }, { onError: handleCouponError() });
+            }
+          });
         } else {
           create({ input: { ...newCoupon, shopId, promotionId: _id } }, { onError: handleCouponError() });
         }
