@@ -8,8 +8,7 @@ import { SelectField } from "@components/SelectField";
 import { CONDITION_OPERATORS, OPERATOR_OPTIONS } from "../constants";
 import { InputWithLabel } from "@components/TextField";
 import { AutocompleteField } from "@components/AutocompleteField";
-import { useIntrospectSchema } from "@hooks/useIntrospectSchema";
-import { Type } from "types/schema";
+import { FieldPropertySelectOption } from "@hooks/useIntrospectSchema";
 import { Promotion } from "types/promotions";
 import { SelectOptionType } from "types/common";
 
@@ -17,10 +16,11 @@ type ConditionFieldProps = {
   name: string
   index: number
   operator: string
+  schemaProperties: FieldPropertySelectOption[]
+  isLoadingSchema: boolean
 }
 
-export const ConditionField = memo(({ name, index, operator }: ConditionFieldProps) => {
-  const { schemaProperties, isLoading } = useIntrospectSchema({ schemaName: "CartItem", filterFn: ({ type }) => type !== Type.Array });
+export const ConditionField = memo(({ name, index, operator, isLoadingSchema, schemaProperties }: ConditionFieldProps) => {
   const { setFieldValue } = useFormikContext<Promotion>();
   const onPathChange = (_: SyntheticEvent, selectedOption: SelectOptionType | null) => {
     setFieldValue(`${name}.path`, selectedOption ? selectedOption.value : null);
@@ -43,7 +43,7 @@ export const ConditionField = memo(({ name, index, operator }: ConditionFieldPro
           name={`${name}.path`}
           component={AutocompleteField}
           options={schemaProperties}
-          loading={isLoading}
+          loading={isLoadingSchema}
           isOptionEqualToValue={(option: SelectOptionType, value: string) => (value ? option.value === value : false)}
           onChange={onPathChange}
           getOptionLabel={getOptionLabel}

@@ -12,7 +12,7 @@ export type FieldProperty<FieldType extends Type = Type> = {
   type: FieldType
   path: string
   format?: string
-  items: FieldProperty<FieldType>["type"] extends Type.Array ? Array<FieldProperty<FieldType>> : undefined
+  items: FieldProperty<FieldType>["type"] extends Type.Array ? Array<FieldProperty<Type>> : undefined
   properties: FieldProperty<FieldType>["type"] extends Type.Object ? {[key: string]: FieldProperty<FieldType>} : undefined
   required: string[]
 }

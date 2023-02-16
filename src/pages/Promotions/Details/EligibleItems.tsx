@@ -1,13 +1,13 @@
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { FieldArray, useFormikContext } from "formik";
-// eslint-disable-next-line you-dont-need-lodash-underscore/get
-import { get } from "lodash-es";
+import { FieldArray, getIn, useFormikContext } from "formik";
 import { useState } from "react";
 
 import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 import { Promotion } from "types/promotions";
+import { isArrayType, useIntrospectSchema } from "@hooks/useIntrospectSchema";
+import { FieldProperty, Type } from "types/schema";
 
 import { ConditionField } from "./ConditionField";
 import { ConditionOperators } from "./ConditionOperators";
@@ -18,11 +18,15 @@ type EligibleItemsProps = {
 }
 
 const initialValue = { fact: "item", path: null, value: [], operator: "" };
+
+const filterSchemaFn = (fieldProperty: FieldProperty) =>
+  fieldProperty.type !== Type.Array || (isArrayType(fieldProperty) && fieldProperty.items[0].type === Type.String);
+
 export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: EligibleItemsProps) => {
   const { setFieldValue, values } = useFormikContext<Promotion>();
 
-  const currentInclusionRules = get(values, inclusionFieldName);
-  const currentExclusionRules = get(values, exclusionFieldName);
+  const currentInclusionRules = getIn(values, inclusionFieldName);
+  const currentExclusionRules = getIn(values, exclusionFieldName);
 
   const [conditionOperator, setConditionOperator] =
   useState<Record<string, string>>({
@@ -34,13 +38,19 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
   const getFieldNameWithCondition = (name: string) => `${name}.${conditionOperator[name]}`;
 
   const handleChangeOperator = (name:string, value: string) => {
-    const currentValues = get(values, getFieldNameWithCondition(name));
+    const currentValues = getIn(values, getFieldNameWithCondition(name));
     setFieldValue(name, { [value]: currentValues });
     setConditionOperator((current) => ({ ...current, [name]: value }));
   };
 
   const _inclusionFieldName = getFieldNameWithCondition(inclusionFieldName);
   const _exclusionFieldName = getFieldNameWithCondition(exclusionFieldName);
+
+  const { schemaProperties, isLoading } = useIntrospectSchema({
+    schemaName: "CartItem",
+    filterFn: filterSchemaFn,
+    enabled: !!(getIn(values, _inclusionFieldName)?.length || getIn(values, _exclusionFieldName)?.length)
+  });
 
   return (
     <Stack direction="column" gap={1}>
@@ -49,7 +59,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
         name={_inclusionFieldName}
         render={(props) => (
           <Paper sx={{ py: 1, backgroundColor: "grey.100" }}>
-            {get(props.form.values, _inclusionFieldName, []).length ?
+            {getIn(props.form.values, _inclusionFieldName, []).length ?
               <Typography variant="subtitle2" sx={{ pl: 5.7 }}>
                 Including products based on
                 <ConditionOperators
@@ -65,7 +75,13 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
               initialValue={initialValue}
               renderFieldItem={(index) => (
-                <ConditionField name={`${_inclusionFieldName}[${index}]`} index={index} operator={conditionOperator[inclusionFieldName]}/>
+                <ConditionField
+                  name={`${_inclusionFieldName}[${index}]`}
+                  index={index}
+                  operator={conditionOperator[inclusionFieldName]}
+                  schemaProperties={schemaProperties}
+                  isLoadingSchema={isLoading}
+                />
               )}
             />
           </Paper>
@@ -76,7 +92,7 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
         name={_exclusionFieldName}
         render={(props) => (
           <Paper sx={{ py: 1, backgroundColor: "grey.100" }}>
-            {get(props.form.values, _exclusionFieldName, []).length ?
+            {getIn(props.form.values, _exclusionFieldName, []).length ?
               <Typography variant="subtitle2" sx={{ pl: 5.7 }}>Excluding products based on
                 <ConditionOperators
                   value={conditionOperator[exclusionFieldName]}
@@ -89,7 +105,13 @@ export const EligibleItems = ({ inclusionFieldName, exclusionFieldName }: Eligib
               addButtonProps={{ children: "Add Condition", sx: { ml: 5.7 } }}
               initialValue={initialValue}
               renderFieldItem={(index) => (
-                <ConditionField name={`${_exclusionFieldName}[${index}]`} index={index} operator={conditionOperator[exclusionFieldName]}/>
+                <ConditionField
+                  name={`${_exclusionFieldName}[${index}]`}
+                  index={index}
+                  operator={conditionOperator[exclusionFieldName]}
+                  schemaProperties={schemaProperties}
+                  isLoadingSchema={isLoading}
+                />
               )}
             />
           </Paper>
