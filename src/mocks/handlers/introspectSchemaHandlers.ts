@@ -1,6 +1,6 @@
 import { graphql } from "msw";
 
-const mockCartItemSchema = {
+export const mockCartItemSchema = {
   schema: {
     properties: {
       productId: {
@@ -26,12 +26,29 @@ const mockCartItemSchema = {
         ],
         additionalItems: false,
         path: "$.productTagIds"
+      },
+      parcel: {
+        type: "object",
+        properties: {
+          containers: {
+            type: "string",
+            path: "$.parcel.containers"
+          },
+          length: {
+            type: "number",
+            path: "$.parcel.length"
+          }
+        },
+        required: [],
+        additionalProperties: false,
+        path: "$.parcel"
       }
     }
   },
   schemaName: "CartItem"
 };
 
+export const cartItemProperties = mockCartItemSchema.schema.properties;
 const getIntrospectSchemaHandler = graphql.query("getIntrospectSchema", (req, res, ctx) =>
   res(ctx.data({ introspectSchema: mockCartItemSchema })));
 

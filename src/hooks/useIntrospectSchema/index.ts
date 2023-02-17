@@ -36,5 +36,5 @@ export const useIntrospectSchema = ({ schemaName, filterFn, enabled }:
     return normalizeSchemaProperties({ schemaProperties: properties, filterFn });
   }, [data, filterFn]);
 
-  return { schemaProperties, originalSchema: schemaProperties, isLoading };
+  return { schemaProperties, originalSchema: data?.introspectSchema.schema.properties, isLoading };
 };
