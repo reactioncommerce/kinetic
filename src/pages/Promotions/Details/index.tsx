@@ -152,7 +152,7 @@ const PromotionDetails = () => {
   };
 
   const showActionButtons = promotionId ? canUpdate : canCreate;
-  const shouldDisableField = data?.promotion.enabled && data?.promotion.state === PromotionState.Active;
+  const shouldDisableField = Boolean(data?.promotion.enabled && data?.promotion.state === PromotionState.Active);
 
 
   if (isLoading) return <Loader/>;
@@ -218,7 +218,7 @@ const PromotionDetails = () => {
               <Field name="description" component={TextField} multiline label="Promotion Notes" minRows={3}/>
             </Card>
             <Card title="Promotion Builder" divider>
-              <PromotionActions/>
+              <PromotionActions disabled={shouldDisableField}/>
               <PromotionTriggers />
             </Card>
             <Card title="Promotion Stackability" divider>

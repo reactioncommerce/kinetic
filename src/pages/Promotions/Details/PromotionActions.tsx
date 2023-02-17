@@ -25,7 +25,10 @@ const getSymbolBasedOnType = (action: Action) => {
   return calculationType ? CALCULATION_TYPE_OPTIONS[calculationType].symbol : null;
 };
 
-export const PromotionActions = () => {
+type PromotionActionsProps = {
+  disabled: boolean
+}
+export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
   const { values: { promotionType } } = useFormikContext<Promotion>();
@@ -82,6 +85,7 @@ export const PromotionActions = () => {
 
                 {isShippingDiscount ?
                   <EligibleShippingMethods
+                    disabled={disabled}
                     inclusionFieldName={
                       `actions[${index}].actionParameters.inclusionRules.conditions.all`
                     }

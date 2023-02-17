@@ -930,8 +930,10 @@ export type CartDiscount = {
   discountedItemType?: Maybe<Scalars['String']>;
   /**  The items that were discounted. Only available if `discountedItemType` is `item`. */
   discountedItems?: Maybe<Array<Maybe<CartDiscountedItem>>>;
-  /** Should this discount be applied before other discounts? */
+  /** Should this discount be applied before other item discounts? */
   neverStackWithOtherItemLevelDiscounts?: Maybe<Scalars['Boolean']>;
+  /** Should this discount be applied before other shipping discounts? */
+  neverStackWithOtherShippingDiscounts?: Maybe<Scalars['Boolean']>;
   /**  The ID of the promotion that created this discount */
   promotionId: Scalars['ID'];
 };
@@ -2806,6 +2808,8 @@ export type FulfillmentGroup = Node & {
   availableFulfillmentOptions: Array<Maybe<FulfillmentOption>>;
   /** Information needed by the fulfillment type to properly fulfill the order */
   data?: Maybe<FulfillmentData>;
+  /** The array of discounts applied to the fulfillment group. */
+  discounts?: Maybe<Array<Maybe<CartDiscount>>>;
   /** The items that are included in this fulfillment group */
   items: Array<Maybe<CartItem>>;
   /** The fulfillment method selected by a shopper for this group, with its associated price */
@@ -2828,6 +2832,8 @@ export type FulfillmentMethod = Node & {
   _id: Scalars['ID'];
   /** A carrier name */
   carrier?: Maybe<Scalars['String']>;
+  /** The total discount amount of the fulfillment method.  */
+  discount?: Maybe<Scalars['Float']>;
   /** The name of this method, for display in the user interface */
   displayName: Scalars['String'];
   /** The fulfillment types for which this method may be used. For example, `shipping` or `digital`. */
@@ -2836,6 +2842,8 @@ export type FulfillmentMethod = Node & {
   group?: Maybe<Scalars['String']>;
   /** The name of this method, a unique identifier */
   name: Scalars['String'];
+  /** The total undiscounted rate of the fulfillment method.  */
+  undiscountedRate?: Maybe<Scalars['Float']>;
 };
 
 /** A fulfillment option for a cart fulfillment group, which is a method with an associated price */
