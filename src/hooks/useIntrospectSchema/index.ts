@@ -21,6 +21,9 @@ const normalizeSchemaProperties = ({ schemaProperties = {}, filterFn, prependFie
     if (isObjectType(fieldProperty) && Object.keys(fieldProperty.properties).length) {
       return normalizeSchemaProperties({ schemaProperties: fieldProperty.properties, filterFn, prependFieldName: field });
     }
+    if (isArrayType(fieldProperty) && isObjectType(fieldProperty.items[0])) {
+      return normalizeSchemaProperties({ schemaProperties: fieldProperty.items[0].properties, filterFn, prependFieldName: field });
+    }
     return [{ label: startCase(prependFieldName ? `${prependFieldName} ${field}` : field), value: fieldProperty.path, ...fieldProperty }];
   });
 
