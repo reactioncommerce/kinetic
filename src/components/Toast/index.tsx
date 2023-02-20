@@ -27,8 +27,8 @@ export const Toast = ({ message, autoHideDuration, onExited, ...rest }: ToastPro
   };
 
   return (
-    <Snackbar key={message.key} open={open} autoHideDuration={autoHideDuration || 5000} onClose={handleClose} TransitionProps={{ onExited }} {...rest}>
-      <Alert severity={message.severity} sx={{ width: "100%" }} variant="filled">
+    <Snackbar key={message.key} open={open} autoHideDuration={autoHideDuration || 6000} onClose={handleClose} TransitionProps={{ onExited }} {...rest}>
+      <Alert onClose={handleClose} severity={message.severity} sx={{ width: "100%" }} variant="filled">
         {message.message}
       </Alert>
     </Snackbar>

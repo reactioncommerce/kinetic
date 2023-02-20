@@ -1,0 +1,26 @@
+mutation createStandardCoupon($input: CreateStandardCouponInput) {
+  createStandardCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}
+
+mutation updateStandardCoupon($input: UpdateStandardCouponInput) {
+  updateStandardCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}
+
+mutation archiveCoupon($input: ArchiveCouponInput) {
+  archiveCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}

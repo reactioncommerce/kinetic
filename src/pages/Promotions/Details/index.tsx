@@ -10,9 +10,10 @@ import Box from "@mui/material/Box";
 
 import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
-import { PromotionState, useCreatePromotionMutation, useGetPromotionQuery, useUpdatePromotionMutation } from "@graphql/generates";
+import { PromotionState, useCreatePromotionMutation, useGetPromotionQuery,
+  useUpdatePromotionMutation } from "@graphql/generates";
 import { PROMOTION_STACKABILITY_OPTIONS, PROMOTION_TYPE_OPTIONS } from "../constants";
-import { Action, Promotion, PromotionType, Trigger } from "types/promotions";
+import { Action, Promotion, PromotionType } from "types/promotions";
 import { useGlobalBreadcrumbs } from "@hooks/useGlobalBreadcrumbs";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
@@ -20,6 +21,9 @@ import { usePermission } from "@components/PermissionGuard";
 import { Loader } from "@components/Loader";
 import { StatusChip } from "../components/StatusChip";
 import { Card } from "@components/Card";
+import { useToast } from "@containers/ToastProvider";
+import { formatErrorResponse } from "@utils/errorHandlers";
+import { useUpdateCouponInPromotion } from "../hooks";
 
 import { ActionButtons } from "./ActionButtons";
 import { PromotionActions } from "./PromotionActions";
@@ -27,7 +31,7 @@ import { PromotionTriggers } from "./PromotionTriggers";
 import { promotionSchema } from "./validation";
 import { AvailableDateField } from "./AvailableDateField";
 import { PromotionTypeField } from "./PromotionTypeField";
-import { normalizeActionsData, normalizeTriggersData } from "./utils";
+import { formatTriggers, normalizeActionsData, normalizeTriggersData } from "./utils";
 
 type PromotionFormValue = {
   name: string
@@ -43,25 +47,16 @@ type PromotionFormValue = {
 }
 
 
-const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
-  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
-
-const formatTriggers = (triggers: Trigger[], promotionName: string) =>
-  triggers.map((trigger) => ({
-    ...trigger,
-    triggerParameters: {
-      ...trigger.triggerParameters,
-      name: trigger.triggerParameters?.name || promotionName,
-      conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
-    }
-  }));
-
-const normalizeFormValues = (values: PromotionFormValue) =>
-  ({
+const normalizeFormValues = (values: PromotionFormValue) => {
+  const { triggers, coupons } = normalizeTriggersData(values.triggers);
+  const normalizedValues = {
     ...values,
-    triggers: normalizeTriggersData(values.triggers),
+    triggers,
     actions: normalizeActionsData(values.actions)
-  });
+  };
+
+  return { values: normalizedValues, coupons };
+};
 
 const formatActions = (actions: Action[]): Action[] => actions.map((action) =>
   ({
@@ -81,6 +76,7 @@ const PromotionDetails = () => {
   const canCreate = usePermission(["reaction:legacy:promotions/create"]);
 
   const [, setBreadcrumbs] = useGlobalBreadcrumbs();
+  const { error } = useToast();
 
   const { data, isLoading, refetch } = useGetPromotionQuery(client, { input: { _id: promotionId || "id", shopId: shopId! } }, {
     enabled: !!promotionId,
@@ -99,13 +95,25 @@ const PromotionDetails = () => {
   const { mutate: createPromotion } = useCreatePromotionMutation(client);
   const { mutate: updatePromotion } = useUpdatePromotionMutation(client);
 
+  const { updateCouponInPromotion, createCoupon } = useUpdateCouponInPromotion();
+
+  const onError = (errorResponse: unknown) => {
+    const { message } = formatErrorResponse(errorResponse);
+    error(message || `Failed to ${promotionId ? "update" : "create"} a promotion.`);
+  };
+
   const onSubmit: FormikConfig<PromotionFormValue>["onSubmit"] = (
     values,
     { setSubmitting }
   ) => {
+    const { values: normalizedValues, coupons } = normalizeFormValues(values);
+
     if (promotionId && data?.promotion) {
       const { triggerType, shopId: promotionShopId } = data.promotion;
-      const updatedPromotion = { _id: promotionId, shopId: promotionShopId, triggerType, ...normalizeFormValues(values) };
+      const updatedPromotion = { _id: promotionId, shopId: promotionShopId, triggerType, ...normalizedValues };
+
+      updateCouponInPromotion(data.promotion, coupons);
+
       updatePromotion(
         { input: updatedPromotion },
         {
@@ -114,21 +122,24 @@ const PromotionDetails = () => {
             refetch();
             setBreadcrumbs((currentBreadcrumbs) =>
               ({ ...currentBreadcrumbs, [`/promotions/${promotionId}`]: updatedPromotion.name }));
-          }
+          },
+          onError
         }
       );
     } else {
       createPromotion({
         input: {
-          ...normalizeFormValues(values),
+          ...normalizedValues,
           shopId: shopId!
         }
       }, {
         onSettled: () => setSubmitting(false),
         onSuccess: (responseData) => {
           const newPromotionId = responseData.createPromotion?.promotion?._id;
+          createCoupon({ newCoupons: coupons, promotionId: newPromotionId, shopId: shopId! });
           newPromotionId ? navigate(`/promotions/${newPromotionId}`) : navigate("/promotions");
-        }
+        },
+        onError
       });
     }
   };
@@ -140,7 +151,8 @@ const PromotionDetails = () => {
     actions: data?.promotion?.actions ? formatActions(data.promotion.actions) : [],
     triggers: data?.promotion?.triggers ? formatTriggers(
       data.promotion.triggers,
-      data?.promotion?.name || "trigger name"
+      data?.promotion?.name || "trigger name",
+      data?.promotion?.coupon
     ) : [],
     stackability: data?.promotion?.stackability || { key: "none", parameters: {} },
     label: data?.promotion?.label || "",
@@ -150,7 +162,7 @@ const PromotionDetails = () => {
   };
 
   const showActionButtons = promotionId ? canUpdate : canCreate;
-  const shouldDisableField = data?.promotion.enabled && data?.promotion.state === PromotionState.Active;
+  const shouldDisableField = !!(data?.promotion.enabled && data?.promotion.state === PromotionState.Active);
 
 
   if (isLoading) return <Loader/>;
@@ -217,7 +229,7 @@ const PromotionDetails = () => {
             </Card>
             <Card title="Promotion Builder" divider>
               <PromotionActions/>
-              <PromotionTriggers />
+              <PromotionTriggers disabled={shouldDisableField}/>
             </Card>
             <Card title="Promotion Stackability" divider>
               <Box mt={1} width="50%">

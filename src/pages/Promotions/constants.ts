@@ -1,5 +1,5 @@
 import { SelectOptionType } from "types/common";
-import { CalculationType, PromotionType, Stackability, TriggerType } from "types/promotions";
+import { CalculationType, PromotionType, Stackability, TriggerType, TriggerKeys } from "types/promotions";
 
 export const CALCULATION_TYPE_OPTIONS: Record<CalculationType, SelectOptionType<CalculationType> & {symbol?: string}> = {
   percentage: { label: "% Off", value: CalculationType.Percentage, symbol: "%" },
@@ -26,13 +26,13 @@ export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = 
   { label: "Stack with Any", value: Stackability.All }
 ];
 
-export const TRIGGER_TYPE_MAP: Record<TriggerType, SelectOptionType> = {
-  totalItemAmount: { label: "Cart Value is greater than", value: "totalItemAmount-greaterThanInclusive" },
-  totalItemCount: { label: "Item is in cart", value: "totalItemCount-greaterThanInclusive" }
+export const TRIGGER_TYPE_MAP: Record<TriggerType, SelectOptionType & {triggerKey: TriggerKeys}> = {
+  totalItemAmount: { label: "Cart Value is greater than", value: "totalItemAmount-greaterThanInclusive", triggerKey: TriggerKeys.Offers },
+  totalItemCount: { label: "Item is in cart", value: "totalItemCount-greaterThanInclusive", triggerKey: TriggerKeys.Offers },
+  couponStandard: { label: "Coupon is used (Standard)", value: "couponStandard", triggerKey: TriggerKeys.Coupons }
 };
 
 export const TRIGGER_TYPE_OPTIONS = Object.values(TRIGGER_TYPE_MAP);
-
 
 export const OPERATOR_OPTIONS: SelectOptionType[] = [
   { label: "Is", value: "equal" },
@@ -53,3 +53,10 @@ export const CONDITION_OPERATORS: Record<string, SelectOptionType & {fieldPrefix
   all: { label: "all", value: "all", fieldPrefix: "and" },
   any: { label: "any of", value: "any", fieldPrefix: "or" }
 };
+
+export const COUPON_USAGE: SelectOptionType<boolean>[] = [
+  { label: "Online Only", value: false },
+  { label: "Online and In Store", value: true }
+];
+
+export const NOOP_ACTION = "noop";
