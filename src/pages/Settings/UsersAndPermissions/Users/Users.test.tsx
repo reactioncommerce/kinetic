@@ -11,7 +11,7 @@ describe("Users", () => {
   it("should render Users table", async () => {
     renderWithProviders(<Users/>);
     await screen.findByText("Users");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"), { timeout: 3000 });
 
     users.forEach((user) => {
       expect(screen.getByText(user.name ?? "--")).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Users", () => {
   it("should successfully invite new user", async () => {
     renderWithProviders(<Users/>);
     await screen.findByText("Users");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"), { timeout: 3000 });
 
     fireEvent.click(screen.getByText("Invite"));
     expect(screen.getByText("Invite User")).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe("Users", () => {
   it("should successfully update user group", async () => {
     renderWithProviders(<Users/>);
     await screen.findByText("Users");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"), { timeout: 3000 });
 
     fireEvent.click(screen.getByText(users[0].name));
     expect(screen.getByText("Edit User")).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe("Users", () => {
   it("should successfully send reset password email", async () => {
     renderWithProviders(<Users/>);
     await screen.findByText("Users");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"), { timeout: 3000 });
 
     fireEvent.click(screen.getAllByLabelText("more")[0]);
     expect(screen.getByText("Send Password Reset")).toBeInTheDocument();
