@@ -17,7 +17,9 @@ describe("useIntrospectSchema", () => {
         { label: "Price Type", value: "$.priceType", ...cartItemProperties.priceType },
         { label: "Product Tag Ids", value: "$.productTagIds", ...cartItemProperties.productTagIds },
         { label: "Parcel Containers", value: "$.parcel.containers", ...cartItemProperties.parcel.properties.containers },
-        { label: "Parcel Length", value: "$.parcel.length", ...cartItemProperties.parcel.properties.length }
+        { label: "Parcel Length", value: "$.parcel.length", ...cartItemProperties.parcel.properties.length },
+        { label: "Attributes Label", value: "$.attributes.[0].label", ...cartItemProperties.attributes.items[0].properties.label },
+        { label: "Attributes Value", value: "$.attributes.[0].value", ...cartItemProperties.attributes.items[0].properties.value }
       ]);
     });
   });

@@ -42,6 +42,31 @@ export const mockCartItemSchema = {
         required: [],
         additionalProperties: false,
         path: "$.parcel"
+      },
+      attributes: {
+        type: "array",
+        items: [
+          {
+            type: "object",
+            properties: {
+              label: {
+                type: "string",
+                path: "$.attributes.[0].label"
+              },
+              value: {
+                type: "string",
+                path: "$.attributes.[0].value"
+              }
+            },
+            required: [
+              "label"
+            ],
+            additionalProperties: false,
+            path: "$.attributes.[0]"
+          }
+        ],
+        additionalItems: false,
+        path: "$.attributes"
       }
     }
   },
