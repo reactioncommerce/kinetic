@@ -55,7 +55,7 @@ export const EligibleShippingMethods = ({ inclusionFieldName, disabled }: Eligib
             <FieldArrayRenderer
               {...props}
               addButtonProps={{ disabled, children: "Add Shipping Method", sx: { ml: 5.7 }, hidden: get(props.form.values, inclusionFieldName, []).length > 0 }}
-              initialValue={{ fact: "shipping", path: "$.shippingMethod.name", value: [], operator: "in" }}
+              initialValue={{ fact: "shipping", path: "$.shipmentMethod.name", value: [], operator: "in" }}
               renderFieldItem={() => (
                 <Stack pl={5.7}>
                   <Field
