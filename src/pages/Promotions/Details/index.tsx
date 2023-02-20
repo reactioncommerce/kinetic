@@ -61,11 +61,13 @@ const normalizeFormValues = (values: PromotionFormValue) => {
 const formatActions = (actions: Action[]): Action[] => actions.map((action) =>
   ({
     ...action,
-    actionParameters: {
-      ...action.actionParameters,
-      discountMaxUnits: action.actionParameters?.discountMaxUnits || 0,
-      discountMaxValue: action.actionParameters?.discountMaxValue || 0
-    }
+    ...(action.actionParameters ? {
+      actionParameters: {
+        ...action.actionParameters,
+        discountMaxUnits: action.actionParameters?.discountMaxUnits || 0,
+        discountMaxValue: action.actionParameters?.discountMaxValue || 0
+      }
+    } : {})
   }));
 
 const PromotionDetails = () => {

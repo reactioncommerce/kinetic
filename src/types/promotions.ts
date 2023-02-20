@@ -74,7 +74,7 @@ export type Trigger<Key extends TriggerKeys = TriggerKeys.Offers> = {
 
 export type Action = {
   actionKey: string
-  actionParameters: {
+  actionParameters?: {
     discountType: string
     discountValue: number
     discountCalculationType: CalculationType
