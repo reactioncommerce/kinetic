@@ -25,11 +25,13 @@ const renderWithProviders = (ui: React.ReactElement, options = { initialEntries:
       return <QueryClientProvider client={client}>
         <MemoryRouter initialEntries={initialEntries}>
           <ToastProvider>
-            <ShopProvider>
-              <AccountProvider>
+
+            <AccountProvider>
+              <ShopProvider>
                 {children}
-              </AccountProvider>
-            </ShopProvider>
+              </ShopProvider>
+            </AccountProvider>
+
           </ToastProvider>
         </MemoryRouter>
       </QueryClientProvider>;
