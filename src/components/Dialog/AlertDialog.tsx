@@ -11,10 +11,10 @@ import Stack from "@mui/material/Stack";
 type AlertDialogProps = DialogProps & {
   title: string
   content: ReactNode
-  handleClose: () => void
+  handleClose?: () => void
   cancelText: string
   confirmText: string
-  onConfirm: () => void
+  onConfirm?: () => void
   icon: JSX.Element
 }
 

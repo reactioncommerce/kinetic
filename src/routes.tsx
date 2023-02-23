@@ -1,10 +1,11 @@
-import { Navigate, RouteObject } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 import { lazy } from "react";
 
 import { PermissionGuard } from "@components/PermissionGuard";
-import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
+import { RequireAuthRoute, UnauthenticatedRoute } from "@components/Routes";
 import { AppLayout, PageLayout } from "@containers/Layouts";
 import { SubHeaderItemProps } from "@components/AppHeader";
+import { AppProviders } from "@containers/AppProviders";
 
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
@@ -157,45 +158,45 @@ const checkoutSettingPageRoutes: SubPageRouteProps = [
   }
 ];
 
-export const routes: RouteObject[] = [
+const routes: RouteObject[] = [
   {
-    path: "/access-denied",
-    element: <AccessDenied/>
-  },
-  {
-    element: <UnauthenticatedRoute/>,
+    element: <AppProviders />,
     children: [
       {
-        path: "/signup",
-        element: <SignUp/>
+        path: "/access-denied",
+        element: <AccessDenied/>
       },
       {
-        path: "/login",
-        element: <Login/>
+        element: <UnauthenticatedRoute/>,
+        children: [
+          {
+            path: "/signup",
+            element: <SignUp/>
+          },
+          {
+            path: "/login",
+            element: <Login/>
+          },
+          {
+            path: "/password-reset/new",
+            element: <PasswordReset/>
+          },
+          {
+            path: "/password-reset",
+            element: <NewPassword/>
+          }
+        ]
       },
       {
-        path: "/password-reset/new",
-        element: <PasswordReset/>
-      },
-      {
-        path: "/password-reset",
-        element: <NewPassword/>
-      }
-    ]
-  },
-  {
-    element: <RequireAuthRoute/>,
-    children: [
-      {
-        path: "/new-shop",
-        element:
+        element: <RequireAuthRoute/>,
+        children: [
+          {
+            path: "/new-shop",
+            element:
         <PermissionGuard permissions={["reaction:legacy:shops/create"]} fallback={<AccessDenied/>}>
           <CreateShop/>
         </PermissionGuard>
-      },
-      {
-        element: <RequireShopRoute/>,
-        children: [
+          },
           {
             path: "/",
             element: <AppLayout/>,
@@ -210,23 +211,23 @@ export const routes: RouteObject[] = [
                   {
                     index: true,
                     element:
-                    <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
-                      <Promotions/>
-                    </PermissionGuard>
+                <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
+                  <Promotions/>
+                </PermissionGuard>
                   },
                   {
                     path: "create",
                     element:
-                  <PermissionGuard permissions={["reaction:legacy:promotions/create"]}>
-                    <PromotionDetails/>
-                  </PermissionGuard>
+              <PermissionGuard permissions={["reaction:legacy:promotions/create"]}>
+                <PromotionDetails/>
+              </PermissionGuard>
                   },
                   {
                     path: ":promotionId",
                     element:
-                    <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
-                      <PromotionDetails/>
-                    </PermissionGuard>
+                <PermissionGuard permissions={["reaction:legacy:promotions/read"]}>
+                  <PromotionDetails/>
+                </PermissionGuard>
                   }
                 ]
               },
@@ -279,7 +280,9 @@ export const routes: RouteObject[] = [
             ]
           }
         ]
-      }
-    ]
+      }]
   }
+
 ];
+
+export const router = createBrowserRouter(routes);
