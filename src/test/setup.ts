@@ -1,7 +1,12 @@
 import matchers from "@testing-library/jest-dom/matchers";
-import { expect, afterAll, afterEach, beforeAll } from "vitest";
+import { expect, afterAll, afterEach, beforeAll, vi } from "vitest";
+import createFetchMock from "vitest-fetch-mock";
 
 import { server } from "@mocks/server";
+
+const fetchMocker = createFetchMock(vi);
+
+fetchMocker.enableMocks();
 
 expect.extend(matchers);
 // Establish API mocking before all tests.
