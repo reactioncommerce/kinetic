@@ -18,7 +18,7 @@ export type TextFieldProps = FieldProps &
   CustomTextFieldProps
 
 export const TextField = forwardRef(({
-  field: { onBlur: fieldOnBlur, ...restFieldProps },
+  field: { onBlur: fieldOnBlur, onChange: fieldOnChange, ...restFieldProps },
   form: { isSubmitting, touched, errors },
   fullWidth = true,
   size = "small",
@@ -29,6 +29,7 @@ export const TextField = forwardRef(({
   helperText,
   hiddenLabel,
   ariaLabel,
+  onChange,
   ...props
 }: TextFieldProps, ref) => {
   const fieldError = getIn(errors, restFieldProps.name) as string;
@@ -40,6 +41,8 @@ export const TextField = forwardRef(({
   const helperTextId = useRef(uniqueId("helper-text")).current;
 
   const _onBlur = onBlur ?? ((event) => fieldOnBlur(event ?? restFieldProps.name));
+
+  const _onChange = onChange ?? fieldOnChange;
 
   return (
     <FormControl
@@ -62,6 +65,7 @@ export const TextField = forwardRef(({
         aria-describedby={helperTextId}
         inputProps={{ "aria-label": ariaLabel }}
         ref={ref}
+        onChange={_onChange}
         {...props}
         {...restFieldProps}
       />

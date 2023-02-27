@@ -1,7 +1,7 @@
 import { graphql } from "msw";
 import { faker } from "@faker-js/faker";
 
-import { CalculationType, Promotion, PromotionType, Stackability } from "types/promotions";
+import { CalculationType, Promotion, PromotionType, Stackability, TriggerKeys } from "types/promotions";
 import { PromotionState, TriggerType } from "@graphql/generates";
 
 const date = new Date("2022-02-28");
@@ -29,7 +29,7 @@ const promotion = (index: number): Promotion => {
       }
     }],
     triggers: [{
-      triggerKey: "offers",
+      triggerKey: TriggerKeys.Offers,
       triggerParameters: {
         name: "trigger",
         conditions: {

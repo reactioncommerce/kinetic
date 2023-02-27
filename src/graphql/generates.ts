@@ -601,11 +601,11 @@ export type ApplyCouponToCartInput = {
   accountId?: InputMaybe<Scalars['ID']>;
   /** The ID of the Cart */
   cartId: Scalars['ID'];
+  /** Cart token, if anonymous */
+  cartToken?: InputMaybe<Scalars['String']>;
   /** The coupon code to apply */
   couponCode: Scalars['String'];
   shopId: Scalars['ID'];
-  /** Cart token, if anonymous */
-  token?: InputMaybe<Scalars['String']>;
 };
 
 /** The response for the applyCouponToCart mutation */
@@ -654,6 +654,14 @@ export type ApproveOrderPaymentsPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
+};
+
+/** The input for the archiveCoupon mutation */
+export type ArchiveCouponInput = {
+  /** The coupon ID */
+  couponId: Scalars['ID'];
+  /** The shop ID */
+  shopId: Scalars['ID'];
 };
 
 /** Input for the archiveMediaRecord mutation */
@@ -1636,6 +1644,82 @@ export type ConditionsArray = {
   any?: InputMaybe<Array<InputMaybe<SingleConditionInput>>>;
 };
 
+export type Coupon = {
+  __typename?: 'Coupon';
+  /** The coupon ID */
+  _id: Scalars['ID'];
+  /** The promotion can be used in the store */
+  canUseInStore?: Maybe<Scalars['Boolean']>;
+  /** The coupon code */
+  code: Scalars['String'];
+  /** Coupon created time */
+  createdAt: Scalars['Date'];
+  /** Related discount ID */
+  discountId?: Maybe<Scalars['ID']>;
+  /** The coupon is archived */
+  isArchived?: Maybe<Scalars['Boolean']>;
+  /** The number of times this coupon can be used */
+  maxUsageTimes?: Maybe<Scalars['Int']>;
+  /** The number of times this coupon can be used per user */
+  maxUsageTimesPerUser?: Maybe<Scalars['Int']>;
+  /** The coupon name */
+  name: Scalars['String'];
+  /** The promotion ID */
+  promotionId: Scalars['ID'];
+  /** The shop ID */
+  shopId: Scalars['ID'];
+  /** Coupon updated time */
+  updatedAt: Scalars['Date'];
+  /** The number of times this coupon has been used */
+  usedCount?: Maybe<Scalars['Int']>;
+  /** The coupon owner ID */
+  userId?: Maybe<Scalars['ID']>;
+};
+
+export type CouponConnection = {
+  __typename?: 'CouponConnection';
+  /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
+  edges?: Maybe<Array<Maybe<CouponEdge>>>;
+  /**
+   * You can request the `nodes` directly to avoid the extra wrapping that `NodeEdge` has,
+   * if you know you will not need to paginate the results.
+   */
+  nodes?: Maybe<Array<Maybe<Coupon>>>;
+  /** Information to help a client request the next or previous page */
+  pageInfo: PageInfo;
+  /** The total number of nodes that match your query */
+  totalCount: Scalars['Int'];
+};
+
+/** A connection edge in which each node is a `Coupon` object */
+export type CouponEdge = {
+  __typename?: 'CouponEdge';
+  /** The cursor that represents this node in the paginated results */
+  cursor: Scalars['ConnectionCursor'];
+  /** The coupon node */
+  node?: Maybe<Coupon>;
+};
+
+export type CouponFilter = {
+  /** The coupon code */
+  code?: InputMaybe<Scalars['String']>;
+  /** The expiration date of the coupon */
+  expirationDate?: InputMaybe<Scalars['Date']>;
+  /** The coupon is archived */
+  isArchived?: InputMaybe<Scalars['Boolean']>;
+  /** The related promotion ID */
+  promotionId?: InputMaybe<Scalars['ID']>;
+  /** The coupon name */
+  userId?: InputMaybe<Scalars['ID']>;
+};
+
+export type CouponQueryInput = {
+  /** The unique ID of the coupon */
+  _id: Scalars['String'];
+  /** The unique ID of the shop */
+  shopId: Scalars['String'];
+};
+
 /** The details for creating a group */
 export type CreateAccountGroupInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -1956,6 +2040,24 @@ export type CreateShopPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The shop which was created */
   shop: Shop;
+};
+
+/** The input for the createStandardCoupon mutation */
+export type CreateStandardCouponInput = {
+  /** Can use this coupon in the store */
+  canUseInStore: Scalars['Boolean'];
+  /** The coupon code */
+  code: Scalars['String'];
+  /** The number of times this coupon can be used */
+  maxUsageTimes?: InputMaybe<Scalars['Int']>;
+  /** The number of times this coupon can be used per user */
+  maxUsageTimesPerUser?: InputMaybe<Scalars['Int']>;
+  /** The coupon name */
+  name: Scalars['String'];
+  /** The promotion ID */
+  promotionId: Scalars['ID'];
+  /** The shop ID */
+  shopId: Scalars['ID'];
 };
 
 /** Input for the createStripePaymentIntent mutation */
@@ -3370,6 +3472,8 @@ export type Mutation = {
   applyDiscountCodeToCart: ApplyDiscountCodeToCartPayload;
   /** Approve one or more payments for an order */
   approveOrderPayments: ApproveOrderPaymentsPayload;
+  /** Archive coupon mutation */
+  archiveCoupon?: Maybe<StandardCouponPayload>;
   /** Archive a MediaRecord to hide it without deleting the backing file data */
   archiveMediaRecord: ArchiveMediaRecordPayload;
   /** Archive product variants */
@@ -3426,6 +3530,8 @@ export type Mutation = {
   createRefund: CreateRefundPayload;
   /** Create a new shop */
   createShop: CreateShopPayload;
+  /** Create a standard coupon mutation */
+  createStandardCoupon?: Maybe<StandardCouponPayload>;
   /** Create Stripe payment intent for the current cart and return a token */
   createStripePaymentIntent: CreateStripePaymentIntentPayload;
   /** Create a surcharge */
@@ -3492,6 +3598,8 @@ export type Mutation = {
   removeAccountGroup?: Maybe<RemoveAccountGroupPayload>;
   /** Remove item(s) from a cart */
   removeCartItems: RemoveCartItemsPayload;
+  /** Remove a coupon from a cart */
+  removeCouponFromCart?: Maybe<RemoveCouponFromCartPayload>;
   /** Remove a discount code from a cart */
   removeDiscountCodeFromCart: RemoveDiscountCodeFromCartPayload;
   /** Removes an existing tag */
@@ -3588,6 +3696,8 @@ export type Mutation = {
   updateShopSettings: UpdateShopSettingsPayload;
   /** Update the SimpleInventory info for a product configuration */
   updateSimpleInventory: UpdateSimpleInventoryPayload;
+  /** Update a standard coupon mutation */
+  updateStandardCoupon?: Maybe<StandardCouponPayload>;
   /** Update a flat rate fulfillment surcharge */
   updateSurcharge: UpdateSurchargePayload;
   /** Updates an existing tag */
@@ -3672,6 +3782,12 @@ export type MutationApplyDiscountCodeToCartArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationApproveOrderPaymentsArgs = {
   input: ApproveOrderPaymentsInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationArchiveCouponArgs = {
+  input?: InputMaybe<ArchiveCouponInput>;
 };
 
 
@@ -3824,6 +3940,12 @@ export type MutationCreateRefundArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationCreateShopArgs = {
   input: CreateShopInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationCreateStandardCouponArgs = {
+  input?: InputMaybe<CreateStandardCouponInput>;
 };
 
 
@@ -4012,6 +4134,12 @@ export type MutationRemoveAccountGroupArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationRemoveCartItemsArgs = {
   input: RemoveCartItemsInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationRemoveCouponFromCartArgs = {
+  input?: InputMaybe<RemoveCouponFromCartInput>;
 };
 
 
@@ -4266,6 +4394,12 @@ export type MutationUpdateShopSettingsArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationUpdateSimpleInventoryArgs = {
   input: UpdateSimpleInventoryInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationUpdateStandardCouponArgs = {
+  input?: InputMaybe<UpdateStandardCouponInput>;
 };
 
 
@@ -5644,6 +5778,8 @@ export type Promotion = {
   actions?: Maybe<Array<Action>>;
   /** Call to Action message a customer sees in the storefront PDP to encourage customers to use the promotion */
   callToActionMessage?: Maybe<Scalars['String']>;
+  /** The coupon code */
+  coupon?: Maybe<Coupon>;
   /** When was this record created */
   createdAt: Scalars['Date'];
   /** A longer detailed description of the promotion */
@@ -5880,6 +6016,10 @@ export type Query = {
   catalogItemProduct?: Maybe<CatalogItemProduct>;
   /** Gets items from a shop catalog */
   catalogItems?: Maybe<CatalogItemConnection>;
+  /** Get a coupon */
+  coupon?: Maybe<Coupon>;
+  /** Get list of coupons */
+  coupons?: Maybe<CouponConnection>;
   /** Returns customer accounts */
   customers: AccountConnection;
   /** Gets discount codes */
@@ -6077,6 +6217,26 @@ export type QueryCatalogItemsArgs = {
   sortByPriceCurrencyCode?: InputMaybe<Scalars['String']>;
   sortOrder?: InputMaybe<SortOrder>;
   tagIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+
+/** Queries return all requested data, without any side effects */
+export type QueryCouponArgs = {
+  input?: InputMaybe<CouponQueryInput>;
+};
+
+
+/** Queries return all requested data, without any side effects */
+export type QueryCouponsArgs = {
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  filter?: InputMaybe<CouponFilter>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
+  sortBy?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -6770,6 +6930,25 @@ export type RemoveCartItemsPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
+/** Input for the removeCouponFromCart mutation */
+export type RemoveCouponFromCartInput = {
+  /** The account ID of the user who is applying the coupon */
+  accountId?: InputMaybe<Scalars['ID']>;
+  /** The ID of the Cart */
+  cartId: Scalars['ID'];
+  /** The promotion that contains the coupon to remove */
+  promotionId: Scalars['ID'];
+  shopId: Scalars['ID'];
+  /** Cart token, if anonymous */
+  token?: InputMaybe<Scalars['String']>;
+};
+
+/** The response for the removeCouponFromCart mutation */
+export type RemoveCouponFromCartPayload = {
+  __typename?: 'RemoveCouponFromCartPayload';
+  cart?: Maybe<Cart>;
+};
+
 /** Input for an `RemoveDiscountCodeFromCartInput` */
 export type RemoveDiscountCodeFromCartInput = {
   /** Cart to add discount to */
@@ -7460,6 +7639,12 @@ export type StackabilityInput = {
   key: Scalars['String'];
   /** Parameters to be passed to the stackability */
   parameters?: InputMaybe<Scalars['JSONObject']>;
+};
+
+export type StandardCouponPayload = {
+  __typename?: 'StandardCouponPayload';
+  coupon: Coupon;
+  success: Scalars['Boolean'];
 };
 
 /** Storefront route URLs */
@@ -8663,6 +8848,24 @@ export type UpdateSimpleInventoryPayload = {
   inventoryInfo: SimpleInventoryInfo;
 };
 
+/** Input for the updateStandardCoupon mutation */
+export type UpdateStandardCouponInput = {
+  /** The coupon ID */
+  _id: Scalars['ID'];
+  /** Can use this coupon in the store */
+  canUseInStore?: InputMaybe<Scalars['Boolean']>;
+  /** The coupon code */
+  code?: InputMaybe<Scalars['String']>;
+  /** The number of times this coupon can be used */
+  maxUsageTimes?: InputMaybe<Scalars['Int']>;
+  /** The number of times this coupon can be used per user */
+  maxUsageTimesPerUser?: InputMaybe<Scalars['Int']>;
+  /** The coupon name */
+  name?: InputMaybe<Scalars['String']>;
+  /** The shop ID */
+  shopId: Scalars['ID'];
+};
+
 /** Input for the `updateSurcharge` mutation */
 export type UpdateSurchargeInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -8906,6 +9109,27 @@ export type SendResetPasswordEmailMutationVariables = Exact<{
 
 export type SendResetPasswordEmailMutation = { __typename?: 'Mutation', sendResetPasswordEmail?: boolean | null };
 
+export type CreateStandardCouponMutationVariables = Exact<{
+  input?: InputMaybe<CreateStandardCouponInput>;
+}>;
+
+
+export type CreateStandardCouponMutation = { __typename?: 'Mutation', createStandardCoupon?: { __typename?: 'StandardCouponPayload', success: boolean, coupon: { __typename?: 'Coupon', _id: string } } | null };
+
+export type UpdateStandardCouponMutationVariables = Exact<{
+  input?: InputMaybe<UpdateStandardCouponInput>;
+}>;
+
+
+export type UpdateStandardCouponMutation = { __typename?: 'Mutation', updateStandardCoupon?: { __typename?: 'StandardCouponPayload', success: boolean, coupon: { __typename?: 'Coupon', _id: string } } | null };
+
+export type ArchiveCouponMutationVariables = Exact<{
+  input?: InputMaybe<ArchiveCouponInput>;
+}>;
+
+
+export type ArchiveCouponMutation = { __typename?: 'Mutation', archiveCoupon?: { __typename?: 'StandardCouponPayload', success: boolean, coupon: { __typename?: 'Coupon', _id: string } } | null };
+
 export type GetPromotionsQueryVariables = Exact<{
   shopId: Scalars['ID'];
   after?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -8926,7 +9150,7 @@ export type GetPromotionQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description?: string | null, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null };
+export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description?: string | null, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null, coupon?: { __typename?: 'Coupon', _id: string, name: string, code: string, canUseInStore?: boolean | null, maxUsageTimesPerUser?: number | null } | null } | null };
 
 export type UpdatePromotionMutationVariables = Exact<{
   input?: InputMaybe<PromotionUpdateInput>;
@@ -9561,6 +9785,75 @@ export const useSendResetPasswordEmailMutation = <
       (variables?: SendResetPasswordEmailMutationVariables) => fetcher<SendResetPasswordEmailMutation, SendResetPasswordEmailMutationVariables>(client, SendResetPasswordEmailDocument, variables, headers)(),
       options
     );
+export const CreateStandardCouponDocument = `
+    mutation createStandardCoupon($input: CreateStandardCouponInput) {
+  createStandardCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateStandardCouponMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateStandardCouponMutation, TError, CreateStandardCouponMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateStandardCouponMutation, TError, CreateStandardCouponMutationVariables, TContext>(
+      ['createStandardCoupon'],
+      (variables?: CreateStandardCouponMutationVariables) => fetcher<CreateStandardCouponMutation, CreateStandardCouponMutationVariables>(client, CreateStandardCouponDocument, variables, headers)(),
+      options
+    );
+export const UpdateStandardCouponDocument = `
+    mutation updateStandardCoupon($input: UpdateStandardCouponInput) {
+  updateStandardCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateStandardCouponMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateStandardCouponMutation, TError, UpdateStandardCouponMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateStandardCouponMutation, TError, UpdateStandardCouponMutationVariables, TContext>(
+      ['updateStandardCoupon'],
+      (variables?: UpdateStandardCouponMutationVariables) => fetcher<UpdateStandardCouponMutation, UpdateStandardCouponMutationVariables>(client, UpdateStandardCouponDocument, variables, headers)(),
+      options
+    );
+export const ArchiveCouponDocument = `
+    mutation archiveCoupon($input: ArchiveCouponInput) {
+  archiveCoupon(input: $input) {
+    success
+    coupon {
+      _id
+    }
+  }
+}
+    `;
+export const useArchiveCouponMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<ArchiveCouponMutation, TError, ArchiveCouponMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<ArchiveCouponMutation, TError, ArchiveCouponMutationVariables, TContext>(
+      ['archiveCoupon'],
+      (variables?: ArchiveCouponMutationVariables) => fetcher<ArchiveCouponMutation, ArchiveCouponMutationVariables>(client, ArchiveCouponDocument, variables, headers)(),
+      options
+    );
 export const GetPromotionsDocument = `
     query getPromotions($shopId: ID!, $after: ConnectionCursor, $before: ConnectionCursor, $first: ConnectionLimitInt, $last: ConnectionLimitInt, $offset: Int, $filter: PromotionFilter, $sortBy: String, $sortOrder: String) {
   promotions(
@@ -9649,6 +9942,13 @@ export const GetPromotionDocument = `
     }
     createdAt
     updatedAt
+    coupon {
+      _id
+      name
+      code
+      canUseInStore
+      maxUsageTimesPerUser
+    }
   }
 }
     `;

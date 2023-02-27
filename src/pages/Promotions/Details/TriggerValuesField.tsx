@@ -3,14 +3,16 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Field } from "formik";
 
 import { TextField } from "@components/TextField";
-import { Trigger, TriggerType } from "types/promotions";
+import { Trigger, TriggerKeys, TriggerType } from "types/promotions";
 
 type TriggerValuesFieldProps = {
   trigger: Trigger
   index: number
+  disabled: boolean
 }
-export const TriggerValuesField = ({ trigger, index }: TriggerValuesFieldProps) => {
-  const triggerType = trigger.triggerParameters?.conditions.all?.[0].triggerType?.split("-")[0];
+
+export const TriggerValuesField = ({ trigger, index, disabled }: TriggerValuesFieldProps) => {
+  const triggerType = trigger.triggerKey === TriggerKeys.Offers ? trigger.triggerParameters?.conditions.all?.[0].triggerType?.split("-")[0] : null;
 
   const fieldComponentMap: Record<string, JSX.Element> = {
     [TriggerType.ItemAmount]: <Field
@@ -24,6 +26,7 @@ export const TriggerValuesField = ({ trigger, index }: TriggerValuesFieldProps) 
         <InputAdornment position="start">$</InputAdornment>
       }
       sx={{ width: "100px" }}
+      disabled={disabled}
     />,
     [TriggerType.ItemCount]: <Field
       component={TextField}
@@ -35,8 +38,9 @@ export const TriggerValuesField = ({ trigger, index }: TriggerValuesFieldProps) 
       endAdornment={
         <InputAdornment position="end">items</InputAdornment>
       }
-      helperText="Minimum number of items required to trigger promotion"
       sx={{ width: "130px" }}
+      disabled={disabled}
+      helperText="Minimum number of items required to trigger promotion"
     />
   };
 

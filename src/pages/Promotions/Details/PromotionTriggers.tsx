@@ -1,5 +1,5 @@
 import Stack from "@mui/material/Stack";
-import { Field, FieldArray } from "formik";
+import { FieldArray } from "formik";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -8,16 +8,20 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 
-import { SelectField } from "@components/SelectField";
 import { TRIGGER_TYPE_OPTIONS } from "../constants";
 import { AlertDialog } from "@components/Dialog";
-import { Trigger } from "types/promotions";
+import { Trigger, TriggerKeys } from "types/promotions";
 
 import { EligibleItems } from "./EligibleItems";
 import { TriggerValuesField } from "./TriggerValuesField";
+import { TriggerTypeField } from "./TriggerTypeField";
+import { CouponsField } from "./CouponsField";
 
+type PromotionTriggersProps = {
+  disabled: boolean
+}
 
-export const PromotionTriggers = () => {
+export const PromotionTriggers = ({ disabled }: PromotionTriggersProps) => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
 
@@ -35,18 +39,8 @@ export const PromotionTriggers = () => {
                     name={`triggers[${index}].triggerParameters.conditions.all`}
                     render={() =>
                       <Grid container spacing={1} width="70%">
-                        <Grid item>
-                          <Field
-                            name={`triggers[${index}].triggerParameters.conditions.all[0].triggerType`}
-                            component={SelectField}
-                            hiddenLabel
-                            label="Select Trigger Type"
-                            ariaLabel="Select Trigger Type"
-                            options={TRIGGER_TYPE_OPTIONS}
-                            autoWidth
-                          />
-                        </Grid>
-                        <TriggerValuesField trigger={values.triggers[index]} index={index}/>
+                        <TriggerTypeField fieldName={`triggers[${index}].triggerParameters.conditions.all[0].triggerType`} index={index} disabled={disabled}/>
+                        <TriggerValuesField trigger={values.triggers[index]} index={index} disabled={disabled}/>
                       </Grid>
                     }
                   />
@@ -54,6 +48,7 @@ export const PromotionTriggers = () => {
                 Remove Trigger
                   </Button>
                 </Stack>
+                {values.triggers[index].triggerKey === TriggerKeys.Coupons ? <CouponsField index={index} disabled={disabled}/> : null}
                 <EligibleItems
                   inclusionFieldName={
                     `triggers[${index}].triggerParameters.inclusionRules.conditions`
@@ -82,7 +77,7 @@ export const PromotionTriggers = () => {
               color="secondary"
               variant="outlined"
               onClick={() => push({
-                triggerKey: "offers",
+                triggerKey: TriggerKeys.Offers,
                 triggerParameters: {
                   name: values.name,
                   conditions: {
