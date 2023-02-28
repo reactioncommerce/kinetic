@@ -1,5 +1,7 @@
 import * as Yup from "yup";
 
+import { urlSchema } from "@utils/validate";
+
 const ruleSchema = Yup.object({
   path: Yup.string().required("This field is required"),
   operator: Yup.string().required("This field is required"),
@@ -15,6 +17,8 @@ const shippingRuleSchema = Yup.object({ value: Yup.array().min(1, "This field mu
 export const promotionSchema = Yup.object().shape({
   name: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
   label: Yup.string().trim().required("This field is required").max(280, "This field must be at most 280 characters"),
+  callToActionMessage: Yup.string().trim().max(100, "This field must be at most 100 characters"),
+  termsAndConditionsUrl: urlSchema,
   description: Yup.string().max(5000, "This field must be at most 5000 characters"),
   actions: Yup.array().of(Yup.object({
     actionKey: Yup.string(),

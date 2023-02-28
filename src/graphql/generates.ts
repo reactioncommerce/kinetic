@@ -8911,14 +8911,14 @@ export type GetPromotionsQueryVariables = Exact<{
 }>;
 
 
-export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description?: string | null, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
+export type GetPromotionsQuery = { __typename?: 'Query', promotions: { __typename?: 'PromotionConnection', totalCount: number, nodes?: Array<{ __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description?: string | null, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, callToActionMessage?: string | null, termsAndConditionsUrl?: string | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null> | null } };
 
 export type GetPromotionQueryVariables = Exact<{
   input?: InputMaybe<PromotionQueryInput>;
 }>;
 
 
-export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description?: string | null, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null };
+export type GetPromotionQuery = { __typename?: 'Query', promotion?: { __typename?: 'Promotion', _id: string, triggerType: TriggerType, promotionType: string, label: string, description?: string | null, enabled: boolean, name: string, state: PromotionState, referenceId: number, shopId: string, startDate: any, endDate?: any | null, callToActionMessage?: string | null, termsAndConditionsUrl?: string | null, createdAt: any, updatedAt: any, triggers?: Array<{ __typename?: 'Trigger', triggerKey: string, triggerParameters?: any | null }> | null, actions?: Array<{ __typename?: 'Action', actionKey: string, actionParameters?: any | null }> | null, stackability?: { __typename?: 'Stackability', key: string, parameters?: any | null } | null } | null };
 
 export type UpdatePromotionMutationVariables = Exact<{
   input?: InputMaybe<PromotionUpdateInput>;
@@ -9591,6 +9591,8 @@ export const GetPromotionsDocument = `
         key
         parameters
       }
+      callToActionMessage
+      termsAndConditionsUrl
       createdAt
       updatedAt
     }
@@ -9639,6 +9641,8 @@ export const GetPromotionDocument = `
       key
       parameters
     }
+    callToActionMessage
+    termsAndConditionsUrl
     createdAt
     updatedAt
   }

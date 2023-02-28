@@ -35,6 +35,8 @@ query getPromotions(
           key
           parameters
         }
+        callToActionMessage
+        termsAndConditionsUrl
         createdAt
         updatedAt
       }
@@ -68,6 +70,8 @@ query getPromotion($input: PromotionQueryInput) {
         key
         parameters
       }
+      callToActionMessage
+      termsAndConditionsUrl
       createdAt
       updatedAt
   }
