@@ -44,6 +44,8 @@ type PromotionFormValue = {
   startDate: string | null
   endDate: string | null
   enabled: boolean
+  callToActionMessage: string
+  termsAndConditionsUrl: string
 }
 
 
@@ -158,6 +160,8 @@ const PromotionDetails = () => {
     ) : [],
     stackability: data?.promotion?.stackability || { key: "none", parameters: {} },
     label: data?.promotion?.label || "",
+    callToActionMessage: data?.promotion?.callToActionMessage || "",
+    termsAndConditionsUrl: data?.promotion?.termsAndConditionsUrl || "",
     startDate: data?.promotion?.startDate || null,
     endDate: data?.promotion?.endDate || null,
     enabled: data?.promotion?.enabled || false
@@ -246,11 +250,21 @@ const PromotionDetails = () => {
               <AvailableDateField disabled={shouldDisableField}/>
             </Card>
             <Card title="Promotion Message" divider>
-              <Box mt={1} width="50%">
+              <Box mt={1} sx={{ width: { md: "50%", sm: "100%" } }}>
                 <FastField
                   name="label"
                   component={TextField}
                   label="Checkout Label"
+                />
+                <FastField
+                  name="callToActionMessage"
+                  component={TextField}
+                  label="PDP Call to Action"
+                />
+                <FastField
+                  name="termsAndConditionsUrl"
+                  component={TextField}
+                  label="Terms & Conditions Link"
                 />
               </Box>
             </Card>
