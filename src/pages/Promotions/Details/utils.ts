@@ -46,6 +46,8 @@ export const normalizeActionsData = (actions?: Action[]) => actions?.map((action
   ...action,
   actionParameters: {
     ...action.actionParameters,
+    discountMaxUnits: action.actionParameters?.discountMaxUnits || undefined,
+    discountMaxValue: action.actionParameters?.discountMaxValue || undefined,
     inclusionRules: normalizeRule(action.actionParameters?.inclusionRules),
     exclusionRules: normalizeRule(action.actionParameters?.exclusionRules)
   }

@@ -11,17 +11,19 @@ import { useShop } from "@containers/ShopProvider";
 import { client } from "@graphql/graphql-request-client";
 import { usePermission } from "@components/PermissionGuard";
 import { filterNodes } from "@utils/common";
-import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
+import { AutocompleteField } from "@components/AutocompleteField";
 import { InputWithLabel } from "@components/TextField";
 import { FieldArrayRenderer } from "@components/FieldArrayRenderer";
 
 
 type EligibleShippingMethodsProps = {
   inclusionFieldName: string
+  disabled: boolean
 }
 
-export const EligibleShippingMethods = ({ inclusionFieldName }: EligibleShippingMethodsProps) => {
+export const EligibleShippingMethods = ({ inclusionFieldName, disabled }: EligibleShippingMethodsProps) => {
   const { shopId } = useShop();
+
   const canReadShippingMethods = usePermission(["reaction:legacy:shippingMethods/read"]);
 
   const { data, isLoading } = useGetShippingMethodsQuery(
@@ -30,10 +32,9 @@ export const EligibleShippingMethods = ({ inclusionFieldName }: EligibleShipping
     {
       enabled: !!shopId && canReadShippingMethods,
       select: (response) =>
-        filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ _id, name }) => ({ label: name, value: _id }))
+        filterNodes(response.flatRateFulfillmentMethods.nodes).map(({ name }) => name)
     }
   );
-
   const shippingMethodFieldName = `${inclusionFieldName}[0].value`;
 
   return (
@@ -53,8 +54,8 @@ export const EligibleShippingMethods = ({ inclusionFieldName }: EligibleShipping
 
             <FieldArrayRenderer
               {...props}
-              addButtonProps={{ children: "Add Shipping Method", sx: { ml: 5.7 }, hidden: get(props.form.values, inclusionFieldName, []).length > 0 }}
-              initialValue={{ fact: "item", path: "", value: [], operator: "" }}
+              addButtonProps={{ disabled, children: "Add Shipping Method", sx: { ml: 5.7 }, hidden: get(props.form.values, inclusionFieldName, []).length > 0 }}
+              initialValue={{ fact: "shipping", path: "$.shipmentMethod.name", value: [], operator: "in" }}
               renderFieldItem={() => (
                 <Stack pl={5.7}>
                   <Field
@@ -63,7 +64,7 @@ export const EligibleShippingMethods = ({ inclusionFieldName }: EligibleShipping
                     component={AutocompleteField}
                     options={data || []}
                     loading={isLoading}
-                    isOptionEqualToValue={isOptionEqualToValue}
+                    disabled={disabled}
                     renderInput={(params: AutocompleteRenderInputParams) => (
                       <InputWithLabel
                         {...params}

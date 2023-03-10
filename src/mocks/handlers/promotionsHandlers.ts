@@ -87,4 +87,8 @@ graphql.mutation("duplicatePromotion", (req, res, ctx) =>
   res(ctx.data({ duplicatePromotion: { promotion: { _id: enabledPromotions[0]._id }, success: true } })));
 
 
-export const handlers = [getPromotionsHandler, getPromotionHandler, createPromotionHandler, updatePromotionHandler, duplicatePromotionHandler];
+const createStandardCouponHandler = graphql.mutation("createStandardCoupon", (req, res, ctx) =>
+  res(ctx.data({ createStandardCoupon: { coupon: { _id: faker.datatype.uuid() }, success: true } })));
+
+export const handlers = [getPromotionsHandler, getPromotionHandler, createPromotionHandler, updatePromotionHandler, duplicatePromotionHandler,
+  createStandardCouponHandler];
