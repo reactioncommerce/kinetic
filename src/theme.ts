@@ -368,6 +368,7 @@ const theme = createTheme(baseTheme, {
           color: color.grey[600],
           fontWeight: 400,
           borderRadius: baseTheme.shape.borderRadius,
+          margin: 2,
           svg: {
             fontSize: 12,
             fill: color.grey[600]
