@@ -1,5 +1,20 @@
 import { Coupon, CouponInput } from "types/coupons";
-import { Action, Rule, Trigger, TriggerKeys, TriggerType } from "types/promotions";
+import { TriggerKeys, TriggerType, Action, Rule, RuleCondition, Trigger } from "types/promotions";
+import { Operator } from "../constants";
+
+
+const normalizeRuleCondition = (conditions: Rule["conditions"]) => {
+  const normalize = (condition: RuleCondition) => {
+    if (condition.operator === Operator.Equal) return { ...condition, value: condition.value[0] };
+    return condition;
+  };
+
+  const newAllConditions = conditions.all?.map(normalize);
+  const newAnyConditions = conditions.any?.map(normalize);
+
+  return { all: newAllConditions, any: newAnyConditions };
+};
+
 
 const normalizeRule = (rule?: Rule) => {
   const newRule = { ...rule };
@@ -7,7 +22,7 @@ const normalizeRule = (rule?: Rule) => {
   if (newRule.conditions?.any && !newRule.conditions.any.length) newRule.conditions.any = undefined;
   if (!newRule.conditions?.all && !newRule.conditions?.any) newRule.conditions = undefined;
 
-  return newRule.conditions ? newRule : undefined;
+  return newRule.conditions ? { conditions: normalizeRuleCondition(newRule.conditions) } : undefined;
 };
 
 export const normalizeTriggersData = (triggers?: Trigger[]) => {
@@ -57,6 +72,23 @@ export const normalizeActionsData = (actions?: Action[]) => actions?.map((action
 const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
   .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
 
+export const formatRule = (rule?: Rule) => {
+  const formatFn = (condition: RuleCondition) => {
+    if (condition.operator === Operator.Equal) return { ...condition, value: !Array.isArray(condition.value) ? [condition.value] : condition.value };
+    return condition;
+  };
+
+  if (rule?.conditions) {
+    return {
+      conditions: {
+        all: rule.conditions.all?.map(formatFn),
+        any: rule.conditions.any?.map(formatFn)
+      }
+    };
+  }
+
+  return rule;
+};
 
 export const formatTriggers = (triggers: Trigger[], promotionName: string, coupon?: Coupon | null) =>
   triggers.map((trigger) => {
@@ -67,6 +99,8 @@ export const formatTriggers = (triggers: Trigger[], promotionName: string, coupo
         ...trigger,
         triggerParameters: {
           ...trigger.triggerParameters,
+          inclusionRules: formatRule(trigger.triggerParameters?.inclusionRules),
+          exclusionRules: formatRule(trigger.triggerParameters?.exclusionRules),
           name: trigger.triggerParameters?.name || promotionName,
           conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
         }
@@ -95,3 +129,17 @@ export const formatTriggers = (triggers: Trigger[], promotionName: string, coupo
 
     return formatFn[triggerKey];
   });
+
+export const formatActions = (actions: Action[]): Action[] => actions.map((action) =>
+  ({
+    ...action,
+    ...(action.actionParameters ? {
+      actionParameters: {
+        ...action.actionParameters,
+        inclusionRules: formatRule(action.actionParameters?.inclusionRules),
+        exclusionRules: formatRule(action.actionParameters?.exclusionRules),
+        discountMaxUnits: action.actionParameters?.discountMaxUnits || 0,
+        discountMaxValue: action.actionParameters?.discountMaxValue || 0
+      }
+    } : {})
+  }));

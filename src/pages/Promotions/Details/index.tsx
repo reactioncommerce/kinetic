@@ -31,7 +31,7 @@ import { PromotionTriggers } from "./PromotionTriggers";
 import { promotionSchema } from "./validation";
 import { AvailableDateField } from "./AvailableDateField";
 import { PromotionTypeField } from "./PromotionTypeField";
-import { formatTriggers, normalizeActionsData, normalizeTriggersData } from "./utils";
+import { formatActions, formatTriggers, normalizeActionsData, normalizeTriggersData } from "./utils";
 
 type PromotionFormValue = {
   name: string
@@ -60,17 +60,6 @@ const normalizeFormValues = (values: PromotionFormValue) => {
   return { values: normalizedValues, coupons };
 };
 
-const formatActions = (actions: Action[]): Action[] => actions.map((action) =>
-  ({
-    ...action,
-    ...(action.actionParameters ? {
-      actionParameters: {
-        ...action.actionParameters,
-        discountMaxUnits: action.actionParameters?.discountMaxUnits || 0,
-        discountMaxValue: action.actionParameters?.discountMaxValue || 0
-      }
-    } : {})
-  }));
 
 const PromotionDetails = () => {
   const { promotionId } = useParams();
