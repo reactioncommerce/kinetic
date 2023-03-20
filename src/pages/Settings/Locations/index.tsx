@@ -43,6 +43,7 @@ type LocationFormValues = Pick<Location, "name" | "identifier" | "phoneNumber" |
   postal?: string | null,
   country?: SelectOptionType | null
  }
+ type: LocationType
  storeHours: StoreHours
 }
 
@@ -258,8 +259,12 @@ const Locations = ({ type }: LocationsProps) => {
                     />
                   )}
                 />
-                <Divider sx={{ my: 2 }} />
-                <StoreHoursField storeHours={values.storeHours}/>
+                {values.type === LocationType.Stores ?
+                  <>
+                    <Divider sx={{ my: 2 }} />
+                    <Field name="storeHours" component={StoreHoursField}/>
+                  </> : null}
+
               </Drawer.Content>
               <Drawer.Actions
                 left={
