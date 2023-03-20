@@ -1,5 +1,5 @@
 import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
-import { Field, FieldProps, useFormikContext } from "formik";
+import { Field, FieldProps, getIn, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
 
 import { InputWithLabel } from "@components/TextField";
@@ -30,12 +30,11 @@ export const RegionField =
      values,
      setFieldValue
    } = useFormikContext<FormValues>();
-   const fieldValue = values[name]?.value;
+   const fieldValue = getIn(values, name)?.value;
    const [inputValue, setInputValue] = useState(fieldValue || "");
 
-   const country = values[countryFieldName];
+   const country = getIn(values, countryFieldName);
    const states = country?.value && locales[country.value] ? locales[country.value].states : undefined;
-
 
    useEffect(() => {
      if (!fieldValue) {

@@ -1,0 +1,50 @@
+query getLocations($shopId: ID!, $sortBy: String, $filter: LocationFilter, $offset: Int, $sortOrder: String, $last: ConnectionLimitInt, $first: ConnectionLimitInt, $before: ConnectionCursor, $after: ConnectionCursor){
+  locations(shopId: $shopId, sortBy: $sortBy, filter: $filter, offset: $offset, sortOrder: $sortOrder, last: $last, first: $first, before: $before, after: $after) {
+    nodes {
+      _id
+      identifier
+      address {
+        address1
+        address2
+        city
+        country
+        postal
+        region
+      }
+      createdAt
+      enabled
+      fulfillmentMethod
+      localFulfillmentOnly
+      name
+      phoneNumber
+      storeHours {
+        open
+        close
+        day
+      }
+      storePickupHours
+      storePickupInstructions
+      type
+      updatedAt
+    }
+    totalCount
+  }
+}
+
+mutation createLocation($input: LocationCreateInput) {
+  createLocation(input: $input) {
+    success
+    location {
+      _id
+    }
+  }
+}
+
+mutation updateLocation($input: LocationUpdateInput) {
+  updateLocation(input: $input) {
+    success
+    location {
+      _id
+    }
+  }
+}
