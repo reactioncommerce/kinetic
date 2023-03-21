@@ -9,8 +9,8 @@ import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Field, Form, Formik } from "formik";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 import { Table, TableAction, TableContainer, useTableState } from "@components/Table";
 import { useShop } from "@containers/ShopProvider";
@@ -19,12 +19,11 @@ import { LocationAddress, useGetLocationsQuery } from "@graphql/generates";
 import { filterNodes } from "@utils/common";
 import { client } from "@graphql/graphql-request-client";
 import { Drawer } from "@components/Drawer";
-import { InputWithLabel, PhoneNumberField, TextField } from "@components/TextField";
+import { PhoneNumberField, TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { Switch } from "@components/Switch";
 import { AddressField } from "@components/AddressField";
 import { countries, getRegion } from "@utils/countries";
-import { AutocompleteField, isOptionEqualToValue } from "@components/AutocompleteField";
 import { SelectOptionType } from "types/common";
 
 import { formatStoreHours, fulfillmentMethodOptions, locationSchema, pluralTitleMapping, titleMapping } from "./utils";
@@ -34,7 +33,7 @@ type LocationsProps = {
   type: LocationType
 }
 
-type LocationFormValues = Pick<Location, "name" | "identifier" | "phoneNumber" | "localFulfillmentOnly"> & {
+type LocationFormValues = Pick<Location, "name" | "identifier" | "phoneNumber" | "localFulfillmentOnly" | "fulfillmentMethod" | "enabled"> & {
  address: {
   address1: string,
   address2: string,
@@ -111,7 +110,7 @@ const Locations = ({ type }: LocationsProps) => {
   const country = countries.find(({ value }) => value === activeRow?.address.country) || null;
   const region = getRegion({ countryCode: country?.value, regionCode: activeRow?.address.region });
 
-  const initialValues = {
+  const initialValues: LocationFormValues = {
     name: activeRow?.name || "",
     identifier: activeRow?.identifier || "",
     type: activeRow?.type || type,
@@ -131,7 +130,8 @@ const Locations = ({ type }: LocationsProps) => {
     },
     phoneNumber: activeRow?.phoneNumber || "",
     localFulfillmentOnly: activeRow?.localFulfillmentOnly ?? false,
-    storeHours: formatStoreHours(activeRow?.storeHours)
+    storeHours: formatStoreHours(activeRow?.storeHours),
+    fulfillmentMethod: activeRow?.fulfillmentMethod || ""
   };
 
   return (
@@ -240,25 +240,14 @@ const Locations = ({ type }: LocationsProps) => {
                   <Field name="phoneNumber" component={PhoneNumberField} label="Phone Number" />
                 </Stack>
                 <Divider sx={{ my: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Fulfillment Methods
-                </Typography>
-                <Field
-                  name="fulfillmentMethods"
-                  multiple
-                  component={AutocompleteField}
-                  options={fulfillmentMethodOptions}
-                  isOptionEqualToValue={isOptionEqualToValue}
-                  renderInput={(params: AutocompleteRenderInputParams) => (
-                    <InputWithLabel
-                      {...params}
-                      name="fulfillmentMethods"
-                      label="Fulfillment Methods"
-                      hiddenLabel
-                      placeholder="Select fulfillment method(s)"
-                    />
-                  )}
-                />
+                <Box width="50%">
+                  <Field
+                    name="fulfillmentMethod"
+                    component={SelectField}
+                    label="Fulfillment Method"
+                    options={fulfillmentMethodOptions}
+                  />
+                </Box>
                 {values.type === LocationType.Stores ?
                   <>
                     <Divider sx={{ my: 2 }} />
