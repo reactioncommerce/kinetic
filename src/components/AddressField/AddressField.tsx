@@ -21,7 +21,7 @@ export const AddressField = ({ countryFieldProps, regionFieldProps }: AddressFie
   return (
     <>
       <CountryField onChange={onCountryFieldChange} {...countryFieldProps}/>
-      <RegionField {...regionFieldProps}/>
+      <RegionField {...regionFieldProps} countryFieldName={countryFieldProps.name}/>
     </>
   );
 };

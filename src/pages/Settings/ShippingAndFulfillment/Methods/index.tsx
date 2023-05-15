@@ -8,7 +8,9 @@ import { useMemo, useState } from "react";
 import * as Yup from "yup";
 import { startCase } from "lodash-es";
 import { Field, Form, Formik, FormikConfig } from "formik";
-import { Divider, FormControlLabel, InputAdornment } from "@mui/material";
+import Divider from "@mui/material/Divider";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import InputAdornment from "@mui/material/InputAdornment";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import { Table, TableAction, TableContainer, useTableState } from "@components/Table";

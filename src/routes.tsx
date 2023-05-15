@@ -5,6 +5,7 @@ import { PermissionGuard } from "@components/PermissionGuard";
 import { RequireAuthRoute, RequireShopRoute, UnauthenticatedRoute } from "@components/Routes";
 import { AppLayout, PageLayout } from "@containers/Layouts";
 import { SubHeaderItemProps } from "@components/AppHeader";
+import { LocationType } from "types/location";
 
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
@@ -32,6 +33,7 @@ const TaxesSettings = lazy(() => import("./pages/Settings/Checkout/Taxes"));
 const Customers = lazy(() => import("./pages/Customers"));
 const PromotionDetails = lazy(() => import("./pages/Promotions/Details"));
 const Promotions = lazy(() => import("./pages/Promotions/List"));
+const Locations = lazy(() => import("./pages/Settings/Locations"));
 
 type SubPageRouteProps = Array<SubHeaderItemProps & RouteObject>
 const shippingPageRoutes: SubPageRouteProps = [
@@ -59,6 +61,21 @@ const shippingPageRoutes: SubPageRouteProps = [
     path: "surcharges",
     key: "surcharges",
     element: <ShippingSurcharges/>
+  }
+];
+
+const locationPageRoutes: SubPageRouteProps = [
+  {
+    header: "Warehouses",
+    path: "warehouses",
+    key: "warehouses",
+    element: <Locations type={LocationType.Warehouses}/>
+  },
+  {
+    header: "Stores",
+    path: "stores",
+    key: "stores",
+    element: <Locations type={LocationType.Stores}/>
   }
 ];
 
@@ -261,6 +278,11 @@ export const routes: RouteObject[] = [
                     path: "emails",
                     element: <PageLayout headers={emailsSettingPageRoutes}/>,
                     children: emailsSettingPageRoutes
+                  },
+                  {
+                    path: "locations",
+                    element: <PageLayout headers={locationPageRoutes}/>,
+                    children: locationPageRoutes
                   }
                 ]
               },

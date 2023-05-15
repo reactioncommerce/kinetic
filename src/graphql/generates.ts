@@ -614,27 +614,6 @@ export type ApplyCouponToCartPayload = {
   cart?: Maybe<Cart>;
 };
 
-/** Input for an `ApplyDiscountCodeToCartInput` */
-export type ApplyDiscountCodeToCartInput = {
-  /** Cart to add discount to */
-  cartId: Scalars['ID'];
-  /** Discount code to add to cart */
-  discountCode: Scalars['String'];
-  /** Shop cart belongs to */
-  shopId: Scalars['ID'];
-  /** Cart token, if anonymous */
-  token?: InputMaybe<Scalars['String']>;
-};
-
-/** Response from the `applyDiscountCodeToCart` mutation */
-export type ApplyDiscountCodeToCartPayload = {
-  __typename?: 'ApplyDiscountCodeToCartPayload';
-  /** The updated cart with discount code applied */
-  cart: Cart;
-  /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars['String']>;
-};
-
 /** Input for the `approveOrderPayments` mutation */
 export type ApproveOrderPaymentsInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -654,6 +633,14 @@ export type ApproveOrderPaymentsPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The updated order */
   order: Order;
+};
+
+/** The input for the archive location mutation */
+export type ArchiveLocationInput = {
+  /** The location ID */
+  locationId: Scalars['ID'];
+  /** The shop ID */
+  shopId: Scalars['ID'];
 };
 
 /** Input for the archiveMediaRecord mutation */
@@ -1753,25 +1740,6 @@ export type CreateCartPayload = {
   token?: Maybe<Scalars['String']>;
 };
 
-/** Describes the input for creating a discount code */
-export type CreateDiscountCodeInput = {
-  /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The discount code to update */
-  discountCode?: InputMaybe<DiscountCodeInput>;
-  /** The shop ID of the discount code to update */
-  shopId: Scalars['ID'];
-};
-
-/** The response from the `createDiscountCode` mutation */
-export type CreateDiscountCodePayload = {
-  __typename?: 'CreateDiscountCodePayload';
-  /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The created discount code */
-  discountCode?: Maybe<DiscountCode>;
-};
-
 /** Input for the `createFlatRateFulfillmentMethod` mutation */
 export type CreateFlatRateFulfillmentMethodInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -2126,25 +2094,6 @@ export type DeleteAddressValidationRulePayload = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
-/** Describes the input for removing a discount code */
-export type DeleteDiscountCodeInput = {
-  /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The discount code ID */
-  discountCodeId: Scalars['ID'];
-  /** Shop ID */
-  shopId: Scalars['ID'];
-};
-
-/** The response from the `deleteDiscountCode` mutation */
-export type DeleteDiscountCodePayload = {
-  __typename?: 'DeleteDiscountCodePayload';
-  /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The deleted discount code */
-  discountCode?: Maybe<DiscountCode>;
-};
-
 /** Input for the `deleteFlatRateFulfillmentMethod` mutation */
 export type DeleteFlatRateFulfillmentMethodInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -2281,223 +2230,6 @@ export type DestinationRestrictionsInput = {
   postal?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Restrict for any of these destination regions */
   region?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-/** Discount code calculation */
-export type DiscountCalculation = {
-  __typename?: 'DiscountCalculation';
-  /** Discount code calculation method */
-  method?: Maybe<DiscountCalculationMethod>;
-};
-
-/** Input type for discount calculation */
-export type DiscountCalculationInput = {
-  /** Discount code calculation method */
-  method?: InputMaybe<DiscountCalculationMethod>;
-};
-
-/** Discount calculation types */
-export enum DiscountCalculationMethod {
-  /** Store credit */
-  Credit = 'credit',
-  /** Discount of order */
-  Discount = 'discount',
-  /** Sale on an item */
-  Sale = 'sale',
-  /** Discount to shipping */
-  Shipping = 'shipping'
-}
-
-/** A discount code */
-export type DiscountCode = {
-  __typename?: 'DiscountCode';
-  /** Discount code ID */
-  _id: Scalars['ID'];
-  /** How the discount should be applied */
-  calculation?: Maybe<DiscountCalculation>;
-  /** Discount Code */
-  code: Scalars['String'];
-  /** Discount code conditions */
-  conditions?: Maybe<DiscountConditions>;
-  /** Description to describe the discount code */
-  description?: Maybe<Scalars['String']>;
-  /**
-   * Discount is allowed to be string or number.
-   * it's a formula value (could be shipping code)
-   */
-  discount?: Maybe<Scalars['String']>;
-  /** Discount method type */
-  discountMethod?: Maybe<DiscountMethod>;
-  /** Label to describe the code */
-  label?: Maybe<Scalars['String']>;
-  /** The shop to which this DiscountCode belongs to */
-  shop: Shop;
-  /** History of transactions */
-  transactions?: Maybe<Array<Maybe<DiscountTransaction>>>;
-};
-
-/**
- * Wraps a list of DiscountCode`s, providing pagination cursors and information.
- *
- * For information about what Relay-compatible connections are and how to use them, see the following articles:
- * - [Relay Connection Documentation](https://facebook.github.io/relay/docs/en/graphql-server-specification.html#connections)
- * - [Relay Connection Specification](https://facebook.github.io/relay/graphql/connections.htm)
- * - [Using Relay-style Connections With Apollo Client](https://www.apollographql.com/docs/react/recipes/pagination.html)
- */
-export type DiscountCodeConnection = {
-  __typename?: 'DiscountCodeConnection';
-  /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
-  edges?: Maybe<Array<Maybe<DiscountCodeEdge>>>;
-  /**
-   * You can request the `nodes` directly to avoid the extra wrapping that `NodeEdge` has,
-   * if you know you will not need to paginate the results.
-   */
-  nodes?: Maybe<Array<Maybe<DiscountCode>>>;
-  /** Information to help a client request the next or previous page */
-  pageInfo: PageInfo;
-  /** The total number of nodes that match your query */
-  totalCount: Scalars['Int'];
-};
-
-/** A connection edge in which each node is a `DiscountCode` object */
-export type DiscountCodeEdge = {
-  __typename?: 'DiscountCodeEdge';
-  /** The cursor that represents this node in the paginated results */
-  cursor: Scalars['ConnectionCursor'];
-  /** The discount code */
-  node?: Maybe<DiscountCode>;
-};
-
-/** Input type for filters to be applied to an discount codes list */
-export type DiscountCodeFilterInput = {
-  /** Keywords typed by the user in the search input field */
-  searchField?: InputMaybe<Scalars['String']>;
-};
-
-/** Input type for a discount code */
-export type DiscountCodeInput = {
-  /** How the discount should be applied */
-  calculation?: InputMaybe<DiscountCalculationInput>;
-  /** Discount Code */
-  code: Scalars['String'];
-  /** Discount code conditions */
-  conditions?: InputMaybe<DiscountConditionsInput>;
-  /** Description to describe the discount code */
-  description?: InputMaybe<Scalars['String']>;
-  /**
-   * Discount is allowed to be string or number.
-   * it's a formula value (could be shipping code)
-   */
-  discount?: InputMaybe<Scalars['String']>;
-  /** Discount method type */
-  discountMethod?: InputMaybe<DiscountMethod>;
-  /** Label to describe the code */
-  label?: InputMaybe<Scalars['String']>;
-  /** History of transactions */
-  transactions?: InputMaybe<Array<InputMaybe<DiscountTransactionInput>>>;
-};
-
-/** The conditions an order must meet for a discount code to be applied */
-export type DiscountConditionOrder = {
-  __typename?: 'DiscountConditionOrder';
-  /** Order date range end */
-  endDate?: Maybe<Scalars['DateTime']>;
-  /** Maximum order value */
-  max?: Maybe<Scalars['Float']>;
-  /** Minimum order value */
-  min: Scalars['Float'];
-  /** Order date range start */
-  startDate?: Maybe<Scalars['DateTime']>;
-};
-
-/** Discount order conditions input type */
-export type DiscountConditionOrderInput = {
-  /** Order date range end */
-  endDate?: InputMaybe<Scalars['DateTime']>;
-  /** Maximum order value */
-  max?: InputMaybe<Scalars['Float']>;
-  /** Minimum order value */
-  min: Scalars['Float'];
-  /** Order date range start */
-  startDate?: InputMaybe<Scalars['DateTime']>;
-};
-
-/** Conditions for a discount code to be applied */
-export type DiscountConditions = {
-  __typename?: 'DiscountConditions';
-  /** Account Limit */
-  accountLimit?: Maybe<Scalars['Int']>;
-  /** Audience that may apply this discount code */
-  audience?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Is this discount code enabled */
-  enabled: Scalars['Boolean'];
-  /** Order conditions */
-  order?: Maybe<DiscountConditionOrder>;
-  /** Permissions that may apply this discount code */
-  permissions?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Products that may apply this discount code */
-  products?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /**
-   * Number of times this code may be redeemed.
-   * Setting to 100 means the first 100 customers may apply this code.
-   * Setting this value to 0 will allow this code to be applied an infinite number of times.
-   */
-  redemptionLimit?: Maybe<Scalars['Int']>;
-  /** Tags that may be apply this discount code */
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-/** Discount conditions input type */
-export type DiscountConditionsInput = {
-  /** Account Limit */
-  accountLimit?: InputMaybe<Scalars['Int']>;
-  /** Audience that may apply this discount code */
-  audience?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** Is this discount code enabled */
-  enabled: Scalars['Boolean'];
-  /** Order conditions */
-  order?: InputMaybe<DiscountConditionOrderInput>;
-  /** Permissions that may apply this discount code */
-  permissions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** Products that may apply this discount code */
-  products?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /**
-   * Number of times this code may be redeemed.
-   * Setting to 100 means the first 100 customers may apply this code.
-   * Setting this value to 0 will allow this code to be applied an infinite number of times.
-   */
-  redemptionLimit?: InputMaybe<Scalars['Int']>;
-  /** Tags that may be apply this discount code */
-  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-/** Discount method types */
-export enum DiscountMethod {
-  /** Code type */
-  Code = 'code',
-  /** Rate type */
-  Rate = 'rate'
-}
-
-/** Transaction history for a discount code */
-export type DiscountTransaction = {
-  __typename?: 'DiscountTransaction';
-  /** Date the code was applied */
-  appliedAt?: Maybe<Scalars['DateTime']>;
-  /** Cart id */
-  cartId: Scalars['String'];
-  /** User id */
-  userId: Scalars['String'];
-};
-
-/** Discount transation input type */
-export type DiscountTransactionInput = {
-  /** Date the code was applied */
-  appliedAt?: InputMaybe<Scalars['DateTime']>;
-  /** Cart id */
-  cartId: Scalars['String'];
-  /** User id */
-  userId: Scalars['String'];
 };
 
 /** Distance units */
@@ -3135,6 +2867,214 @@ export type InviteShopMemberPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
+export type Location = {
+  __typename?: 'Location';
+  /**  The ID of the location. */
+  _id: Scalars['ID'];
+  /**  The address of the location. */
+  address: LocationAddress;
+  /**  The date the location was created */
+  createdAt: Scalars['Date'];
+  /**  Whether the location is current active */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /**  The fulfillment method of the location [shipping, pickup, ship-to-store, local-delivery]. */
+  fulfillmentMethod: Scalars['String'];
+  /**  The other identifier of the location. */
+  identifier: Scalars['String'];
+  /**  The location is available for or not. */
+  isArchived?: Maybe<Scalars['Boolean']>;
+  /**  The location use local fulfillment only. */
+  localFulfillmentOnly?: Maybe<Scalars['Boolean']>;
+  /**  The name of the location. */
+  name: Scalars['String'];
+  /**  The phone number of the location. */
+  phoneNumber: Scalars['String'];
+  /**  The open hours of the type store location. */
+  storeHours?: Maybe<Array<Maybe<LocationStoreHour>>>;
+  /**  The pickup hours of the type store location. */
+  storePickupHours?: Maybe<Scalars['Int']>;
+  /**  The pickup instructions of the type store location. */
+  storePickupInstructions?: Maybe<Scalars['String']>;
+  /**  The type of the location [warehouse, store, dropship, marketplace]. */
+  type: Scalars['String'];
+  /**  The date the location was last updated */
+  updatedAt: Scalars['Date'];
+};
+
+export type LocationAddress = {
+  __typename?: 'LocationAddress';
+  /**  The first line of the address. */
+  address1: Scalars['String'];
+  /**  The second line of the address. */
+  address2?: Maybe<Scalars['String']>;
+  /**  The city of the address. */
+  city: Scalars['String'];
+  /**  The ISO 3166-1 alpha-2 country code of the address. */
+  country: Scalars['String'];
+  /**  The ZIP/Postal Code of the address. */
+  postal?: Maybe<Scalars['String']>;
+  /**  The State/Province/Region of the address. */
+  region?: Maybe<Scalars['String']>;
+};
+
+export type LocationConnection = {
+  __typename?: 'LocationConnection';
+  /** The list of nodes that match the query, wrapped in an edge to provide a cursor string for each */
+  edges?: Maybe<Array<Maybe<LocationEdge>>>;
+  /**
+   * You can request the `nodes` directly to avoid the extra wrapping that `NodeEdge` has,
+   * if you know you will not need to paginate the results.
+   */
+  nodes?: Maybe<Array<Maybe<Location>>>;
+  /** Information to help a client request the next or previous page */
+  pageInfo: PageInfo;
+  /** The total number of nodes that match your query */
+  totalCount: Scalars['Int'];
+};
+
+export type LocationCreateAddressInput = {
+  /**  The first line of the address. */
+  address1: Scalars['String'];
+  /**  The second line of the address. */
+  address2?: InputMaybe<Scalars['String']>;
+  /**  The city of the address. */
+  city: Scalars['String'];
+  /**  The ISO 3166-1 alpha-2 country code of the address. */
+  country: Scalars['String'];
+  /**  The ZIP/Postal Code of the address. */
+  postal?: InputMaybe<Scalars['String']>;
+  /**  The State/Province/Region of the address. */
+  region?: InputMaybe<Scalars['String']>;
+};
+
+/**  The input for the location create mutation */
+export type LocationCreateInput = {
+  /**  The address of the location. */
+  address: LocationCreateAddressInput;
+  /**  Whether the location is current active */
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  /**  The fulfillment method of the location [shipping, pickup, ship-to-store, local-delivery]. */
+  fulfillmentMethod: Scalars['String'];
+  /**  The other identifier of the location. */
+  identifier: Scalars['String'];
+  /**  The location use local fulfillment only. */
+  localFulfillmentOnly?: InputMaybe<Scalars['Boolean']>;
+  /**  The name of the location. */
+  name: Scalars['String'];
+  /**  The phone number of the location. */
+  phoneNumber: Scalars['String'];
+  /**  The shop ID */
+  shopId: Scalars['ID'];
+  /**  The open hours of the type store location. */
+  storeHours?: InputMaybe<Array<InputMaybe<LocationStoreHourInput>>>;
+  /**  The pickup hours of the type store location. */
+  storePickupHours?: InputMaybe<Scalars['Int']>;
+  /**  The pickup instructions of the type store location. */
+  storePickupInstructions?: InputMaybe<Scalars['String']>;
+  /**  The type of the location [warehouse, store, dropship, marketplace]. */
+  type: Scalars['String'];
+};
+
+/** A connection edge in which each node is a `Location` object */
+export type LocationEdge = {
+  __typename?: 'LocationEdge';
+  /** The cursor that represents this node in the paginated results */
+  cursor: Scalars['ConnectionCursor'];
+  /** The location node */
+  node?: Maybe<Location>;
+};
+
+/**  The filter input for the locations query */
+export type LocationFilter = {
+  /**  The location is active or not. */
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  /**  The fulfillment method of the location [shipping, pickup, ship-to-store, local-delivery]. */
+  fulfillmentMethod?: InputMaybe<Scalars['String']>;
+  /**  The other identifier of the location. */
+  identifier?: InputMaybe<Scalars['String']>;
+  /**  The location is available for or not. */
+  isArchived?: InputMaybe<Scalars['Boolean']>;
+  /**  The location use local fulfillment only. */
+  localFulfillmentOnly?: InputMaybe<Scalars['Boolean']>;
+  /**  The name of the location. */
+  name?: InputMaybe<Scalars['String']>;
+  /**  The phone of the location. */
+  phone?: InputMaybe<Scalars['String']>;
+  /**  The type of the location [warehouse, store, dropship, marketplace]. */
+  type?: InputMaybe<Scalars['String']>;
+};
+
+/**  The input for the location query */
+export type LocationQueryInput = {
+  /** The location ID */
+  _id: Scalars['ID'];
+  /** The shop ID */
+  shopId: Scalars['ID'];
+};
+
+export type LocationStoreHour = {
+  __typename?: 'LocationStoreHour';
+  /**  The close time of the day. */
+  close: Scalars['String'];
+  /**  The day of the week [monday, tuesday, wednesday, thursday, friday, saturday, sunday]. */
+  day: Scalars['String'];
+  /**  The open time of the day. */
+  open: Scalars['String'];
+};
+
+export type LocationStoreHourInput = {
+  /**  The close time of the day. */
+  close: Scalars['String'];
+  /**  The day of the week [monday, tuesday, wednesday, thursday, friday, saturday, sunday]. */
+  day: Scalars['String'];
+  /**  The open time of the day. */
+  open: Scalars['String'];
+};
+
+export type LocationUpdateAddressInput = {
+  /**  The first line of the address. */
+  address1?: InputMaybe<Scalars['String']>;
+  /**  The second line of the address. */
+  address2?: InputMaybe<Scalars['String']>;
+  /**  The city of the address. */
+  city?: InputMaybe<Scalars['String']>;
+  /**  The ISO 3166-1 alpha-2 country code of the address. */
+  country?: InputMaybe<Scalars['String']>;
+  /**  The ZIP/Postal Code of the address. */
+  postal?: InputMaybe<Scalars['String']>;
+  /**  The State/Province/Region of the address. */
+  region?: InputMaybe<Scalars['String']>;
+};
+
+export type LocationUpdateInput = {
+  /**  The location ID */
+  _id: Scalars['ID'];
+  /**  The address of the location. */
+  address?: InputMaybe<LocationUpdateAddressInput>;
+  /**  Whether the location is current active */
+  enabled?: InputMaybe<Scalars['Boolean']>;
+  /**  The fulfillment method of the location [shipping, pickup, ship-to-store, local-delivery]. */
+  fulfillmentMethod?: InputMaybe<Scalars['String']>;
+  /**  The other identifier of the location. */
+  identifier?: InputMaybe<Scalars['String']>;
+  /**  The location use local fulfillment only. */
+  localFulfillmentOnly?: InputMaybe<Scalars['Boolean']>;
+  /**  The shop ID */
+  name?: InputMaybe<Scalars['String']>;
+  /**  The phone number of the location. */
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  /**  The shop ID */
+  shopId: Scalars['ID'];
+  /**  The open hours of the type store location. */
+  storeHours?: InputMaybe<Array<InputMaybe<LocationStoreHourInput>>>;
+  /**  The pickup hours of the type store location. */
+  storePickupHours?: InputMaybe<Scalars['Int']>;
+  /**  The pickup instructions of the type store location. */
+  storePickupInstructions?: InputMaybe<Scalars['String']>;
+  /**  The type of the location [warehouse, store, dropship, marketplace]. */
+  type?: InputMaybe<Scalars['String']>;
+};
+
 export type LoginResult = {
   __typename?: 'LoginResult';
   sessionId?: Maybe<Scalars['String']>;
@@ -3358,10 +3298,10 @@ export type Mutation = {
   addTagsToProducts: ProductTagsOperationPayload;
   /** Apply a coupon to a cart */
   applyCouponToCart?: Maybe<ApplyCouponToCartPayload>;
-  /** Apply a discount code to a cart */
-  applyDiscountCodeToCart: ApplyDiscountCodeToCartPayload;
   /** Approve one or more payments for an order */
   approveOrderPayments: ApproveOrderPaymentsPayload;
+  /** Archive location mutation */
+  archiveLocation?: Maybe<UpdatedLocationPayload>;
   /** Archive a MediaRecord to hide it without deleting the backing file data */
   archiveMediaRecord: ArchiveMediaRecordPayload;
   /** Archive product variants */
@@ -3396,12 +3336,12 @@ export type Mutation = {
   createAddressValidationRule: CreateAddressValidationRulePayload;
   /** Create a new cart */
   createCart: CreateCartPayload;
-  /** Create a new discount code */
-  createDiscountCode?: Maybe<CreateDiscountCodePayload>;
   /** Create a flat rate fulfillment method */
   createFlatRateFulfillmentMethod: CreateFlatRateFulfillmentMethodPayload;
   /** Create a flat rate fulfillment method restriction. */
   createFlatRateFulfillmentRestriction: CreateFlatRateFulfillmentRestrictionPayload;
+  /** Create a new location */
+  createLocation?: Maybe<UpdatedLocationPayload>;
   /** Create the MediaRecord for file data after you upload it */
   createMediaRecord: CreateMediaRecordPayload;
   /** Create a new navigation item */
@@ -3427,8 +3367,6 @@ export type Mutation = {
   createUser?: Maybe<CreateUserResult>;
   /** Delete an address validation rule */
   deleteAddressValidationRule: DeleteAddressValidationRulePayload;
-  /** Delete a discount code */
-  deleteDiscountCode?: Maybe<DeleteDiscountCodePayload>;
   /** Delete a flat rate fulfillment method */
   deleteFlatRateFulfillmentMethod: DeleteFlatRateFulfillmentMethodPayload;
   /** Delete a flat rate fulfillment method restriction */
@@ -3484,8 +3422,6 @@ export type Mutation = {
   removeAccountGroup?: Maybe<RemoveAccountGroupPayload>;
   /** Remove item(s) from a cart */
   removeCartItems: RemoveCartItemsPayload;
-  /** Remove a discount code from a cart */
-  removeDiscountCodeFromCart: RemoveDiscountCodeFromCartPayload;
   /** Removes an existing tag */
   removeTag: RemoveTagPayload;
   /** Bulk operation for removing an array of tags from an array of products */
@@ -3530,8 +3466,6 @@ export type Mutation = {
   updateAdminUIAccess: UpdateAdminUiAccessPayload;
   /** Update cart item(s) quantity. Use absolute quantity. If updating to 0, the item will be removed. */
   updateCartItemsQuantity: UpdateCartItemsQuantityPayload;
-  /** Update a discount code */
-  updateDiscountCode?: Maybe<UpdateDiscountCodePayload>;
   /** Update a flat rate fulfillment method */
   updateFlatRateFulfillmentMethod: UpdateFlatRateFulfillmentMethodPayload;
   /** Update a flat rate fulfillment method restriction */
@@ -3551,6 +3485,8 @@ export type Mutation = {
   updateGlobalSettings: UpdateGlobalSettingsPayload;
   /** Bulk-update groups for accounts */
   updateGroupsForAccounts?: Maybe<UpdateGroupsForAccountsPayload>;
+  /**  Update a location. */
+  updateLocation?: Maybe<UpdatedLocationPayload>;
   /** Update the priority metadata for a MediaRecord. Used for sorting product and variant media in the catalog. */
   updateMediaRecordPriority: UpdateMediaRecordPriorityPayload;
   /** Update an existing navigation item's draft data. Sets hasUnpublishedChanges to true */
@@ -3656,14 +3592,14 @@ export type MutationApplyCouponToCartArgs = {
 
 
 /** Mutations have side effects, such as mutating data or triggering a task */
-export type MutationApplyDiscountCodeToCartArgs = {
-  input: ApplyDiscountCodeToCartInput;
+export type MutationApproveOrderPaymentsArgs = {
+  input: ApproveOrderPaymentsInput;
 };
 
 
 /** Mutations have side effects, such as mutating data or triggering a task */
-export type MutationApproveOrderPaymentsArgs = {
-  input: ApproveOrderPaymentsInput;
+export type MutationArchiveLocationArgs = {
+  input?: InputMaybe<ArchiveLocationInput>;
 };
 
 
@@ -3754,12 +3690,6 @@ export type MutationCreateCartArgs = {
 
 
 /** Mutations have side effects, such as mutating data or triggering a task */
-export type MutationCreateDiscountCodeArgs = {
-  input: CreateDiscountCodeInput;
-};
-
-
-/** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationCreateFlatRateFulfillmentMethodArgs = {
   input: CreateFlatRateFulfillmentMethodInput;
 };
@@ -3768,6 +3698,12 @@ export type MutationCreateFlatRateFulfillmentMethodArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationCreateFlatRateFulfillmentRestrictionArgs = {
   input: CreateFlatRateFulfillmentRestrictionInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationCreateLocationArgs = {
+  input?: InputMaybe<LocationCreateInput>;
 };
 
 
@@ -3846,12 +3782,6 @@ export type MutationCreateUserArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationDeleteAddressValidationRuleArgs = {
   input: DeleteAddressValidationRuleInput;
-};
-
-
-/** Mutations have side effects, such as mutating data or triggering a task */
-export type MutationDeleteDiscountCodeArgs = {
-  input: DeleteDiscountCodeInput;
 };
 
 
@@ -4008,12 +3938,6 @@ export type MutationRemoveCartItemsArgs = {
 
 
 /** Mutations have side effects, such as mutating data or triggering a task */
-export type MutationRemoveDiscountCodeFromCartArgs = {
-  input: RemoveDiscountCodeFromCartInput;
-};
-
-
-/** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationRemoveTagArgs = {
   input: RemoveTagInput;
 };
@@ -4148,12 +4072,6 @@ export type MutationUpdateCartItemsQuantityArgs = {
 
 
 /** Mutations have side effects, such as mutating data or triggering a task */
-export type MutationUpdateDiscountCodeArgs = {
-  input: UpdateDiscountCodeInput;
-};
-
-
-/** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationUpdateFlatRateFulfillmentMethodArgs = {
   input: UpdateFlatRateFulfillmentMethodInput;
 };
@@ -4180,6 +4098,12 @@ export type MutationUpdateGlobalSettingsArgs = {
 /** Mutations have side effects, such as mutating data or triggering a task */
 export type MutationUpdateGroupsForAccountsArgs = {
   input: UpdateGroupsForAccountsInput;
+};
+
+
+/** Mutations have side effects, such as mutating data or triggering a task */
+export type MutationUpdateLocationArgs = {
+  input?: InputMaybe<LocationUpdateInput>;
 };
 
 
@@ -5874,8 +5798,6 @@ export type Query = {
   catalogItems?: Maybe<CatalogItemConnection>;
   /** Returns customer accounts */
   customers: AccountConnection;
-  /** Gets discount codes */
-  discountCodes?: Maybe<DiscountCodeConnection>;
   /** Get e-mail jobs for a given set of shops */
   emailJobs: EmailJobConnection;
   /** Retrieves a list of email templates */
@@ -5912,6 +5834,10 @@ export type Query = {
   introspectSchema: IntrospectSchemaPayload;
   /** Returns all pending staff member invitations */
   invitations: InvitationConnection;
+  /** Get a location */
+  location?: Maybe<Location>;
+  /** Get list of locations */
+  locations?: Maybe<LocationConnection>;
   /** Returns the navigation items for a shop */
   navigationItemsByShopId?: Maybe<NavigationItemConnection>;
   /** Returns a navigation tree by its ID in the specified language */
@@ -6085,18 +6011,6 @@ export type QueryCustomersArgs = {
 
 
 /** Queries return all requested data, without any side effects */
-export type QueryDiscountCodesArgs = {
-  after?: InputMaybe<Scalars['ConnectionCursor']>;
-  before?: InputMaybe<Scalars['ConnectionCursor']>;
-  filters?: InputMaybe<DiscountCodeFilterInput>;
-  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
-  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  shopId: Scalars['ID'];
-};
-
-
-/** Queries return all requested data, without any side effects */
 export type QueryEmailJobsArgs = {
   after?: InputMaybe<Scalars['ConnectionCursor']>;
   before?: InputMaybe<Scalars['ConnectionCursor']>;
@@ -6262,6 +6176,26 @@ export type QueryInvitationsArgs = {
   shopIds?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   sortBy?: InputMaybe<AccountSortByField>;
   sortOrder?: InputMaybe<SortOrder>;
+};
+
+
+/** Queries return all requested data, without any side effects */
+export type QueryLocationArgs = {
+  input?: InputMaybe<LocationQueryInput>;
+};
+
+
+/** Queries return all requested data, without any side effects */
+export type QueryLocationsArgs = {
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  filter?: InputMaybe<LocationFilter>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  shopId: Scalars['ID'];
+  sortBy?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -6757,27 +6691,6 @@ export type RemoveCartItemsInput = {
 export type RemoveCartItemsPayload = {
   __typename?: 'RemoveCartItemsPayload';
   /** The modified cart */
-  cart: Cart;
-  /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars['String']>;
-};
-
-/** Input for an `RemoveDiscountCodeFromCartInput` */
-export type RemoveDiscountCodeFromCartInput = {
-  /** Cart to add discount to */
-  cartId: Scalars['ID'];
-  /** ID of the discount you want to remove from the cart */
-  discountId: Scalars['ID'];
-  /** Shop cart belongs to */
-  shopId: Scalars['ID'];
-  /** Cart token, if anonymous */
-  token?: InputMaybe<Scalars['String']>;
-};
-
-/** Response from the `removeDiscountCodeFromCart` mutation */
-export type RemoveDiscountCodeFromCartPayload = {
-  __typename?: 'RemoveDiscountCodeFromCartPayload';
-  /** The updated cart with discount code removed */
   cart: Cart;
   /** The same string you sent with the mutation params, for matching mutation calls with their responses */
   clientMutationId?: Maybe<Scalars['String']>;
@@ -8234,27 +8147,6 @@ export type UpdateCartItemsQuantityPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
-/** Describes the input for updating a discount code */
-export type UpdateDiscountCodeInput = {
-  /** An optional string identifying the mutation call, which will be returned in the response payload */
-  clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The discount code to update */
-  discountCode?: InputMaybe<DiscountCodeInput>;
-  /** The ID of the discount code to update */
-  discountCodeId: Scalars['ID'];
-  /** The shop ID of the discount code to update */
-  shopId: Scalars['ID'];
-};
-
-/** The response from the `updateDiscountCode` mutation */
-export type UpdateDiscountCodePayload = {
-  __typename?: 'UpdateDiscountCodePayload';
-  /** The same string you sent with the mutation params, for matching mutation calls with their responses */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The updated discount code */
-  discountCode?: Maybe<DiscountCode>;
-};
-
 /** Input for the `updateFlatRateFulfillmentMethod` mutation */
 export type UpdateFlatRateFulfillmentMethodInput = {
   /** An optional string identifying the mutation call, which will be returned in the response payload */
@@ -8768,6 +8660,14 @@ export type UpdateTemplatePayload = {
   template: Template;
 };
 
+export type UpdatedLocationPayload = {
+  __typename?: 'UpdatedLocationPayload';
+  /** The location object */
+  location?: Maybe<Location>;
+  /** Whether the update was successful */
+  success?: Maybe<Scalars['Boolean']>;
+};
+
 export type User = {
   __typename?: 'User';
   emails?: Maybe<Array<EmailRecord>>;
@@ -9101,6 +9001,35 @@ export type UpdateEmailVariablesMutationVariables = Exact<{
 
 
 export type UpdateEmailVariablesMutation = { __typename?: 'Mutation', updateShop: { __typename?: 'UpdateShopPayload', shop: { __typename?: 'Shop', _id: string } } };
+
+export type GetLocationsQueryVariables = Exact<{
+  shopId: Scalars['ID'];
+  sortBy?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<LocationFilter>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  last?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  first?: InputMaybe<Scalars['ConnectionLimitInt']>;
+  before?: InputMaybe<Scalars['ConnectionCursor']>;
+  after?: InputMaybe<Scalars['ConnectionCursor']>;
+}>;
+
+
+export type GetLocationsQuery = { __typename?: 'Query', locations?: { __typename?: 'LocationConnection', totalCount: number, nodes?: Array<{ __typename?: 'Location', _id: string, identifier: string, createdAt: any, enabled?: boolean | null, fulfillmentMethod: string, localFulfillmentOnly?: boolean | null, name: string, phoneNumber: string, storePickupHours?: number | null, storePickupInstructions?: string | null, type: string, updatedAt: any, address: { __typename?: 'LocationAddress', address1: string, address2?: string | null, city: string, country: string, postal?: string | null, region?: string | null }, storeHours?: Array<{ __typename?: 'LocationStoreHour', open: string, close: string, day: string } | null> | null } | null> | null } | null };
+
+export type CreateLocationMutationVariables = Exact<{
+  input?: InputMaybe<LocationCreateInput>;
+}>;
+
+
+export type CreateLocationMutation = { __typename?: 'Mutation', createLocation?: { __typename?: 'UpdatedLocationPayload', success?: boolean | null, location?: { __typename?: 'Location', _id: string } | null } | null };
+
+export type UpdateLocationMutationVariables = Exact<{
+  input?: InputMaybe<LocationUpdateInput>;
+}>;
+
+
+export type UpdateLocationMutation = { __typename?: 'Mutation', updateLocation?: { __typename?: 'UpdatedLocationPayload', success?: boolean | null, location?: { __typename?: 'Location', _id: string } | null } | null };
 
 export type GetShippingMethodsQueryVariables = Exact<{
   shopId: Scalars['ID'];
@@ -10242,6 +10171,110 @@ export const useUpdateEmailVariablesMutation = <
     useMutation<UpdateEmailVariablesMutation, TError, UpdateEmailVariablesMutationVariables, TContext>(
       ['updateEmailVariables'],
       (variables?: UpdateEmailVariablesMutationVariables) => fetcher<UpdateEmailVariablesMutation, UpdateEmailVariablesMutationVariables>(client, UpdateEmailVariablesDocument, variables, headers)(),
+      options
+    );
+export const GetLocationsDocument = `
+    query getLocations($shopId: ID!, $sortBy: String, $filter: LocationFilter, $offset: Int, $sortOrder: String, $last: ConnectionLimitInt, $first: ConnectionLimitInt, $before: ConnectionCursor, $after: ConnectionCursor) {
+  locations(
+    shopId: $shopId
+    sortBy: $sortBy
+    filter: $filter
+    offset: $offset
+    sortOrder: $sortOrder
+    last: $last
+    first: $first
+    before: $before
+    after: $after
+  ) {
+    nodes {
+      _id
+      identifier
+      address {
+        address1
+        address2
+        city
+        country
+        postal
+        region
+      }
+      createdAt
+      enabled
+      fulfillmentMethod
+      localFulfillmentOnly
+      name
+      phoneNumber
+      storeHours {
+        open
+        close
+        day
+      }
+      storePickupHours
+      storePickupInstructions
+      type
+      updatedAt
+    }
+    totalCount
+  }
+}
+    `;
+export const useGetLocationsQuery = <
+      TData = GetLocationsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetLocationsQueryVariables,
+      options?: UseQueryOptions<GetLocationsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetLocationsQuery, TError, TData>(
+      ['getLocations', variables],
+      fetcher<GetLocationsQuery, GetLocationsQueryVariables>(client, GetLocationsDocument, variables, headers),
+      options
+    );
+export const CreateLocationDocument = `
+    mutation createLocation($input: LocationCreateInput) {
+  createLocation(input: $input) {
+    success
+    location {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateLocationMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateLocationMutation, TError, CreateLocationMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateLocationMutation, TError, CreateLocationMutationVariables, TContext>(
+      ['createLocation'],
+      (variables?: CreateLocationMutationVariables) => fetcher<CreateLocationMutation, CreateLocationMutationVariables>(client, CreateLocationDocument, variables, headers)(),
+      options
+    );
+export const UpdateLocationDocument = `
+    mutation updateLocation($input: LocationUpdateInput) {
+  updateLocation(input: $input) {
+    success
+    location {
+      _id
+    }
+  }
+}
+    `;
+export const useUpdateLocationMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateLocationMutation, TError, UpdateLocationMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateLocationMutation, TError, UpdateLocationMutationVariables, TContext>(
+      ['updateLocation'],
+      (variables?: UpdateLocationMutationVariables) => fetcher<UpdateLocationMutation, UpdateLocationMutationVariables>(client, UpdateLocationDocument, variables, headers)(),
       options
     );
 export const GetShippingMethodsDocument = `

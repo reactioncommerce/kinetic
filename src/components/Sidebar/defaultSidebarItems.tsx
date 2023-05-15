@@ -9,6 +9,7 @@ import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import FaceIcon from "@mui/icons-material/Face";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 import { SidebarItemProps } from "./SidebarItem";
 
@@ -25,7 +26,8 @@ export const FEATURE_KEYS = {
   shippingFulfillment: "shippingFulfillment",
   categories: "categories",
   emails: "emails",
-  stores: "stores"
+  stores: "stores",
+  locations: "locations"
 };
 
 export type ItemProps = SidebarItemProps & {
@@ -100,6 +102,12 @@ export const CORE_FEATURES: ItemProps[] = [
         text: "Shipping & Fulfillment",
         icon: <LocalShippingOutlinedIcon fontSize="small" />,
         to: "/settings/shipping-fulfillment"
+      },
+      {
+        key: FEATURE_KEYS.locations,
+        text: "Locations",
+        icon: <LocationOnIcon fontSize="small" />,
+        to: "/settings/locations/warehouses"
       },
       {
         key: FEATURE_KEYS.emails,
