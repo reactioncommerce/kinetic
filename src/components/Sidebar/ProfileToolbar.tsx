@@ -21,7 +21,7 @@ export const ProfileToolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const { account, removeAccessToken } = useAccount();
-  const { shopId, setShop, shop: activeShop } = useShop();
+  const { setShop, shop: activeShop } = useShop();
 
   const open = Boolean(anchorEl);
 
@@ -106,14 +106,14 @@ export const ProfileToolbar = () => {
         {showShopList
           ? account?.adminUIShops?.map((shop) => (
             <MenuItem key={shop?._id} onClick={() => setShop(shop)}>
-              {shop?._id === shopId ? (
+              {shop?._id === activeShop?._id ? (
                 <ListItemIcon>
                   <Check />
                 </ListItemIcon>
               ) : null}
               <ListItemText
                 primary={shop?.name}
-                inset={shop?._id !== shopId}
+                inset={shop?._id !== activeShop?._id}
                 primaryTypographyProps={{ noWrap: true }}
               />
             </MenuItem>

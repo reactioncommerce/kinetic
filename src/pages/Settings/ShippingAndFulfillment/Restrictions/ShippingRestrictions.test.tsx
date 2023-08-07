@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { shippingMethods, shippingRestrictions } from "@mocks/handlers/shippingHandlers";
 
-import { fireEvent, renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved, within } from "@utils/testUtils";
+import { fireEvent, renderWithProviders, screen, userEvent, waitFor, within } from "@utils/testUtils";
 import { RestrictionTypeEnum } from "@graphql/types";
 
 import ShippingRestrictions from ".";
@@ -11,26 +11,25 @@ describe("Shipping Restrictions", () => {
   it("should render shipping restrictions table", async () => {
     renderWithProviders(<ShippingRestrictions />);
     await screen.findByText("Shipping Restrictions");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
-
-    shippingRestrictions.forEach((restriction) => {
-      const conditionColumnData = restriction.attributes?.length === 0 ?
-        "0 Conditions" :
-        `${restriction.attributes?.[0]?.property} ${restriction.attributes?.[0]?.operator} ${restriction.attributes?.[0]?.value}`;
-      expect(screen.getByText(conditionColumnData)).toBeInTheDocument();
-      expect(screen.getAllByText("0 Destinations")[0]).toBeInTheDocument();
-      expect(screen.getAllByText(restriction.methodIds?.length === 1 ? "1 Method" : `${restriction.methodIds?.length} Methods`)[0]).toBeInTheDocument();
-      const typeColumnData = restriction.type === RestrictionTypeEnum.Allow ? "ALLOW" : "DENY";
-      expect(screen.getByText(typeColumnData)).toBeInTheDocument();
+    await waitFor(() => {
+      shippingRestrictions.forEach((restriction) => {
+        const conditionColumnData = restriction.attributes?.length === 0 ?
+          "0 Conditions" :
+          `${restriction.attributes?.[0]?.property} ${restriction.attributes?.[0]?.operator} ${restriction.attributes?.[0]?.value}`;
+        expect(screen.getByText(conditionColumnData)).toBeInTheDocument();
+        expect(screen.getAllByText("0 Destinations")[0]).toBeInTheDocument();
+        expect(screen.getAllByText(restriction.methodIds?.length === 1 ? "1 Method" : `${restriction.methodIds?.length} Methods`)[0]).toBeInTheDocument();
+        const typeColumnData = restriction.type === RestrictionTypeEnum.Allow ? "ALLOW" : "DENY";
+        expect(screen.getByText(typeColumnData)).toBeInTheDocument();
+      });
     });
   });
 
   it("should successfully create a new shipping restriction", async () => {
     renderWithProviders(<ShippingRestrictions/ >);
     await screen.findByText("Shipping Restrictions");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
 
-    fireEvent.click(screen.getByText("Add"));
+    fireEvent.click(screen.getAllByText("Add")[0]);
     expect(screen.getByText("Add Shipping Restriction")).toBeInTheDocument();
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     const user = userEvent.setup();
@@ -62,9 +61,8 @@ describe("Shipping Restrictions", () => {
   it("should successfully delete a shipping restriction", async () => {
     renderWithProviders(<ShippingRestrictions/>);
     await screen.findByText("Shipping Restrictions");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
-
-    fireEvent.click(screen.getByText("ALLOW"));
+    const firstRow = await screen.findByText("ALLOW");
+    fireEvent.click(firstRow);
     expect(screen.getByText("Edit Shipping Restriction")).toBeInTheDocument();
     await screen.findByText(shippingMethods[0].name);
     await screen.findByText(shippingMethods[1].name);

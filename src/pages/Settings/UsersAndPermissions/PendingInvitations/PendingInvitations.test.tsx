@@ -31,8 +31,10 @@ describe("Pending Invitations", () => {
 
     const drawer = screen.getByRole("presentation");
 
-    groups.forEach((group) => {
-      expect(within(drawer).getByText(startCase(group.name))).toBeInTheDocument();
+    await waitFor(() => {
+      groups.forEach((group) => {
+        expect(within(drawer).getByText(startCase(group.name))).toBeInTheDocument();
+      });
     });
 
     const user = userEvent.setup();

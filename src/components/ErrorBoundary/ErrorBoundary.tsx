@@ -41,7 +41,6 @@ export class ErrorBoundary extends Component<Props, {hasError: boolean, errorEle
       });
       return;
     }
-    const { code } = formatErrorResponse(error);
 
 
     if (this.props.fallback) {
@@ -49,7 +48,9 @@ export class ErrorBoundary extends Component<Props, {hasError: boolean, errorEle
       return;
     }
 
-    this.setState({ errorElement: code ? errorCodeMap[code] : undefined });
+    const errorResponse = formatErrorResponse(error);
+
+    this.setState({ errorElement: errorResponse?.code ? errorCodeMap[errorResponse.code] : undefined });
   }
 
   componentDidUpdate(prevProps: Props) {
