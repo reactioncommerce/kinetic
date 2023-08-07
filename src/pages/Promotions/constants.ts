@@ -22,6 +22,7 @@ export const DISCOUNT_TYPES_MAP: Record<PromotionType, string> = {
 export const DATE_FORMAT = "yyyy-MM-dd";
 
 export const PROMOTION_STACKABILITY_OPTIONS: SelectOptionType<Stackability>[] = [
+  { label: "Don't Stack with Same Type", value: Stackability.PerType },
   { label: "Never Stackable", value: Stackability.None },
   { label: "Stack with Any", value: Stackability.All }
 ];
