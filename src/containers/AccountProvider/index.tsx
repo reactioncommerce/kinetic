@@ -5,7 +5,6 @@ import { FullPageLoader } from "@components/Loader/FullPageLoader";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { client } from "@graphql/graphql-request-client";
-import { useShop } from "@containers/ShopProvider";
 import { GetViewerQuery, useGetViewerQuery } from "@graphql/generates";
 import { formatErrorResponse } from "@utils/errorHandlers";
 import { ErrorCode } from "types/common";
@@ -50,7 +49,6 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     client.setHeaders({});
   }
 
-  const { setShop, shopId } = useShop();
   const location = useLocation();
   const navigate = useNavigate();
   const redirectUrl = (new URLSearchParams(location.search)).get("redirectUrl");
@@ -76,16 +74,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
         navigate("/access-denied");
       }
     },
-    onSuccess: (response) => {
-      if (response.viewer === null) {
-        setShop();
-        return;
-      }
-
-      if (!shopId) {
-        const primaryShop = response.viewer?.adminUIShops?.find((shop) => shop?.shopType === "primary");
-        setShop(primaryShop);
-      }
+    onSuccess: () => {
       redirectUrl && navigate(redirectUrl);
     }
   });

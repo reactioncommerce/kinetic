@@ -12,6 +12,8 @@ import { client } from "@graphql/graphql-request-client";
 import { useShop } from "@containers/ShopProvider";
 import { useToast } from "@containers/ToastProvider";
 import { formatErrorResponse } from "@utils/errorHandlers";
+import { useBeforeUnload } from "@hooks/useBeforeUnload";
+import { BlockNavigateDialog } from "@components/Dialog";
 
 type ActionButtonsProps = {
   loading: boolean
@@ -33,6 +35,8 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
   const { disablePromotions } = useDisablePromotion(onSuccess);
   const { archivePromotions } = useArchivePromotions(onSuccess);
   const { mutate: duplicatePromotion } = useDuplicatePromotionMutation(client);
+
+  const blocker = useBeforeUnload(!disabled);
 
   const handleDuplicatePromotion = (promotionId: string) => {
     duplicatePromotion(
@@ -60,48 +64,51 @@ export const ActionButtons = ({ loading, submitForm, promotion, disabled, onCanc
   };
 
   return (
-    !promotion || !disabled ?
-      <Stack direction="row" gap={1}>
-        <Button
-          variant="text"
-          color="secondary"
-          onClick={onCancel}
-          disabled={loading}
-        >
+    <>
+      {!promotion || !disabled ?
+        <Stack direction="row" gap={1}>
+          <Button
+            variant="text"
+            color="secondary"
+            onClick={onCancel}
+            disabled={loading}
+          >
           Cancel
-        </Button>
-        <LoadingButton
-          variant="contained"
-          disabled={disabled}
-          loading={loading}
-          onClick={submitForm}
-        >
+          </Button>
+          <LoadingButton
+            variant="contained"
+            disabled={disabled}
+            loading={loading}
+            onClick={submitForm}
+          >
         Save Changes
-        </LoadingButton>
-      </Stack>
-      :
-      <MenuActions
-        options={
-          [
-            {
-              label: "Enable",
-              onClick: () => enablePromotions([promotion]),
-              hidden: !canUpdate || promotion.enabled
-            },
-            {
-              label: "Disable",
-              onClick: () => disablePromotions([promotion]),
-              hidden: !canUpdate || !promotion.enabled
-            },
-            { label: "Duplicate", onClick: () => handleDuplicatePromotion(promotion._id), hidden: !canCreate },
-            {
-              label: "Archive",
-              onClick: () => archivePromotions([promotion._id], promotion.shopId),
-              hidden: !canUpdate || promotion.state === PromotionState.Archived
-            }
-          ]
-        }
-        renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}
-      />
+          </LoadingButton>
+        </Stack>
+        :
+        <MenuActions
+          options={
+            [
+              {
+                label: "Enable",
+                onClick: () => enablePromotions([promotion]),
+                hidden: !canUpdate || promotion.enabled
+              },
+              {
+                label: "Disable",
+                onClick: () => disablePromotions([promotion]),
+                hidden: !canUpdate || !promotion.enabled
+              },
+              { label: "Duplicate", onClick: () => handleDuplicatePromotion(promotion._id), hidden: !canCreate },
+              {
+                label: "Archive",
+                onClick: () => archivePromotions([promotion._id], promotion.shopId),
+                hidden: !canUpdate || promotion.state === PromotionState.Archived
+              }
+            ]
+          }
+          renderTriggerButton={(onClick) => <ActionsTriggerButton onClick={onClick}/>}
+        />}
+      <BlockNavigateDialog open={blocker.state === "blocked"} onClose={blocker.reset} onConfirm={blocker.proceed}/>
+    </>
   );
 };

@@ -1,8 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { noop } from "lodash-es";
+import { useNavigate } from "react-router-dom";
 
 import { Shop } from "types/shop";
 import { decodeOpaqueId } from "@utils/decodedOpaqueId";
+import { useAccount } from "@containers/AccountProvider";
 
 type ShopContextProps = {
   shopId?: string
@@ -27,6 +29,20 @@ type ShopProviderProps = {
 
 export const ShopProvider = ({ children }: ShopProviderProps) => {
   const [shop, setShop] = useState<Shop | null>();
+  const { account } = useAccount();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (account === null) {
+      setShop(null);
+      return;
+    }
+
+    if (!shop?._id) {
+      const primaryShop = account?.adminUIShops?.find((accountShop) => accountShop?.shopType === "primary");
+      primaryShop ? setShop(primaryShop) : navigate("/new-shop");
+    }
+  }, [account, navigate, shop?._id]);
 
   return <ShopContext.Provider
     value={{

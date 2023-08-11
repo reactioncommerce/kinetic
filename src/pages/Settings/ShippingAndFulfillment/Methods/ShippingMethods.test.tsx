@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { shippingMethods } from "@mocks/handlers/shippingHandlers";
 
-import { fireEvent, renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved } from "@utils/testUtils";
+import { fireEvent, renderWithProviders, screen, userEvent, waitFor } from "@utils/testUtils";
 
 import ShippingMethods from ".";
 
@@ -10,24 +10,23 @@ describe("Shipping Methods", () => {
   it("should render shipping methods table", async () => {
     renderWithProviders(<ShippingMethods/>);
     await screen.findByText("Shipping Methods");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
-
-    shippingMethods.forEach((method) => {
-      expect(screen.getByText(method.name)).toBeInTheDocument();
-      expect(screen.getByText(method.label)).toBeInTheDocument();
-      expect(screen.getAllByText(method.group)[0]).toBeInTheDocument();
-      expect(screen.getByText(`$${method.rate + method.handling}`)).toBeInTheDocument();
-      const enabledText = method.isEnabled ? "ENABLED" : "DISABLED";
-      expect(screen.getAllByText(enabledText)[0]).toBeInTheDocument();
+    await waitFor(() => {
+      shippingMethods.forEach((method) => {
+        expect(screen.getByText(method.name)).toBeInTheDocument();
+        expect(screen.getByText(method.label)).toBeInTheDocument();
+        expect(screen.getAllByText(method.group)[0]).toBeInTheDocument();
+        expect(screen.getByText(`$${method.rate + method.handling}`)).toBeInTheDocument();
+        const enabledText = method.isEnabled ? "ENABLED" : "DISABLED";
+        expect(screen.getAllByText(enabledText)[0]).toBeInTheDocument();
+      });
     });
   });
 
   it("should successfully create a new shipping method", async () => {
     renderWithProviders(<ShippingMethods/>);
     await screen.findByText("Shipping Methods");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
 
-    fireEvent.click(screen.getByText("Add"));
+    fireEvent.click(screen.getAllByText("Add")[0]);
     expect(screen.getByText("Add Shipping Method")).toBeInTheDocument();
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     const user = userEvent.setup();
@@ -59,9 +58,8 @@ describe("Shipping Methods", () => {
   it("should successfully delete a shipping method", async () => {
     renderWithProviders(<ShippingMethods/>);
     await screen.findByText("Shipping Methods");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
-
-    fireEvent.click(screen.getByText(shippingMethods[0].name));
+    const firstRow = await screen.findByText(shippingMethods[0].name);
+    fireEvent.click(firstRow);
     expect(screen.getByText("Edit Shipping Method")).toBeInTheDocument();
     expect(screen.getByText("Delete")).toBeInTheDocument();
     const user = userEvent.setup();

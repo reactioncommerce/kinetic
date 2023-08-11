@@ -1,6 +1,6 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, useLocation } from "react-router-dom";
 
-import { renderWithProviders, screen, waitForElementToBeRemoved } from "@utils/testUtils";
+import { renderWithRoutes, screen, waitForElementToBeRemoved } from "@utils/testUtils";
 import { server, graphql } from "@mocks/server";
 
 import { RequireAuthRoute } from "./RequireAuthRoute";
@@ -15,12 +15,15 @@ describe("RequireAuthRoute", () => {
     server.use(graphql.query("getViewer", (req, res, ctx) =>
       res.once(ctx.data({ viewer: null }))));
 
-    renderWithProviders(<Routes>
-      <Route element={<RequireAuthRoute/>}>
-        <Route path="promotions" element={<ShowPath/>} />
-      </Route>
-      <Route path="login" element={<ShowPath/>} />
-    </Routes>, { initialEntries: ["/promotions"] });
+    renderWithRoutes({
+      initialEntries: ["/promotions", "/login"],
+      routes: <>
+        <Route element={<RequireAuthRoute/>}>
+          <Route path="/promotions" element={<ShowPath/>} />
+        </Route>
+        <Route path="/login" element={<ShowPath/>} />
+      </>
+    });
 
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
     const login = await screen.findByText("/login?redirectUrl=/promotions");
@@ -28,12 +31,14 @@ describe("RequireAuthRoute", () => {
   });
 
   it("should render correct page if user already logged in", async () => {
-    renderWithProviders(<Routes>
-      <Route element={<RequireAuthRoute/>}>
-        <Route path="promotions" element={<ShowPath/>} />
-      </Route>
-      <Route path="login" element={<ShowPath/>} />
-    </Routes>, { initialEntries: ["/promotions"] });
+    renderWithRoutes({
+      initialEntries: ["/promotions"],
+      routes: <>
+        <Route element={<RequireAuthRoute/>}>
+          <Route path="promotions" element={<ShowPath/>} />
+        </Route>
+        <Route path="login" element={<ShowPath/>} /></>
+    });
 
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
 

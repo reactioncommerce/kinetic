@@ -62,10 +62,11 @@ describe("Users", () => {
 
     const drawer = screen.getByRole("presentation");
 
-    groups.forEach((group) => {
-      expect(within(drawer).getByText(startCase(group.name))).toBeInTheDocument();
+    await waitFor(() => {
+      groups.forEach((group) => {
+        expect(within(drawer).getByText(startCase(group.name))).toBeInTheDocument();
+      });
     });
-
 
     expect(within(screen.getByRole("radiogroup"))
       .getByRole("radio", { name: `${startCase(users[0].groups.nodes[0].name)} ${users[0].groups.nodes[0].description}` }))
@@ -104,3 +105,4 @@ describe("Users", () => {
     expect(screen.getByText("Reset password email has been sent successfully")).toBeInTheDocument();
   });
 });
+

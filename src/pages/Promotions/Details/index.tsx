@@ -60,6 +60,22 @@ const normalizeFormValues = (values: PromotionFormValue) => {
   return { values: normalizedValues, coupons };
 };
 
+const formatActions = (actions: Action[]): Action[] => actions.map((action) =>
+  ({
+    ...action,
+    ...(action.actionParameters ? {
+      actionParameters: {
+        ...action.actionParameters,
+        inclusionRules: formatRule(action.actionParameters?.inclusionRules),
+        exclusionRules: formatRule(action.actionParameters?.exclusionRules),
+        discountMaxUnits: action.actionParameters?.discountMaxUnits || 0,
+        discountMaxValue: action.actionParameters?.discountMaxValue || 0
+      }
+    } : {
+      discountMaxUnits: 0,
+      discountMaxValue: 0
+    })
+  }));
 
 const PromotionDetails = () => {
   const { promotionId } = useParams();
@@ -72,7 +88,7 @@ const PromotionDetails = () => {
   const { error } = useToast();
 
   const { data, isLoading, refetch } = useGetPromotionQuery(client, { input: { _id: promotionId || "id", shopId: shopId! } }, {
-    enabled: !!promotionId,
+    enabled: !!promotionId && !!shopId,
     select: (responseData) => ({ promotion: responseData.promotion as Promotion }),
     onSuccess: (responseData) => {
       const { promotion } = responseData;
