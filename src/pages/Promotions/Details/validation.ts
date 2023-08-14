@@ -5,7 +5,7 @@ import { NOOP_ACTION } from "../constants";
 import { urlSchema } from "@utils/validate";
 
 const ruleSchema = Yup.object({
-  path: Yup.string().required("This field is required"),
+  path: Yup.string().required("This field is required").nullable(),
   operator: Yup.string().required("This field is required"),
   value: Yup.array().min(1, "This field must have at least 1 value").when("operator", {
     is: "equal",
