@@ -8855,6 +8855,13 @@ export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetViewerQuery = { __typename?: 'Query', viewer?: { __typename?: 'Account', _id: string, firstName?: string | null, language?: string | null, lastName?: string | null, name?: string | null, primaryEmailAddress: any, adminUIShops?: Array<{ __typename?: 'Shop', _id: string, name: string, slug?: string | null, shopType?: string | null, language: string, brandAssets?: { __typename?: 'ShopBrandAssets', navbarBrandImage?: { __typename?: 'ImageSizes', large?: string | null } | null } | null, storefrontUrls?: { __typename?: 'StorefrontUrls', storefrontHomeUrl?: string | null } | null, shopLogoUrls?: { __typename?: 'ShopLogoUrls', primaryShopLogoUrl?: string | null } | null, currency: { __typename?: 'Currency', _id: string, code: string, format: string, symbol: string } } | null> | null, groups?: { __typename?: 'GroupConnection', nodes?: Array<{ __typename?: 'Group', _id: string, name: string, permissions?: Array<string | null> | null } | null> | null } | null } | null };
 
+export type GetIntrospectSchemaQueryVariables = Exact<{
+  schemaName: Scalars['String'];
+}>;
+
+
+export type GetIntrospectSchemaQuery = { __typename?: 'Query', introspectSchema: { __typename?: 'IntrospectSchemaPayload', schemaName: string, schema?: any | null } };
+
 export type CreateShopMutationVariables = Exact<{
   input: CreateShopInput;
 }>;
@@ -9410,6 +9417,28 @@ export const useGetViewerQuery = <
     useQuery<GetViewerQuery, TError, TData>(
       variables === undefined ? ['getViewer'] : ['getViewer', variables],
       fetcher<GetViewerQuery, GetViewerQueryVariables>(client, GetViewerDocument, variables, headers),
+      options
+    );
+export const GetIntrospectSchemaDocument = `
+    query getIntrospectSchema($schemaName: String!) {
+  introspectSchema(schemaName: $schemaName) {
+    schemaName
+    schema
+  }
+}
+    `;
+export const useGetIntrospectSchemaQuery = <
+      TData = GetIntrospectSchemaQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetIntrospectSchemaQueryVariables,
+      options?: UseQueryOptions<GetIntrospectSchemaQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetIntrospectSchemaQuery, TError, TData>(
+      ['getIntrospectSchema', variables],
+      fetcher<GetIntrospectSchemaQuery, GetIntrospectSchemaQueryVariables>(client, GetIntrospectSchemaDocument, variables, headers),
       options
     );
 export const CreateShopDocument = `

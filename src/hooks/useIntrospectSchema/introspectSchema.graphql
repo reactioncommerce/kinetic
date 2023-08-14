@@ -1,0 +1,6 @@
+query getIntrospectSchema($schemaName: String!) {
+  introspectSchema(schemaName: $schemaName) {
+    schemaName
+    schema
+  }
+}

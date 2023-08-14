@@ -6,8 +6,9 @@ import { handlers as transactionalEmailHandlers } from "./transactionalEmailHand
 import { handlers as checkoutSettingsHandlers } from "./checkoutSettingsHandlers";
 import { handlers as customersHandlersHandlers } from "./customersHandlers";
 import { handlers as promotionsHandlersHandlers } from "./promotionsHandlers";
+import { handlers as introspectSchemaHandlers } from "./introspectSchemaHandlers";
 
 export const handlers = [
   ...shippingMethodsHandlers, ...accountHandlers, ...userHandlers, ...shopSettingsHandlers, ...transactionalEmailHandlers, ...checkoutSettingsHandlers,
-  ...customersHandlersHandlers, ...promotionsHandlersHandlers
+  ...customersHandlersHandlers, ...promotionsHandlersHandlers, ...introspectSchemaHandlers
 ];

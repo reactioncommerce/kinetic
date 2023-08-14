@@ -70,7 +70,7 @@ describe("Promotion Details", () => {
     await user.type(screen.getByLabelText("Trigger Value"), "12");
     await user.click(screen.getAllByText("Add Condition")[0]);
     await user.click(screen.getByLabelText("Property"));
-    await user.click(within(screen.getByRole("listbox")).getByText("Vendor"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Product Id"));
     await user.click(screen.getByLabelText("Operator"));
     await user.click(within(screen.getByRole("listbox")).getByText("Is"));
     await user.type(screen.getByPlaceholderText("Enter Values"), "value{enter}");
