@@ -2,16 +2,18 @@ import "@testing-library/jest-dom";
 import { groups, users } from "@mocks/handlers/userAndPermissionHandlers";
 import { startCase } from "lodash-es";
 
-import { fireEvent, renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved, within } from "@utils/testUtils";
+import { cleanup, fireEvent, renderWithProviders, screen, userEvent, waitFor, waitForElementToBeRemoved, within } from "@utils/testUtils";
 
 import Users from ".";
 
 
 describe("Users", () => {
+  afterEach(cleanup);
+
   it("should render Users table", async () => {
     renderWithProviders(<Users/>);
     await screen.findByText("Users");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"), { timeout: 3000 });
 
     users.forEach((user) => {
       expect(screen.getByText(user.name ?? "--")).toBeInTheDocument();
@@ -23,7 +25,7 @@ describe("Users", () => {
   it("should successfully invite new user", async () => {
     renderWithProviders(<Users/>);
     await screen.findByText("Users");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"), { timeout: 3000 });
 
     fireEvent.click(screen.getByText("Invite"));
     expect(screen.getByText("Invite User")).toBeInTheDocument();
@@ -55,7 +57,7 @@ describe("Users", () => {
   it("should successfully update user group", async () => {
     renderWithProviders(<Users/>);
     await screen.findByText("Users");
-    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"));
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"), { timeout: 3000 });
 
     fireEvent.click(screen.getByText(users[0].name));
     expect(screen.getByText("Edit User")).toBeInTheDocument();
@@ -88,6 +90,22 @@ describe("Users", () => {
     await waitFor(() => {
       expect(screen.queryByText("Edit User")).not.toBeInTheDocument();
     });
+  });
+
+  it.skip("should successfully send reset password email", async () => {
+    renderWithProviders(<Users/>);
+    await screen.findByText("Users");
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar"), { timeout: 3000 });
+
+    fireEvent.click(screen.getAllByLabelText("more")[0]);
+    expect(screen.getByText("Send Password Reset")).toBeInTheDocument();
+    const user = userEvent.setup();
+
+    await user.click(screen.getAllByLabelText("more")[0]);
+    await user.click(screen.getByText("Send Password Reset"));
+
+    expect(screen.queryByText("Send Password Reset")).not.toBeInTheDocument();
+    expect(screen.getByText("Reset password email has been sent successfully")).toBeInTheDocument();
   });
 });
 

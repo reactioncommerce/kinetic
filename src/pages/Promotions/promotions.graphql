@@ -74,6 +74,13 @@ query getPromotion($input: PromotionQueryInput) {
       termsAndConditionsUrl
       createdAt
       updatedAt
+      coupon {
+        _id
+        name
+        code
+        canUseInStore
+        maxUsageTimesPerUser
+      }
   }
 }
 

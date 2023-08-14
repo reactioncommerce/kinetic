@@ -1,4 +1,5 @@
-import { Action, Rule, RuleCondition, Trigger } from "types/promotions";
+import { Coupon, CouponInput } from "types/coupons";
+import { TriggerKeys, TriggerType, Action, Rule, RuleCondition, Trigger } from "types/promotions";
 import { Operator } from "../constants";
 
 
@@ -24,27 +25,52 @@ const normalizeRule = (rule?: Rule) => {
   return newRule.conditions ? { conditions: normalizeRuleCondition(newRule.conditions) } : undefined;
 };
 
-export const normalizeTriggersData = (triggers?: Trigger[]) => triggers?.map((trigger) => ({
-  ...trigger,
-  triggerParameters: {
-    ...trigger.triggerParameters,
-    inclusionRules: normalizeRule(trigger.triggerParameters?.inclusionRules),
-    exclusionRules: normalizeRule(trigger.triggerParameters?.exclusionRules),
-    conditions: {
-      all: trigger.triggerParameters?.conditions.all
-        .map(({ triggerType, value }) => ({ fact: triggerType?.split("-")[0], operator: triggerType?.split("-")[1], value }))
-    }
-  }
-}));
+export const normalizeTriggersData = (triggers?: Trigger[]) => {
+  const coupons: CouponInput[] = [];
+
+  const handler = {
+    [TriggerKeys.Coupons]: (trigger: Trigger<TriggerKeys.Coupons>) => {
+      const { code, name, canUseInStore, _id, maxUsageTimesPerUser } = trigger.triggerParameters;
+      coupons.push({ code, name, canUseInStore, _id, maxUsageTimesPerUser });
+      return {
+        triggerKey: trigger.triggerKey,
+        triggerParameters: {
+          conditions: {}
+        }
+      };
+    },
+    [TriggerKeys.Offers]: (trigger: Trigger) => ({
+      ...trigger,
+      triggerParameters: {
+        name: trigger.triggerParameters?.name,
+        inclusionRules: normalizeRule(trigger.triggerParameters?.inclusionRules),
+        exclusionRules: normalizeRule(trigger.triggerParameters?.exclusionRules),
+        conditions: {
+          all: trigger.triggerParameters?.conditions.all
+            .map(({ triggerType, value }) => ({ fact: triggerType?.split("-")[0], operator: triggerType?.split("-")[1], value }))
+        }
+      }
+    })
+  };
+
+  const formattedData = triggers?.map((trigger) => handler[trigger.triggerKey](trigger));
+  return { triggers: formattedData, coupons };
+};
 
 export const normalizeActionsData = (actions?: Action[]) => actions?.map((action) => ({
   ...action,
   actionParameters: {
     ...action.actionParameters,
+    discountMaxUnits: action.actionParameters?.discountMaxUnits || undefined,
+    discountMaxValue: action.actionParameters?.discountMaxValue || undefined,
     inclusionRules: normalizeRule(action.actionParameters?.inclusionRules),
     exclusionRules: normalizeRule(action.actionParameters?.exclusionRules)
   }
 }));
+
+
+const getTriggerType = (triggerConditionAll?: {fact: string, operator: string, value: number}[]) => (triggerConditionAll ? triggerConditionAll
+  .map((conditionAll) => ({ ...conditionAll, triggerType: `${conditionAll.fact}-${conditionAll.operator}` })) : []);
 
 export const formatRule = (rule?: Rule) => {
   const formatFn = (condition: RuleCondition) => {
@@ -63,3 +89,57 @@ export const formatRule = (rule?: Rule) => {
 
   return rule;
 };
+
+export const formatTriggers = (triggers: Trigger[], promotionName: string, coupon?: Coupon | null) =>
+  triggers.map((trigger) => {
+    const { triggerKey } = trigger;
+
+    const formatFn = {
+      [TriggerKeys.Offers]: {
+        ...trigger,
+        triggerParameters: {
+          ...trigger.triggerParameters,
+          inclusionRules: formatRule(trigger.triggerParameters?.inclusionRules),
+          exclusionRules: formatRule(trigger.triggerParameters?.exclusionRules),
+          name: trigger.triggerParameters?.name || promotionName,
+          conditions: { all: getTriggerType(trigger.triggerParameters?.conditions.all) }
+        }
+      },
+      [TriggerKeys.Coupons]: coupon ? {
+        ...trigger,
+        triggerParameters: {
+          name: coupon.name,
+          conditions: { all: [{ triggerType: TriggerType.CouponStandard }] },
+          code: coupon.code,
+          canUseInStore: coupon.canUseInStore,
+          _id: coupon._id,
+          maxUsageTimesPerUser: coupon.maxUsageTimesPerUser || 0
+        }
+      } : {
+        ...trigger,
+        triggerParameters: {
+          name: trigger.triggerParameters?.name || promotionName,
+          conditions: { all: [{ triggerType: TriggerType.CouponStandard }] },
+          code: "",
+          canUseInStore: false,
+          maxUsageTimesPerUser: 0
+        }
+      }
+    };
+
+    return formatFn[triggerKey];
+  });
+
+export const formatActions = (actions: Action[]): Action[] => actions.map((action) =>
+  ({
+    ...action,
+    ...(action.actionParameters ? {
+      actionParameters: {
+        ...action.actionParameters,
+        inclusionRules: formatRule(action.actionParameters?.inclusionRules),
+        exclusionRules: formatRule(action.actionParameters?.exclusionRules),
+        discountMaxUnits: action.actionParameters?.discountMaxUnits || 0,
+        discountMaxValue: action.actionParameters?.discountMaxValue || 0
+      }
+    } : {})
+  }));

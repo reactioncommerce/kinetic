@@ -16,11 +16,11 @@ describe("Promotion Details", () => {
   it("should display promotion details", async () => {
     renderWithRoutes({
       initialEntries: [`/promotions/${promotion._id}`],
-      routes: <Route element={<AppLayout/>}>
+      routes: <Route element={<AppLayout />}>
         <Route path="promotions/:promotionId" element={
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <PromotionDetails/>
-          </LocalizationProvider>}/>
+            <PromotionDetails />
+          </LocalizationProvider>} />
       </Route>
     });
 
@@ -43,11 +43,11 @@ describe("Promotion Details", () => {
   it("should update promotion details successfully", async () => {
     renderWithRoutes({
       initialEntries: [`/promotions/${promotion._id}`],
-      routes: <Route element={<AppLayout/>}>
+      routes: <Route element={<AppLayout />}>
         <Route path="/promotions/:promotionId" element={
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <PromotionDetails/>
-          </LocalizationProvider>}/>
+            <PromotionDetails />
+          </LocalizationProvider>} />
       </Route>
     });
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }));
@@ -81,11 +81,11 @@ describe("Promotion Details", () => {
     const activePromotion = enabledPromotions[0];
     renderWithRoutes({
       initialEntries: [`/promotions/${activePromotion._id}`],
-      routes: <Route element={<AppLayout/>}>
+      routes: <Route element={<AppLayout />}>
         <Route path="promotions/:promotionId" element={
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <PromotionDetails/>
-          </LocalizationProvider>}/>
+            <PromotionDetails />
+          </LocalizationProvider>} />
       </Route>
     });
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
@@ -99,11 +99,11 @@ describe("Promotion Details", () => {
   it("should duplicate a promotion successfully", async () => {
     renderWithRoutes({
       initialEntries: [`/promotions/${promotion._id}`],
-      routes: <Route element={<AppLayout/>}>
+      routes: <Route element={<AppLayout />}>
         <Route path="promotions/:promotionId" element={
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <PromotionDetails/>
-          </LocalizationProvider>}/>
+            <PromotionDetails />
+          </LocalizationProvider>} />
       </Route>
     });
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
@@ -118,15 +118,45 @@ describe("Promotion Details", () => {
     });
   }, 50000);
 
+  it("should be able to create a coupon promotion", async () => {
+    renderWithRoutes({
+      initialEntries: [`/promotions/${promotion._id}`],
+      routes:
+                <Route element={<AppLayout />}>
+                  <Route path="promotions/:promotionId" element={
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <PromotionDetails />
+                    </LocalizationProvider>} />
+                </Route>
+    });
+    await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
+    await waitFor(() => {
+      expect(screen.getByLabelText("Promotion Name")).toHaveValue(promotion.name);
+    });
+
+    const user = userEvent.setup();
+
+    await user.click(screen.getByText("Remove Trigger"));
+    await user.click(within(screen.getByRole("dialog")).getByText("Delete"));
+    await user.click(screen.getByText("Add Trigger"));
+    await user.click(screen.getByLabelText("Select Trigger Type"));
+    await user.click(within(screen.getByRole("listbox")).getByText("Coupon is used (Standard)"));
+    expect(screen.getByLabelText("Give your coupon a name")).toBeInTheDocument();
+    await user.type(screen.getByLabelText("Enter the coupon code (avoid characters like I, L, 0, and O)"), "TET2023");
+    await user.click(screen.getByText("Save Changes"));
+  }, 50000);
+
+
   it("should change trigger value field based on trigger type", async () => {
     renderWithRoutes({
       initialEntries: [`/promotions/${promotion._id}`],
-      routes: <Route element={<AppLayout/>}>
-        <Route path="promotions/:promotionId" element={
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <PromotionDetails/>
-          </LocalizationProvider>}/>
-      </Route>
+      routes:
+                <Route element={<AppLayout />}>
+                  <Route path="promotions/:promotionId" element={
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <PromotionDetails />
+                    </LocalizationProvider>} />
+                </Route>
     });
     await waitForElementToBeRemoved(() => screen.queryByRole("progressbar", { hidden: true }), { timeout: 3000 });
     const user = userEvent.setup();
@@ -137,6 +167,7 @@ describe("Promotion Details", () => {
 
     await user.click(screen.getByLabelText("Select Trigger Type"));
     await user.click(within(screen.getByRole("listbox")).getByText("Item is in cart"));
-    expect(screen.getByText("Minimum number of items required to trigger promotion")).toBeInTheDocument();
+    expect(screen.getByText("items")).toBeInTheDocument();
+    expect(screen.getByLabelText("Number of items required in cart")).toBeInTheDocument();
   }, 50000);
 });

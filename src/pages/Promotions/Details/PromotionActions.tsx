@@ -11,7 +11,7 @@ import Alert from "@mui/material/Alert";
 import { TextField } from "@components/TextField";
 import { SelectField } from "@components/SelectField";
 import { Promotion, PromotionType } from "types/promotions";
-import { CALCULATION_TYPE_OPTIONS, DISCOUNT_TYPES_MAP } from "../constants";
+import { CALCULATION_TYPE_OPTIONS, DISCOUNT_TYPES_MAP, NOOP_ACTION } from "../constants";
 import { AlertDialog } from "@components/Dialog";
 
 import { EligibleItems } from "./EligibleItems";
@@ -25,7 +25,10 @@ const getSymbolBasedOnType = (action: Action) => {
   return calculationType ? CALCULATION_TYPE_OPTIONS[calculationType].symbol : null;
 };
 
-export const PromotionActions = () => {
+type PromotionActionsProps = {
+  disabled: boolean
+}
+export const PromotionActions = ({ disabled }: PromotionActionsProps) => {
   const [activeField, setActiveField] = useState<number>();
   const handleClose = () => setActiveField(undefined);
   const { values: { promotionType } } = useFormikContext<Promotion>();
@@ -47,69 +50,74 @@ export const PromotionActions = () => {
             <Typography variant="subtitle2">Select an action for your promotion</Typography>
             {values.actions.map((_: Action, index: number) =>
               <Paper key={index} variant="outlined" sx={{ padding: 2 }}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between">
-                  <Stack direction="row" alignItems="flex-start" gap={1} justifyContent="flex-start">
-                    <Field
-                      name={`actions[${index}].actionParameters.discountCalculationType`}
-                      component={SelectField}
-                      hiddenLabel
-                      label="Select Action Calculate Type"
-                      ariaLabel="Calculate Type"
-                      options={calculationTypeOptions}
-                    />
-                    {getSymbolBasedOnType(values.actions[index]) ?
-                      <Field
-                        component={TextField}
-                        name={`actions[${index}].actionParameters.discountValue`}
-                        label="Discount Value"
-                        ariaLabel="Discount Value"
-                        type="number"
-                        hiddenLabel
-                        startAdornment={
-                          <InputAdornment position="start">{getSymbolBasedOnType(values.actions[index])}</InputAdornment>
+                {values.actions[index].actionKey === NOOP_ACTION ?
+                  <Typography>Noop Action</Typography> :
+                  <>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between">
+                      <Stack direction="row" alignItems="flex-start" gap={1} justifyContent="flex-start">
+                        <Field
+                          name={`actions[${index}].actionParameters.discountCalculationType`}
+                          component={SelectField}
+                          hiddenLabel
+                          label="Select Action Calculate Type"
+                          ariaLabel="Calculate Type"
+                          options={calculationTypeOptions}
+                        />
+                        {getSymbolBasedOnType(values.actions[index]) ?
+                          <Field
+                            component={TextField}
+                            name={`actions[${index}].actionParameters.discountValue`}
+                            label="Discount Value"
+                            ariaLabel="Discount Value"
+                            type="number"
+                            hiddenLabel
+                            startAdornment={
+                              <InputAdornment position="start">{getSymbolBasedOnType(values.actions[index])}</InputAdornment>
+                            }
+                          />
+                          : null}
+                      </Stack>
+                      <Button variant="text" color="error" onClick={() => setActiveField(index)}>
+                 Remove Action
+                      </Button>
+                    </Stack>
+                    <Stack my={1}>
+                      <Typography variant="subtitle2">Promotion Usage Limits</Typography>
+                      <PromotionUsageLimits actionParametersFieldName={`actions[${index}].actionParameters`}/>
+                    </Stack>
+                    {isShippingDiscount ?
+                      <EligibleShippingMethods
+                        disabled={disabled}
+                        inclusionFieldName={
+                          `actions[${index}].actionParameters.inclusionRules.conditions.all`
                         }
                       />
-                      : null}
-                  </Stack>
-                  <Button variant="text" color="error" onClick={() => setActiveField(index)}>
-                  Remove Action
-                  </Button>
-                </Stack>
-                <Stack my={1}>
-                  <Typography variant="subtitle2">Promotion Usage Limits</Typography>
-                  <PromotionUsageLimits actionParametersFieldName={`actions[${index}].actionParameters`}/>
-                </Stack>
+                      : <EligibleItems
+                        inclusionFieldName={
+                          `actions[${index}].actionParameters.inclusionRules.conditions`
+                        }
+                        exclusionFieldName={`actions[${index}].actionParameters.exclusionRules.conditions`}
+                      />}
 
-                {isShippingDiscount ?
-                  <EligibleShippingMethods
-                    inclusionFieldName={
-                      `actions[${index}].actionParameters.inclusionRules.conditions.all`
-                    }
-                  />
-                  : <EligibleItems
-                    inclusionFieldName={
-                      `actions[${index}].actionParameters.inclusionRules.conditions`
-                    }
-                    exclusionFieldName={`actions[${index}].actionParameters.exclusionRules.conditions`}
-                  />}
-
-                <AlertDialog
-                  title="Delete Action"
-                  icon={<DeleteOutlineOutlinedIcon/>}
-                  content={
-                    <>
-                      <Typography variant="subtitle2" color="grey.600">Are you sure you want to delete this action?</Typography>
-                      <Typography variant="subtitle2" color="grey.600">Once you save the promotion, this change cannot be undone.</Typography>
-                    </>}
-                  open={activeField === index}
-                  handleClose={handleClose}
-                  cancelText="Cancel"
-                  confirmText="Delete"
-                  onConfirm={() => {
-                    remove(index);
-                    handleClose();
-                  }}
-                />
+                    <AlertDialog
+                      title="Delete Action"
+                      icon={<DeleteOutlineOutlinedIcon/>}
+                      content={
+                        <>
+                          <Typography variant="subtitle2" color="grey.600">Are you sure you want to delete this action?</Typography>
+                          <Typography variant="subtitle2" color="grey.600">Once you save the promotion, this change cannot be undone.</Typography>
+                        </>}
+                      open={activeField === index}
+                      handleClose={handleClose}
+                      cancelText="Cancel"
+                      confirmText="Delete"
+                      onConfirm={() => {
+                        remove(index);
+                        handleClose();
+                      }}
+                    />
+                  </>
+                }
               </Paper>)
             }
             {!values.actions.length ?
